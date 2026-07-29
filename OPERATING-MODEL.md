@@ -16,14 +16,16 @@ Each feeds the next. Never try to "finish" one before starting another.
 
 ---
 
-## Weekly Cadence
+## Execution Cycle
 
-| Day | Workstream | Output |
+Not a calendar. Think in **cycles**, not weekdays. A cycle completes when all downstream outputs are updated, regardless of how many calendar days it takes.
+
+| Phase | Workstream | Output |
 |---|---|---|
-| Day 1-2 | Research | Research dossier for one stable domain |
-| Day 3 | Canonical + HPF | Canonical concepts → HPF knowledge objects |
-| Day 4 | HPF | One M2 improvement cycle (evidence → change → benchmark) |
-| Day 5 | Books + Public | Update all 3 outline trees + publish one public artifact |
+| 1 | Research | Research dossier for one stable domain |
+| 2 | Canonical + HPF | Canonical concepts → HPF knowledge objects |
+| 3 | HPF | One M2 improvement cycle (evidence → change → benchmark) |
+| 4 | Books + Public | Update all 3 outline trees + publish one public artifact |
 
 One cycle feeds everything.
 
