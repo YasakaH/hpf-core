@@ -1,0 +1,22 @@
+=== OPERATIONAL VALIDATION SUMMARY ===
+
+Automation Status: ✅ COMPLETE
+
+Deliverables:
+- 5 personas built across 4 domains
+- Validation log infrastructure with templates
+- Automated persona builder script
+- Operational Validation Report v1 generated
+- Email prepared for Proton review
+
+Next Actions:
+1. Review the Operational-Validation-Report-v1.md
+2. Execute scenarios for each persona
+3. Fill validation logs with actual observations
+4. Synthesise findings after 10+ persona evaluations
+5. Apply evidence threshold before considering architectural changes
+
+Evidence Standard:
+- One-off issue → document refinement
+- Recurring issue across personas → candidate behavioural improvement
+- Recurring issue with no owner → candidate architectural change
