@@ -77,6 +77,7 @@
 | Public artifacts published | 0 | 4 | 20 |
 | HPF avg score (all modes) | 63.0 | 68.0 | 75.0 |
 | **Concept reuse ratio** (downstream artefacts per concept) | 4.7 | 6.0 | 8.0 |
+| **Research confidence** (primary-source coverage %) | — | ≥70% | ≥85% |
 
 ---
 
