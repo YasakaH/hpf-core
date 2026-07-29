@@ -84,6 +84,6 @@ RAG wins on compare because it synthesizes across all objects in the domain, ext
 
 **Evidence**: C04 (the one HPF won) is the exception — HPF fell back to explain mode, and the single retrieved object did have good content. This confirms the compare template is the problem, not the retrieval or knowledge base.
 
-## Recommended Fix
+## Open Question
 
-Dynamic criteria generation from retrieved objects instead of hardcoded template. Extract entity-specific attributes from each object's prose and construct comparison dimensions dynamically.
+Should comparison emerge from entity properties rather than from inside objects? The user-facing failure is template rigidity. The architectural question is whether the knowledge schema or the reasoning engine should own the comparison logic.

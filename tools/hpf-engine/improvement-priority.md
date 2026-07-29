@@ -1,153 +1,108 @@
-# Improvement Priority — Ranked with Evidence
+# Improvement Priority — Evidence Analysis Only
+
+This document ranks observed behavioural deficiencies by evidence weight. No implementation. No recommended sprints.
 
 ## Prioritisation Criteria
 
-- **Impact**: Score improvement expected (high/medium/low)
-- **Effort**: Implementation complexity (high/medium/low)
-- **Evidence**: How many benchmark questions support this change
-- **Attribution confidence**: Can we isolate the effect of this single change?
+- **Evidence mass**: Number of benchmark questions exhibiting the behaviour
+- **Score impact**: Measured gap between HPF and RAG on affected questions
+- **Systemic depth**: Whether the behaviour is a symptom of a deeper architectural issue
+- **Independence**: Whether the behaviour can be isolated and validated independently
 
 ---
 
-## Priority 1: Knowledge Object Section Expansion
+## P1 — Compare evidence synthesis
 
-| | |
-|---|---|
-| **Impact** | High |
-| **Effort** | Medium |
-| **Evidence** | 16/30 questions (all compare, decide, troubleshoot, design) |
-| **Attribution** | High — specific questions map to specific objects |
+**Evidence**: 6/6 compare tasks affected. Average HPF 48.5 vs RAG 72.2 (-23.7 gap). All 6 tasks show the same pattern: HPF produces repetitive criteria, placeholder values, and missing trade-off reasoning.
 
-**What**: Add `## Compare`, `## Decide`, `## Troubleshoot`, and `## Design` sections to all 14 knowledge objects. Each section must contain actual structured data (criteria with scores, supporting/contradictory claims, likely causes with probabilities, design approaches).
+**Behavioural description**: When asked to compare two entities, HPF produces a structured table with hardcoded generic criteria. The comparison does not reflect entity-specific differences. Scores are repetitive or contain placeholders ("varies"). Trade-off analysis and recommendation are generic.
 
-**Evidence**: 
-- Compare mode loses 5/6 times because objects lack explicit compare data (compare-mode-analysis.md)
-- Decide mode avg actionability is 3.7 vs RAG's 7.8 (decision-mode-analysis.md)
-- Only 4/14 objects have any structured sections beyond base narrative
+**Questions exhibiting this**: C01, C02, C03, C04 (won by explain fallback), C05 (disagreement, saved by explain fallback), C06.
 
-**Hypothesis**: Adding structured sections will transform compare mode from template-soup to data-driven comparison, and give decide/design/troubleshoot modes the raw material they need.
-
-**Implementation**: 
-1. Pick 2-3 objects with the most cross-references (e.g., playwright-concept, selenium-concept, anti-detection-principle)
-2. Add `## Compare`, `## Decide`, `## Troubleshoot`, `## Design` sections
-3. Rerun benchmark on affected questions
-
-**Validation questions**: C01 (CDP vs WebDriver), C03 (Selenium vs Playwright), D01 (Should I migrate from Selenium?), T03 (Why does scraper get blocked?), DS01 (Design resilient scraper)
-
-**Expected improvement**: Compare mode avg from 48.5 → ~65. Decide mode avg from 32.2 → ~50.
+**Notable exception**: C04 (CSS selectors vs XPath) — HPF won because it fell back to explain mode. The sole retrieved object (selector-strategy-pattern) happened to contain good explanatory content. Confirms the compare template, not the knowledge, is the bottleneck.
 
 ---
 
-## Priority 2: Actionability Layer in All Templates
+## P2 — Decision justification
 
-| | |
-|---|---|
-| **Impact** | High |
-| **Effort** | Low |
-| **Evidence** | 30/30 questions |
-| **Attribution** | Medium — actionability is one of 6 dimensions |
+**Evidence**: 6/6 decide tasks affected. Average HPF 46.8 vs RAG 73.9 (-27.1 gap). All 6 tasks show low actionability scores (avg 3.7 vs RAG's 7.8).
 
-**What**: Add an "actionable guidance" section to the end of every template. For explain: "practical implications." For compare: "migration considerations." For decide: "implementation steps." For troubleshoot: "fix procedure." For design: "build checklist."
+**Behavioural description**: When asked a "should I" question, HPF produces a claim with supporting and contradictory evidence, but the evidence is shallow (drawn from generic prose, not structured decision data). Risks are generic. Recommendations lack specificity.
 
-**Evidence**: 
-- Actionability is HPF's lowest dimension across ALL modes (-2.3 avg gap, -4.1 in decide)
-- Every single HPF answer scores lower on actionability than the RAG equivalent
+**Questions exhibiting this**: D01, D02, D03, D04, D05, D06.
 
-**Hypothesis**: A simple "what to do next" footer on every template will close the actionability gap by 1-2 points.
-
-**Implementation**: 
-1. Add one paragraph to each of the 5 formatters in renderer.py
-2. Rerun benchmark on 6 representative questions (1 per mode)
-
-**Validation questions**: E01 (CDP explanation — actionability), C01 (compare — actionability), D02 (HTTP 429 — actionability), T02 (flaky selectors — diagnostic steps), DS03 (CDP retry mechanism — build guidance)
-
-**Expected improvement**: All modes gain +1.5 to +2.5 on actionability dimension.
+**Dimension breakdown** (HPF vs RAG):
+- technical_correctness: 6.3 vs 8.0 (-1.7)
+- completeness: 5.0 vs 8.2 (-3.2)
+- reasoning_quality: 5.8 vs 7.5 (-1.7)
+- actionability: 3.7 vs 7.8 (-4.1) ← **largest single-dimension gap across all modes**
 
 ---
 
-## Priority 3: Mode-Aware Retrieval Strategy
+## P3 — Knowledge object schema not reusable across modes
 
-| | |
-|---|---|
-| **Impact** | Medium |
-| **Effort** | High |
-| **Evidence** | 16/30 questions (all compare, decide, troubleshoot, design) |
-| **Attribution** | Low — confounding with template changes |
+**Evidence**: 16/30 questions (all compare, decide, troubleshoot, design). Current schema stores prose narratives with optional mode-specific sections. Only 4/14 objects have any mode-specific sections. Engine depends on sections that mostly don't exist.
 
-**What**: Replace uniform max-per-entity scoring with mode-specific retrieval configs:
-- **explain**: Keep current max-per-entity (precision-focused)
-- **compare**: Retrieve N objects per entity, bias toward objects with `## Compare` sections
-- **decide**: Broaden recall (lower match thresholds), prefer objects with `## Decide` sections
-- **troubleshoot**: Retrieve by symptom/entity mapping
-- **design**: Bias toward pattern-type objects
+**Behavioural description**: Knowledge objects are written as documentation (prose narratives) rather than structured semantic records. Each reasoning mode requires specific data shapes that the objects don't provide. The engine's templates attempt to extract mode-specific content from prose, producing generic or empty output.
 
-**Evidence**: 
-- Decide mode retrieves avg 2.0 objects vs RAG's 14
-- Compare mode sometimes retrieves only 1 entity's objects (C04, C05)
-- Narrow retrieval is invisible in explain mode (which wins 6/8) but cripples other modes
+**Questions exhibiting this**: All C-series, D-series, DS-series, and T-series. Only E-series (explain) is unaffected because explain maps to the prose narrative naturally.
 
-**Hypothesis**: Mode-aware retrieval will increase average retrieved objects from 3.1 to 5-6 for compare/decide/design modes, providing more raw material for templates.
-
-**Implementation**: 
-1. Add `mode` parameter to `retriever.retrieve()` 
-2. Define mode-specific scoring configs
-3. Adjust max-per-entity and minimum thresholds per mode
-
-**Validation questions**: All 6 compare, all 6 decide, all 4 design, all 6 troubleshoot questions.
-
-**Expected improvement**: Compare mode avg from 48.5 → ~58. Decide mode avg from 32.2 → ~42.
+**Architectural note**: This is distinct from P1 and P2. P1 and P2 are symptoms of different user-facing capabilities (compare vs decide). P3 is the shared root cause — the knowledge objects lack the structural semantics that all modes (except explain) need.
 
 ---
 
-## Priority 4: Hallucination Guard for Entity Extraction
+## P4 — Judge ambiguity / rubric sensitivity
 
-| | |
-|---|---|
-| **Impact** | Low |
-| **Effort** | Low |
-| **Evidence** | 5/30 questions |
-| **Attribution** | High — hallucination_penalty is explicit |
+**Evidence**: 10/30 questions where judges disagreed. 5 of 10 classified as rubric ambiguity — Mistral consistently penalizes breadth without depth, Llama consistently penalizes depth without breadth.
 
-**What**: Add confidence filtering to dynamic entity extraction. If extracted entity has <0.5 match confidence to any known concept, exclude it or flag it in the output.
+**Behavioural description**: The dual-judge system disagrees on 1/3 of questions. Most disagreements trace to different weighting of the 6 scoring dimensions, not genuine quality differences. This means the current average scoring is sensitive to which judges are used.
 
-**Evidence**: T04 (browser crash) hallucinated because "crash" was dynamically extracted but no knowledge object covers crash causes. E01/E02/E07/E08 had lower hallucination scores for HPF.
-
-**Implementation**: 
-1. Add confidence threshold to `question_analyzer.extract()`
-2. Filter out low-confidence dynamic entities
-
-**Expected improvement**: T04 hallucination_penalty from 2 → 4. Marginal overall score gain.
+**Questions exhibiting this**: C05, D01, D05, DS01, DS02, DS04, E04, E05, E06, T04.
 
 ---
 
-## Priority 5: Length-Normalised Scoring Analysis
+## P5 — Narrow retrieval for non-explain modes
 
-| | |
-|---|---|
-| **Impact** | Low (analysis only) |
-| **Effort** | Low |
-| **Evidence** | 30/30 questions |
-| **Attribution** | N/A — diagnostic |
+**Evidence**: 16/30 questions. HPF retrieves avg 3.1 objects per question vs RAG's 10.3. In decide mode, HPF retrieves avg 2.0 objects vs RAG's 14.
 
-**What**: Analyse whether the scoring rubric systematically penalises shorter answers. If completeness scores correlate with answer length (r > 0.5), the rubric may need adjustment for human evaluation.
+**Behavioural description**: The max-per-entity scoring strategy works well for explain (where precision matters) but starves compare/decide/design/troubleshoot modes that benefit from broader context.
 
-**Evidence**: HPF avg output 683 chars vs RAG's 763. D02 (HPF: 349 chars, score 31.0) vs D02 (RAG: 863 chars, score 62.5).
+**Interaction with P3**: Even with broad retrieval, the templates would struggle because objects lack structured sections. P5 is downstream of P3.
 
 ---
 
-## Priority Ordering Rationale
+## P6 — No fallback strategy for thin retrieval
 
-1. **Section expansion first** — Without data in the objects, no template or retrieval change can produce good answers. This is the bottleneck.
-2. **Actionability layer second** — Low effort, high impact, independent of other changes. Can be done in parallel with section expansion.
-3. **Mode-aware retrieval third** — Only valuable after objects have the sections to retrieve. Otherwise broad retrieval just pulls in more irrelevant content.
-4. **Hallucination guard fourth** — Lower impact but easy to do.
-5. **Length-correlation analysis** — Informational, not an implementation.
+**Evidence**: 8/30 questions with ≤2 retrieved objects. HPF doesn't adapt — it produces the same template with shorter content.
 
-## Recommended Sprint
+**Behavioural description**: When retrieval returns <2 objects, HPF proceeds with the same template. Contrast with compare→explain fallback (which exists) but no equivalent for decide, troubleshoot, or design.
 
-| Week | Work | Validation |
-|---|---|---|
-| 1 | Add sections to 3 objects + actionability layer | Run 6-question subset benchmark |
-| 2 | Analyse results, expand sections to all 14 objects | Full 30-question benchmark |
-| 3 | Mode-aware retrieval implementation | Full 30-question benchmark |
-| 4 | Hallucination guard + length analysis | Full 30-question benchmark |
+**Questions exhibiting this**: C04 (saved by existing explain fallback), C05 (saved by existing explain fallback), D02 (1 object), D03 (1 object), D04 (1 object), D06 (2 objects), DS02 (1 object), T02 (1 object), T06 (1 object).
+
+---
+
+## P7 — Hallucination from dynamic entity extraction
+
+**Evidence**: 5/30 questions. T04 (hallucination_penalty=2) is worst case.
+
+**Behavioural description**: Dynamic entity extraction picks up terms like "crash" that match no knowledge object. The engine still retrieves based on these entities, producing off-topic or hallucinated content.
+
+**Questions exhibiting this**: E01, E02, E07, E08, T04.
+
+---
+
+## Summary
+
+| Priority | Behavioural Deficiency | Evidence | Score Gap |
+|---|---|---|---|
+| P1 | Compare evidence synthesis | 6/6 tasks | -23.7 |
+| P2 | Decision justification | 6/6 tasks | -27.1 |
+| P3 | Knowledge object schema not reusable | 16/30 questions | Systemic |
+| P4 | Judge ambiguity / rubric sensitivity | 10/30 questions | Measurement |
+| P5 | Narrow retrieval for non-explain modes | 16/30 questions | Indirect |
+| P6 | No fallback strategy for thin retrieval | 8/30 questions | Indirect |
+| P7 | Hallucination from entity extraction | 5/30 questions | Small |
+
+**Key relationship**: P3 (knowledge schema) is the architectural root cause of which P1 (compare) and P2 (decide) are the most visible symptoms. P4 is a measurement concern, not a behavioural one. P5 and P6 are downstream of P3. P7 is independent.
+
+This document will be updated when evidence from subsequent benchmark runs changes the priority ordering. No implementation decisions are recorded here.

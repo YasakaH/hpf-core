@@ -114,4 +114,4 @@ Observed from judge rationales, trace data, and score patterns:
 
 ## Deficiency Interdependence
 
-Deficiencies 1 (template) and 2 (retrieval) are independent — fixing either helps without the other. Deficiency 3 (actionability) depends on 1 — even with broader retrieval, the templates still won't produce actionable output. Fix order: 1 → 3 → 2.
+Deficiencies 1 (template) and 2 (retrieval) are independent. Deficiency 3 (actionability) depends on 1 — even with broader retrieval, the templates still won't produce actionable output. No implementation order is prescribed here. This analysis informs the priority document.
