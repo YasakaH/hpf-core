@@ -2,6 +2,8 @@
 
 **Platform-design phase complete: 2026-07-29**. From this date, the project is in **knowledge acquisition mode**.
 
+**Rule**: No new governance documents unless execution exposes a governance gap. Every new file should be a research dossier, canonical concept, HPF knowledge object, benchmark evidence, or book content.
+
 ---
 
 ## Phase 1 — Platform Foundation ✓
@@ -74,6 +76,7 @@
 | Book outline maturity | 0% | 30% | 70% |
 | Public artifacts published | 0 | 4 | 20 |
 | HPF avg score (all modes) | 63.0 | 68.0 | 75.0 |
+| **Concept reuse ratio** (downstream artefacts per concept) | 4.7 | 6.0 | 8.0 |
 
 ---
 
