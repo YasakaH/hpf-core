@@ -6,10 +6,11 @@ A request earns implementation only if it keeps recurring during use.
 
 For each friction point record:
 
-| Date | What were you trying to do? | Why did you leave the Workbench? |
-|---|---|---|
-| 2026-08-05 | Example: Inspect Cycle 012 predictions | Example: needed to open the dossier manually |
-|  |  |  |
+| Date | Task | Left Workbench? | Missing Capability | Frequency |
+|---|---|---|---|---|
+| 2026-08-05 | Example: Inspect Cycle 012 predictions | Yes | Research view | #1 |
+| 2026-08-07 | Example: Inspect Cycle 014 dossier | Yes | Research view | #2 |
+| 2026-08-08 | Example: Validate object | No | — | — |
 
 After a dozen sessions, patterns emerge. If entries repeatedly say "had to
 open the dossier", the Research view has its evidence. If none do, it stays
