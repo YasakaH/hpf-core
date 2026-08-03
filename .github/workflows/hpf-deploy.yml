@@ -1,0 +1,42 @@
+name: Deploy HPF Workbench
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'tools/hpf-engine/**'
+      - 'website-hpf/**'
+      - '.github/workflows/hpf-deploy.yml'
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Produce export contract
+        working-directory: tools/hpf-engine
+        run: python export.py --out ../website-hpf/data/export.json
+
+      - name: Gate on contract conformance
+        working-directory: tools/hpf-engine
+        run: python check_contract.py ../website-hpf/data/export.json
+
+      - name: Build knowledge index
+        working-directory: tools/hpf-engine
+        run: python index.py --export ../website-hpf/data/export.json --out ../website-hpf/data/index.json
+
+      - name: Deploy to Cloudflare Pages
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy website-hpf --project-name=versatilesparks-hpf

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>HPF Research Workbench</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="config.js"></script>
+</head>
+<body>
+
+  <div id="login-overlay" class="login-overlay hidden">
+    <form id="login-form" class="login-card">
+      <h1>HPF Research Workbench</h1>
+      <p class="muted">Internal research system. Authorized personnel only.</p>
+      <label for="login-username">Username</label>
+      <input type="text" id="login-username" autocomplete="username" required>
+      <label for="login-password">Password</label>
+      <input type="password" id="login-password" autocomplete="current-password" required>
+      <p id="login-error" class="error hidden">Invalid credentials.</p>
+      <button type="submit" class="btn">Sign in</button>
+    </form>
+  </div>
+
+  <header class="topbar">
+    <div class="brand">HPF <span class="muted">Research Workbench</span></div>
+    <div id="topbar-status" class="topbar-status"></div>
+  </header>
+
+  <div class="layout">
+    <nav class="sidebar">
+      <button class="nav-btn active" data-route="#/">Dashboard</button>
+      <button class="nav-btn" data-route="#/validation">Validation</button>
+      <button class="nav-btn" data-route="#/relationships">Relationships</button>
+      <button class="nav-btn" data-route="#/diagnostics">Diagnostics</button>
+      <div class="search-box">
+        <input type="text" id="search-input" placeholder="Search objects…" autocomplete="off">
+      </div>
+      <div id="search-results" class="search-results"></div>
+    </nav>
+
+    <main id="main" class="main"></main>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,239 @@
+{
+  "schema_version": "1.0",
+  "producer": "hpf-engine",
+  "producer_version": "0.1.0",
+  "compatibility": ">=0.4",
+  "generated_at": "2026-07-30T10:19:15Z",
+  "concepts": [
+    {
+      "id": "anti-detection-strategy",
+      "title": "Anti-Detection Strategy",
+      "domain": "Browser Perception"
+    },
+    {
+      "id": "automation-detection-surface",
+      "title": "Automation Detection Surface",
+      "domain": "Browser Perception"
+    },
+    {
+      "id": "automation-protocol",
+      "title": "Automation Protocol",
+      "domain": "Browser Architecture"
+    },
+    {
+      "id": "browser-fingerprint",
+      "title": "Browser Fingerprint",
+      "domain": "Browser Perception"
+    },
+    {
+      "id": "browser-profile",
+      "title": "Browser Profile",
+      "domain": "Browser Memory"
+    },
+    {
+      "id": "browser-readiness-model",
+      "title": "Browser Readiness Model",
+      "domain": "Browser State"
+    },
+    {
+      "id": "browser-session-lifecycle",
+      "title": "Session Lifecycle",
+      "domain": "Browser State"
+    },
+    {
+      "id": "browser-storage",
+      "title": "Browser Storage",
+      "domain": "Browser Memory"
+    },
+    {
+      "id": "memory-pressure",
+      "title": "Memory Pressure",
+      "domain": "Browser Memory"
+    },
+    {
+      "id": "navigation-lifecycle",
+      "title": "Navigation Lifecycle",
+      "domain": "Browser State"
+    },
+    {
+      "id": "retry-strategy",
+      "title": "Retry Strategy",
+      "domain": "Browser Reliability"
+    }
+  ],
+  "problems": [
+    {
+      "id": "profile-locked",
+      "title": "Chrome profile is already in use",
+      "error_patterns": [
+        "profile is already in use",
+        "SingletonLock",
+        "cannot create profile",
+        "profile locked",
+        "user data directory is already in use",
+        "profile directory in use"
+      ],
+      "severity": "common",
+      "primary_concept": "browser-profile",
+      "root_cause": "Two browser instances accessing the same user_data_dir simultaneously; Chrome's filesystem lock prevents concurrent access.",
+      "aliases": [
+        {
+          "text": "SingletonLock",
+          "context": null
+        },
+        {
+          "text": "user_data_dir busy",
+          "context": null
+        },
+        {
+          "text": "profile directory in use",
+          "context": null
+        }
+      ],
+      "related_concepts": [
+        "browser-session-lifecycle",
+        "memory-pressure"
+      ],
+      "recovery_guide": "Kill existing browser process, wait for lock file release, or use a different/unique profile path per session.",
+      "recommendation": "Always use unique, ephemeral profiles per session in production."
+    },
+    {
+      "id": "profile-corruption",
+      "title": "Browser profile SQLite corruption",
+      "error_patterns": [
+        "SQLite error",
+        "database disk image is malformed",
+        "unable to open database file",
+        "profile corruption",
+        "cookies database corruption"
+      ],
+      "severity": "uncommon",
+      "primary_concept": "browser-profile",
+      "root_cause": "Unexpected termination (SIGKILL, power loss) during SQLite write operations on Cookies, History, or Login Data databases.",
+      "aliases": [
+        {
+          "text": "SQLite malformed",
+          "context": null
+        },
+        {
+          "text": "database disk image is malformed",
+          "context": null
+        }
+      ],
+      "related_concepts": [
+        "browser-session-lifecycle",
+        "navigation-lifecycle"
+      ],
+      "recovery_guide": "Delete or restore the corrupted profile directory from backup. Browser recreates it on next launch.",
+      "recommendation": "Always use graceful shutdown (SIGTERM) and monitor process exit codes."
+    }
+  ],
+  "briefs": [
+    {
+      "id": "why-browser-profiles-break",
+      "title": "Why Browser Profiles Break (and How to Fix It)",
+      "audience": "intermediate",
+      "primary_concept": "browser-profile",
+      "secondary_concepts": [
+        "browser-session-lifecycle",
+        "memory-pressure"
+      ],
+      "pain_points": [
+        "profile-locked",
+        "profile-corruption"
+      ],
+      "goal": "Explain profile mechanics, common failure modes, and recovery strategies.",
+      "target_length": 1800,
+      "cta": "cookbook-profile-recipes",
+      "status": "draft",
+      "created": "2026-07-30"
+    },
+    {
+      "id": "automation-detection-signals",
+      "title": "What Automation Detection Looks Like in 2026",
+      "audience": "intermediate",
+      "primary_concept": "automation-detection-surface",
+      "secondary_concepts": [
+        "browser-fingerprint",
+        "anti-detection-strategy"
+      ],
+      "pain_points": [
+        "navigator.webdriver flag",
+        "cdp detection",
+        "permission query signals"
+      ],
+      "goal": "Catalog current detection signals and their mitigation trade-offs.",
+      "target_length": 2200,
+      "cta": "cookbook-browser-automation",
+      "status": "draft",
+      "created": "2026-07-30"
+    },
+    {
+      "id": "fresh-vs-persistent-profiles",
+      "title": "Fresh vs Persistent Browser Profiles: When to Use Which",
+      "audience": "beginner",
+      "primary_concept": "browser-profile",
+      "secondary_concepts": [
+        "automation-detection-surface",
+        "browser-session-lifecycle"
+      ],
+      "pain_points": [
+        "profile-locked",
+        "cross-session tracking"
+      ],
+      "goal": "Help readers choose the right profile strategy for their use case.",
+      "target_length": 1500,
+      "cta": "cookbook-profile-recipes",
+      "status": "draft",
+      "created": "2026-07-30"
+    },
+    {
+      "id": "browser-fingerprint-primer",
+      "title": "How Browser Fingerprinting Works",
+      "audience": "beginner",
+      "primary_concept": "browser-fingerprint",
+      "secondary_concepts": [
+        "automation-detection-surface",
+        "anti-detection-strategy"
+      ],
+      "pain_points": [
+        "canvas fingerprint",
+        "WebGL fingerprint",
+        "audio fingerprint"
+      ],
+      "goal": "Explain fingerprinting mechanisms and their role in automation detection.",
+      "target_length": 2000,
+      "cta": "cookbook-browser-automation",
+      "status": "draft",
+      "created": "2026-07-30"
+    },
+    {
+      "id": "anti-detection-strategy-guide",
+      "title": "Anti-Detection Strategy: What Works, What Doesn't",
+      "audience": "advanced",
+      "primary_concept": "anti-detection-strategy",
+      "secondary_concepts": [
+        "automation-detection-surface",
+        "browser-fingerprint",
+        "browser-profile"
+      ],
+      "pain_points": [
+        "navigator.webdriver",
+        "cdp detection",
+        "permission queries",
+        "canvas fingerprint"
+      ],
+      "goal": "Systematic approach to reducing automation detection risk.",
+      "target_length": 3000,
+      "cta": "cookbook-advanced-techniques",
+      "status": "draft",
+      "created": "2026-07-30"
+    }
+  ],
+  "metadata": {
+    "generator": "hpf-engine/pipeline.py",
+    "problem_count": 2,
+    "brief_count": 5,
+    "concept_count": 11
+  }
+}
