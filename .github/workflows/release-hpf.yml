@@ -20,7 +20,8 @@ jobs:
         run: python check_contract.py ../../exports/latest.json
 
       - name: Verify committed index
-        run: python -c "import json; d = json.load(open('exports/latest.index.json')); assert d.get('objects'); print(f\"index ok: {len(d['objects'])} objects\")"
+        run: |
+          python -c "import json; d = json.load(open('exports/latest.index.json')); assert d.get('objects'); print('index ok:', len(d['objects']))"
 
       - name: Assemble site data from committed release
         run: |
