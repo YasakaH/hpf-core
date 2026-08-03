@@ -1,59 +1,20 @@
 /* HPF Research Workbench — internal knowledge system SPA.
    Consumes ONLY the knowledge-export-core-v1 contract (data/export.json) and
-   its derived index (data/index.json). Never reads engine internals. */
+   its derived index (data/index.json). Never reads engine internals.
+   Authentication is handled at the edge by Cloudflare Access — this
+   application assumes anyone who reaches it has been authenticated. */
 
 "use strict";
 
 const state = {
   export: null,
   index: null,
-  authed: false,
 };
 
 const $ = (sel) => document.querySelector(sel);
 const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({
   "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;",
 }[c]));
-
-/* ---------- Auth (in-app layer; Cloudflare Access is the boundary) ---------- */
-
-async function sha256Hex(text) {
-  const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(text));
-  return Array.from(new Uint8Array(buf)).map((b) => b.toString(16).padStart(2, "0")).join("");
-}
-
-async function tryLogin(username, password) {
-  const users = window.HPF_CONFIG?.auth?.users || {};
-  const expected = users[username];
-  if (!expected) return false;
-  return (await sha256Hex(password)) === expected;
-}
-
-function initAuth() {
-  const auth = window.HPF_CONFIG?.auth;
-  if (!auth || !auth.enabled) {
-    state.authed = true;
-    return;
-  }
-  if (sessionStorage.getItem("hpf_session") === "1") {
-    state.authed = true;
-    return;
-  }
-  const overlay = $("#login-overlay");
-  overlay.classList.remove("hidden");
-  $("#login-form").addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const ok = await tryLogin($("#login-username").value.trim(), $("#login-password").value);
-    if (ok) {
-      sessionStorage.setItem("hpf_session", "1");
-      state.authed = true;
-      overlay.classList.add("hidden");
-      boot();
-    } else {
-      $("#login-error").classList.remove("hidden");
-    }
-  });
-}
 
 /* ---------- Data loading ---------- */
 
@@ -331,5 +292,4 @@ async function boot() {
   render();
 }
 
-initAuth();
-if (state.authed) boot();
+boot();

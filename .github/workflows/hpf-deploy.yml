@@ -1,17 +1,10 @@
-name: Deploy HPF Workbench
+name: Release HPF Workbench
 
 on:
-  push:
-    branches:
-      - main
-    paths:
-      - 'tools/hpf-engine/**'
-      - 'website-hpf/**'
-      - '.github/workflows/hpf-deploy.yml'
   workflow_dispatch:
 
 jobs:
-  deploy:
+  release:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -22,17 +15,18 @@ jobs:
         with:
           python-version: '3.12'
 
-      - name: Produce export contract
+      - name: Gate on committed release conformance
         working-directory: tools/hpf-engine
-        run: python export.py --out ../website-hpf/data/export.json
+        run: python check_contract.py ../../exports/latest.json
 
-      - name: Gate on contract conformance
-        working-directory: tools/hpf-engine
-        run: python check_contract.py ../website-hpf/data/export.json
+      - name: Verify committed index
+        run: python -c "import json; d = json.load(open('exports/latest.index.json')); assert d.get('objects'); print(f\"index ok: {len(d['objects'])} objects\")"
 
-      - name: Build knowledge index
-        working-directory: tools/hpf-engine
-        run: python index.py --export ../website-hpf/data/export.json --out ../website-hpf/data/index.json
+      - name: Assemble site data from committed release
+        run: |
+          mkdir -p website-hpf/data
+          cp exports/latest.json website-hpf/data/export.json
+          cp exports/latest.index.json website-hpf/data/index.json
 
       - name: Deploy to Cloudflare Pages
         uses: cloudflare/wrangler-action@v3
