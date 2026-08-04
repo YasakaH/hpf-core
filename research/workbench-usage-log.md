@@ -15,3 +15,19 @@ For each friction point record:
 After a dozen sessions, patterns emerge. If entries repeatedly say "had to
 open the dossier", the Research view has its evidence. If none do, it stays
 unbuilt.
+
+## Usage discipline (working-note refinement, 2026-08-04)
+
+The Workbench is the primary interface for HPF: everything previously done via
+VS Code, terminal, JSON inspection, or ad hoc scripts goes through it. The
+infrastructure phase is closed; the next improvements come from this log, not
+from the deployment stack.
+
+For every departure from the Workbench, ask:
+
+> "Could I reasonably have stayed inside the Workbench?"
+
+- Repeatedly "no" for the same reason → evidence for the next feature.
+- Mostly "yes" → the operational-interface goal is achieved.
+
+First workbench review after 20-30 logged sessions.
