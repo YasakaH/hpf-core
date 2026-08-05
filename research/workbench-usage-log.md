@@ -145,3 +145,34 @@ quality (thread/score/occurrences/date), claim extraction (finding vs
 restatement), community signal discipline (nothing graduates), contradictions
 (docs vs community divergence), corpus impact, publish pack quality.
 
+## Publishing Compiler (2026-08-05) — the downstream subsystem
+
+Reviewer direction: adjudication is now a first-class, mandatory stage —
+never compile drafts. `tools/hpf-research/publish.py` renders an ADJUDICATED
+session into a publish pack:
+
+```
+Session -> Review -> Accepted Findings -> Compiler
+NEVER Draft Findings -> Compiler
+```
+
+- Refuses to compile a session with no review layer (exit 2).
+- Accepted findings only: approve / revise (revised claim) / add.
+  Rejected findings are counted, never rendered (verified: 0 leaks).
+- Output `exports/publish/<session-id>/` (immutable, exit 3 on overwrite):
+  `publish-pack.json` + six renders (comparison, article, LinkedIn, X thread,
+  FAQ, documentation). Every claim carries status, confidence (null),
+  sources, evidence ids, dates.
+- Release workflow assembles `exports/publish` → `website-hpf/publish`.
+- Workbench: Publish view lists reviewed sessions + compiled packs (no more
+  "draft findings" as publishable); pack detail route shows renders and
+  accepted claims. UI copy renamed "adjudicated" → "Research Review".
+
+First pack: `2026-08-05-0512-web-automation-pain-points-202` — 8 accepted
+(7 revised + 1 contradiction added), 14 rejected excluded, 6 renders.
+
+Pipeline now: Research → Evidence → Draft Findings → Research Review →
+Accepted Findings → Publishing Compiler → Website / Social / Documentation.
+The open question the reviewer set for HPF: can it consistently produce
+accepted findings that require minimal rewriting before publication?
+

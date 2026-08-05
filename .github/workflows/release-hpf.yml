@@ -39,6 +39,16 @@ jobs:
             echo "no released sessions yet"
           fi
 
+      - name: Assemble publish packs
+        run: |
+          if [ -d exports/publish ]; then
+            mkdir -p website-hpf/publish
+            cp -r exports/publish/. website-hpf/publish/
+            echo "assembled $(ls website-hpf/publish | wc -l) publish pack entries"
+          else
+            echo "no publish packs yet"
+          fi
+
       - name: Deploy to Cloudflare Pages
         uses: cloudflare/wrangler-action@v3
         with:

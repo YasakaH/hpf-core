@@ -1,0 +1,158 @@
+{
+  "schema": "hpf-publish-pack-v0",
+  "session_id": "2026-08-05-0512-web-automation-pain-points-202",
+  "topic": "Web automation pain points (2026)",
+  "goal": "What are the recurring practitioner pain points in browser automation in 2026, and what do official sources say?",
+  "audience": "Blog",
+  "compiled_at": "2026-08-05T05:30:42.444327+00:00",
+  "adjudication_ref": "adjudication.json",
+  "adjudicated_at": "2026-08-05T05:16:51.295367+00:00",
+  "adjudicator": "cycle-reviewer",
+  "accepted": 8,
+  "rejected": 14,
+  "status": "draft",
+  "claims": [
+    {
+      "id": "f-10",
+      "claim": "Multiple independent practitioners report that scraping modern websites requires either paid APIs (Firecrawl/Browserbase) or headless Chrome fleets that consume ~1GB of RAM per page and still get blocked by Cloudflare.",
+      "status": "community_signal",
+      "confidence": null,
+      "sources": [
+        "https://news.ycombinator.com/item?id=49148163",
+        "https://news.ycombinator.com/item?id=48505364",
+        "https://news.ycombinator.com/item?id=47312509"
+      ],
+      "evidence": [
+        "ev-109",
+        "ev-110",
+        "ev-112"
+      ],
+      "method": "keyword-density-v0",
+      "review_decision": "revise"
+    },
+    {
+      "id": "f-12",
+      "claim": "Practitioners report Playwright and Puppeteer 'fall apart when you need stealth at scale', and that cloud-based automation sends data to third parties, motivating self-hosted alternatives.",
+      "status": "community_signal",
+      "confidence": null,
+      "sources": [
+        "https://news.ycombinator.com/item?id=49148163",
+        "https://news.ycombinator.com/item?id=48505364",
+        "https://news.ycombinator.com/item?id=47312509"
+      ],
+      "evidence": [
+        "ev-109",
+        "ev-110",
+        "ev-112"
+      ],
+      "method": "keyword-density-v0",
+      "review_decision": "revise"
+    },
+    {
+      "id": "f-13",
+      "claim": "Practitioners actively build counter-tooling against browser fingerprinting, which is described as tracking users without cookies.",
+      "status": "community_signal",
+      "confidence": null,
+      "sources": [
+        "https://news.ycombinator.com/item?id=49124017",
+        "https://news.ycombinator.com/item?id=48326123",
+        "https://news.ycombinator.com/item?id=48768421"
+      ],
+      "evidence": [
+        "ev-115",
+        "ev-117",
+        "ev-116"
+      ],
+      "method": "keyword-density-v0",
+      "review_decision": "revise"
+    },
+    {
+      "id": "f-15",
+      "claim": "Practitioners report websites flag accounts when browser-reported geolocation disagrees with the IP's country, and that browsers emit dozens of fingerprintable signals no single tool covers.",
+      "status": "community_signal",
+      "confidence": null,
+      "sources": [
+        "https://news.ycombinator.com/item?id=49124017",
+        "https://news.ycombinator.com/item?id=48326123",
+        "https://news.ycombinator.com/item?id=48768421"
+      ],
+      "evidence": [
+        "ev-115",
+        "ev-117",
+        "ev-116"
+      ],
+      "method": "keyword-density-v0",
+      "review_decision": "revise"
+    },
+    {
+      "id": "f-16",
+      "claim": "Practitioners report that anti-bot defences (Cloudflare, captcha challenges) block scraping use cases, and that official APIs are often missing, forcing reverse engineering.",
+      "status": "community_signal",
+      "confidence": null,
+      "sources": [
+        "https://news.ycombinator.com/item?id=42347252",
+        "https://news.ycombinator.com/item?id=34217999",
+        "https://news.ycombinator.com/item?id=42193973"
+      ],
+      "evidence": [
+        "ev-121",
+        "ev-123",
+        "ev-122"
+      ],
+      "method": "keyword-density-v0",
+      "review_decision": "revise"
+    },
+    {
+      "id": "f-17",
+      "claim": "Practitioners report Cloudflare 'Under Attack Mode' serves captchas to Tor and other 'bad' IPs that fail roughly 90% of the time \u2014 the checkbox spins forever \u2014 and that this is specific to under-attack-mode sites.",
+      "status": "community_signal",
+      "confidence": null,
+      "sources": [
+        "https://news.ycombinator.com/item?id=42347252",
+        "https://news.ycombinator.com/item?id=34217999",
+        "https://news.ycombinator.com/item?id=42193973"
+      ],
+      "evidence": [
+        "ev-121",
+        "ev-123",
+        "ev-122"
+      ],
+      "method": "keyword-density-v0",
+      "review_decision": "revise"
+    },
+    {
+      "id": "f-20",
+      "claim": "Site operators report bot traffic accounts for a large share of web traffic and that the common response (putting Cloudflare in front) is the only mitigation they consider, with AI-crawler traffic worsening the problem.",
+      "status": "community_signal",
+      "confidence": null,
+      "sources": [
+        "https://news.ycombinator.com/item?id=44022039",
+        "https://news.ycombinator.com/item?id=42810527",
+        "https://news.ycombinator.com/item?id=47113242"
+      ],
+      "evidence": [
+        "ev-129",
+        "ev-130",
+        "ev-126"
+      ],
+      "method": "keyword-density-v0",
+      "review_decision": "revise"
+    },
+    {
+      "id": "f-22",
+      "claim": "Official documentation presents browser automation as a supported, feature-complete practice (Playwright e2e framework, Chrome DevTools), while community evidence reports systematic blocking under anti-bot systems: Cloudflare Under-Attack-Mode captchas failing ~90% of the time for Tor/bad IPs (score 161), headless fleets blocked despite ~1GB RAM per page, and tooling explicitly built around evading WAFs and detection (undetected-chromedriver successor). Community experience diverges from official documentation regarding reliability under anti-bot systems.",
+      "status": "needs_adjudication",
+      "confidence": null,
+      "sources": [
+        "https://playwright.dev/docs/intro",
+        "https://developer.chrome.com/docs/devtools",
+        "https://github.com/ultrafunkamsterdam/nodriver",
+        "https://news.ycombinator.com/item?id=34217999",
+        "https://news.ycombinator.com/item?id=49148163"
+      ],
+      "evidence": [],
+      "method": "adjudication-synthesis-v0",
+      "review_decision": "add"
+    }
+  ]
+}

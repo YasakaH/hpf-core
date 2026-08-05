@@ -2,7 +2,8 @@
    Consumes ONLY the knowledge-export-core-v1 contract (data/export.json) and
    its derived index (data/index.json). Never reads engine internals.
    Research sessions are operational evidence records (config.sessions_url),
-   not corpus knowledge — they render pipeline + drafts for adjudication.
+   not corpus knowledge — they render pipeline + drafts for review.
+   Publish packs (config.publish_url) are compiled from reviewed sessions only.
    Authentication is handled at the edge by Cloudflare Access.
    config.json (optional) holds links; the workbench works without it. */
 
@@ -13,6 +14,7 @@ const state = {
   index: null,
   config: {},
   sessions: [],
+  packs: [],
 };
 
 const $ = (sel) => document.querySelector(sel);
@@ -40,6 +42,14 @@ async function loadData() {
     portal.classList.remove("hidden");
   }
   if (cfg && cfg.sessions_url) state.sessions = await loadSessions(cfg.sessions_url);
+  if (cfg && cfg.publish_url) state.packs = await loadPacks(cfg.publish_url);
+}
+
+async function loadPacks(baseUrl) {
+  try {
+    const idx = await fetch(baseUrl + "index.json").then((r) => r.json());
+    return (idx.packs || []).map((p) => ({ ...p, _manifest: true }));
+  } catch { return []; }
 }
 
 async function loadSessions(baseUrl) {
@@ -129,7 +139,7 @@ function render() {
   else if (one === "research") main.innerHTML = parts[1] === "new" ? viewResearchNew(params) : parts[1] === "session" ? viewSession(parts[2]) : viewResearch();
   else if (one === "library") main.innerHTML = viewLibrary(parts[1]);
   else if (one === "findings") main.innerHTML = viewFindings();
-  else if (one === "publish") main.innerHTML = viewPublish();
+  else if (one === "publish") main.innerHTML = parts[1] === "pack" ? viewPack(parts[2]) : viewPublish();
   else if (one === "validation") main.innerHTML = viewValidation();
   else if (one === "diagnostics") main.innerHTML = viewDiagnostics();
   else if (one === "object") main.innerHTML = viewObject(parts[1]);
@@ -324,7 +334,7 @@ function viewSession(id) {
     : "";
   const addedFindings = adj ? (adj.findings || []).filter((d) => d.decision === "add").map((d, i) => `
       <div class="finding-card warn">
-        <div class="finding-head"><span class="badge warn">${esc(d.status || "needs_adjudication")}</span> <span class="badge valid">adjudicated: add</span> <span class="muted">${esc(d.id)} · method ${esc(d.method)}</span></div>
+        <div class="finding-head"><span class="badge warn">${esc(d.status || "needs_adjudication")}</span> <span class="badge valid">review: add</span> <span class="muted">${esc(d.id)} · method ${esc(d.method)}</span></div>
         <div class="finding-claim">${esc(d.claim)}</div>
         <div class="muted">Sources: ${(d.sources || []).map((u) => `<a href="${esc(u)}" target="_blank" rel="noopener">${esc(u.replace("https://news.ycombinator.com/item?id=", "HN ").replace("https://", "").slice(0, 48))}</a>`).join(" · ")}</div>
         ${d.note ? `<div class="muted adjud-note">Review: ${esc(d.note)}</div>` : ""}
@@ -332,7 +342,7 @@ function viewSession(id) {
   const findingCards = (s.findings || []).map((f) => {
     const d = adjBy[f.id];
     const decisionBadge = d
-      ? `<span class="badge ${d.decision === "approve" ? "valid" : d.decision === "revise" ? "signal" : d.decision === "add" ? "valid" : "planned"}">adjudicated: ${esc(d.decision)}</span>`
+      ? `<span class="badge ${d.decision === "approve" ? "valid" : d.decision === "revise" ? "signal" : d.decision === "add" ? "valid" : "planned"}">review: ${esc(d.decision)}</span>`
       : "";
     const claim = d && d.revised_claim ? d.revised_claim : f.claim;
     const note = d && d.note ? `<div class="muted adjud-note">Review: ${esc(d.note)}</div>` : "";
@@ -383,7 +393,7 @@ function viewSession(id) {
     </div>
     ${activityCard}
     <div class="card"><h2>Sources (${(s.sources || []).length})</h2><ul>${sources}</ul></div>
-    <div class="card"><h2>Findings (${(s.findings || []).length}) — drafts, require adjudication</h2>${adj ? `<p class="muted">Adjudicated ${esc((adj.adjudicated_at || "").replace("T", " ").slice(0, 16))} by ${esc(adj.adjudicator)}${adjSummary}. Rejected findings are retained for the record and marked.</p>` : `<p class="muted">Not yet adjudicated — findings are mechanical drafts.</p>`}${findingCards}${addedFindings}</div>
+    <div class="card"><h2>Findings (${(s.findings || []).length}) — drafts, require review</h2>${adj ? `<p class="muted">Research review ${esc((adj.adjudicated_at || "").replace("T", " ").slice(0, 16))} by ${esc(adj.adjudicator)}${adjSummary}. Rejected findings are retained for the record and marked — they never enter publish packs.</p>` : `<p class="muted">Not yet reviewed — findings are mechanical drafts.</p>`}${findingCards}${addedFindings}</div>
     ${impactCard}
     <div class="card"><h2>Evidence (${(s.evidence || []).length})</h2>${evidence}</div>
     <p class="muted">${esc(s.notes || "")}</p>`;
@@ -579,7 +589,17 @@ function viewObject(id) {
 function viewPublish() {
   const c = state.config;
   const contractUrl = c.contract_url || "#";
-  const drafts = state.sessions.flatMap((s) => (Array.isArray(s.findings) && s.findings.length) ? [{ id: s.id, topic: s.topic, n: s.findings.length }] : []);
+  const reviewed = state.sessions.filter((s) => s.adjudicated || s._adjudication);
+  const packs = state.packs || [];
+  const packRows = packs.length ? packs.map((p) => `
+    <li><a href="#/publish/pack/${encodeURIComponent(p.session_id)}">${esc(p.topic)}</a>
+      <span class="muted"> · ${esc((p.compiled_at || "").slice(0, 10))} · ${p.accepted} accepted / ${p.rejected} rejected</span></li>`).join("")
+    : `<li class="muted">No publish packs yet — compile one from a reviewed session.</li>`;
+  const reviewedRows = reviewed.length ? reviewed.map((d) => {
+    const s = (d.adjudicated || (d._adjudication && d._adjudication.summary)) || {};
+    const nAcc = (s.approve || 0) + (s.revise || 0) + (s.add || 0);
+    return `<li><a href="#/research/session/${encodeURIComponent(d.id)}">${esc(d.topic)}</a> — <span class="muted">${nAcc} accepted of ${Array.isArray(d.findings) ? d.findings.length : (d.findings || 0)} drafted</span></li>`;
+  }).join("") : `<li class="muted">No reviewed sessions yet — a session must pass research review before it can be compiled.</li>`;
   const targets = [
     ["Blog post", "one finding → one narrative, technical"],
     ["Comparison", "side-by-side across two or more findings"],
@@ -590,15 +610,48 @@ function viewPublish() {
     ["FAQ", "extracts of the same findings"],
     ["Release notes", "validated changes to the corpus"],
   ].map(([t, d]) => `<li><b>${esc(t)}</b> <span class="muted">— ${esc(d)}</span></li>`).join("");
-  const sessionRows = drafts.length ? drafts.map((d) => `<li><a href="#/research/session/${encodeURIComponent(d.id)}">${esc(d.topic)}</a> — ${d.n} draft findings</li>`).join("") : `<li class="muted">No sessions with findings yet.</li>`;
   return `
     <div class="row-between"><h1>Publish</h1></div>
     <div class="card"><h2>Downstream, never intertwined</h2>
-      <p class="muted">Publishing consumes validated findings from the export contract and renders them for an audience. It never researches; research never markets. Nothing here edits the corpus.</p>
+      <p class="muted">Publishing consumes <b>accepted findings only</b> — the compiler refuses to read un-reviewed sessions, and rejected findings never enter a publish pack. It never researches; research never markets. Nothing here edits the corpus.</p>
       <ul class="pipeline">${targets}</ul>
       <p>Readers depend only on the contract: <a href="${esc(contractUrl)}" target="_blank" rel="noopener">${esc(c.contract_label || "knowledge-export-core-v1 (EXPORT_CONTRACT.md)")}</a>.</p>
     </div>
-    <div class="card"><h2>Ready to work from</h2><ul>${sessionRows}</ul></div>`;
+    <div class="card"><h2>Publish packs (compiled from reviewed sessions)</h2><ul>${packRows}</ul></div>
+    <div class="card"><h2>Reviewed sessions (ready for the compiler)</h2><ul>${reviewedRows}</ul></div>`;
+}
+
+function viewPack(sessionId) {
+  const base = (state.config.publish_url || "publish/") + encodeURIComponent(sessionId) + "/";
+  const el2 = $("#main");
+  el2.innerHTML = `<div class="row-between"><h1>Publish pack</h1><a class="btn ghost" href="#/publish">Back</a></div>
+    <div class="card"><h2>Loading pack record…</h2></div>`;
+  fetch(base + "publish-pack.json").then((r) => r.json()).then((p) => {
+    if (!el2) return;
+    const renders = ["comparison.md", "article.md", "linkedin.md", "x-thread.md", "faq.md", "documentation.md"];
+    const tabs = renders.map((r) => `<a class="chip" data-pack-render="${esc(r)}">${esc(r.replace(".md", "").replace("_", " "))}</a>`).join("");
+    const claims = (p.claims || []).map((cl) => `
+      <div class="finding-card signal">
+        <div class="finding-head"><span class="badge signal">${esc(cl.status)}</span> <span class="muted">${esc(cl.id)} · review: ${esc(cl.review_decision)}</span></div>
+        <div class="finding-claim">${esc(cl.claim)}</div>
+        <div class="muted">Sources: ${(cl.sources || []).map((u) => `<a href="${esc(u)}" target="_blank" rel="noopener">${esc(u.replace("https://news.ycombinator.com/item?id=", "HN ").replace("https://", "").slice(0, 48))}</a>`).join(" · ")}</div>
+      </div>`).join("");
+    el2.innerHTML = `
+      <div class="row-between"><h1>Publish pack</h1><a class="btn ghost" href="#/publish">Back</a></div>
+      <div class="card session-head">
+        <h2>${esc(p.topic)}</h2>
+        <p class="muted">Compiled ${esc((p.compiled_at || "").replace("T", " ").slice(0, 16))} · ${p.accepted} accepted findings (${p.rejected} rejected excluded) · status ${esc(p.status)}</p>
+        <p class="muted">Source: <a href="#/research/session/${encodeURIComponent(sessionId)}">session ${esc(sessionId)}</a> · review by ${esc(p.adjudicator)} ${esc((p.adjudicated_at || "").slice(0, 10))}</p>
+        <p class="muted">Compiled only from accepted findings — rejected findings are not part of this pack.</p>
+      </div>
+      <div class="card"><h2>Renders</h2><div class="chips">${tabs}</div><pre id="pack-render" class="pack-render"></pre></div>
+      <div class="card"><h2>Accepted claims (${claims ? (p.claims || []).length : 0})</h2>${claims}</div>`;
+    const pre = document.getElementById("pack-render");
+    const show = (name) => fetch(base + "renders/" + name).then((r) => r.text()).then((t) => { if (pre) pre.textContent = t; }).catch(() => {});
+    document.querySelectorAll("[data-pack-render]").forEach((b) =>
+      b.addEventListener("click", () => show(b.dataset.packRender)));
+    show("article.md");
+  }).catch(() => { el2.innerHTML = `<p class="muted">Pack not found.</p>`; });
 }
 
 /* ---------- Corpus quality ---------- */
