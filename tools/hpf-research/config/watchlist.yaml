@@ -6,41 +6,89 @@
 # Engine is activated by measured evidence (chronicle entry 27), this list
 # becomes its seed rather than starting from scratch.
 #
-# The research orchestrator loads this file at plan time and reports which
-# watched entries the topic touches; nothing here triggers research.
+# Matching uses explicit identifiers and aliases — never substring matching.
+# An entry matches a topic when the topic contains an alias as a
+# word-bounded token or a session keyword equals an alias. This prevents
+# false positives like "chrome" matching "chromedriver".
 #
-# Sections are display categories; entries are matched loosely against
-# session keywords (case-insensitive substring on either side).
+# Future seed metadata (priority, sources, rss, reddit) is deliberately NOT
+# here yet: it belongs to the parked engine, not to this configuration.
 
 topics:
   browser-automation:
-    - microsoft/fara
-    - ultrafunkamsterdam/nodriver
-    - microsoft/playwright
-    - playwright
-    - browserbase
-    - browser-use
-    - stagehand
-    - chrome-devtools
-    - chromium
-    - selenium
-    - puppeteer
-    - undetected-chromedriver
-    - nodriver
+    - id: microsoft/fara
+      aliases: [fara, fara1.5, fara ai]
+      type: computer-use agent
+    - id: ultrafunkamsterdam/nodriver
+      aliases: [nodriver]
+      type: driver
+    - id: microsoft/playwright
+      aliases: [playwright, playwright-python]
+      type: framework
+    - id: browserbase
+      aliases: [browser base]
+      type: platform
+    - id: browser-use
+      aliases: [browser use, browseruse]
+      type: framework
+    - id: stagehand
+      aliases: [stagehand ai]
+      type: framework
+    - id: chrome-devtools-protocol
+      aliases: [cdp, chrome devtools, chrome-devtools]
+      type: protocol
+    - id: chromium
+      aliases: [chromium browser]
+      type: engine
+    - id: selenium
+      aliases: [selenium webdriver]
+      type: framework
+    - id: puppeteer
+      aliases: [puppeteer js]
+      type: framework
+    - id: undetected-chromedriver
+      aliases: [uc, undetected chromedriver]
+      type: driver
+    - id: playwright-mcp
+      aliases: [playwright mcp]
+      type: tool
 
   ai-agents:
-    - openai
-    - anthropic
-    - model-context-protocol
-    - microsoft-foundry
-    - magentic
-    - computer-use
-    - fara
+    - id: openai
+      aliases: [openai agents, chatgpt]
+      type: vendor
+    - id: anthropic
+      aliases: [claude, anthropic claude]
+      type: vendor
+    - id: model-context-protocol
+      aliases: [mcp, model context protocol]
+      type: protocol
+    - id: microsoft-foundry
+      aliases: [foundry, azure foundry]
+      type: platform
+    - id: magentic
+      aliases: [magentic ui, magentic-lite]
+      type: framework
+    - id: computer-use
+      aliases: [cua, computer use agent, computer use]
+      type: domain
 
   web-platform:
-    - chrome
-    - firefox
-    - webkit
-    - cloudflare
-    - w3c
-    - cdp
+    - id: chrome
+      aliases: [google chrome]
+      type: engine
+    - id: firefox
+      aliases: [mozilla firefox]
+      type: engine
+    - id: webkit
+      aliases: [safari webkit]
+      type: engine
+    - id: cloudflare
+      aliases: [cloudflare anti-bot]
+      type: vendor
+    - id: w3c
+      aliases: [w3c standard, web platform]
+      type: standards
+    - id: bots-api
+      aliases: [bot management, anti-bot, antibot]
+      type: domain

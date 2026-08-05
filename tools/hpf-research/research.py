@@ -44,13 +44,13 @@ except ImportError:
         return []
 
 try:
-    from watchlist import load_watchlist, watchlist_matches
+    from watchlist import load, match_topic
 except ImportError:
-    def load_watchlist(path=None):
+    def load(path=None):
         return {}
 
-    def watchlist_matches(keywords, watchlist):
-        return []
+    def match_topic(topic, keywords, watchlist=None):
+        return {"matched": [], "coverage": 0.0}
 
 STAGES = [
     ("plan", "research question, keywords, depth"),
@@ -229,7 +229,7 @@ def promote_session(sid: str, src_root: Path, exports_root: Path) -> int:
     return 0
 
 
-def make_session(topic, goal, audience, depth, sources, evidence, findings, activity, started, finished, plan, dirpath):
+def make_session(topic, goal, audience, depth, sources, evidence, findings, activity, started, finished, plan, dirpath, watch=None):
     now = datetime.datetime.now(datetime.timezone.utc)
     sid = now.strftime("%Y-%m-%d-%H%M") + "-" + re.sub(r"[^a-z0-9-]+", "-", topic.lower()).strip("-")[:30]
     session = {
@@ -244,6 +244,7 @@ def make_session(topic, goal, audience, depth, sources, evidence, findings, acti
         "finished": finished,
         "activity": activity,
         "plan": plan,
+        "watchlist": watch or {"matched": [], "coverage": 0.0},
         "status": "draft",
         "stages": [{"name": n, "detail": d, "state": "done"} for n, d in STAGES],
         "sources": sources,
@@ -312,13 +313,15 @@ def main():
         plan_lines.append(f"{cls}={weight} ({reason})")
         log(f"Evidence class {cls}: {weight} — {reason}")
     watchlist = {}
+    wl_ok = True
     try:
-        watchlist = load_watchlist()
+        watchlist = load()
     except (OSError, ValueError) as e:
+        wl_ok = False
         log(f"Watchlist unavailable: {e}")
-    matches = watchlist_matches(kw, watchlist)
-    if matches:
-        log(f"Watchlist touches: {', '.join(matches)}")
+    watch = match_topic(args.topic, kw, watchlist) if wl_ok else {"matched": [], "coverage": 0.0}
+    if watch["matched"]:
+        log(f"Watchlist touches: {', '.join(watch['matched'])} (coverage {watch['coverage']})")
     else:
         log("Watchlist: no watched entries touched by this topic")
     log(f"Research plan built: {len(kw)} keywords, depth {args.depth}")
@@ -326,7 +329,6 @@ def main():
         "keywords": kw,
         "depth": args.depth,
         "evidence_classes": {cls: evidence_plan.get(cls, ("low", ""))[0] for cls in EVIDENCE_CLASSES},
-        "watchlist_matches": matches,
     }
 
     stage("collect", f"{len(args.url)} urls, {len(args.import_md)} imports, {len(args.community_payload)} community payloads")
@@ -422,7 +424,8 @@ def main():
     log("Session artifact written")
 
     sid, session = make_session(args.topic, args.goal, args.audience, args.depth,
-                                sources, evidence, findings, activity, started, finished, session_plan, args.dir)
+                                sources, evidence, findings, activity, started, finished, session_plan, args.dir,
+                                watch=watch)
     print(f"\nSession {sid} written: {len(sources)} sources, {len(evidence)} evidence, {len(findings)} draft findings")
     print(f"  {Path(args.dir) / sid}")
 

@@ -417,3 +417,26 @@ Implemented:
 
 No discovery, no cron, no scoring. The parked Research Opportunity Engine
 will seed from this list if the measurements ever earn it.
+
+## Watchlist refinement (2026-08-05) — identifier-based matching, session persistence
+
+Engineering review (8.5-9/10) findings addressed:
+
+1. Substring matching fixed: entries now use id/aliases/type metadata
+   (24 entries, 3 sections). match_topic() is boundary-aware + keyword
+   equality only. Verified: 'chrome' no longer matches 'chromedriver';
+   'cdp' -> chrome-devtools-protocol via alias; 'undetected chromedriver'
+   matches via aliases.
+2. Shared API: watchlist.load()/entries()/match_topic() — every consumer
+   imports the same service (research.py today; compiler/website/engine
+   later).
+3. Session persistence: session.json carries top-level
+   'watchlist': {matched: [...], coverage: <keyword overlap fraction>}.
+   Queryable later without rebuilding. coverage is keyword overlap, NOT
+   relevance/confidence — honest by construction.
+4. DEFERRED: priority/sources/rss/reddit seed metadata — belongs to the
+   parked Research Opportunity Engine, not this config.
+
+Tests: test10 (matching algorithm) new + green; test9/4/8 green; syntax
+clean. Note: 'coverage' was named deliberately instead of 'confidence' —
+it measures keyword overlap, not certainty.
