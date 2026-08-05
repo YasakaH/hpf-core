@@ -352,3 +352,25 @@ Roadmap B objective: reduce median manual editing time by improving
 compilation WITHOUT changing accepted findings. Compiler effort next:
 section ordering, transitions, comparison tables, narrative flow, evidence
 citations, uncertainty handling.
+
+### Why-editing breakdown (added 2026-08-05, reviewer suggestion)
+
+Editing time alone is an opaque number — two articles can both take 20
+minutes for different reasons. Record WHY, per pack, alongside the totals.
+
+Session 002 article edit categories (to fill during first edit pass):
+
+| Edit Category        | Minutes |
+| -------------------- | ------: |
+| Structure/order      |       ? |
+| Technical accuracy   |       ? |
+| Evidence/citations   |       ? |
+| Narrative flow       |       ? |
+| Grammar/style        |       ? |
+| TOTAL                |       ? |
+
+Interpretation rule: if ~70% of time is narrative flow, improve the
+compiler; if mostly evidence/citations, the problem is upstream in
+research or adjudication.
+
+No further metrics until 20-30 sessions of data accumulate.
