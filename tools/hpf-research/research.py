@@ -62,6 +62,8 @@ STAGES = [
 STOPWORDS = {
     "the", "a", "an", "and", "or", "of", "to", "in", "on", "for", "with",
     "vs", "versus", "about", "what", "is", "are", "compare", "research",
+    "it", "its", "how", "why", "which", "this", "that", "these", "those",
+    "they", "them", "their", "we", "you", "your", "will", "can", "when",
 }
 
 
@@ -147,8 +149,8 @@ def keywords(topic: str, depth: str) -> list:
 
 
 def density(paragraph: str, kw: list) -> float:
-    text = paragraph.lower()
-    return sum(text.count(k) for k in kw) / max(1, len(paragraph))
+    text = re.sub(r"https?://\S+|`[^`]*`|\[[^\]]*\]\([^)]*\)", "", paragraph.lower())
+    return sum(text.count(k) for k in kw) / max(1, len(text))
 
 
 def summary_of(s, sdir: Path = None) -> dict:

@@ -1,0 +1,195 @@
+# Research session: Why nodriver sessions die overnight and how production systems prevent it
+
+Goal: Document why persisted browser automation sessions fail between runs (cookie expiry, token invalidation, profile corruption, OS restart, lock contention) and which recovery/health-check/re-authentication patterns production systems use. Research for article 3: Why Your nodriver Session Dies Overnight (and How Production Systems Prevent It).
+Audience: Blog · Depth: deep
+Status: draft · id: 2026-08-05-1527-why-nodriver-sessions-die-over
+
+## Sources
+- [00-readme](https://raw.githubusercontent.com/ultrafunkamsterdam/nodriver/master/README.md) — imported (11640 chars)
+- [01-github-issues](https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues) — imported (19032 chars)
+- [02-stackoverflow](https://api.stackexchange.com/2.3/search/advanced) — imported (1622 chars)
+- [03-claims-ts-202](file:publish-pack 2026-08-05-0512-web-automation-pain-points-202) — imported (2067 chars)
+- [03-claims-er-arc](file:publish-pack 2026-08-05-0601-microsoft-fara-vs-nodriver-arc) — imported (2719 chars)
+
+## Findings (drafts)
+- **browser = await nodriver.start() page = await browser.get('https://www.nowsecure.nl')**
+  - sources: https://raw.githubusercontent.com/ultrafunkamsterdam/nodriver/master/README.md
+  - status: needs_adjudication · method: keyword-density-v0
+- **### ```start(expert=True)``` does some hacking for more experienced users. It disables web security and origin-trials, as well as ensures shadow-roots are always open. This makes y…**
+  - sources: https://raw.githubusercontent.com/ultrafunkamsterdam/nodriver/master/README.md
+  - status: needs_adjudication · method: keyword-density-v0
+- **Direct communication provides even better resistance against web applicatinon firewalls (WAF’s), while performance gets a massive boost. This module is, contrary to undetected-chro…**
+  - sources: https://raw.githubusercontent.com/ultrafunkamsterdam/nodriver/master/README.md
+  - status: needs_adjudication · method: keyword-density-v0
+- **browser = await nodriver.start() page = await browser.get('https://www.nowsecure.nl')**
+  - sources: https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues
+  - status: needs_adjudication · method: keyword-density-v0
+- **Hi, running nodriver on a linux workstation I've got this error: ``` File "/home/ciccio/test/.venv/lib/python3.14/site-packages/nodriver/cdp/network.py", line 1365 #: JSON (�Inf). …**
+  - sources: https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues
+  - status: needs_adjudication · method: keyword-density-v0
+- **Is nodriver able to skip the Recaptcha check mark using this .verify_cf()**
+  - sources: https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues
+  - status: needs_adjudication · method: keyword-density-v0
+- **## QUESTION 79622553 (0 votes, 148 views, 2 answers) Title: nodriver crashes with infinite recursion in headless mode when running browser.get()**
+  - sources: https://api.stackexchange.com/2.3/search/advanced
+  - status: needs_adjudication · method: keyword-density-v0
+- **## QUESTION 79457003 (0 votes, 81 views, 0 answers) Title: Asyncio async funcitons hangs with asyncio.gather. (the code works without asyncio.gather)**
+  - sources: https://api.stackexchange.com/2.3/search/advanced
+  - status: needs_adjudication · method: keyword-density-v0
+- **- ADJUDICATED CLAIM: Multiple independent practitioners report that scraping modern websites requires either paid APIs (Firecrawl/Browserbase) or headless Chrome fleets that consum…**
+  - sources: file:publish-pack 2026-08-05-0512-web-automation-pain-points-202
+  - status: needs_adjudication · method: keyword-density-v0
+- **- ADJUDICATED CLAIM: All three models are available on Microsoft Foundry: Fara1.5-4B, Fara1.5-9B, and Fara1.5-27B. - ADJUDICATED CLAIM: Microsoft Fara1.5 is a computer use agent (C…**
+  - sources: file:publish-pack 2026-08-05-0601-microsoft-fara-vs-nodriver-arc
+  - status: needs_adjudication · method: keyword-density-v0
+
+## Evidence
+- [ev-1] * **This is the official successor of the** [Undetected-Chromedriver](https://github.com/ultrafunkamsterdam/undetected-chromedriver/) **python package.** * **No more webdriver, no more selenium** (https://raw.githubusercontent.com/ultrafunkamsterdam/nodriver/master/README.md)
+- [ev-2] ### for docs click [here](https://ultrafunkamsterdam.github.io/nodriver) (https://raw.githubusercontent.com/ultrafunkamsterdam/nodriver/master/README.md)
+- [ev-3] Direct communication provides even better resistance against web applicatinon firewalls (WAF’s), while performance gets a massive boost. This module is, contrary to undetected-chromedriver, fully asynchronous. (https://raw.githubusercontent.com/ultrafunkamsterdam/nodriver/master/README.md)
+- [ev-4] What makes this package different from other known packages, is the optimization to stay undetected for most anti-bot solutions. (https://raw.githubusercontent.com/ultrafunkamsterdam/nodriver/master/README.md)
+- [ev-5] Another focus point is usability and quick prototyping, so expect a lot to work `-as is-` , with most method parameters having `best practice` defaults. Using 1 or 2 lines, this is up and running, providing best practice config by default. … (https://raw.githubusercontent.com/ultrafunkamsterdam/nodriver/master/README.md)
+- [ev-6] While usability and convenience is important. It’s also easy to fully customizable everything using the entire array of [CDP](https://chromedevtools.github.io/devtools-protocol/) domains, methods and events available. (https://raw.githubusercontent.com/ultrafunkamsterdam/nodriver/master/README.md)
+- [ev-7] ### Some features * No chromedriver binary or Selenium dependency * Up and running in 1 line of code\* * uses fresh profile on each run, cleans up on exit * save and load cookies to file to not repeat tedious login steps * ```tab.find("some… (https://raw.githubusercontent.com/ultrafunkamsterdam/nodriver/master/README.md)
+- [ev-8] ```tab.select_all("a[href] > div > img")``` (https://raw.githubusercontent.com/ultrafunkamsterdam/nodriver/master/README.md)
+- [ev-9] smart and performant element lookup, by selector or text, including iframe content. this could also be used as wait condition for a element to appear, since it will retry for the duration of <timeout> until found. so an ```await tab.select(… (https://raw.githubusercontent.com/ultrafunkamsterdam/nodriver/master/README.md)
+- [ev-10] * can connect to a running chrome debug session * descriptive \_\_repr_\_ for elements, which represent the element as html * utility function to convert a running undetected_chromedriver.Chrome instance to a nodriver.Browser instance and c… (https://raw.githubusercontent.com/ultrafunkamsterdam/nodriver/master/README.md)
+- [ev-11] ### 0.50.1 switch to flat mode connection. (https://raw.githubusercontent.com/ultrafunkamsterdam/nodriver/master/README.md)
+- [ev-12] Parts are rewritten to use flat connections in the protocol. Why? - iframes are included in most operations. - tab got a new method: `await tab.get_frames()` which will return Iframes that are inspectable. - find() will include iframes, so … (https://raw.githubusercontent.com/ultrafunkamsterdam/nodriver/master/README.md)
+- [ev-13] Since this required quite some rewriting, please test thoroughly, especially if you run large projects. (https://raw.githubusercontent.com/ultrafunkamsterdam/nodriver/master/README.md)
+- [ev-14] <video autoplay loop muted playsinline src="https://github.com/user-attachments/assets/b30872f0-62fe-45b2-a67a-adc1e0c7c048"></video> (https://raw.githubusercontent.com/ultrafunkamsterdam/nodriver/master/README.md)
+- [ev-15] ### ```tab.xpath(selector, timeout=2.5)``` find nodes using xpath selector! see [tab xpath in the api docs](https://ultrafunkamsterdam.github.io/nodriver/nodriver/classes/tab.html#nodriver.Tab.xpath) (https://raw.githubusercontent.com/ultrafunkamsterdam/nodriver/master/README.md)
+- [ev-16] ### ```tab.cf_verify()``` finds the checkbox and click it successfully this only works when NOT in expert mode. currently built-in english only requires opencv-python package to be installed (https://raw.githubusercontent.com/ultrafunkamsterdam/nodriver/master/README.md)
+- [ev-17] <video autoplay loop muted playsInline src="https://github.com/user-attachments/assets/288c5e01-39c5-4453-9e64-2b40c3a8548d"></video> (https://raw.githubusercontent.com/ultrafunkamsterdam/nodriver/master/README.md)
+- [ev-18] ### ```tab.bypass_insecure_connection_warning()``` convenience method, for insecure page warning. for example when a certificate is invalid. (https://raw.githubusercontent.com/ultrafunkamsterdam/nodriver/master/README.md)
+- [ev-19] ### ```tab.open_external_debugger()``` lets you inspect the tab without breaking your connection (https://raw.githubusercontent.com/ultrafunkamsterdam/nodriver/master/README.md)
+- [ev-20] ### ```tab.get_local_storage()``` get localstorage content (https://raw.githubusercontent.com/ultrafunkamsterdam/nodriver/master/README.md)
+- [ev-21] ### ```tab.set_local_storage(dict)``` set localstorage content (https://raw.githubusercontent.com/ultrafunkamsterdam/nodriver/master/README.md)
+- [ev-22] ### ```tab.add_handler(someEvent, callback)``` callback may accept a single argument (event), or 2 arguments (event, tab). (https://raw.githubusercontent.com/ultrafunkamsterdam/nodriver/master/README.md)
+- [ev-23] ### ```start(expert=True)``` does some hacking for more experienced users. It disables web security and origin-trials, as well as ensures shadow-roots are always open. This makes you more detectable though! (https://raw.githubusercontent.com/ultrafunkamsterdam/nodriver/master/README.md)
+- [ev-24] **you need chrome (or some chromium based browser) installed preferably in the default location on the machine where you use this package.** (https://raw.githubusercontent.com/ultrafunkamsterdam/nodriver/master/README.md)
+- [ev-25] when running on a headless machine, like AWS or any other environment where no display is present, it's best to use some **Xvfb** tool, to emulate a **screen**. alternatively this package can be used in headless mode. (https://raw.githubusercontent.com/ultrafunkamsterdam/nodriver/master/README.md)
+- [ev-26] The aim of this project (just like undetected-chromedriver, somewhere long ago) is to keep it short and simple, so you can quickly open an editor or interactive session, type or paste a few lines and off you go. (https://raw.githubusercontent.com/ultrafunkamsterdam/nodriver/master/README.md)
+- [ev-27] browser = await uc.start() page = await browser.get('https://www.nowsecure.nl') (https://raw.githubusercontent.com/ultrafunkamsterdam/nodriver/master/README.md)
+- [ev-28] if __name__ == '__main__': # since asyncio.run never worked (for me) uc.loop().run_until_complete(main()) ``` (https://raw.githubusercontent.com/ultrafunkamsterdam/nodriver/master/README.md)
+- [ev-29] browser = await start( headless=False, user_data_dir="/path/to/existing/profile", # by specifying it, it won't be automatically cleaned up when finished browser_executable_path="/path/to/some/other/browser", browser_args=['--some-browser-ar… (https://raw.githubusercontent.com/ultrafunkamsterdam/nodriver/master/README.md)
+- [ev-30] config = Config() config.headless = False config.user_data_dir="/path/to/existing/profile", # by specifying it, it won't be automatically cleaned up when finished config.browser_executable_path="/path/to/some/other/browser", config.browser_… (https://raw.githubusercontent.com/ultrafunkamsterdam/nodriver/master/README.md)
+- [ev-31] browser = await nodriver.start() page = await browser.get('https://www.nowsecure.nl') (https://raw.githubusercontent.com/ultrafunkamsterdam/nodriver/master/README.md)
+- [ev-32] await page.save_screenshot() await page.get_content() await page.scroll_down(150) elems = await page.select_all('*[src]') (https://raw.githubusercontent.com/ultrafunkamsterdam/nodriver/master/README.md)
+- [ev-33] page2 = await browser.get('https://twitter.com', new_tab=True) page3 = await browser.get('https://github.com/ultrafunkamsterdam/nodriver', new_window=True) (https://raw.githubusercontent.com/ultrafunkamsterdam/nodriver/master/README.md)
+- [ev-34] for p in (page, page2, page3): await p.bring_to_front() await p.scroll_down(200) await p # wait for events to be processed await p.reload() if p != page3: await p.close() (https://raw.githubusercontent.com/ultrafunkamsterdam/nodriver/master/README.md)
+- [ev-35] # since asyncio.run never worked (for me) uc.loop().run_until_complete(main()) ``` (https://raw.githubusercontent.com/ultrafunkamsterdam/nodriver/master/README.md)
+- [ev-36] A more concrete example, which can be found in the ./example/ folder, shows a script to create a twitter account (https://raw.githubusercontent.com/ultrafunkamsterdam/nodriver/master/README.md)
+- [ev-37] async def main(): driver = await uc.start() (https://raw.githubusercontent.com/ultrafunkamsterdam/nodriver/master/README.md)
+- [ev-38] tab = await driver.get("https://twitter.com") (https://raw.githubusercontent.com/ultrafunkamsterdam/nodriver/master/README.md)
+- [ev-39] # wait for text to appear instead of a static number of seconds to wait # this does not always work as expected, due to speed. print('finding the "create account" button') create_account = await tab.find("create account", best_match=True) (https://raw.githubusercontent.com/ultrafunkamsterdam/nodriver/master/README.md)
+- [ev-40] print('"create account" => click') await create_account.click() (https://raw.githubusercontent.com/ultrafunkamsterdam/nodriver/master/README.md)
+- [ev-41] print("finding the email input field") email = await tab.select("input[type=email]") (https://raw.githubusercontent.com/ultrafunkamsterdam/nodriver/master/README.md)
+- [ev-42] # sometimes, email field is not shown, because phone is being asked instead # when this occurs, find the small text which says "use email instead" if not email: use_mail_instead = await tab.find("use email instead") # and click it await use… (https://raw.githubusercontent.com/ultrafunkamsterdam/nodriver/master/README.md)
+- [ev-43] # now find the email field again email = await tab.select("input[type=email]") (https://raw.githubusercontent.com/ultrafunkamsterdam/nodriver/master/README.md)
+- [ev-44] randstr = lambda k: "".join(random.choices(string.ascii_letters, k=k)) (https://raw.githubusercontent.com/ultrafunkamsterdam/nodriver/master/README.md)
+- [ev-45] # send keys to email field print('filling in the "email" input field') await email.send_keys("".join([randstr(8), "@", randstr(8), ".com"])) (https://raw.githubusercontent.com/ultrafunkamsterdam/nodriver/master/README.md)
+- [ev-46] # find the name input field print("finding the name input field") name = await tab.select("input[type=text]") (https://raw.githubusercontent.com/ultrafunkamsterdam/nodriver/master/README.md)
+- [ev-47] # again, send random text print('filling in the "name" input field') await name.send_keys(randstr(8)) (https://raw.githubusercontent.com/ultrafunkamsterdam/nodriver/master/README.md)
+- [ev-48] # since there are 3 select fields on the tab, we can use unpacking # to assign each field print('finding the "month" , "day" and "year" fields in 1 go') sel_month, sel_day, sel_year = await tab.select_all("select") (https://raw.githubusercontent.com/ultrafunkamsterdam/nodriver/master/README.md)
+- [ev-49] # await sel_month.focus() print('filling in the "month" input field') await sel_month.send_keys(months[random.randint(0, 11)].title()) (https://raw.githubusercontent.com/ultrafunkamsterdam/nodriver/master/README.md)
+- [ev-50] # await sel_day.focus() # i don't want to bother with month-lengths and leap years print('filling in the "day" input field') await sel_day.send_keys(str(random.randint(0, 28))) (https://raw.githubusercontent.com/ultrafunkamsterdam/nodriver/master/README.md)
+- [ev-51] # await sel_year.focus() # i don't want to bother with age restrictions print('filling in the "year" input field') await sel_year.send_keys(str(random.randint(1980, 2005))) (https://raw.githubusercontent.com/ultrafunkamsterdam/nodriver/master/README.md)
+- [ev-52] # let's handle the cookie nag as well cookie_bar_accept = await tab.find("accept all", best_match=True) if cookie_bar_accept: await cookie_bar_accept.click() (https://raw.githubusercontent.com/ultrafunkamsterdam/nodriver/master/README.md)
+- [ev-53] next_btn = await tab.find(text="next", best_match=True) # for btn in reversed(next_btns): await next_btn.mouse_click() (https://raw.githubusercontent.com/ultrafunkamsterdam/nodriver/master/README.md)
+- [ev-54] print("sleeping 2 seconds") await tab.sleep(2) # visually see what part we're actually in (https://raw.githubusercontent.com/ultrafunkamsterdam/nodriver/master/README.md)
+- [ev-55] print('finding "next" button') next_btn = await tab.find(text="next", best_match=True) print('clicking "next" button') await next_btn.mouse_click() (https://raw.githubusercontent.com/ultrafunkamsterdam/nodriver/master/README.md)
+- [ev-56] # just wait for some button, before we continue await tab.select("[role=button]") (https://raw.githubusercontent.com/ultrafunkamsterdam/nodriver/master/README.md)
+- [ev-57] print('finding "sign up" button') sign_up_btn = await tab.find("Sign up", best_match=True) # we need the second one print('clicking "sign up" button') await sign_up_btn.click() (https://raw.githubusercontent.com/ultrafunkamsterdam/nodriver/master/README.md)
+- [ev-58] print('the rest of the "implementation" is out of scope') # further implementation outside of scope await tab.sleep(10) driver.stop() (https://raw.githubusercontent.com/ultrafunkamsterdam/nodriver/master/README.md)
+- [ev-59] if __name__ == "__main__": # since asyncio.run never worked (for me) # i use uc.loop().run_until_complete(main()) (https://raw.githubusercontent.com/ultrafunkamsterdam/nodriver/master/README.md)
+- [ev-60] ### more examples in the ./example/ folder (https://raw.githubusercontent.com/ultrafunkamsterdam/nodriver/master/README.md)
+- [ev-61] Parts are rewritten to use flat connections in the protocol. (https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues)
+- [ev-62] - iframes are included in most operations. (https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues)
+- [ev-63] - tab got a new method: `await tab.get_frames()` (https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues)
+- [ev-64] which will return Iframes that are inspectable. (https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues)
+- [ev-65] click the verification checkbox in js challenges. (https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues)
+- [ev-66] Since this required quite some rewriting, please test thoroughly, especially if you run large projects. (https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues)
+- [ev-67] https://github.com/user-attachments/assets/4e0d6f91-b940-46fa-a0cb-a8794ef4bc90 (https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues)
+- [ev-68] this is the simple solution for issue #35. (https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues)
+- [ev-69] ## ISSUE #35 [open] No valid UTF-8 encoding for file network.py labels: (https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues)
+- [ev-70] Hi, running nodriver on a linux workstation I've got this error: ``` File "/home/ciccio/test/.venv/lib/python3.14/site-packages/nodriver/cdp/network.py", line 1365 #: JSON (�Inf). ^ SyntaxError: Non-UTF-8 code starting with '\xb1' on line 1… (https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues)
+- [ev-71] Converting network.py to UTF-8 solves the issue. I will make a pull request. (https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues)
+- [ev-72] ## ISSUE #34 [open] fix: resolve deadlock and KeyError 'sameParty' in network.Cookie labels: (https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues)
+- [ev-73] Calling browser.cookies.get_all() or any method involving cdp.storage.get_cookies() causes the program to hang indefinitely (deadlock) when using recent versions of Chrome. (https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues)
+- [ev-74] logging.basicConfig(level=logging.DEBUG) (https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues)
+- [ev-75] page = await browser.get("https://www.google.com") (https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues)
+- [ev-76] cookies = await asyncio.wait_for(browser.cookies.get_all(), timeout=5.0) (https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues)
+- [ev-77] print(f"SUCCESS: Retrieved {len(cookies)} cookies.") (https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues)
+- [ev-78] print("KeyError (sameParty) occurred in the background CDP task.") (https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues)
+- [ev-79] Update `network.Cookie.from_json` to use .get() with default values for deprecated or optional fields like sameParty, sourceScheme, and partitionKey. This makes the parser more resilient to future CDP changes. (https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues)
+- [ev-80] 1- With the Chrome 146 update, nodriver can no longer retrieve cookies, specifically the cf_clearance cookie. This is really bad for Cloudflare bypass. I open the browser, bypass Cloudflare, and it initially retrieves cookies, but sometimes… (https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues)
+- [ev-81] If I refresh the page without closing the browser, it doesn't retrieve any cookies. (https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues)
+- [ev-82] 2- When I open the browser from the profile path to save Chrome history, the history is saved, but when I open the browser from the same profile, it behaves as if I'm opening it for the first time. (https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues)
+- [ev-83] 3- The same cookie issue exists in Seleniumbase as well. A dependency was released and the issue was resolved. Maybe this helps: (https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues)
+- [ev-84] https://github.com/mdmintz/MyCDP/releases/tag/v1.3.4 (https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues)
+- [ev-85] I'm using Nosync Chromium. I have the following problem: Websites freeze and don't work properly. This manifests itself in that the script runs, but there is no result—it's as if the browser is frozen while you're looking at it. However, if… (https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues)
+- [ev-86] I don't know if this problem exists in other browsers. (https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues)
+- [ev-87] ## ISSUE #30 [open] browser.grant_all_permissions() not working labels: (https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues)
+- [ev-88] browser = await nodriver.start() page = await browser.get('https://www.nowsecure.nl') (https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues)
+- [ev-89] await page.save_screenshot() await page.get_content() await page.scroll_down(150) elems = await page.select_all('*[src]') (https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues)
+- [ev-90] page2 = await browser.get('https://twitter.com', new_tab=True) page3 = await browser.get('https://github.com/ultrafunkamsterdam/nodriver', new_window=True) (https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues)
+- [ev-91] for p in (page, page2, page3): await p.bring_to_front() await p.scroll_down(200) await p # wait for events to be processed await p.reload() if p != page3: await p.close() (https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues)
+- [ev-92] # since asyncio.run never worked (for me) nodriver.loop().run_until_complete(main()) ``` (https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues)
+- [ev-93] (nodri) C:\Users\user\Desktop\current\projects\nodriver>python kenz.py Traceback (most recent call last): File "C:\Users\user\Desktop\current\projects\nodriver\kenz.py", line 32, in <module> nodriver.loop().run_until_complete(main()) File "… (https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues)
+- [ev-94] async def main(): browser = await uc.start( headless=False, browser_args=[ "--disable-gpu", "--lang=en-US", ] ) socks_proxy = 'socks5://username:password@host:port' # proxyempire proxy tab = await browser.create_context(url='https://ipinfo.… (https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues)
+- [ev-95] uc.loop().run_until_complete(main()) ``` (https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues)
+- [ev-96] <img width="849" height="791" alt="Image" src="https://github.com/user-attachments/assets/b20d405f-1de6-40b4-a71b-d46d4463978d" /> (https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues)
+- [ev-97] I tried using create_context() but cookies don't save or load when I use it. I want to have multiple tabs open with different cookies loaded and I can't find a way to make it work. Only get() works for me when I'm trying to do anything with… (https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues)
+- [ev-98] I have been trying to solve recaptcha in a tab but havent been able to the muse clicks oustide the recaptch part. (https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues)
+- [ev-99] ``` for attempt in range(4): try: await tab.verify_cf(flash=True) print("Cloudflare challenge solved!") time.sleep(3) break except Exception as e: print(f"Cloudflare handling (attempt {attempt+1}/4): {e}") time.sleep(3) if attempt == 3: pas… (https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues)
+- [ev-100] ``` scroll_amount = [25,50,75,100,125,150] reached_bottom = False count = 0 while not reached_bottom: await page.scroll_down(amount=random.choice(scroll_amount)) await asyncio.sleep(4) (https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues)
+- [ev-101] reached_bottom = await page.scroll_bottom_reached() if reached_bottom: print("1") items = await page.select(".CatalogPage-items") break else: count += 1 (https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues)
+- [ev-102] _File "C:\Users\user\PycharmProjects\project\\.venv\Lib\site-packages\nodriver\core\tab.py", line 1806, in scroll_bottom_reached return res[0].value TypeError: 'bool' object is not subscriptable_ (https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues)
+- [ev-103] **Needed a fast solution so i went to nodriver\core\tab.py and changed the _return res[0].value_ to _return res if isinstance(res, bool) else res[0].value_** (https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues)
+- [ev-104] ` async def mouse_drag( self, destination: typing.Union[Element, typing.Tuple[int, int]], relative: bool = False, steps: int = 1, ): """ drag an element to another element or target coordinates. dragging of elements should be supported by t… (https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues)
+- [ev-105] :param relative: when True, treats coordinate as relative. for example (-100, 200) will move left 100px and down 200px :type relative: (https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues)
+- [ev-106] :param steps: move in <steps> points, this could make it look more "natural" (default 1), but also a lot slower. for very smooth action use 50-100 :type steps: int :return: :rtype: """ try: start_point = (await self.get_position()).center e… (https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues)
+- [ev-107] ## Problem When the CDP command does not have params supplied, it will be serialized as a `list`. By the protocol, the `dict` is expected. (https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues)
+- [ev-108] If, after the CDP protocol update, a method gets new params, it will expect only the `dict`. On the `list`, it will throw a deserialization error. (https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues)
+- [ev-109] ## Cause Absence of the `params` in the CDP object will result in an empty list: ``` self.method, *params = next(self.__cdp_obj__).values() if params: params = params.pop() self.params = params ``` https://github.com/ultrafunkamsterdam/nodr… (https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues)
+- [ev-110] ## Example Specifically for me, the problem arose trying to interact with the `Page` domain. (https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues)
+- [ev-111] If we take `nodriver==0.41` that has not freshly updated CDP bindings will see https://github.com/ultrafunkamsterdam/nodriver/blob/961ed0dbf278042e6345dbb7ca7b413d257a7e06/nodriver/cdp/page.py#L2421-L2428 (https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues)
+- [ev-112] and here we can see the newly added param to the `Page.enable()` method: https://github.com/ChromeDevTools/devtools-protocol/blob/d45566d7c70987b4ba10678a53610bd836ab9e00/json/browser_protocol.json#L19232-L19240 (https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues)
+- [ev-113] So, on the attempt to send this method, we can see such logs: ``` DEBUG:websockets.client:> TEXT '{"method": "Page.enable", "params": [], "id": 0...{"method": "Page.enable", "params": [], "id": 0}' [48 bytes] ``` ``` DEBUG:websockets.c (https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues)
+- [ev-114] I would assume using a Docker container. Any pointers on how to set that up correctly? (https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues)
+- [ev-115] I've been struggling for a couple hours doing this. (https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues)
+- [ev-116] ## ISSUE #19 [closed] Is nodriver able skip recaptcha check mark using .verify_cf() labels: (https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues)
+- [ev-117] Is nodriver able to skip the Recaptcha check mark using this .verify_cf() (https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues)
+- [ev-118] <img width="328" alt="Image" src="https://github.com/user-attachments/assets/346f121b-baf6-4a00-ac93-fcd30ce120f4" /> (https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues)
+- [ev-119] What I am trying to do is scrape the product title and product display image from Aliexpress while giving a product link because their API documentation is Chinese and the translation is not good and I am not able to find a way how to do th… (https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues)
+- [ev-120] How do I change the default download directory of the browser in Nodriver? I could not find any browser_arg to do so. Does anyone know? Thanks!! (https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues)
+- [ev-121] Hi everyone, I ran into a situation where I need to emulate a mobile browser. I tried doing it through CDP, and while something did work, the only noticeable change was the User-Agent. However, sites with protection detect this right away. … (https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues)
+- [ev-122] ![image](https://github.com/user-attachments/assets/5f7aac7d-225c-4d54-8065-9b790664f70d) (https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues)
+- [ev-123] We have tried "add_extension=" to no avail and haven't found a mention of the internal components specifically. (https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues)
+- [ev-124] Everything else works fine, but the lack of components is breaking functionality w/ the company website. (https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues)
+- [ev-125] More specifically, we are trying to add the WidevineCdm extension (**_\Chrome\126.0.6478.127\WidevineCdm_**) (https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues)
+- [ev-126] ## ISSUE #13 [open] Update element.py: box_model, size, location, rect, get_attribute, is_displayed, is_enabled, is_selected, is_clickable labels: (https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues)
+- [ev-127] - box_model: `BoxModel(content=Quad([202, 679.234375, 710, 679.234375, 710, 700.703125, 202, 700.703125]), padding=Quad([189, 669.234375, 723, 669.234375, 723, 710.703125, 189, 710.703125]), border=Quad([188, 668.234375, 724, 668.234375, 72… (https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues)
+- [ev-128] - location: `{'x': 202, 'y': 679.234375}` (https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues)
+- [ev-129] - rect: `{'top_left': {'x': 202, 'y': 679.234375}, 'bottom_right': {'x': 710, 'y': 700.703125}, 'width': 536, 'height': 43}` (https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues)
+- [ev-130] Only print temp profile removal message when user_data_dir is not set. (https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues)
+- [ev-131] ## ISSUE #9 [closed] element.get_position: Don't raise when empty `quads` labels: (https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues)
+- [ev-132] https://github.com/ultrafunkamsterdam/nodriver/blob/e630abfc5dce2023966a61cec739348b18bd465d/nodriver/core/element.py#L495 (https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues)
+- [ev-133] From <https://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap08.html#tag_08_03>: (https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues)
+- [ev-134] ... The list shall be searched from beginning to end, applying the filename to each prefix, until an executable file with the specified name and appropriate execution permissions is found. ... (https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues)
+- [ev-135] ![image](https://github.com/user-attachments/assets/6910ddff-9f13-4a9f-b6d9-54aa8399aa86) (https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues)
+- [ev-136] I was doing tests with the nodriver module, when I tried to test the headless mode and I discovered that when activating this mode, the user-agent is modified and this makes the browser detectable as a bot, I attach the user-agent that is r… (https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues)
+- [ev-137] Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/128.0.0.0 Safari/537.36 (https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues)
+- [ev-138] ` so_key = {"windows": "windows", "linux": "linux", "darwin": "mac"}[platform.system().lower()] (https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues)
+- [ev-139] ua = next(ua for ua in requests.get("https://jnrbsn.github.io/user-agents/user-agents.json").json() if so_key in ua.lower() and "chrome" in ua.lower() and "firefox" not in ua.lower()) (https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues)
+- [ev-140] how do i add arguments to the browser, tried setting Config(browser_args=['incognito']) and conf.browser_args.append('incognito') and neither of those work (https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues)
+- [ev-141] NODRIVER cannot solve the hcaptcha on Windows Server 2022, Chrome Version 122.0.6261.95. (https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues)
+- [ev-142] Site example: https://login.esocial.gov.br/login.aspx (https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues)
+- [ev-143] Login with the digital certificate. hcatpcha not open (https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues)
+- [ev-144] ![Screenshot 2024-02-28 090351](https://github.com/ultrafunkamsterdam/nodriver/assets/66790305/ce2c0b5e-5a0f-4255-93d2-3470875297c0) (https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues)
+- [ev-145] For example, the following link: https://www.bing.com/turing/captcha/challenge (https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues)
+- [ev-146] ## QUESTION 79622553 (0 votes, 148 views, 2 answers) Title: nodriver crashes with infinite recursion in headless mode when running browser.get() (https://api.stackexchange.com/2.3/search/advanced)
+- [ev-147] ## QUESTION 79457003 (0 votes, 81 views, 0 answers) Title: Asyncio async funcitons hangs with asyncio.gather. (the code works without asyncio.gather) (https://api.stackexchange.com/2.3/search/advanced)
+- [ev-148] - ADJUDICATED CLAIM: Multiple independent practitioners report that scraping modern websites requires either paid APIs (Firecrawl/Browserbase) or headless Chrome fleets that consume ~1GB of RAM per page and still get blocked by Cloudflare. … (file:publish-pack 2026-08-05-0512-web-automation-pain-points-202)
+- [ev-149] - ADJUDICATED CLAIM: All three models are available on Microsoft Foundry: Fara1.5-4B, Fara1.5-9B, and Fara1.5-27B. - ADJUDICATED CLAIM: Microsoft Fara1.5 is a computer use agent (CUA) model for web browsers from Microsoft Research AI Fronti… (file:publish-pack 2026-08-05-0601-microsoft-fara-vs-nodriver-arc)

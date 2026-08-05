@@ -1,0 +1,1207 @@
+{
+  "schema": "hpf-session-v0",
+  "id": "2026-08-05-1527-why-nodriver-sessions-die-over",
+  "topic": "Why nodriver sessions die overnight and how production systems prevent it",
+  "goal": "Document why persisted browser automation sessions fail between runs (cookie expiry, token invalidation, profile corruption, OS restart, lock contention) and which recovery/health-check/re-authentication patterns production systems use. Research for article 3: Why Your nodriver Session Dies Overnight (and How Production Systems Prevent It).",
+  "audience": "Blog",
+  "depth": "deep",
+  "created": "2026-08-05T15:27:49.022919+00:00",
+  "started": "2026-08-05T15:27:48.955739+00:00",
+  "finished": "2026-08-05T15:27:49.022882+00:00",
+  "activity": [
+    {
+      "ts": "2026-08-05T15:27:48.955808+00:00",
+      "msg": "Research started"
+    },
+    {
+      "ts": "2026-08-05T15:27:48.955993+00:00",
+      "msg": "Evidence class primary: high \u2014 official documentation anchors any topic"
+    },
+    {
+      "ts": "2026-08-05T15:27:48.956039+00:00",
+      "msg": "Evidence class code: high \u2014 repositories show implementation reality"
+    },
+    {
+      "ts": "2026-08-05T15:27:48.956054+00:00",
+      "msg": "Evidence class community: high \u2014 practitioner pain points are core signal for tooling topics"
+    },
+    {
+      "ts": "2026-08-05T15:27:48.956067+00:00",
+      "msg": "Evidence class scientific: low \u2014 scientific weight low unless the topic is model/research-focused"
+    },
+    {
+      "ts": "2026-08-05T15:27:48.956083+00:00",
+      "msg": "Evidence class operational: high \u2014 operational evidence for performance/robustness topics"
+    },
+    {
+      "ts": "2026-08-05T15:27:49.017190+00:00",
+      "msg": "Watchlist touches: browser-automation: ultrafunkamsterdam/nodriver, browser-automation: nodriver"
+    },
+    {
+      "ts": "2026-08-05T15:27:49.017227+00:00",
+      "msg": "Research plan built: 11 keywords, depth deep"
+    },
+    {
+      "ts": "2026-08-05T15:27:49.018657+00:00",
+      "msg": "Imported 00-readme (11640 chars, class primary)"
+    },
+    {
+      "ts": "2026-08-05T15:27:49.019885+00:00",
+      "msg": "Imported 01-github-issues (19032 chars, class primary)"
+    },
+    {
+      "ts": "2026-08-05T15:27:49.020385+00:00",
+      "msg": "Imported 02-stackoverflow (1622 chars, class primary)"
+    },
+    {
+      "ts": "2026-08-05T15:27:49.020796+00:00",
+      "msg": "Imported 03-claims-ts-202 (2067 chars, class primary)"
+    },
+    {
+      "ts": "2026-08-05T15:27:49.021245+00:00",
+      "msg": "Imported 03-claims-er-arc (2719 chars, class primary)"
+    },
+    {
+      "ts": "2026-08-05T15:27:49.021265+00:00",
+      "msg": "Extracted 149 evidence entries from 5 sources"
+    },
+    {
+      "ts": "2026-08-05T15:27:49.022863+00:00",
+      "msg": "Drafted 10 candidate findings (keyword-density-v0), 0 as community signals"
+    },
+    {
+      "ts": "2026-08-05T15:27:49.022888+00:00",
+      "msg": "Session artifact written"
+    }
+  ],
+  "plan": {
+    "keywords": [
+      "architecture",
+      "die",
+      "limitations",
+      "nodriver",
+      "overnight",
+      "performance",
+      "prevent",
+      "production",
+      "security",
+      "sessions",
+      "systems"
+    ],
+    "depth": "deep",
+    "evidence_classes": {
+      "primary": "high",
+      "code": "high",
+      "community": "high",
+      "scientific": "low",
+      "operational": "high"
+    },
+    "watchlist_matches": [
+      "browser-automation: ultrafunkamsterdam/nodriver",
+      "browser-automation: nodriver"
+    ]
+  },
+  "status": "draft",
+  "stages": [
+    {
+      "name": "plan",
+      "detail": "research question, keywords, depth",
+      "state": "done"
+    },
+    {
+      "name": "collect",
+      "detail": "sources fetched or imported",
+      "state": "done"
+    },
+    {
+      "name": "extract",
+      "detail": "text chunked into evidence entries",
+      "state": "done"
+    },
+    {
+      "name": "findings",
+      "detail": "draft candidate findings (not conclusions)",
+      "state": "done"
+    }
+  ],
+  "sources": [
+    {
+      "url": "https://raw.githubusercontent.com/ultrafunkamsterdam/nodriver/master/README.md",
+      "title": "00-readme",
+      "status": "imported",
+      "chars": 11640,
+      "class": "primary"
+    },
+    {
+      "url": "https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues",
+      "title": "01-github-issues",
+      "status": "imported",
+      "chars": 19032,
+      "class": "primary"
+    },
+    {
+      "url": "https://api.stackexchange.com/2.3/search/advanced",
+      "title": "02-stackoverflow",
+      "status": "imported",
+      "chars": 1622,
+      "class": "primary"
+    },
+    {
+      "url": "file:publish-pack 2026-08-05-0512-web-automation-pain-points-202",
+      "title": "03-claims-ts-202",
+      "status": "imported",
+      "chars": 2067,
+      "class": "primary"
+    },
+    {
+      "url": "file:publish-pack 2026-08-05-0601-microsoft-fara-vs-nodriver-arc",
+      "title": "03-claims-er-arc",
+      "status": "imported",
+      "chars": 2719,
+      "class": "primary"
+    }
+  ],
+  "evidence": [
+    {
+      "id": "ev-1",
+      "source": "https://raw.githubusercontent.com/ultrafunkamsterdam/nodriver/master/README.md",
+      "excerpt": "* **This is the official successor of the** [Undetected-Chromedriver](https://github.com/ultrafunkamsterdam/undetected-chromedriver/) **python package.** * **No more webdriver, no more selenium**",
+      "class": "primary"
+    },
+    {
+      "id": "ev-2",
+      "source": "https://raw.githubusercontent.com/ultrafunkamsterdam/nodriver/master/README.md",
+      "excerpt": "### for docs click [here](https://ultrafunkamsterdam.github.io/nodriver)",
+      "class": "primary"
+    },
+    {
+      "id": "ev-3",
+      "source": "https://raw.githubusercontent.com/ultrafunkamsterdam/nodriver/master/README.md",
+      "excerpt": "Direct communication provides even better resistance against web applicatinon firewalls (WAF\u2019s), while performance gets a massive boost. This module is, contrary to undetected-chromedriver, fully asynchronous.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-4",
+      "source": "https://raw.githubusercontent.com/ultrafunkamsterdam/nodriver/master/README.md",
+      "excerpt": "What makes this package different from other known packages, is the optimization to stay undetected for most anti-bot solutions.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-5",
+      "source": "https://raw.githubusercontent.com/ultrafunkamsterdam/nodriver/master/README.md",
+      "excerpt": "Another focus point is usability and quick prototyping, so expect a lot to work `-as is-` , with most method parameters having `best practice` defaults. Using 1 or 2 lines, this is up and running, providing best practice config by default. It cleans up created files (profile) afterwards.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-6",
+      "source": "https://raw.githubusercontent.com/ultrafunkamsterdam/nodriver/master/README.md",
+      "excerpt": "While usability and convenience is important. It\u2019s also easy to fully customizable everything using the entire array of [CDP](https://chromedevtools.github.io/devtools-protocol/) domains, methods and events available.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-7",
+      "source": "https://raw.githubusercontent.com/ultrafunkamsterdam/nodriver/master/README.md",
+      "excerpt": "### Some features * No chromedriver binary or Selenium dependency * Up and running in 1 line of code\\* * uses fresh profile on each run, cleans up on exit * save and load cookies to file to not repeat tedious login steps * ```tab.find(\"sometext\")```",
+      "class": "primary"
+    },
+    {
+      "id": "ev-8",
+      "source": "https://raw.githubusercontent.com/ultrafunkamsterdam/nodriver/master/README.md",
+      "excerpt": "```tab.select_all(\"a[href] > div > img\")```",
+      "class": "primary"
+    },
+    {
+      "id": "ev-9",
+      "source": "https://raw.githubusercontent.com/ultrafunkamsterdam/nodriver/master/README.md",
+      "excerpt": "smart and performant element lookup, by selector or text, including iframe content. this could also be used as wait condition for a element to appear, since it will retry for the duration of <timeout> until found. so an ```await tab.select('body')``` could be used as an indicator whether a page is loaded. the find method searches by text, but will not naively return the first matching element, but will match candidates by closest matching text length (shortest wins), this makes lookups like tab.find('accept all') return the actual cookie button instead of a script in the headers",
+      "class": "primary"
+    },
+    {
+      "id": "ev-10",
+      "source": "https://raw.githubusercontent.com/ultrafunkamsterdam/nodriver/master/README.md",
+      "excerpt": "* can connect to a running chrome debug session * descriptive \\_\\_repr_\\_ for elements, which represent the element as html * utility function to convert a running undetected_chromedriver.Chrome instance to a nodriver.Browser instance and contintue from there * packed with helpers and utility methods for most used and important operations",
+      "class": "primary"
+    },
+    {
+      "id": "ev-11",
+      "source": "https://raw.githubusercontent.com/ultrafunkamsterdam/nodriver/master/README.md",
+      "excerpt": "### 0.50.1 switch to flat mode connection.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-12",
+      "source": "https://raw.githubusercontent.com/ultrafunkamsterdam/nodriver/master/README.md",
+      "excerpt": "Parts are rewritten to use flat connections in the protocol. Why? - iframes are included in most operations. - tab got a new method: `await tab.get_frames()` which will return Iframes that are inspectable. - find() will include iframes, so you can even search for \"verify you are human\" and click the verification checkbox in js challenges.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-13",
+      "source": "https://raw.githubusercontent.com/ultrafunkamsterdam/nodriver/master/README.md",
+      "excerpt": "Since this required quite some rewriting, please test thoroughly, especially if you run large projects.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-14",
+      "source": "https://raw.githubusercontent.com/ultrafunkamsterdam/nodriver/master/README.md",
+      "excerpt": "<video autoplay loop muted playsinline src=\"https://github.com/user-attachments/assets/b30872f0-62fe-45b2-a67a-adc1e0c7c048\"></video>",
+      "class": "primary"
+    },
+    {
+      "id": "ev-15",
+      "source": "https://raw.githubusercontent.com/ultrafunkamsterdam/nodriver/master/README.md",
+      "excerpt": "### ```tab.xpath(selector, timeout=2.5)``` find nodes using xpath selector! see [tab xpath in the api docs](https://ultrafunkamsterdam.github.io/nodriver/nodriver/classes/tab.html#nodriver.Tab.xpath)",
+      "class": "primary"
+    },
+    {
+      "id": "ev-16",
+      "source": "https://raw.githubusercontent.com/ultrafunkamsterdam/nodriver/master/README.md",
+      "excerpt": "### ```tab.cf_verify()``` finds the checkbox and click it successfully this only works when NOT in expert mode. currently built-in english only requires opencv-python package to be installed",
+      "class": "primary"
+    },
+    {
+      "id": "ev-17",
+      "source": "https://raw.githubusercontent.com/ultrafunkamsterdam/nodriver/master/README.md",
+      "excerpt": "<video autoplay loop muted playsInline src=\"https://github.com/user-attachments/assets/288c5e01-39c5-4453-9e64-2b40c3a8548d\"></video>",
+      "class": "primary"
+    },
+    {
+      "id": "ev-18",
+      "source": "https://raw.githubusercontent.com/ultrafunkamsterdam/nodriver/master/README.md",
+      "excerpt": "### ```tab.bypass_insecure_connection_warning()``` convenience method, for insecure page warning. for example when a certificate is invalid.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-19",
+      "source": "https://raw.githubusercontent.com/ultrafunkamsterdam/nodriver/master/README.md",
+      "excerpt": "### ```tab.open_external_debugger()``` lets you inspect the tab without breaking your connection",
+      "class": "primary"
+    },
+    {
+      "id": "ev-20",
+      "source": "https://raw.githubusercontent.com/ultrafunkamsterdam/nodriver/master/README.md",
+      "excerpt": "### ```tab.get_local_storage()``` get localstorage content",
+      "class": "primary"
+    },
+    {
+      "id": "ev-21",
+      "source": "https://raw.githubusercontent.com/ultrafunkamsterdam/nodriver/master/README.md",
+      "excerpt": "### ```tab.set_local_storage(dict)``` set localstorage content",
+      "class": "primary"
+    },
+    {
+      "id": "ev-22",
+      "source": "https://raw.githubusercontent.com/ultrafunkamsterdam/nodriver/master/README.md",
+      "excerpt": "### ```tab.add_handler(someEvent, callback)``` callback may accept a single argument (event), or 2 arguments (event, tab).",
+      "class": "primary"
+    },
+    {
+      "id": "ev-23",
+      "source": "https://raw.githubusercontent.com/ultrafunkamsterdam/nodriver/master/README.md",
+      "excerpt": "### ```start(expert=True)``` does some hacking for more experienced users. It disables web security and origin-trials, as well as ensures shadow-roots are always open. This makes you more detectable though!",
+      "class": "primary"
+    },
+    {
+      "id": "ev-24",
+      "source": "https://raw.githubusercontent.com/ultrafunkamsterdam/nodriver/master/README.md",
+      "excerpt": "**you need chrome (or some chromium based browser) installed preferably in the default location on the machine where you use this package.**",
+      "class": "primary"
+    },
+    {
+      "id": "ev-25",
+      "source": "https://raw.githubusercontent.com/ultrafunkamsterdam/nodriver/master/README.md",
+      "excerpt": "when running on a headless machine, like AWS or any other environment where no display is present, it's best to use some **Xvfb** tool, to emulate a **screen**. alternatively this package can be used in headless mode.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-26",
+      "source": "https://raw.githubusercontent.com/ultrafunkamsterdam/nodriver/master/README.md",
+      "excerpt": "The aim of this project (just like undetected-chromedriver, somewhere long ago) is to keep it short and simple, so you can quickly open an editor or interactive session, type or paste a few lines and off you go.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-27",
+      "source": "https://raw.githubusercontent.com/ultrafunkamsterdam/nodriver/master/README.md",
+      "excerpt": "browser = await uc.start() page = await browser.get('https://www.nowsecure.nl')",
+      "class": "primary"
+    },
+    {
+      "id": "ev-28",
+      "source": "https://raw.githubusercontent.com/ultrafunkamsterdam/nodriver/master/README.md",
+      "excerpt": "if __name__ == '__main__': # since asyncio.run never worked (for me) uc.loop().run_until_complete(main()) ```",
+      "class": "primary"
+    },
+    {
+      "id": "ev-29",
+      "source": "https://raw.githubusercontent.com/ultrafunkamsterdam/nodriver/master/README.md",
+      "excerpt": "browser = await start( headless=False, user_data_dir=\"/path/to/existing/profile\", # by specifying it, it won't be automatically cleaned up when finished browser_executable_path=\"/path/to/some/other/browser\", browser_args=['--some-browser-arg=true', '--some-other-option'], lang=\"en-US\" # this could set iso-language-code in navigator, not recommended to change ) tab = await browser.get('https://somewebsite.com') ```",
+      "class": "primary"
+    },
+    {
+      "id": "ev-30",
+      "source": "https://raw.githubusercontent.com/ultrafunkamsterdam/nodriver/master/README.md",
+      "excerpt": "config = Config() config.headless = False config.user_data_dir=\"/path/to/existing/profile\", # by specifying it, it won't be automatically cleaned up when finished config.browser_executable_path=\"/path/to/some/other/browser\", config.browser_args=['--some-browser-arg=true', '--some-other-option'], config.lang=\"en-US\" # this could set iso-language-code in navigator, not recommended to change ) ```",
+      "class": "primary"
+    },
+    {
+      "id": "ev-31",
+      "source": "https://raw.githubusercontent.com/ultrafunkamsterdam/nodriver/master/README.md",
+      "excerpt": "browser = await nodriver.start() page = await browser.get('https://www.nowsecure.nl')",
+      "class": "primary"
+    },
+    {
+      "id": "ev-32",
+      "source": "https://raw.githubusercontent.com/ultrafunkamsterdam/nodriver/master/README.md",
+      "excerpt": "await page.save_screenshot() await page.get_content() await page.scroll_down(150) elems = await page.select_all('*[src]')",
+      "class": "primary"
+    },
+    {
+      "id": "ev-33",
+      "source": "https://raw.githubusercontent.com/ultrafunkamsterdam/nodriver/master/README.md",
+      "excerpt": "page2 = await browser.get('https://twitter.com', new_tab=True) page3 = await browser.get('https://github.com/ultrafunkamsterdam/nodriver', new_window=True)",
+      "class": "primary"
+    },
+    {
+      "id": "ev-34",
+      "source": "https://raw.githubusercontent.com/ultrafunkamsterdam/nodriver/master/README.md",
+      "excerpt": "for p in (page, page2, page3): await p.bring_to_front() await p.scroll_down(200) await p # wait for events to be processed await p.reload() if p != page3: await p.close()",
+      "class": "primary"
+    },
+    {
+      "id": "ev-35",
+      "source": "https://raw.githubusercontent.com/ultrafunkamsterdam/nodriver/master/README.md",
+      "excerpt": "# since asyncio.run never worked (for me) uc.loop().run_until_complete(main()) ```",
+      "class": "primary"
+    },
+    {
+      "id": "ev-36",
+      "source": "https://raw.githubusercontent.com/ultrafunkamsterdam/nodriver/master/README.md",
+      "excerpt": "A more concrete example, which can be found in the ./example/ folder, shows a script to create a twitter account",
+      "class": "primary"
+    },
+    {
+      "id": "ev-37",
+      "source": "https://raw.githubusercontent.com/ultrafunkamsterdam/nodriver/master/README.md",
+      "excerpt": "async def main(): driver = await uc.start()",
+      "class": "primary"
+    },
+    {
+      "id": "ev-38",
+      "source": "https://raw.githubusercontent.com/ultrafunkamsterdam/nodriver/master/README.md",
+      "excerpt": "tab = await driver.get(\"https://twitter.com\")",
+      "class": "primary"
+    },
+    {
+      "id": "ev-39",
+      "source": "https://raw.githubusercontent.com/ultrafunkamsterdam/nodriver/master/README.md",
+      "excerpt": "# wait for text to appear instead of a static number of seconds to wait # this does not always work as expected, due to speed. print('finding the \"create account\" button') create_account = await tab.find(\"create account\", best_match=True)",
+      "class": "primary"
+    },
+    {
+      "id": "ev-40",
+      "source": "https://raw.githubusercontent.com/ultrafunkamsterdam/nodriver/master/README.md",
+      "excerpt": "print('\"create account\" => click') await create_account.click()",
+      "class": "primary"
+    },
+    {
+      "id": "ev-41",
+      "source": "https://raw.githubusercontent.com/ultrafunkamsterdam/nodriver/master/README.md",
+      "excerpt": "print(\"finding the email input field\") email = await tab.select(\"input[type=email]\")",
+      "class": "primary"
+    },
+    {
+      "id": "ev-42",
+      "source": "https://raw.githubusercontent.com/ultrafunkamsterdam/nodriver/master/README.md",
+      "excerpt": "# sometimes, email field is not shown, because phone is being asked instead # when this occurs, find the small text which says \"use email instead\" if not email: use_mail_instead = await tab.find(\"use email instead\") # and click it await use_mail_instead.click()",
+      "class": "primary"
+    },
+    {
+      "id": "ev-43",
+      "source": "https://raw.githubusercontent.com/ultrafunkamsterdam/nodriver/master/README.md",
+      "excerpt": "# now find the email field again email = await tab.select(\"input[type=email]\")",
+      "class": "primary"
+    },
+    {
+      "id": "ev-44",
+      "source": "https://raw.githubusercontent.com/ultrafunkamsterdam/nodriver/master/README.md",
+      "excerpt": "randstr = lambda k: \"\".join(random.choices(string.ascii_letters, k=k))",
+      "class": "primary"
+    },
+    {
+      "id": "ev-45",
+      "source": "https://raw.githubusercontent.com/ultrafunkamsterdam/nodriver/master/README.md",
+      "excerpt": "# send keys to email field print('filling in the \"email\" input field') await email.send_keys(\"\".join([randstr(8), \"@\", randstr(8), \".com\"]))",
+      "class": "primary"
+    },
+    {
+      "id": "ev-46",
+      "source": "https://raw.githubusercontent.com/ultrafunkamsterdam/nodriver/master/README.md",
+      "excerpt": "# find the name input field print(\"finding the name input field\") name = await tab.select(\"input[type=text]\")",
+      "class": "primary"
+    },
+    {
+      "id": "ev-47",
+      "source": "https://raw.githubusercontent.com/ultrafunkamsterdam/nodriver/master/README.md",
+      "excerpt": "# again, send random text print('filling in the \"name\" input field') await name.send_keys(randstr(8))",
+      "class": "primary"
+    },
+    {
+      "id": "ev-48",
+      "source": "https://raw.githubusercontent.com/ultrafunkamsterdam/nodriver/master/README.md",
+      "excerpt": "# since there are 3 select fields on the tab, we can use unpacking # to assign each field print('finding the \"month\" , \"day\" and \"year\" fields in 1 go') sel_month, sel_day, sel_year = await tab.select_all(\"select\")",
+      "class": "primary"
+    },
+    {
+      "id": "ev-49",
+      "source": "https://raw.githubusercontent.com/ultrafunkamsterdam/nodriver/master/README.md",
+      "excerpt": "# await sel_month.focus() print('filling in the \"month\" input field') await sel_month.send_keys(months[random.randint(0, 11)].title())",
+      "class": "primary"
+    },
+    {
+      "id": "ev-50",
+      "source": "https://raw.githubusercontent.com/ultrafunkamsterdam/nodriver/master/README.md",
+      "excerpt": "# await sel_day.focus() # i don't want to bother with month-lengths and leap years print('filling in the \"day\" input field') await sel_day.send_keys(str(random.randint(0, 28)))",
+      "class": "primary"
+    },
+    {
+      "id": "ev-51",
+      "source": "https://raw.githubusercontent.com/ultrafunkamsterdam/nodriver/master/README.md",
+      "excerpt": "# await sel_year.focus() # i don't want to bother with age restrictions print('filling in the \"year\" input field') await sel_year.send_keys(str(random.randint(1980, 2005)))",
+      "class": "primary"
+    },
+    {
+      "id": "ev-52",
+      "source": "https://raw.githubusercontent.com/ultrafunkamsterdam/nodriver/master/README.md",
+      "excerpt": "# let's handle the cookie nag as well cookie_bar_accept = await tab.find(\"accept all\", best_match=True) if cookie_bar_accept: await cookie_bar_accept.click()",
+      "class": "primary"
+    },
+    {
+      "id": "ev-53",
+      "source": "https://raw.githubusercontent.com/ultrafunkamsterdam/nodriver/master/README.md",
+      "excerpt": "next_btn = await tab.find(text=\"next\", best_match=True) # for btn in reversed(next_btns): await next_btn.mouse_click()",
+      "class": "primary"
+    },
+    {
+      "id": "ev-54",
+      "source": "https://raw.githubusercontent.com/ultrafunkamsterdam/nodriver/master/README.md",
+      "excerpt": "print(\"sleeping 2 seconds\") await tab.sleep(2) # visually see what part we're actually in",
+      "class": "primary"
+    },
+    {
+      "id": "ev-55",
+      "source": "https://raw.githubusercontent.com/ultrafunkamsterdam/nodriver/master/README.md",
+      "excerpt": "print('finding \"next\" button') next_btn = await tab.find(text=\"next\", best_match=True) print('clicking \"next\" button') await next_btn.mouse_click()",
+      "class": "primary"
+    },
+    {
+      "id": "ev-56",
+      "source": "https://raw.githubusercontent.com/ultrafunkamsterdam/nodriver/master/README.md",
+      "excerpt": "# just wait for some button, before we continue await tab.select(\"[role=button]\")",
+      "class": "primary"
+    },
+    {
+      "id": "ev-57",
+      "source": "https://raw.githubusercontent.com/ultrafunkamsterdam/nodriver/master/README.md",
+      "excerpt": "print('finding \"sign up\" button') sign_up_btn = await tab.find(\"Sign up\", best_match=True) # we need the second one print('clicking \"sign up\" button') await sign_up_btn.click()",
+      "class": "primary"
+    },
+    {
+      "id": "ev-58",
+      "source": "https://raw.githubusercontent.com/ultrafunkamsterdam/nodriver/master/README.md",
+      "excerpt": "print('the rest of the \"implementation\" is out of scope') # further implementation outside of scope await tab.sleep(10) driver.stop()",
+      "class": "primary"
+    },
+    {
+      "id": "ev-59",
+      "source": "https://raw.githubusercontent.com/ultrafunkamsterdam/nodriver/master/README.md",
+      "excerpt": "if __name__ == \"__main__\": # since asyncio.run never worked (for me) # i use uc.loop().run_until_complete(main())",
+      "class": "primary"
+    },
+    {
+      "id": "ev-60",
+      "source": "https://raw.githubusercontent.com/ultrafunkamsterdam/nodriver/master/README.md",
+      "excerpt": "### more examples in the ./example/ folder",
+      "class": "primary"
+    },
+    {
+      "id": "ev-61",
+      "source": "https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues",
+      "excerpt": "Parts are rewritten to use flat connections in the protocol.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-62",
+      "source": "https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues",
+      "excerpt": "- iframes are included in most operations.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-63",
+      "source": "https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues",
+      "excerpt": "- tab got a new method: `await tab.get_frames()`",
+      "class": "primary"
+    },
+    {
+      "id": "ev-64",
+      "source": "https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues",
+      "excerpt": "which will return Iframes that are inspectable.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-65",
+      "source": "https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues",
+      "excerpt": "click the verification checkbox in js challenges.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-66",
+      "source": "https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues",
+      "excerpt": "Since this required quite some rewriting, please test thoroughly, especially if you run large projects.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-67",
+      "source": "https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues",
+      "excerpt": "https://github.com/user-attachments/assets/4e0d6f91-b940-46fa-a0cb-a8794ef4bc90",
+      "class": "primary"
+    },
+    {
+      "id": "ev-68",
+      "source": "https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues",
+      "excerpt": "this is the simple solution for issue #35.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-69",
+      "source": "https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues",
+      "excerpt": "## ISSUE #35 [open] No valid UTF-8 encoding for file network.py labels:",
+      "class": "primary"
+    },
+    {
+      "id": "ev-70",
+      "source": "https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues",
+      "excerpt": "Hi, running nodriver on a linux workstation I've got this error: ``` File \"/home/ciccio/test/.venv/lib/python3.14/site-packages/nodriver/cdp/network.py\", line 1365 #: JSON (\ufffdInf). ^ SyntaxError: Non-UTF-8 code starting with '\\xb1' on line 1365, but no encoding declared; see https://peps.python.org/pep-0263/ for details ```",
+      "class": "primary"
+    },
+    {
+      "id": "ev-71",
+      "source": "https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues",
+      "excerpt": "Converting network.py to UTF-8 solves the issue. I will make a pull request.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-72",
+      "source": "https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues",
+      "excerpt": "## ISSUE #34 [open] fix: resolve deadlock and KeyError 'sameParty' in network.Cookie labels:",
+      "class": "primary"
+    },
+    {
+      "id": "ev-73",
+      "source": "https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues",
+      "excerpt": "Calling browser.cookies.get_all() or any method involving cdp.storage.get_cookies() causes the program to hang indefinitely (deadlock) when using recent versions of Chrome.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-74",
+      "source": "https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues",
+      "excerpt": "logging.basicConfig(level=logging.DEBUG)",
+      "class": "primary"
+    },
+    {
+      "id": "ev-75",
+      "source": "https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues",
+      "excerpt": "page = await browser.get(\"https://www.google.com\")",
+      "class": "primary"
+    },
+    {
+      "id": "ev-76",
+      "source": "https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues",
+      "excerpt": "cookies = await asyncio.wait_for(browser.cookies.get_all(), timeout=5.0)",
+      "class": "primary"
+    },
+    {
+      "id": "ev-77",
+      "source": "https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues",
+      "excerpt": "print(f\"SUCCESS: Retrieved {len(cookies)} cookies.\")",
+      "class": "primary"
+    },
+    {
+      "id": "ev-78",
+      "source": "https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues",
+      "excerpt": "print(\"KeyError (sameParty) occurred in the background CDP task.\")",
+      "class": "primary"
+    },
+    {
+      "id": "ev-79",
+      "source": "https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues",
+      "excerpt": "Update `network.Cookie.from_json` to use .get() with default values for deprecated or optional fields like sameParty, sourceScheme, and partitionKey. This makes the parser more resilient to future CDP changes.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-80",
+      "source": "https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues",
+      "excerpt": "1- With the Chrome 146 update, nodriver can no longer retrieve cookies, specifically the cf_clearance cookie. This is really bad for Cloudflare bypass. I open the browser, bypass Cloudflare, and it initially retrieves cookies, but sometimes it does, sometimes it doesn't.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-81",
+      "source": "https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues",
+      "excerpt": "If I refresh the page without closing the browser, it doesn't retrieve any cookies.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-82",
+      "source": "https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues",
+      "excerpt": "2- When I open the browser from the profile path to save Chrome history, the history is saved, but when I open the browser from the same profile, it behaves as if I'm opening it for the first time.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-83",
+      "source": "https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues",
+      "excerpt": "3- The same cookie issue exists in Seleniumbase as well. A dependency was released and the issue was resolved. Maybe this helps:",
+      "class": "primary"
+    },
+    {
+      "id": "ev-84",
+      "source": "https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues",
+      "excerpt": "https://github.com/mdmintz/MyCDP/releases/tag/v1.3.4",
+      "class": "primary"
+    },
+    {
+      "id": "ev-85",
+      "source": "https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues",
+      "excerpt": "I'm using Nosync Chromium. I have the following problem: Websites freeze and don't work properly. This manifests itself in that the script runs, but there is no result\u2014it's as if the browser is frozen while you're looking at it. However, if I send a CDP screenshot for every action, it seems to work.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-86",
+      "source": "https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues",
+      "excerpt": "I don't know if this problem exists in other browsers.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-87",
+      "source": "https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues",
+      "excerpt": "## ISSUE #30 [open] browser.grant_all_permissions() not working labels:",
+      "class": "primary"
+    },
+    {
+      "id": "ev-88",
+      "source": "https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues",
+      "excerpt": "browser = await nodriver.start() page = await browser.get('https://www.nowsecure.nl')",
+      "class": "primary"
+    },
+    {
+      "id": "ev-89",
+      "source": "https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues",
+      "excerpt": "await page.save_screenshot() await page.get_content() await page.scroll_down(150) elems = await page.select_all('*[src]')",
+      "class": "primary"
+    },
+    {
+      "id": "ev-90",
+      "source": "https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues",
+      "excerpt": "page2 = await browser.get('https://twitter.com', new_tab=True) page3 = await browser.get('https://github.com/ultrafunkamsterdam/nodriver', new_window=True)",
+      "class": "primary"
+    },
+    {
+      "id": "ev-91",
+      "source": "https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues",
+      "excerpt": "for p in (page, page2, page3): await p.bring_to_front() await p.scroll_down(200) await p # wait for events to be processed await p.reload() if p != page3: await p.close()",
+      "class": "primary"
+    },
+    {
+      "id": "ev-92",
+      "source": "https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues",
+      "excerpt": "# since asyncio.run never worked (for me) nodriver.loop().run_until_complete(main()) ```",
+      "class": "primary"
+    },
+    {
+      "id": "ev-93",
+      "source": "https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues",
+      "excerpt": "(nodri) C:\\Users\\user\\Desktop\\current\\projects\\nodriver>python kenz.py Traceback (most recent call last): File \"C:\\Users\\user\\Desktop\\current\\projects\\nodriver\\kenz.py\", line 32, in <module> nodriver.loop().run_until_complete(main()) File \"C:\\Users\\user\\miniconda3\\envs\\nodri\\lib\\asyncio\\base_events.py\", line 649, in run_until_complete return future.result() File \"C:\\Users\\user\\Desktop\\current\\projects\\nodriver\\kenz.py\", line 8, in main await browser.grant_all_permissions() File \"C:\\Users\\user\\miniconda3\\envs\\nodri\\lib\\site-packages\\nodriver\\core\\browser.py\", line 494, in grant_a",
+      "class": "primary"
+    },
+    {
+      "id": "ev-94",
+      "source": "https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues",
+      "excerpt": "async def main(): browser = await uc.start( headless=False, browser_args=[ \"--disable-gpu\", \"--lang=en-US\", ] ) socks_proxy = 'socks5://username:password@host:port' # proxyempire proxy tab = await browser.create_context(url='https://ipinfo.io/json', proxy_server=socks_proxy) input('test')",
+      "class": "primary"
+    },
+    {
+      "id": "ev-95",
+      "source": "https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues",
+      "excerpt": "uc.loop().run_until_complete(main()) ```",
+      "class": "primary"
+    },
+    {
+      "id": "ev-96",
+      "source": "https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues",
+      "excerpt": "<img width=\"849\" height=\"791\" alt=\"Image\" src=\"https://github.com/user-attachments/assets/b20d405f-1de6-40b4-a71b-d46d4463978d\" />",
+      "class": "primary"
+    },
+    {
+      "id": "ev-97",
+      "source": "https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues",
+      "excerpt": "I tried using create_context() but cookies don't save or load when I use it. I want to have multiple tabs open with different cookies loaded and I can't find a way to make it work. Only get() works for me when I'm trying to do anything with cookies.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-98",
+      "source": "https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues",
+      "excerpt": "I have been trying to solve recaptcha in a tab but havent been able to the muse clicks oustide the recaptch part.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-99",
+      "source": "https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues",
+      "excerpt": "``` for attempt in range(4): try: await tab.verify_cf(flash=True) print(\"Cloudflare challenge solved!\") time.sleep(3) break except Exception as e: print(f\"Cloudflare handling (attempt {attempt+1}/4): {e}\") time.sleep(3) if attempt == 3: pass # Continue anyway, might not be present",
+      "class": "primary"
+    },
+    {
+      "id": "ev-100",
+      "source": "https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues",
+      "excerpt": "``` scroll_amount = [25,50,75,100,125,150] reached_bottom = False count = 0 while not reached_bottom: await page.scroll_down(amount=random.choice(scroll_amount)) await asyncio.sleep(4)",
+      "class": "primary"
+    },
+    {
+      "id": "ev-101",
+      "source": "https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues",
+      "excerpt": "reached_bottom = await page.scroll_bottom_reached() if reached_bottom: print(\"1\") items = await page.select(\".CatalogPage-items\") break else: count += 1",
+      "class": "primary"
+    },
+    {
+      "id": "ev-102",
+      "source": "https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues",
+      "excerpt": "_File \"C:\\Users\\user\\PycharmProjects\\project\\\\.venv\\Lib\\site-packages\\nodriver\\core\\tab.py\", line 1806, in scroll_bottom_reached return res[0].value TypeError: 'bool' object is not subscriptable_",
+      "class": "primary"
+    },
+    {
+      "id": "ev-103",
+      "source": "https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues",
+      "excerpt": "**Needed a fast solution so i went to nodriver\\core\\tab.py and changed the _return res[0].value_ to _return res if isinstance(res, bool) else res[0].value_**",
+      "class": "primary"
+    },
+    {
+      "id": "ev-104",
+      "source": "https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues",
+      "excerpt": "` async def mouse_drag( self, destination: typing.Union[Element, typing.Tuple[int, int]], relative: bool = False, steps: int = 1, ): \"\"\" drag an element to another element or target coordinates. dragging of elements should be supported by the site of course",
+      "class": "primary"
+    },
+    {
+      "id": "ev-105",
+      "source": "https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues",
+      "excerpt": ":param relative: when True, treats coordinate as relative. for example (-100, 200) will move left 100px and down 200px :type relative:",
+      "class": "primary"
+    },
+    {
+      "id": "ev-106",
+      "source": "https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues",
+      "excerpt": ":param steps: move in <steps> points, this could make it look more \"natural\" (default 1), but also a lot slower. for very smooth action use 50-100 :type steps: int :return: :rtype: \"\"\" try: start_point = (await self.get_position()).center except AttributeError: return if not start_point: logger.warning(\"could not calculate box model for %s\", self) return end_point = None if isinstance(destination, Element): try: end_point = (await destination.get_position()).center except AttributeError: return if not end_point: logger.warning(\"could not calculate box model for %s\", destination)",
+      "class": "primary"
+    },
+    {
+      "id": "ev-107",
+      "source": "https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues",
+      "excerpt": "## Problem When the CDP command does not have params supplied, it will be serialized as a `list`. By the protocol, the `dict` is expected.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-108",
+      "source": "https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues",
+      "excerpt": "If, after the CDP protocol update, a method gets new params, it will expect only the `dict`. On the `list`, it will throw a deserialization error.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-109",
+      "source": "https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues",
+      "excerpt": "## Cause Absence of the `params` in the CDP object will result in an empty list: ``` self.method, *params = next(self.__cdp_obj__).values() if params: params = params.pop() self.params = params ``` https://github.com/ultrafunkamsterdam/nodriver/blob/961ed0dbf278042e6345dbb7ca7b413d257a7e06/nodriver/core/connection.py#L68-L87",
+      "class": "primary"
+    },
+    {
+      "id": "ev-110",
+      "source": "https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues",
+      "excerpt": "## Example Specifically for me, the problem arose trying to interact with the `Page` domain.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-111",
+      "source": "https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues",
+      "excerpt": "If we take `nodriver==0.41` that has not freshly updated CDP bindings will see https://github.com/ultrafunkamsterdam/nodriver/blob/961ed0dbf278042e6345dbb7ca7b413d257a7e06/nodriver/cdp/page.py#L2421-L2428",
+      "class": "primary"
+    },
+    {
+      "id": "ev-112",
+      "source": "https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues",
+      "excerpt": "and here we can see the newly added param to the `Page.enable()` method: https://github.com/ChromeDevTools/devtools-protocol/blob/d45566d7c70987b4ba10678a53610bd836ab9e00/json/browser_protocol.json#L19232-L19240",
+      "class": "primary"
+    },
+    {
+      "id": "ev-113",
+      "source": "https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues",
+      "excerpt": "So, on the attempt to send this method, we can see such logs: ``` DEBUG:websockets.client:> TEXT '{\"method\": \"Page.enable\", \"params\": [], \"id\": 0...{\"method\": \"Page.enable\", \"params\": [], \"id\": 0}' [48 bytes] ``` ``` DEBUG:websockets.c",
+      "class": "primary"
+    },
+    {
+      "id": "ev-114",
+      "source": "https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues",
+      "excerpt": "I would assume using a Docker container. Any pointers on how to set that up correctly?",
+      "class": "primary"
+    },
+    {
+      "id": "ev-115",
+      "source": "https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues",
+      "excerpt": "I've been struggling for a couple hours doing this.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-116",
+      "source": "https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues",
+      "excerpt": "## ISSUE #19 [closed] Is nodriver able skip recaptcha check mark using .verify_cf() labels:",
+      "class": "primary"
+    },
+    {
+      "id": "ev-117",
+      "source": "https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues",
+      "excerpt": "Is nodriver able to skip the Recaptcha check mark using this .verify_cf()",
+      "class": "primary"
+    },
+    {
+      "id": "ev-118",
+      "source": "https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues",
+      "excerpt": "<img width=\"328\" alt=\"Image\" src=\"https://github.com/user-attachments/assets/346f121b-baf6-4a00-ac93-fcd30ce120f4\" />",
+      "class": "primary"
+    },
+    {
+      "id": "ev-119",
+      "source": "https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues",
+      "excerpt": "What I am trying to do is scrape the product title and product display image from Aliexpress while giving a product link because their API documentation is Chinese and the translation is not good and I am not able to find a way how to do this: <img width=\"1146\" alt=\"Image\" src=\"https://github.com/user-attachments/assets/2ef4dfa9-5bef-4b06-8b4b-b986bea14bb8\" />",
+      "class": "primary"
+    },
+    {
+      "id": "ev-120",
+      "source": "https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues",
+      "excerpt": "How do I change the default download directory of the browser in Nodriver? I could not find any browser_arg to do so. Does anyone know? Thanks!!",
+      "class": "primary"
+    },
+    {
+      "id": "ev-121",
+      "source": "https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues",
+      "excerpt": "Hi everyone, I ran into a situation where I need to emulate a mobile browser. I tried doing it through CDP, and while something did work, the only noticeable change was the User-Agent. However, sites with protection detect this right away. How can I solve this problem? I need full mobile browser emulation.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-122",
+      "source": "https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues",
+      "excerpt": "![image](https://github.com/user-attachments/assets/5f7aac7d-225c-4d54-8065-9b790664f70d)",
+      "class": "primary"
+    },
+    {
+      "id": "ev-123",
+      "source": "https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues",
+      "excerpt": "We have tried \"add_extension=\" to no avail and haven't found a mention of the internal components specifically.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-124",
+      "source": "https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues",
+      "excerpt": "Everything else works fine, but the lack of components is breaking functionality w/ the company website.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-125",
+      "source": "https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues",
+      "excerpt": "More specifically, we are trying to add the WidevineCdm extension (**_\\Chrome\\126.0.6478.127\\WidevineCdm_**)",
+      "class": "primary"
+    },
+    {
+      "id": "ev-126",
+      "source": "https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues",
+      "excerpt": "## ISSUE #13 [open] Update element.py: box_model, size, location, rect, get_attribute, is_displayed, is_enabled, is_selected, is_clickable labels:",
+      "class": "primary"
+    },
+    {
+      "id": "ev-127",
+      "source": "https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues",
+      "excerpt": "- box_model: `BoxModel(content=Quad([202, 679.234375, 710, 679.234375, 710, 700.703125, 202, 700.703125]), padding=Quad([189, 669.234375, 723, 669.234375, 723, 710.703125, 189, 710.703125]), border=Quad([188, 668.234375, 724, 668.234375, 724, 711.703125, 188, 711.703125]), margin=Quad([188, 668.234375, 724, 668.234375, 724, 711.703125, 188, 711.703125]), width=536, height=43, shape_outside=None) `",
+      "class": "primary"
+    },
+    {
+      "id": "ev-128",
+      "source": "https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues",
+      "excerpt": "- location: `{'x': 202, 'y': 679.234375}`",
+      "class": "primary"
+    },
+    {
+      "id": "ev-129",
+      "source": "https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues",
+      "excerpt": "- rect: `{'top_left': {'x': 202, 'y': 679.234375}, 'bottom_right': {'x': 710, 'y': 700.703125}, 'width': 536, 'height': 43}`",
+      "class": "primary"
+    },
+    {
+      "id": "ev-130",
+      "source": "https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues",
+      "excerpt": "Only print temp profile removal message when user_data_dir is not set.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-131",
+      "source": "https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues",
+      "excerpt": "## ISSUE #9 [closed] element.get_position: Don't raise when empty `quads` labels:",
+      "class": "primary"
+    },
+    {
+      "id": "ev-132",
+      "source": "https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues",
+      "excerpt": "https://github.com/ultrafunkamsterdam/nodriver/blob/e630abfc5dce2023966a61cec739348b18bd465d/nodriver/core/element.py#L495",
+      "class": "primary"
+    },
+    {
+      "id": "ev-133",
+      "source": "https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues",
+      "excerpt": "From <https://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap08.html#tag_08_03>:",
+      "class": "primary"
+    },
+    {
+      "id": "ev-134",
+      "source": "https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues",
+      "excerpt": "... The list shall be searched from beginning to end, applying the filename to each prefix, until an executable file with the specified name and appropriate execution permissions is found. ...",
+      "class": "primary"
+    },
+    {
+      "id": "ev-135",
+      "source": "https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues",
+      "excerpt": "![image](https://github.com/user-attachments/assets/6910ddff-9f13-4a9f-b6d9-54aa8399aa86)",
+      "class": "primary"
+    },
+    {
+      "id": "ev-136",
+      "source": "https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues",
+      "excerpt": "I was doing tests with the nodriver module, when I tried to test the headless mode and I discovered that when activating this mode, the user-agent is modified and this makes the browser detectable as a bot, I attach the user-agent that is returned to me when using headless. Thank you!",
+      "class": "primary"
+    },
+    {
+      "id": "ev-137",
+      "source": "https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues",
+      "excerpt": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/128.0.0.0 Safari/537.36",
+      "class": "primary"
+    },
+    {
+      "id": "ev-138",
+      "source": "https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues",
+      "excerpt": "` so_key = {\"windows\": \"windows\", \"linux\": \"linux\", \"darwin\": \"mac\"}[platform.system().lower()]",
+      "class": "primary"
+    },
+    {
+      "id": "ev-139",
+      "source": "https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues",
+      "excerpt": "ua = next(ua for ua in requests.get(\"https://jnrbsn.github.io/user-agents/user-agents.json\").json() if so_key in ua.lower() and \"chrome\" in ua.lower() and \"firefox\" not in ua.lower())",
+      "class": "primary"
+    },
+    {
+      "id": "ev-140",
+      "source": "https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues",
+      "excerpt": "how do i add arguments to the browser, tried setting Config(browser_args=['incognito']) and conf.browser_args.append('incognito') and neither of those work",
+      "class": "primary"
+    },
+    {
+      "id": "ev-141",
+      "source": "https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues",
+      "excerpt": "NODRIVER cannot solve the hcaptcha on Windows Server 2022, Chrome Version 122.0.6261.95.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-142",
+      "source": "https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues",
+      "excerpt": "Site example: https://login.esocial.gov.br/login.aspx",
+      "class": "primary"
+    },
+    {
+      "id": "ev-143",
+      "source": "https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues",
+      "excerpt": "Login with the digital certificate. hcatpcha not open",
+      "class": "primary"
+    },
+    {
+      "id": "ev-144",
+      "source": "https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues",
+      "excerpt": "![Screenshot 2024-02-28 090351](https://github.com/ultrafunkamsterdam/nodriver/assets/66790305/ce2c0b5e-5a0f-4255-93d2-3470875297c0)",
+      "class": "primary"
+    },
+    {
+      "id": "ev-145",
+      "source": "https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues",
+      "excerpt": "For example, the following link: https://www.bing.com/turing/captcha/challenge",
+      "class": "primary"
+    },
+    {
+      "id": "ev-146",
+      "source": "https://api.stackexchange.com/2.3/search/advanced",
+      "excerpt": "## QUESTION 79622553 (0 votes, 148 views, 2 answers) Title: nodriver crashes with infinite recursion in headless mode when running browser.get()",
+      "class": "primary"
+    },
+    {
+      "id": "ev-147",
+      "source": "https://api.stackexchange.com/2.3/search/advanced",
+      "excerpt": "## QUESTION 79457003 (0 votes, 81 views, 0 answers) Title: Asyncio async funcitons hangs with asyncio.gather. (the code works without asyncio.gather)",
+      "class": "primary"
+    },
+    {
+      "id": "ev-148",
+      "source": "file:publish-pack 2026-08-05-0512-web-automation-pain-points-202",
+      "excerpt": "- ADJUDICATED CLAIM: Multiple independent practitioners report that scraping modern websites requires either paid APIs (Firecrawl/Browserbase) or headless Chrome fleets that consume ~1GB of RAM per page and still get blocked by Cloudflare. - ADJUDICATED CLAIM: Practitioners report Playwright and Puppeteer 'fall apart when you need stealth at scale', and that cloud-based automation sends data to third parties, motivating self-hosted alternatives. - ADJUDICATED CLAIM: Practitioners actively build counter-tooling against browser fingerprinting, which is described as tracking users without cookies",
+      "class": "primary"
+    },
+    {
+      "id": "ev-149",
+      "source": "file:publish-pack 2026-08-05-0601-microsoft-fara-vs-nodriver-arc",
+      "excerpt": "- ADJUDICATED CLAIM: All three models are available on Microsoft Foundry: Fara1.5-4B, Fara1.5-9B, and Fara1.5-27B. - ADJUDICATED CLAIM: Microsoft Fara1.5 is a computer use agent (CUA) model for web browsers from Microsoft Research AI Frontiers \u2014 a family of native computer use agents at three scales (Fara1.5-4B/9B/27B) built on Qwen3.5 \u2014 not a browser automation framework. - ADJUDICATED CLAIM: Fara1.5 is trained to pause and ask the user at critical points before continuing \u2014 agent-level consent behavior that driver-level tools do not implement. - ADJUDICATED CLAIM: Community signal: browser-h",
+      "class": "primary"
+    }
+  ],
+  "findings": [
+    {
+      "id": "f-1",
+      "claim": "browser = await nodriver.start() page = await browser.get('https://www.nowsecure.nl')",
+      "confidence": null,
+      "status": "needs_adjudication",
+      "sources": [
+        "https://raw.githubusercontent.com/ultrafunkamsterdam/nodriver/master/README.md"
+      ],
+      "evidence": [
+        "ev-31",
+        "ev-23",
+        "ev-3"
+      ],
+      "method": "keyword-density-v0"
+    },
+    {
+      "id": "f-2",
+      "claim": "### ```start(expert=True)``` does some hacking for more experienced users. It disables web security and origin-trials, as well as ensures shadow-roots are always open. This makes you more detectable though!",
+      "confidence": null,
+      "status": "needs_adjudication",
+      "sources": [
+        "https://raw.githubusercontent.com/ultrafunkamsterdam/nodriver/master/README.md"
+      ],
+      "evidence": [
+        "ev-31",
+        "ev-23",
+        "ev-3"
+      ],
+      "method": "keyword-density-v0"
+    },
+    {
+      "id": "f-3",
+      "claim": "Direct communication provides even better resistance against web applicatinon firewalls (WAF\u2019s), while performance gets a massive boost. This module is, contrary to undetected-chromedriver, fully asynchronous.",
+      "confidence": null,
+      "status": "needs_adjudication",
+      "sources": [
+        "https://raw.githubusercontent.com/ultrafunkamsterdam/nodriver/master/README.md"
+      ],
+      "evidence": [
+        "ev-31",
+        "ev-23",
+        "ev-3"
+      ],
+      "method": "keyword-density-v0"
+    },
+    {
+      "id": "f-4",
+      "claim": "browser = await nodriver.start() page = await browser.get('https://www.nowsecure.nl')",
+      "confidence": null,
+      "status": "needs_adjudication",
+      "sources": [
+        "https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues"
+      ],
+      "evidence": [
+        "ev-88",
+        "ev-70",
+        "ev-117"
+      ],
+      "method": "keyword-density-v0"
+    },
+    {
+      "id": "f-5",
+      "claim": "Hi, running nodriver on a linux workstation I've got this error: ``` File \"/home/ciccio/test/.venv/lib/python3.14/site-packages/nodriver/cdp/network.py\", line 1365 #: JSON (\ufffdInf). ^ SyntaxError: Non-UTF-8 code starting with '\\xb1' on line 1365, but no encoding declared; see https://peps.python.org/pep-0263/ for details ```",
+      "confidence": null,
+      "status": "needs_adjudication",
+      "sources": [
+        "https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues"
+      ],
+      "evidence": [
+        "ev-88",
+        "ev-70",
+        "ev-117"
+      ],
+      "method": "keyword-density-v0"
+    },
+    {
+      "id": "f-6",
+      "claim": "Is nodriver able to skip the Recaptcha check mark using this .verify_cf()",
+      "confidence": null,
+      "status": "needs_adjudication",
+      "sources": [
+        "https://api.github.com/repos/ultrafunkamsterdam/nodriver/issues"
+      ],
+      "evidence": [
+        "ev-88",
+        "ev-70",
+        "ev-117"
+      ],
+      "method": "keyword-density-v0"
+    },
+    {
+      "id": "f-7",
+      "claim": "## QUESTION 79622553 (0 votes, 148 views, 2 answers) Title: nodriver crashes with infinite recursion in headless mode when running browser.get()",
+      "confidence": null,
+      "status": "needs_adjudication",
+      "sources": [
+        "https://api.stackexchange.com/2.3/search/advanced"
+      ],
+      "evidence": [
+        "ev-146",
+        "ev-147"
+      ],
+      "method": "keyword-density-v0"
+    },
+    {
+      "id": "f-8",
+      "claim": "## QUESTION 79457003 (0 votes, 81 views, 0 answers) Title: Asyncio async funcitons hangs with asyncio.gather. (the code works without asyncio.gather)",
+      "confidence": null,
+      "status": "needs_adjudication",
+      "sources": [
+        "https://api.stackexchange.com/2.3/search/advanced"
+      ],
+      "evidence": [
+        "ev-146",
+        "ev-147"
+      ],
+      "method": "keyword-density-v0"
+    },
+    {
+      "id": "f-9",
+      "claim": "- ADJUDICATED CLAIM: Multiple independent practitioners report that scraping modern websites requires either paid APIs (Firecrawl/Browserbase) or headless Chrome fleets that consume ~1GB of RAM per page and still get blocked by Cloudflare. - ADJUDICATED CLAIM: Practitioners report Playwright and Puppeteer 'fall apart when you need stealth at scale', and that cloud-based automation sends data to th",
+      "confidence": null,
+      "status": "needs_adjudication",
+      "sources": [
+        "file:publish-pack 2026-08-05-0512-web-automation-pain-points-202"
+      ],
+      "evidence": [
+        "ev-148"
+      ],
+      "method": "keyword-density-v0"
+    },
+    {
+      "id": "f-10",
+      "claim": "- ADJUDICATED CLAIM: All three models are available on Microsoft Foundry: Fara1.5-4B, Fara1.5-9B, and Fara1.5-27B. - ADJUDICATED CLAIM: Microsoft Fara1.5 is a computer use agent (CUA) model for web browsers from Microsoft Research AI Frontiers \u2014 a family of native computer use agents at three scales (Fara1.5-4B/9B/27B) built on Qwen3.5 \u2014 not a browser automation framework. - ADJUDICATED CLAIM: Far",
+      "confidence": null,
+      "status": "needs_adjudication",
+      "sources": [
+        "file:publish-pack 2026-08-05-0601-microsoft-fara-vs-nodriver-arc"
+      ],
+      "evidence": [
+        "ev-149"
+      ],
+      "method": "keyword-density-v0"
+    }
+  ],
+  "notes": "Extraction v0 is mechanical: paragraphs, keyword density, truncation. Findings are DRAFT candidate findings requiring adjudication before any corpus admission. Sessions are operational evidence records."
+}

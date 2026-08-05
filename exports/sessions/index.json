@@ -2,6 +2,22 @@
   "schema": "hpf-sessions-manifest-v0",
   "sessions": [
     {
+      "id": "2026-08-05-1527-why-nodriver-sessions-die-over",
+      "topic": "Why nodriver sessions die overnight and how production systems prevent it",
+      "goal": "Document why persisted browser automation sessions fail between runs (cookie expiry, token invalidation, profile corruption, OS restart, lock contention) and which recovery/health-check/re-authentication patterns production systems use. Research for article 3: Why Your nodriver Session Dies Overnight (and How Production Systems Prevent It).",
+      "audience": "Blog",
+      "depth": "deep",
+      "status": "draft",
+      "created": "2026-08-05T15:27:49.022919+00:00",
+      "duration_s": 0,
+      "sources": 5,
+      "evidence": 149,
+      "findings": 10,
+      "community_signals": 0,
+      "adjudicated": null,
+      "failed": 0
+    },
+    {
       "id": "2026-08-05-0601-microsoft-fara-vs-nodriver-arc",
       "topic": "Microsoft Fara vs Nodriver: architecture, capabilities, and future of AI browser automation",
       "goal": "Determine whether Microsoft Fara represents an architectural evolution over Nodriver or addresses a different class of browser automation problems. Identify evidence for capability overlap, unique strengths, limitations, and likely future adoption. Include Technology Maturity assessment: production readiness, community adoption, maintenance activity, breaking changes, vendor commitment, migration risk. Produce an adjudicated comparison suitable for publication.",
