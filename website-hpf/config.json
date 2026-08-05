@@ -1,0 +1,7 @@
+{
+  "_note": "Domain migration in progress (2026-08-04): the site and workbench are moving onto a shared root domain (versatilesparks.pages.dev), driven by the website thread. Update these values when the migration lands; the workbench never hardcodes hostnames elsewhere.",
+  "site_url": "https://versatilesparks.qzz.io",
+  "hpf_url": "https://hpf.versatilesparks.qzz.io",
+  "contract_url": "https://github.com/YasakaH/hpf-core/blob/main/tools/hpf-engine/EXPORT_CONTRACT.md",
+  "contract_label": "knowledge-export-core-v1 (EXPORT_CONTRACT.md)"
+}

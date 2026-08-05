@@ -11,17 +11,37 @@
 
   <header class="topbar">
     <div class="brand">HPF <span class="muted">Research Workbench</span></div>
-    <div id="topbar-status" class="topbar-status"></div>
+    <div class="topbar-right">
+      <span id="topbar-status" class="topbar-status"></span>
+      <a id="portal-link" class="topbar-link hidden" target="_blank" rel="noopener">Portal</a>
+    </div>
   </header>
 
   <div class="layout">
     <nav class="sidebar">
-      <button class="nav-btn active" data-route="#/">Dashboard</button>
-      <button class="nav-btn" data-route="#/validation">Validation</button>
-      <button class="nav-btn" data-route="#/relationships">Relationships</button>
-      <button class="nav-btn" data-route="#/diagnostics">Diagnostics</button>
+      <div class="nav-group">
+        <div class="nav-label">Workspace</div>
+        <button class="nav-btn" data-route="#/">Home</button>
+        <button class="nav-btn" data-route="#/research">Research</button>
+      </div>
+      <div class="nav-group">
+        <div class="nav-label">Knowledge</div>
+        <button class="nav-btn" data-route="#/knowledge">Concepts</button>
+        <button class="nav-btn" data-route="#/knowledge/findings">Findings</button>
+        <button class="nav-btn" data-route="#/relationships">Relationships</button>
+      </div>
+      <div class="nav-group">
+        <div class="nav-label">Corpus</div>
+        <button class="nav-btn" data-route="#/validation">Corpus Health</button>
+        <button class="nav-btn" data-route="#/corpus">Release</button>
+        <button class="nav-btn" data-route="#/publishing">Publishing</button>
+      </div>
+      <div class="nav-group">
+        <div class="nav-label">System</div>
+        <button class="nav-btn" data-route="#/diagnostics">Diagnostics</button>
+      </div>
       <div class="search-box">
-        <input type="text" id="search-input" placeholder="Search objects…" autocomplete="off">
+        <input type="text" id="search-input" placeholder="Find a concept…" autocomplete="off">
       </div>
       <div id="search-results" class="search-results"></div>
     </nav>

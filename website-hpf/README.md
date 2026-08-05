@@ -9,6 +9,16 @@ dossiers, programme state, or engine internals. If the workbench ever needs
 HPF internals, that is contract pressure evidence, not permission to bypass
 the contract.
 
+## Orientation (2026-08-04, owner-directed)
+
+The workbench faces the research workflow, not the engine's internals. Home is
+a research prompt; the Research hub records intended investigations and shows
+the pipeline the research orchestrator will execute (plan -> collect ->
+extract -> cross-reference -> findings -> adjudicate -> corpus). The ontology,
+schema, and exporter details live under Diagnostics, not the dashboard.
+`config.json` holds hostnames and links so no code hardcodes a domain — during
+the shared-root-domain migration only `config.json` changes.
+
 ## Data flow
 
 ```
@@ -77,7 +87,7 @@ Deployment is **explicit and manual only** — never triggered by a push.
 
 - Repository: `YasakaH/hpf-core` (branch `main`) — engine, research,
   workbench, and releases live together
-- Workflow: `.github/workflows/hpf-deploy.yml` — runs only via
+- Workflow: `.github/workflows/release-hpf.yml` — runs only via
   `workflow_dispatch` ("Release HPF Workbench"); it gates the committed
   release, verifies the committed index, and deploys those exact files. CI
   never regenerates the dataset.

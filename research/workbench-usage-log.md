@@ -23,6 +23,13 @@ VS Code, terminal, JSON inspection, or ad hoc scripts goes through it. The
 infrastructure phase is closed; the next improvements come from this log, not
 from the deployment stack.
 
+Owner-directed redesign 2026-08-04: the workbench was reoriented from
+ontology-browser to research-first (Home = research prompt; Research hub =
+intended investigations; ontology/schema details moved to Diagnostics). Log
+entries should therefore record departures against the new interface, and any
+recurring "had to open the dossier / terminal" gap becomes evidence under the
+new layout.
+
 For every departure from the Workbench, ask:
 
 > "Could I reasonably have stayed inside the Workbench?"
