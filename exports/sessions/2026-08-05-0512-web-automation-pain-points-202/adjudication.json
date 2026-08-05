@@ -1,0 +1,142 @@
+{
+  "schema": "hpf-adjudication-v0",
+  "session_id": "2026-08-05-0512-web-automation-pain-points-202",
+  "adjudicated_at": "2026-08-05T05:16:51.295367+00:00",
+  "adjudicator": "cycle-reviewer",
+  "summary": {
+    "approve": 0,
+    "revise": 7,
+    "reject": 14,
+    "add": 1
+  },
+  "findings": [
+    {
+      "id": "f-1",
+      "decision": "reject",
+      "note": "Restatement of official docs intro (Playwright Test is an e2e framework). It is context, not a finding: no claim about pain points."
+    },
+    {
+      "id": "f-2",
+      "decision": "reject",
+      "note": "Restatement of docs (headless parallel execution). Context only; no pain-point claim."
+    },
+    {
+      "id": "f-3",
+      "decision": "reject",
+      "note": "Nav chrome fragment ('PlaywrightDocsMCPCLIAPI Node.js...'), not prose. The prose filter caught most chrome; this one-line fragment slipped through and has no claim."
+    },
+    {
+      "id": "f-4",
+      "decision": "reject",
+      "note": "Code-source restatement of nodriver README (disables web security/origin-trials). Interesting content but stated as the tool's features; no extracted claim about practitioners."
+    },
+    {
+      "id": "f-5",
+      "decision": "reject",
+      "note": "Code-source restatement (direct CDP communication, WAF resistance). Feature blurb from README; not a finding."
+    },
+    {
+      "id": "f-6",
+      "decision": "reject",
+      "note": "README title/stars/forks restatement ('Successor of Undetected-Chromedriver... AGPL-3.0... 4.6k stars'). Repository metadata, not a finding."
+    },
+    {
+      "id": "f-7",
+      "decision": "reject",
+      "note": "DevTools tagline ('Find and fix problems with your website'). Marketing, no claim."
+    },
+    {
+      "id": "f-8",
+      "decision": "reject",
+      "note": "DevTools tagline ('Design a beautiful and performant web with Chrome'). Marketing, no claim."
+    },
+    {
+      "id": "f-9",
+      "decision": "reject",
+      "note": "DevTools performance-panel blurb. Restatement, no claim about the research question."
+    },
+    {
+      "id": "f-10",
+      "decision": "revise",
+      "note": "Draft was the Draco product pitch itself. The pain-point claim inside it (RAM cost + Cloudflare blocking + the paid-API-vs-fleet dichotomy) is corroborated by the StackScope pitch (ev-110, score 67) in the same thread \u2014 two independent occurrences of the same pain point.",
+      "revised_claim": "Multiple independent practitioners report that scraping modern websites requires either paid APIs (Firecrawl/Browserbase) or headless Chrome fleets that consume ~1GB of RAM per page and still get blocked by Cloudflare."
+    },
+    {
+      "id": "f-11",
+      "decision": "reject",
+      "note": "Product pitch (StackScope crawler catalogue). The pain-point fragment was folded into revised f-10."
+    },
+    {
+      "id": "f-12",
+      "decision": "revise",
+      "note": "Owl Browser pitch (score 2 \u2014 low). Claim survives as a community_signal but with weak independent corroboration; keep status.",
+      "revised_claim": "Practitioners report Playwright and Puppeteer 'fall apart when you need stealth at scale', and that cloud-based automation sends data to third parties, motivating self-hosted alternatives."
+    },
+    {
+      "id": "f-13",
+      "decision": "revise",
+      "note": "Privacy Thing pitch (score 20). The underlying claim (fingerprinting = cookie-less tracking, actively fought) is consistent across two independent products in this thread.",
+      "revised_claim": "Practitioners actively build counter-tooling against browser fingerprinting, which is described as tracking users without cookies."
+    },
+    {
+      "id": "f-14",
+      "decision": "reject",
+      "note": "Off-topic essay about AI reading web pages; not about browser automation pain points."
+    },
+    {
+      "id": "f-15",
+      "decision": "revise",
+      "note": "GeoSpoof pitch (score 19). Concrete pain point (geo mismatch flags) plus an independent corroborating claim about the breadth of fingerprint signals (ev-117).",
+      "revised_claim": "Practitioners report websites flag accounts when browser-reported geolocation disagrees with the IP's country, and that browsers emit dozens of fingerprintable signals no single tool covers."
+    },
+    {
+      "id": "f-16",
+      "decision": "revise",
+      "note": "xhr.dev pitch (score 15). The pain point (blocked by anti-bot when scraping) is explicit and matches f-10/f-17 independently.",
+      "revised_claim": "Practitioners report that anti-bot defences (Cloudflare, captcha challenges) block scraping use cases, and that official APIs are often missing, forcing reverse engineering."
+    },
+    {
+      "id": "f-17",
+      "decision": "revise",
+      "note": "Strongest signal in the session: score 161, concrete, falsifiable, dated 2023-2024. Retain as community_signal. This is the anchor for the Cloudflare-blocking finding.",
+      "revised_claim": "Practitioners report Cloudflare 'Under Attack Mode' serves captchas to Tor and other 'bad' IPs that fail roughly 90% of the time \u2014 the checkbox spins forever \u2014 and that this is specific to under-attack-mode sites."
+    },
+    {
+      "id": "f-18",
+      "decision": "reject",
+      "note": "Duplicate xhr.dev launch pitch (score 19). Claim already covered by revised f-16."
+    },
+    {
+      "id": "f-19",
+      "decision": "reject",
+      "note": "Off-topic: email-provider/Cloudflare-custom-domain thread, matched only because 'Cloudflare' keyword appeared. Query drift \u2014 this is connector noise."
+    },
+    {
+      "id": "f-20",
+      "decision": "revise",
+      "note": "Site-operator perspective (score 12) \u2014 the mirror image of the automation-side pain points. Weak frequency but genuinely different perspective; keep as community_signal.",
+      "revised_claim": "Site operators report bot traffic accounts for a large share of web traffic and that the common response (putting Cloudflare in front) is the only mitigation they consider, with AI-crawler traffic worsening the problem."
+    },
+    {
+      "id": "f-21",
+      "decision": "reject",
+      "note": "Product pitch (seafruit pages reader); 'sites blocking AI crawlers' is tangential to browser automation pain points."
+    },
+    {
+      "id": "f-22",
+      "decision": "add",
+      "note": "Synthesized by the reviewer from the divergence between primary/code evidence and community evidence in this session. Deliberately kept as a draft (needs_adjudication, confidence null) \u2014 it does not graduate automatically.",
+      "claim": "Official documentation presents browser automation as a supported, feature-complete practice (Playwright e2e framework, Chrome DevTools), while community evidence reports systematic blocking under anti-bot systems: Cloudflare Under-Attack-Mode captchas failing ~90% of the time for Tor/bad IPs (score 161), headless fleets blocked despite ~1GB RAM per page, and tooling explicitly built around evading WAFs and detection (undetected-chromedriver successor). Community experience diverges from official documentation regarding reliability under anti-bot systems.",
+      "status": "needs_adjudication",
+      "method": "adjudication-synthesis-v0",
+      "sources": [
+        "https://playwright.dev/docs/intro",
+        "https://developer.chrome.com/docs/devtools",
+        "https://github.com/ultrafunkamsterdam/nodriver",
+        "https://news.ycombinator.com/item?id=34217999",
+        "https://news.ycombinator.com/item?id=49148163"
+      ],
+      "confidence": null
+    }
+  ]
+}

@@ -2,6 +2,27 @@
   "schema": "hpf-sessions-manifest-v0",
   "sessions": [
     {
+      "id": "2026-08-05-0512-web-automation-pain-points-202",
+      "topic": "Web automation pain points (2026)",
+      "goal": "What are the recurring practitioner pain points in browser automation in 2026, and what do official sources say?",
+      "audience": "Blog",
+      "depth": "deep",
+      "status": "draft",
+      "created": "2026-08-05T05:12:42.188330+00:00",
+      "duration_s": 2,
+      "sources": 7,
+      "evidence": 132,
+      "findings": 21,
+      "community_signals": 12,
+      "adjudicated": {
+        "approve": 0,
+        "revise": 7,
+        "reject": 14,
+        "add": 1
+      },
+      "failed": 0
+    },
+    {
       "id": "2026-08-05-0455-web-automation-pain-points-202",
       "topic": "Web automation pain points (2026)",
       "goal": "What are the recurring practitioner pain points in browser automation in 2026, and what do official sources say?",
@@ -14,6 +35,7 @@
       "evidence": 62,
       "findings": 21,
       "community_signals": 12,
+      "adjudicated": null,
       "failed": 0
     },
     {
@@ -29,6 +51,7 @@
       "evidence": 23,
       "findings": 12,
       "community_signals": 3,
+      "adjudicated": null,
       "failed": 0
     },
     {
@@ -44,6 +67,7 @@
       "evidence": 26,
       "findings": 12,
       "community_signals": 0,
+      "adjudicated": null,
       "failed": 0
     }
   ]

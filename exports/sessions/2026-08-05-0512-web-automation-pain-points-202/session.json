@@ -1,0 +1,1600 @@
+{
+  "schema": "hpf-session-v0",
+  "id": "2026-08-05-0512-web-automation-pain-points-202",
+  "topic": "Web automation pain points (2026)",
+  "goal": "What are the recurring practitioner pain points in browser automation in 2026, and what do official sources say?",
+  "audience": "Blog",
+  "depth": "deep",
+  "created": "2026-08-05T05:12:42.188330+00:00",
+  "started": "2026-08-05T05:12:39.785046+00:00",
+  "finished": "2026-08-05T05:12:42.188276+00:00",
+  "activity": [
+    {
+      "ts": "2026-08-05T05:12:39.785070+00:00",
+      "msg": "Research started"
+    },
+    {
+      "ts": "2026-08-05T05:12:39.785140+00:00",
+      "msg": "Evidence class primary: high \u2014 official documentation anchors any topic"
+    },
+    {
+      "ts": "2026-08-05T05:12:39.785156+00:00",
+      "msg": "Evidence class code: high \u2014 repositories show implementation reality"
+    },
+    {
+      "ts": "2026-08-05T05:12:39.785166+00:00",
+      "msg": "Evidence class community: high \u2014 practitioner pain points are core signal for tooling topics"
+    },
+    {
+      "ts": "2026-08-05T05:12:39.785176+00:00",
+      "msg": "Evidence class scientific: low \u2014 scientific weight low unless the topic is model/research-focused"
+    },
+    {
+      "ts": "2026-08-05T05:12:39.785186+00:00",
+      "msg": "Evidence class operational: low \u2014 operational weight low unless performance is central"
+    },
+    {
+      "ts": "2026-08-05T05:12:39.785195+00:00",
+      "msg": "Research plan built: 9 keywords, depth deep"
+    },
+    {
+      "ts": "2026-08-05T05:12:40.101219+00:00",
+      "msg": "Collected playwright.dev (5348 chars, class primary)"
+    },
+    {
+      "ts": "2026-08-05T05:12:40.890021+00:00",
+      "msg": "Collected github.com (14414 chars, class code)"
+    },
+    {
+      "ts": "2026-08-05T05:12:42.175866+00:00",
+      "msg": "Collected developer.chrome.com (17320 chars, class primary)"
+    },
+    {
+      "ts": "2026-08-05T05:12:42.176885+00:00",
+      "msg": "Community signal r/hacker-news: 6 comments (class community)"
+    },
+    {
+      "ts": "2026-08-05T05:12:42.178610+00:00",
+      "msg": "Community signal r/hacker-news: 5 comments (class community)"
+    },
+    {
+      "ts": "2026-08-05T05:12:42.179667+00:00",
+      "msg": "Community signal r/hacker-news: 6 comments (class community)"
+    },
+    {
+      "ts": "2026-08-05T05:12:42.186231+00:00",
+      "msg": "Community signal r/hacker-news: 8 comments (class community)"
+    },
+    {
+      "ts": "2026-08-05T05:12:42.186300+00:00",
+      "msg": "Extracted 132 evidence entries from 7 sources"
+    },
+    {
+      "ts": "2026-08-05T05:12:42.188201+00:00",
+      "msg": "Drafted 21 candidate findings (keyword-density-v0), 12 as community signals"
+    },
+    {
+      "ts": "2026-08-05T05:12:42.188289+00:00",
+      "msg": "Session artifact written"
+    }
+  ],
+  "plan": {
+    "keywords": [
+      "2026",
+      "architecture",
+      "automation",
+      "limitations",
+      "pain",
+      "performance",
+      "points",
+      "security",
+      "web"
+    ],
+    "depth": "deep",
+    "evidence_classes": {
+      "primary": "high",
+      "code": "high",
+      "community": "high",
+      "scientific": "low",
+      "operational": "low"
+    }
+  },
+  "status": "draft",
+  "stages": [
+    {
+      "name": "plan",
+      "detail": "research question, keywords, depth",
+      "state": "done"
+    },
+    {
+      "name": "collect",
+      "detail": "sources fetched or imported",
+      "state": "done"
+    },
+    {
+      "name": "extract",
+      "detail": "text chunked into evidence entries",
+      "state": "done"
+    },
+    {
+      "name": "findings",
+      "detail": "draft candidate findings (not conclusions)",
+      "state": "done"
+    }
+  ],
+  "sources": [
+    {
+      "url": "https://playwright.dev/docs/intro",
+      "title": "playwright.dev",
+      "status": "fetched",
+      "chars": 5348,
+      "class": "primary"
+    },
+    {
+      "url": "https://github.com/ultrafunkamsterdam/nodriver",
+      "title": "github.com",
+      "status": "fetched",
+      "chars": 14414,
+      "class": "code"
+    },
+    {
+      "url": "https://developer.chrome.com/docs/devtools",
+      "title": "developer.chrome.com",
+      "status": "fetched",
+      "chars": 17320,
+      "class": "primary"
+    },
+    {
+      "url": "reddit://r/hacker-news/comments/playwright detection bot",
+      "title": "r/hacker-news community signal (6 comments)",
+      "status": "imported",
+      "chars": 12225,
+      "class": "community",
+      "community": {
+        "subreddit": "hacker-news",
+        "thread": "playwright detection bot",
+        "score": 246,
+        "comments": 6
+      }
+    },
+    {
+      "url": "reddit://r/hacker-news/comments/browser fingerprinting",
+      "title": "r/hacker-news community signal (5 comments)",
+      "status": "imported",
+      "chars": 8739,
+      "class": "community",
+      "community": {
+        "subreddit": "hacker-news",
+        "thread": "browser fingerprinting",
+        "score": 103,
+        "comments": 5
+      }
+    },
+    {
+      "url": "reddit://r/hacker-news/comments/web scraping blocked captcha",
+      "title": "r/hacker-news community signal (6 comments)",
+      "status": "imported",
+      "chars": 17801,
+      "class": "community",
+      "community": {
+        "subreddit": "hacker-news",
+        "thread": "web scraping blocked captcha",
+        "score": 266,
+        "comments": 6
+      }
+    },
+    {
+      "url": "reddit://r/hacker-news/comments/Cloudflare blocking bots",
+      "title": "r/hacker-news community signal (8 comments)",
+      "status": "imported",
+      "chars": 11804,
+      "class": "community",
+      "community": {
+        "subreddit": "hacker-news",
+        "thread": "Cloudflare blocking bots",
+        "score": 47,
+        "comments": 8
+      }
+    }
+  ],
+  "evidence": [
+    {
+      "id": "ev-1",
+      "source": "https://playwright.dev/docs/intro",
+      "excerpt": "PlaywrightDocsMCPCLIAPI Node.js Node.js Python Java .NET",
+      "class": "primary"
+    },
+    {
+      "id": "ev-2",
+      "source": "https://playwright.dev/docs/intro",
+      "excerpt": "Playwright Test is an end-to-end test framework for modern web apps. It bundles test runner, assertions, isolation, parallelization and rich tooling. Playwright supports Chromium, WebKit and Firefox on Windows, Linux and macOS, locally or in CI, headless or headed, with native mobile emulation for Chrome (Android) and Mobile Safari.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-3",
+      "source": "https://playwright.dev/docs/intro",
+      "excerpt": "Get started by installing Playwright using one of the following methods.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-4",
+      "source": "https://playwright.dev/docs/intro",
+      "excerpt": "The command below either initializes a new project or adds Playwright to an existing one.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-5",
+      "source": "https://playwright.dev/docs/intro",
+      "excerpt": "You can re-run the command later; it does not overwrite existing tests.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-6",
+      "source": "https://playwright.dev/docs/intro",
+      "excerpt": "You can also create and run tests with the VS Code Extension.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-7",
+      "source": "https://playwright.dev/docs/intro",
+      "excerpt": "Playwright downloads required browser binaries and creates the scaffold below.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-8",
+      "source": "https://playwright.dev/docs/intro",
+      "excerpt": "playwright.config.ts # Test configuration",
+      "class": "primary"
+    },
+    {
+      "id": "ev-9",
+      "source": "https://playwright.dev/docs/intro",
+      "excerpt": "package-lock.json # Or yarn.lock / pnpm-lock.yaml",
+      "class": "primary"
+    },
+    {
+      "id": "ev-10",
+      "source": "https://playwright.dev/docs/intro",
+      "excerpt": "The playwright.config centralizes configuration: target browsers, timeouts, retries, projects, reporters and more. In existing projects dependencies are added to your current package.json.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-11",
+      "source": "https://playwright.dev/docs/intro",
+      "excerpt": "By default tests run headless in parallel across Chromium, Firefox and WebKit (configurable in playwright.config). Output and aggregated results display in the terminal.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-12",
+      "source": "https://playwright.dev/docs/intro",
+      "excerpt": "Run a single project/browser: --project=chromium.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-13",
+      "source": "https://playwright.dev/docs/intro",
+      "excerpt": "Run one file: npx playwright test tests/example.spec.ts.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-14",
+      "source": "https://playwright.dev/docs/intro",
+      "excerpt": "See Running Tests for details on filtering, headed mode, sharding and retries.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-15",
+      "source": "https://playwright.dev/docs/intro",
+      "excerpt": "After a test run, the HTML Reporter provides a dashboard filterable by the browser, passed, failed, skipped, flaky and more. Click a test to inspect errors, attachments and steps. It auto-opens only when failures occur; open manually with the command below.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-16",
+      "source": "https://playwright.dev/docs/intro",
+      "excerpt": "Run tests with UI Mode for watch mode, live step view, time travel debugging and more.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-17",
+      "source": "https://playwright.dev/docs/intro",
+      "excerpt": "See the detailed guide on UI Mode for watch filters, step details and trace integration.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-18",
+      "source": "https://playwright.dev/docs/intro",
+      "excerpt": "Windows 11+, Windows Server 2019+ or Windows Subsystem for Linux (WSL).",
+      "class": "primary"
+    },
+    {
+      "id": "ev-19",
+      "source": "https://playwright.dev/docs/intro",
+      "excerpt": "Debian 12 / 13, Ubuntu 22.04 / 24.04 / 26.04 (x86-64 or arm64).",
+      "class": "primary"
+    },
+    {
+      "id": "ev-20",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "You signed in with another tab or window. Reload to refresh your session. You signed out in another tab or window. Reload to refresh your session. You switched accounts on another tab or window. Reload to refresh your session.",
+      "class": "code"
+    },
+    {
+      "id": "ev-21",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "This is the official successor of the Undetected-Chromedriver python package.",
+      "class": "code"
+    },
+    {
+      "id": "ev-22",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "Direct communication provides even better resistance against web applicatinon firewalls (WAF\u2019s), while performance gets a massive boost. This module is, contrary to undetected-chromedriver, fully asynchronous.",
+      "class": "code"
+    },
+    {
+      "id": "ev-23",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "What makes this package different from other known packages, is the optimization to stay undetected for most anti-bot solutions.",
+      "class": "code"
+    },
+    {
+      "id": "ev-24",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "Another focus point is usability and quick prototyping, so expect a lot to work -as is- , with most method parameters having best practice defaults. Using 1 or 2 lines, this is up and running, providing best practice config by default. It cleans up created files (profile) afterwards.",
+      "class": "code"
+    },
+    {
+      "id": "ev-25",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "While usability and convenience is important. It\u2019s also easy to fully customizable everything using the entire array of CDP domains, methods and events available.",
+      "class": "code"
+    },
+    {
+      "id": "ev-26",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "smart and performant element lookup, by selector or text, including iframe content. this could also be used as wait condition for a element to appear, since it will retry for the duration of until found. so an await tab.select('body') could be used as an indicator whether a page is loaded. the find method searches by text, but will not naively return the first matching element, but will match candidates by closest matching text length (shortest wins), this makes lookups like tab.find('accept all') return the actual cookie button instead of a script in the headers",
+      "class": "code"
+    },
+    {
+      "id": "ev-27",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "utility function to convert a running undetected_chromedriver.Chrome instance to a nodriver.Browser instance and contintue from there",
+      "class": "code"
+    },
+    {
+      "id": "ev-28",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "Parts are rewritten to use flat connections in the protocol. Why? - iframes are included in most operations. - tab got a new method: await tab.get_frames() which will return Iframes that are inspectable. - find() will include iframes, so you can even search for \"verify you are human\" and click the verification checkbox in js challenges.",
+      "class": "code"
+    },
+    {
+      "id": "ev-29",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "Since this required quite some rewriting, please test thoroughly, especially if you run large projects.",
+      "class": "code"
+    },
+    {
+      "id": "ev-30",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "finds the checkbox and click it successfully this only works when NOT in expert mode. currently built-in english only requires opencv-python package to be installed",
+      "class": "code"
+    },
+    {
+      "id": "ev-31",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "tab.bypass_insecure_connection_warning()",
+      "class": "code"
+    },
+    {
+      "id": "ev-32",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "convenience method, for insecure page warning. for example when a certificate is invalid.",
+      "class": "code"
+    },
+    {
+      "id": "ev-33",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "callback may accept a single argument (event), or 2 arguments (event, tab).",
+      "class": "code"
+    },
+    {
+      "id": "ev-34",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "does some hacking for more experienced users. It disables web security and origin-trials, as well as ensures shadow-roots are always open. This makes you more detectable though!",
+      "class": "code"
+    },
+    {
+      "id": "ev-35",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "you need chrome (or some chromium based browser) installed preferably in the default location on the machine where you use this package.",
+      "class": "code"
+    },
+    {
+      "id": "ev-36",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "when running on a headless machine, like AWS or any other environment where no display is present, it's best to use some Xvfb tool, to emulate a screen. alternatively this package can be used in headless mode.",
+      "class": "code"
+    },
+    {
+      "id": "ev-37",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "The aim of this project (just like undetected-chromedriver, somewhere long ago) is to keep it short and simple, so you can quickly open an editor or interactive session, type or paste a few lines and off you go.",
+      "class": "code"
+    },
+    {
+      "id": "ev-38",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "browser = await uc.start() page = await browser.get('https://www.nowsecure.nl')",
+      "class": "code"
+    },
+    {
+      "id": "ev-39",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "if __name__ == '__main__': # since asyncio.run never worked (for me) uc.loop().run_until_complete(main())",
+      "class": "code"
+    },
+    {
+      "id": "ev-40",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "browser = await start( headless=False, user_data_dir=\"/path/to/existing/profile\", # by specifying it, it won't be automatically cleaned up when finished browser_executable_path=\"/path/to/some/other/browser\", browser_args=['--some-browser-arg=true', '--some-other-option'], lang=\"en-US\" # this could set iso-language-code in navigator, not recommended to change ) tab = await browser.get('https://somewebsite.com')",
+      "class": "code"
+    },
+    {
+      "id": "ev-41",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "config = Config() config.headless = False config.user_data_dir=\"/path/to/existing/profile\", # by specifying it, it won't be automatically cleaned up when finished config.browser_executable_path=\"/path/to/some/other/browser\", config.browser_args=['--some-browser-arg=true', '--some-other-option'], config.lang=\"en-US\" # this could set iso-language-code in navigator, not recommended to change )",
+      "class": "code"
+    },
+    {
+      "id": "ev-42",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "browser = await nodriver.start() page = await browser.get('https://www.nowsecure.nl')",
+      "class": "code"
+    },
+    {
+      "id": "ev-43",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "await page.save_screenshot() await page.get_content() await page.scroll_down(150) elems = await page.select_all('*[src]')",
+      "class": "code"
+    },
+    {
+      "id": "ev-44",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "page2 = await browser.get('https://twitter.com', new_tab=True) page3 = await browser.get('https://github.com/ultrafunkamsterdam/nodriver', new_window=True)",
+      "class": "code"
+    },
+    {
+      "id": "ev-45",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "for p in (page, page2, page3): await p.bring_to_front() await p.scroll_down(200) await p # wait for events to be processed await p.reload() if p != page3: await p.close()",
+      "class": "code"
+    },
+    {
+      "id": "ev-46",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "# since asyncio.run never worked (for me) uc.loop().run_until_complete(main())",
+      "class": "code"
+    },
+    {
+      "id": "ev-47",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "A more concrete example, which can be found in the ./example/ folder, shows a script to create a twitter account",
+      "class": "code"
+    },
+    {
+      "id": "ev-48",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "async def main(): driver = await uc.start()",
+      "class": "code"
+    },
+    {
+      "id": "ev-49",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "tab = await driver.get(\"https://twitter.com\")",
+      "class": "code"
+    },
+    {
+      "id": "ev-50",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "# wait for text to appear instead of a static number of seconds to wait # this does not always work as expected, due to speed. print('finding the \"create account\" button') create_account = await tab.find(\"create account\", best_match=True)",
+      "class": "code"
+    },
+    {
+      "id": "ev-51",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "print('\"create account\" => click') await create_account.click()",
+      "class": "code"
+    },
+    {
+      "id": "ev-52",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "print(\"finding the email input field\") email = await tab.select(\"input[type=email]\")",
+      "class": "code"
+    },
+    {
+      "id": "ev-53",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "# sometimes, email field is not shown, because phone is being asked instead # when this occurs, find the small text which says \"use email instead\" if not email: use_mail_instead = await tab.find(\"use email instead\") # and click it await use_mail_instead.click()",
+      "class": "code"
+    },
+    {
+      "id": "ev-54",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "# now find the email field again email = await tab.select(\"input[type=email]\")",
+      "class": "code"
+    },
+    {
+      "id": "ev-55",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "randstr = lambda k: \"\".join(random.choices(string.ascii_letters, k=k))",
+      "class": "code"
+    },
+    {
+      "id": "ev-56",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "# send keys to email field print('filling in the \"email\" input field') await email.send_keys(\"\".join([randstr(8), \"@\", randstr(8), \".com\"]))",
+      "class": "code"
+    },
+    {
+      "id": "ev-57",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "# find the name input field print(\"finding the name input field\") name = await tab.select(\"input[type=text]\")",
+      "class": "code"
+    },
+    {
+      "id": "ev-58",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "# again, send random text print('filling in the \"name\" input field') await name.send_keys(randstr(8))",
+      "class": "code"
+    },
+    {
+      "id": "ev-59",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "# since there are 3 select fields on the tab, we can use unpacking # to assign each field print('finding the \"month\" , \"day\" and \"year\" fields in 1 go') sel_month, sel_day, sel_year = await tab.select_all(\"select\")",
+      "class": "code"
+    },
+    {
+      "id": "ev-60",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "# await sel_month.focus() print('filling in the \"month\" input field') await sel_month.send_keys(months[random.randint(0, 11)].title())",
+      "class": "code"
+    },
+    {
+      "id": "ev-61",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "# await sel_day.focus() # i don't want to bother with month-lengths and leap years print('filling in the \"day\" input field') await sel_day.send_keys(str(random.randint(0, 28)))",
+      "class": "code"
+    },
+    {
+      "id": "ev-62",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "# await sel_year.focus() # i don't want to bother with age restrictions print('filling in the \"year\" input field') await sel_year.send_keys(str(random.randint(1980, 2005)))",
+      "class": "code"
+    },
+    {
+      "id": "ev-63",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "# let's handle the cookie nag as well cookie_bar_accept = await tab.find(\"accept all\", best_match=True) if cookie_bar_accept: await cookie_bar_accept.click()",
+      "class": "code"
+    },
+    {
+      "id": "ev-64",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "next_btn = await tab.find(text=\"next\", best_match=True) # for btn in reversed(next_btns): await next_btn.mouse_click()",
+      "class": "code"
+    },
+    {
+      "id": "ev-65",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "print(\"sleeping 2 seconds\") await tab.sleep(2) # visually see what part we're actually in",
+      "class": "code"
+    },
+    {
+      "id": "ev-66",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "print('finding \"next\" button') next_btn = await tab.find(text=\"next\", best_match=True) print('clicking \"next\" button') await next_btn.mouse_click()",
+      "class": "code"
+    },
+    {
+      "id": "ev-67",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "# just wait for some button, before we continue await tab.select(\"[role=button]\")",
+      "class": "code"
+    },
+    {
+      "id": "ev-68",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "print('finding \"sign up\" button') sign_up_btn = await tab.find(\"Sign up\", best_match=True) # we need the second one print('clicking \"sign up\" button') await sign_up_btn.click()",
+      "class": "code"
+    },
+    {
+      "id": "ev-69",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "print('the rest of the \"implementation\" is out of scope') # further implementation outside of scope await tab.sleep(10) driver.stop()",
+      "class": "code"
+    },
+    {
+      "id": "ev-70",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "if __name__ == \"__main__\": # since asyncio.run never worked (for me) # i use uc.loop().run_until_complete(main())",
+      "class": "code"
+    },
+    {
+      "id": "ev-71",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "About Successor of Undetected-Chromedriver. Providing a blazing fast framework for web automation, webscraping, bots and any other creative ideas which are normally hindered by annoying anti bot systems like Captcha / CloudFlare / Imperva / hCaptcha Resources Readme AGPL-3.0 license Activity Stars 4.6k stars Watchers 94 watching Forks 430 forks Report repository",
+      "class": "code"
+    },
+    {
+      "id": "ev-72",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "You can\u2019t perform that action at this time.",
+      "class": "code"
+    },
+    {
+      "id": "ev-73",
+      "source": "https://developer.chrome.com/docs/devtools",
+      "excerpt": "Learn how Chrome works, participate in origin trials, and build with Chrome everywhere.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-74",
+      "source": "https://developer.chrome.com/docs/devtools",
+      "excerpt": "Create the best experience for your users with the web's best tools.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-75",
+      "source": "https://developer.chrome.com/docs/devtools",
+      "excerpt": "Get things done quicker and neater, with our ready-made libraries.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-76",
+      "source": "https://developer.chrome.com/docs/devtools",
+      "excerpt": "Design a beautiful and performant web with Chrome.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-77",
+      "source": "https://developer.chrome.com/docs/devtools",
+      "excerpt": "Save and categorize content based on your preferences.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-78",
+      "source": "https://developer.chrome.com/docs/devtools",
+      "excerpt": "Chrome DevTools is a set of web developer tools built directly into the Google Chrome browser. DevTools lets you edit pages on-the-fly and diagnose problems quickly, which helps you build better websites, faster.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-79",
+      "source": "https://developer.chrome.com/docs/devtools",
+      "excerpt": "Explore how AI innovations in DevTools let you do more, faster. Use DevTools for agents to connect the power of DevTools to your favorite coding agents.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-80",
+      "source": "https://developer.chrome.com/docs/devtools",
+      "excerpt": "Let Gemini help you analyze and improve your website's styling, network, sources, and performance. Get help with console errors, and code suggestions in the Console and Sources panels.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-81",
+      "source": "https://developer.chrome.com/docs/devtools",
+      "excerpt": "Give your coding agents the same trusted tools you use to inspect network activity, record traces, and troubleshoot web applications, within your AI workflow.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-82",
+      "source": "https://developer.chrome.com/docs/devtools",
+      "excerpt": "Connect the Chrome DevTools MCP (Model Context Protocol) server to your tool of choice: Antigravity, Claude Code, Cline, Copilot, and more.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-83",
+      "source": "https://developer.chrome.com/docs/devtools",
+      "excerpt": "Get a comprehensive and actionable view of your page's performance.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-84",
+      "source": "https://developer.chrome.com/docs/devtools",
+      "excerpt": "Learn how to inspect resources loaded by your page and edit them from your browser.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-85",
+      "source": "https://developer.chrome.com/docs/devtools",
+      "excerpt": "Analyze and overwrite network requests and responses on the fly.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-86",
+      "source": "https://developer.chrome.com/docs/devtools",
+      "excerpt": "Explore our monthly video series taking you through common debugging scenarios in DevTools in a playful way.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-87",
+      "source": "https://developer.chrome.com/docs/devtools",
+      "excerpt": "Chrome DevTools for agents lets your agent verify responsive layouts, test location-aware APIs, and simulate varied CPU or network speeds.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-88",
+      "source": "https://developer.chrome.com/docs/devtools",
+      "excerpt": "Lighthouse in Chrome DevTools for agents lets your coding agent evaluate website quality by performing live health checks for accessibility, SEO, best practices, and agentic browsing.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-89",
+      "source": "https://developer.chrome.com/docs/devtools",
+      "excerpt": "Get a tour through the updated Performance panel, showing you how to measure Core Web Vitals (LCP, CLS, INP) and how to get tailored advice from Gemini.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-90",
+      "source": "https://developer.chrome.com/docs/devtools",
+      "excerpt": "Set sail with DevTools and become a debugging pirate! Discover techniques for emulating focus styles, testing forms with autofill, and resolving backend errors with network overrides.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-91",
+      "source": "https://developer.chrome.com/docs/devtools",
+      "excerpt": "A wide range of tools to help you measure and optimize different aspects of your runtime performance: the Performance panel, Lighthouse, and more.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-92",
+      "source": "https://developer.chrome.com/docs/devtools",
+      "excerpt": "Learn about all the features in the Performance panel: how to record a performance trace, how to view and analyze the trace, and more.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-93",
+      "source": "https://developer.chrome.com/docs/devtools",
+      "excerpt": "Learn about the new performance insights, the power of Lighthouse directly in the DevTools Performance panel.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-94",
+      "source": "https://developer.chrome.com/docs/devtools",
+      "excerpt": "Learn about all the features in the Sources panel: how to view and edit files, debug JavaScript, and set up a workspace.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-95",
+      "source": "https://developer.chrome.com/docs/devtools",
+      "excerpt": "Workspace lets you to save changes that you make within DevTools to source code that's stored on your computer. Learn how to set up a workspace in your own projects.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-96",
+      "source": "https://developer.chrome.com/docs/devtools",
+      "excerpt": "Learn about all the features in the Network panel: inspect response and request bodies, overwrite headers, and more.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-97",
+      "source": "https://developer.chrome.com/docs/devtools",
+      "excerpt": "A hands-on tutorial to guide you through common tasks inside the Network panel.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-98",
+      "source": "https://developer.chrome.com/docs/devtools",
+      "excerpt": "Discover all the other features and capabilities in DevTools.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-99",
+      "source": "https://developer.chrome.com/docs/devtools",
+      "excerpt": "Learn how to view and change a page's DOM.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-100",
+      "source": "https://developer.chrome.com/docs/devtools",
+      "excerpt": "Learn how to view and change a page's CSS.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-101",
+      "source": "https://developer.chrome.com/docs/devtools",
+      "excerpt": "Track changes to HTML, CSS, and JavaScript.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-102",
+      "source": "https://developer.chrome.com/docs/devtools",
+      "excerpt": "Find memory issues that affect page performance, including memory leaks, and more.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-103",
+      "source": "https://developer.chrome.com/docs/devtools",
+      "excerpt": "Inspect, modify, and debug web apps, test cache, view storage, and more.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-104",
+      "source": "https://developer.chrome.com/docs/devtools",
+      "excerpt": "Record, replay, measure user flows, and edit their steps.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-105",
+      "source": "https://developer.chrome.com/docs/devtools",
+      "excerpt": "Discover a collection of options that affect web content rendering.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-106",
+      "source": "https://developer.chrome.com/docs/devtools",
+      "excerpt": "Find and fix problems with your website.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-107",
+      "source": "https://developer.chrome.com/docs/devtools",
+      "excerpt": "Make sure that a page is fully protected by HTTPS.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-108",
+      "source": "https://developer.chrome.com/docs/devtools",
+      "excerpt": "View information and debug media players per browser tab.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-109",
+      "source": "reddit://r/hacker-news/comments/playwright detection bot",
+      "excerpt": "Scraping modern websites has become a massive headache. You basically have two choices: pay for an expensive API like Firecrawl&#x2F;Browserbase, or run a fleet of headless Chrome instances that eat 1GB of RAM per page and still get blocked by Cloudflare.<p>I built Draco to fix this. It\u2019s a fast, single-binary web scraper written in Rust. You point it at a URL, and it spits out perfectly clean Markdown or structured JSON for LLMs.<p>The secret sauce is that it doesn&#x27;t just boot a browser for every request. It uses a tiered escalation engine:<p>Tier 1 (Stealth Fetch): Draco uses a custom T",
+      "class": "community",
+      "community": {
+        "score": 14,
+        "author": "ccheshirecat",
+        "url": "https://news.ycombinator.com/item?id=49148163",
+        "date": "2026-08-02"
+      }
+    },
+    {
+      "id": "ev-110",
+      "source": "reddit://r/hacker-news/comments/playwright detection bot",
+      "excerpt": "Hey all, I built StackScope, a crawler&#x2F;catalogue that looks at new product launches and shows what they were built with.<p>It watches launches from Product Hunt, Show HN, and PeerPush, then crawls the public site behind each one. The goal is to show what people actually launched with: hosting, frameworks, analytics, DNS, security headers, legal pages, AI-builder signals, and other public clues.<p>I started building it because most stack-detection sites look at the web as a whole. I was more interested in the current indie launch scene: what people are choosing right now, at the point they",
+      "class": "community",
+      "community": {
+        "score": 67,
+        "author": "datafreak_",
+        "url": "https://news.ycombinator.com/item?id=48505364",
+        "date": "2026-06-12"
+      }
+    },
+    {
+      "id": "ev-111",
+      "source": "reddit://r/hacker-news/comments/playwright detection bot",
+      "excerpt": "Libretto (<a href=\"https:&#x2F;&#x2F;libretto.sh\" rel=\"nofollow\">https:&#x2F;&#x2F;libretto.sh</a>) is a Skill+CLI that makes it easy for your coding agent to generate deterministic browser automations and debug existing ones. Key shift is going from \u201cgive an agent a prompt at runtime and hope it figures things out\u201d to: \u201cUse coding agents to generate real scripts you can inspect, run, and debug\u201d.<p>Here\u2019s a demo: <a href=\"https:&#x2F;&#x2F;www.youtube.com&#x2F;watch?v=0cDpIntmHAM\" rel=\"nofollow\">https:&#x2F;&#x2F;www.youtube.com&#x2F;watch?v=0cDpIntmHAM</a>. Docs start at <a href=\"https:&#x2F;",
+      "class": "community",
+      "community": {
+        "score": 134,
+        "author": "muchael",
+        "url": "https://news.ycombinator.com/item?id=47780971",
+        "date": "2026-04-15"
+      }
+    },
+    {
+      "id": "ev-112",
+      "source": "reddit://r/hacker-news/comments/playwright detection bot",
+      "excerpt": "I&#x27;ve been working on browser automation infrastructure for a while and kept hitting the same ceiling: Playwright and Puppeteer are great for scripting but fall apart when you need stealth at scale. Cloud-based solutions like Browserbase work but you&#x27;re sending all your data to a third party and can&#x27;t control the environment.<p>So we built Owl Browser, a self-hosted Chromium-based engine that runs in a single Docker container. The core technical problem we tried to solve was fingerprint consistency. Most browser automation tools either ignore fingerprinting entirely or apply surf",
+      "class": "community",
+      "community": {
+        "score": 2,
+        "author": "ahstanin",
+        "url": "https://news.ycombinator.com/item?id=47312509",
+        "date": "2026-03-09"
+      }
+    },
+    {
+      "id": "ev-113",
+      "source": "reddit://r/hacker-news/comments/playwright detection bot",
+      "excerpt": "Hi HN,<p>I\u2019m the creator of StageWright (and the open-source playwright-smart-reporter).<p>I\u2019ve been frustrated by the &quot;black box&quot; nature of E2E test failures. Standard reporters tell you that a test failed, but they don&#x27;t help you understand why it\u2019s failing across 50 different runs or whether its execution time is trending toward a regression.<p>I built StageWright to treat test results as a performance and stability dataset.<p>Key Technical Features:<p>Historical Flakiness Detection: Unlike Playwright&#x27;s default &quot;retry&quot; logic, we track failures across runs. A te",
+      "class": "community",
+      "community": {
+        "score": 1,
+        "author": "qagaryparker",
+        "url": "https://news.ycombinator.com/item?id=47167217",
+        "date": "2026-02-26"
+      }
+    },
+    {
+      "id": "ev-114",
+      "source": "reddit://r/hacker-news/comments/playwright detection bot",
+      "excerpt": "Just shipped v2.0 of my browser fingerprinting lib.<p>The big change: I split collectors into &quot;stable&quot; (14) and &quot;unstable&quot; (5). Stable ones like canvas, webgl, fonts go into the hash. Unstable ones like battery level, network speed, local IPs are still collected but don&#x27;t affect the fingerprint.<p>You get consistent hashes across reloads while still having access to all the data.<p>Also added bot detection - catches Puppeteer, Playwright, Selenium, headless browsers, CDP artifacts, canvas noise injection.<p>19 collectors total, ~15KB, zero deps, TypeScript.<p>Thinking ",
+      "class": "community",
+      "community": {
+        "score": 1,
+        "author": "lococococo",
+        "url": "https://news.ycombinator.com/item?id=46847113",
+        "date": "2026-02-01"
+      }
+    },
+    {
+      "id": "ev-115",
+      "source": "reddit://r/hacker-news/comments/browser fingerprinting",
+      "excerpt": "Hello Hacker News! I\u2019m Tomasz, creator of Privacy Thing, a browser extension for Firefox and Chromium-based browsers. I\u2019ve just released its Preview version.<p>Privacy Thing aims to reduce browser fingerprinting\u2014the tracking of users without cookies.<p>It began as an internal project: a simple location simulator. Over time, I expanded it to cover more fingerprinting surfaces. It now has 13 protection categories affecting 50+ browser APIs and methods: Geolocation, time and locale settings, Canvas, WebGL, Audio, Navigator, Screen, Client Hints, Battery, WebRTC, Dedicated Workers, Service Workers",
+      "class": "community",
+      "community": {
+        "score": 20,
+        "author": "tomaszjanusz",
+        "url": "https://news.ycombinator.com/item?id=49124017",
+        "date": "2026-07-31"
+      }
+    },
+    {
+      "id": "ev-116",
+      "source": "reddit://r/hacker-news/comments/browser fingerprinting",
+      "excerpt": "Hello HN,<p>I started building GeoSpoof after I noticed my IP says one country, but the browser still hands sites my real location. Websites were flagging me because of this discrepancy. I searched for a good geolocation spoofer, only to go down a rabbit hole that there are dozens of signals that your browser emits and no tool could cover them all on every platform.<p>GeoSpoof overrides every location-related API to present one consistent signal for location. You can search a city, enter coordinates, or hit &quot;Sync with VPN&quot; to auto-detect your exit region and match it, which re-syncs ",
+      "class": "community",
+      "community": {
+        "score": 19,
+        "author": "sgro",
+        "url": "https://news.ycombinator.com/item?id=48768421",
+        "date": "2026-07-02"
+      }
+    },
+    {
+      "id": "ev-117",
+      "source": "reddit://r/hacker-news/comments/browser fingerprinting",
+      "excerpt": "The premise is web pages have two readers, people and the AI reading for people. Web pages can now be written more for the AI and less for people. It\u2019s a companion to an earlier page about browser fingerprinting. \n(<a href=\"https:&#x2F;&#x2F;news.ycombinator.com&#x2F;item?id=48062178\">https:&#x2F;&#x2F;news.ycombinator.com&#x2F;item?id=48062178</a>)<p>On my page, the there\u2019s a planted phrase for AI. As the site gets crawled, you can see if this phrase is ever returned by any AI summarizing the page. So there\u2019s a couple things you can do on my page:<p>1. Ask any AI to summarize the URL, and che",
+      "class": "community",
+      "community": {
+        "score": 3,
+        "author": "mwheelz",
+        "url": "https://news.ycombinator.com/item?id=48326123",
+        "date": "2026-05-29"
+      }
+    },
+    {
+      "id": "ev-118",
+      "source": "reddit://r/hacker-news/comments/browser fingerprinting",
+      "excerpt": "I&#x27;ve been scraping 241 UK council planning portals \u2013 2.6M decisions so far<p>UK planning data is technically public. In practice it&#x27;s locked behind 400+ different council portals, some still running bespoke ASP.NET that looks like it dates from 2004, some behind AWS WAF, all with subtly different schemas. I&#x27;ve spent four months scraping them. I&#x27;m now at 241 councils and 2.6 million decisions across England, Scotland and Wales.<p>The scraping problem<p>Most UK councils run one of a handful of portal systems, Idox being the most common. In theory this makes things easy. In pr",
+      "class": "community",
+      "community": {
+        "score": 48,
+        "author": "mebkorea",
+        "url": "https://news.ycombinator.com/item?id=47931470",
+        "date": "2026-04-28"
+      }
+    },
+    {
+      "id": "ev-119",
+      "source": "reddit://r/hacker-news/comments/web scraping blocked captcha",
+      "excerpt": "If you frequently work on data collection, account management, or automation tasks, CAPTCHA is an unavoidable topic. Those constantly popping up image verifications, rotating CAPTCHAs, and pages requiring you to click &quot;I&#x27;m human&quot; are not only time-consuming but also severely disruptive to workflows. For many developers and marketing teams, these verification mechanisms are practically the enemy of efficiency. In this situation, a residential proxy(https:&#x2F;&#x2F;www.thordata.com&#x2F;products&#x2F;residential-proxies) becomes a key tool for overcoming CAPTCHA restrictions. By",
+      "class": "community",
+      "community": {
+        "score": 1,
+        "author": "yenaidong",
+        "url": "https://news.ycombinator.com/item?id=45757480",
+        "date": "2025-10-30"
+      }
+    },
+    {
+      "id": "ev-120",
+      "source": "reddit://r/hacker-news/comments/web scraping blocked captcha",
+      "excerpt": "Hey HN!<p>Excited to share a project we&#x27;ve been working on called Hyperbrowser. It\u2019s a tool that makes scaling headless browsers ridiculously easy. It allows you to spin up hundreds of browser sessions in secure, isolated environments, with sub-second launch times. We automatically solve captchas, use residential proxies and manage concurrent sessions so that you can focus on your own business.<p>The idea for Hyperbrowser came from our own struggles building AI apps and agents like sales tools, automations, and AI editors. Every project seemed to hit the same roadblock: interacting with t",
+      "class": "community",
+      "community": {
+        "score": 57,
+        "author": "ashekhawat",
+        "url": "https://news.ycombinator.com/item?id=42381712",
+        "date": "2024-12-10"
+      }
+    },
+    {
+      "id": "ev-121",
+      "source": "reddit://r/hacker-news/comments/web scraping blocked captcha",
+      "excerpt": "Hey HN! I\u2019m John from xhr.dev (<a href=\"https:&#x2F;&#x2F;xhr.dev\" rel=\"nofollow\">https:&#x2F;&#x2F;xhr.dev</a>). At xhr.dev, I\u2019m building tools\nfor reverse engineering websites, and our initial product is a one-line code\nintegration that enables bot detection avoidance via a forward proxy.<p>I\u2019ve been creating integrations for websites that lack official APIs for four\nyears; initially using Puppeteer automation, and later through XHR requests.<p>Many people are familiar with web scraping, but fewer know about scraping via\nXHR requests. In fact, XHR requests are my preferred method for scrapin",
+      "class": "community",
+      "community": {
+        "score": 15,
+        "author": "skilbjo",
+        "url": "https://news.ycombinator.com/item?id=42347252",
+        "date": "2024-12-07"
+      }
+    },
+    {
+      "id": "ev-122",
+      "source": "reddit://r/hacker-news/comments/web scraping blocked captcha",
+      "excerpt": "I&#x27;ve launched the new product, xhr.dev (<a href=\"https:&#x2F;&#x2F;xhr.dev&#x2F;\" rel=\"nofollow\">https:&#x2F;&#x2F;xhr.dev&#x2F;</a>)<p>The initial product is a 1 line code integration that does bot detection avoidance via a forward proxy.<p>Ideal customer is someone who gets blocked by anti-bot defences like cloudflare or other captcha challenges. Usually these customers have web scraping use cases.<p>You can view our historical performance on our status page (<a href=\"https:&#x2F;&#x2F;status.xhr.dev\" rel=\"nofollow\">https:&#x2F;&#x2F;status.xhr.dev</a>).<p>ty v much, john",
+      "class": "community",
+      "community": {
+        "score": 19,
+        "author": "skilbjo",
+        "url": "https://news.ycombinator.com/item?id=42193973",
+        "date": "2024-11-20"
+      }
+    },
+    {
+      "id": "ev-123",
+      "source": "reddit://r/hacker-news/comments/web scraping blocked captcha",
+      "excerpt": "Right now if anyone tries to load a Cloudflared website over Tor or any &quot;bad&quot; IP, they get a captcha which breaks something like 90% of the time. It seems to only be &quot;under attack mode&quot; websites, by the fact that only a fraction of Cloudflared websites are doing this. We click the checkbox and it just shows a spinning wheel forever. If this is meant to be a block then show an actual block page instead of dodging the issue and wasting everyone&#x27;s time (I&#x27;m sure you already know about the problem). It also breaks when our IP changes now, which is a regression from th",
+      "class": "community",
+      "community": {
+        "score": 161,
+        "author": "uconnectlol",
+        "url": "https://news.ycombinator.com/item?id=34217999",
+        "date": "2023-01-02"
+      }
+    },
+    {
+      "id": "ev-124",
+      "source": "reddit://r/hacker-news/comments/web scraping blocked captcha",
+      "excerpt": "This is the text contained in http://blog.mocality.co.ke/2012/01/13/google-what-were-you-thinking/blog as written by Mocality CEO\nYou can follow the blog link to read the full story(of which I propose since it is of better quality) but just in case you can't access the site here is some of the contents that the blog contains. \nNote: Some resources such as images might be missing and also I didn't have enough time to format the content properly<p>=============================================\nLinks to some of the resources contained in the blog\n=============================================\nhttps",
+      "class": "community",
+      "community": {
+        "score": 13,
+        "author": "GKKenya",
+        "url": "https://news.ycombinator.com/item?id=3460094",
+        "date": "2012-01-13"
+      }
+    },
+    {
+      "id": "ev-125",
+      "source": "reddit://r/hacker-news/comments/Cloudflare blocking bots",
+      "excerpt": "Ask HN: Do you use Cloudflare bot protection? If so, why do you use it? Did you stress test your servers and determine that you need bot blocking? Have you considered alternatives like anubis?",
+      "class": "community",
+      "community": {
+        "score": 3,
+        "author": "Velocifyer",
+        "url": "https://news.ycombinator.com/item?id=48350107",
+        "date": "2026-05-31"
+      }
+    },
+    {
+      "id": "ev-126",
+      "source": "reddit://r/hacker-news/comments/Cloudflare blocking bots",
+      "excerpt": "Hi HN,<p>This weekend I built seafruit.pages.dev  to privately share any webpage with my LLM. More sites are (rightfully) blocking AI crawlers but as a reader with the page already open, it&#x27;s frustrating that my AI assistant can&#x27;t &quot;see&quot; what I&#x27;m already reading.<p>One click \u2192 clean Markdown \u2192 copied to clipboard. No extension, no tracking.<p>Existing solutions like AI browsers or extensions felt too intrusive. I wanted something surgical, fast, and private.<p>How it works:\nIt&#x27;s a bookmarklet. Click it on any page \u2192 it extracts clean text as Markdown \u2192 copies an AI",
+      "class": "community",
+      "community": {
+        "score": 4,
+        "author": "svena33",
+        "url": "https://news.ycombinator.com/item?id=47113242",
+        "date": "2026-02-22"
+      }
+    },
+    {
+      "id": "ev-127",
+      "source": "reddit://r/hacker-news/comments/Cloudflare blocking bots",
+      "excerpt": "Hey HN,<p>I&#x27;m Daniel, solo dev from Germany. I built ClawHosters (<a href=\"https:&#x2F;&#x2F;clawhosters.com\" rel=\"nofollow\">https:&#x2F;&#x2F;clawhosters.com</a>), a managed hosting platform for OpenClaw, the open-source AI agent framework.<p>Quick timeline: domain registered February 5th. First paying customer six days later. I probably should have spent more time on it, but it works.<p>If you haven&#x27;t seen OpenClaw, it lets you run a personal AI assistant that connects to Telegram, Discord, Slack, and WhatsApp. Self-hosting it is absolutely possible, but it&#x27;s a pain. You&#x27;",
+      "class": "community",
+      "community": {
+        "score": 9,
+        "author": "yixn_io",
+        "url": "https://news.ycombinator.com/item?id=46973691",
+        "date": "2026-02-11"
+      }
+    },
+    {
+      "id": "ev-128",
+      "source": "reddit://r/hacker-news/comments/Cloudflare blocking bots",
+      "excerpt": "Dear HN crowd,\nTurnstile is making my life absolutely miserable. Since a year ago or so, I can no longer pass any challenge on my phone. I use the Firefox ESR system package on Linux (PureOS Byzantium). Whenever Turnstile gives me a checkbox challenge, it keeps locking me out from login flows and feedback forms and whatnot. This is a huge deal for me because I can no longer log into some services that I pay for.\nNot only does Turnstile&#x27;s checkbox appear regularly, whenever I tap on it, it just spins in an endless loop, never making any progress. No matter how often I reload and retry, it ",
+      "class": "community",
+      "community": {
+        "score": 8,
+        "author": "Hackbraten",
+        "url": "https://news.ycombinator.com/item?id=45816826",
+        "date": "2025-11-04"
+      }
+    },
+    {
+      "id": "ev-129",
+      "source": "reddit://r/hacker-news/comments/Cloudflare blocking bots",
+      "excerpt": "Following up on earlier thread about what setup to use for main email account. Consensus appeared to be &#x27;Get a custom domain (e.g. with Cloudflare) and use it with e.g. Fastmail&#x27;. The plan is to then make that email address the cornerstone of my online security, use it for password manager recovery etc.<p>The domain registrar and the email hosting then appear key to the whole security model \u2013 if they are compromised, all other accounts are.<p>So I&#x27;m trying to work out the details of how to go about it.<p>E.g. which email should I use with the registrar to buy the domain? Some th",
+      "class": "community",
+      "community": {
+        "score": 1,
+        "author": "agent008t",
+        "url": "https://news.ycombinator.com/item?id=44022039",
+        "date": "2025-05-18"
+      }
+    },
+    {
+      "id": "ev-130",
+      "source": "reddit://r/hacker-news/comments/Cloudflare blocking bots",
+      "excerpt": "Bots account for just a ridiculous amount of web traffic, tying up resources and bandwidth, and the go to response to this is...basically nothing.  You can maybe throw Cloudflare in front of your site, and that&#x27;s it.<p>Within the last year it&#x27;s become much worse with AI bots vacuuming my content on my dime.<p>Why is there not some community-driven attempt block them?  Is this problem just not solvable?",
+      "class": "community",
+      "community": {
+        "score": 12,
+        "author": "pupppet",
+        "url": "https://news.ycombinator.com/item?id=42810527",
+        "date": "2025-01-24"
+      }
+    },
+    {
+      "id": "ev-131",
+      "source": "reddit://r/hacker-news/comments/Cloudflare blocking bots",
+      "excerpt": "I run Pinboard, a bookmarking website with about 20K active users.<p>By design, public pages on Pinboard are supposed to be visible to anyone, whether or not they have an account on the site. However, since about August of 2024 I have found myself  overwhelmed with bot traffic from crawlers, which has forced me to put all pages on the site behind a login.<p>In the past, it was relatively easy to stop aggressive crawling by blocking on IP range or on some feature of the user agent string. This crawling is different\u2014it comes from thousands of distinct IP addresses that make one or two requests e",
+      "class": "community",
+      "community": {
+        "score": 8,
+        "author": "idlewords",
+        "url": "https://news.ycombinator.com/item?id=42659443",
+        "date": "2025-01-10"
+      }
+    },
+    {
+      "id": "ev-132",
+      "source": "reddit://r/hacker-news/comments/Cloudflare blocking bots",
+      "excerpt": "Was just looking into some steps to block AI bots from crawling a site, a feature that Cloudflare promoted recently and noticed on their list of &quot;Verified Bots&quot; for AI Crawlers, one called &quot;Internet Archive&quot; is included. Why?<p>There is also another one &quot;InternetArchiveBot&quot; listed in a different category as &quot;Monitoring &amp; Analytics&quot;. Will blocking the AI one mess with Wayback Machine activities and that kind of &#x27;useful&#x27; thing?<p>The recent announcement post: <i>Block AI bots, scrapers and crawlers with a single click</i> https:&#x2F;&#x2F;ne",
+      "class": "community",
+      "community": {
+        "score": 2,
+        "author": "ChrisArchitect",
+        "url": "https://news.ycombinator.com/item?id=41267134",
+        "date": "2024-08-16"
+      }
+    }
+  ],
+  "findings": [
+    {
+      "id": "f-1",
+      "claim": "Playwright Test is an end-to-end test framework for modern web apps. It bundles test runner, assertions, isolation, parallelization and rich tooling. Playwright supports Chromium, WebKit and Firefox on Windows, Linux and macOS, locally or in CI, headless or headed, with native mobile emulation for Chrome (Android) and Mobile Safari.",
+      "confidence": null,
+      "status": "needs_adjudication",
+      "sources": [
+        "https://playwright.dev/docs/intro"
+      ],
+      "evidence": [
+        "ev-2",
+        "ev-11",
+        "ev-1"
+      ],
+      "method": "keyword-density-v0"
+    },
+    {
+      "id": "f-2",
+      "claim": "By default tests run headless in parallel across Chromium, Firefox and WebKit (configurable in playwright.config). Output and aggregated results display in the terminal.",
+      "confidence": null,
+      "status": "needs_adjudication",
+      "sources": [
+        "https://playwright.dev/docs/intro"
+      ],
+      "evidence": [
+        "ev-2",
+        "ev-11",
+        "ev-1"
+      ],
+      "method": "keyword-density-v0"
+    },
+    {
+      "id": "f-3",
+      "claim": "PlaywrightDocsMCPCLIAPI Node.js Node.js Python Java .NET",
+      "confidence": null,
+      "status": "needs_adjudication",
+      "sources": [
+        "https://playwright.dev/docs/intro"
+      ],
+      "evidence": [
+        "ev-2",
+        "ev-11",
+        "ev-1"
+      ],
+      "method": "keyword-density-v0"
+    },
+    {
+      "id": "f-4",
+      "claim": "does some hacking for more experienced users. It disables web security and origin-trials, as well as ensures shadow-roots are always open. This makes you more detectable though!",
+      "confidence": null,
+      "status": "needs_adjudication",
+      "sources": [
+        "https://github.com/ultrafunkamsterdam/nodriver"
+      ],
+      "evidence": [
+        "ev-34",
+        "ev-22",
+        "ev-71"
+      ],
+      "method": "keyword-density-v0"
+    },
+    {
+      "id": "f-5",
+      "claim": "Direct communication provides even better resistance against web applicatinon firewalls (WAF\u2019s), while performance gets a massive boost. This module is, contrary to undetected-chromedriver, fully asynchronous.",
+      "confidence": null,
+      "status": "needs_adjudication",
+      "sources": [
+        "https://github.com/ultrafunkamsterdam/nodriver"
+      ],
+      "evidence": [
+        "ev-34",
+        "ev-22",
+        "ev-71"
+      ],
+      "method": "keyword-density-v0"
+    },
+    {
+      "id": "f-6",
+      "claim": "About Successor of Undetected-Chromedriver. Providing a blazing fast framework for web automation, webscraping, bots and any other creative ideas which are normally hindered by annoying anti bot systems like Captcha / CloudFlare / Imperva / hCaptcha Resources Readme AGPL-3.0 license Activity Stars 4.6k stars Watchers 94 watching Forks 430 forks Report repository",
+      "confidence": null,
+      "status": "needs_adjudication",
+      "sources": [
+        "https://github.com/ultrafunkamsterdam/nodriver"
+      ],
+      "evidence": [
+        "ev-34",
+        "ev-22",
+        "ev-71"
+      ],
+      "method": "keyword-density-v0"
+    },
+    {
+      "id": "f-7",
+      "claim": "Find and fix problems with your website.",
+      "confidence": null,
+      "status": "needs_adjudication",
+      "sources": [
+        "https://developer.chrome.com/docs/devtools"
+      ],
+      "evidence": [
+        "ev-106",
+        "ev-76",
+        "ev-93"
+      ],
+      "method": "keyword-density-v0"
+    },
+    {
+      "id": "f-8",
+      "claim": "Design a beautiful and performant web with Chrome.",
+      "confidence": null,
+      "status": "needs_adjudication",
+      "sources": [
+        "https://developer.chrome.com/docs/devtools"
+      ],
+      "evidence": [
+        "ev-106",
+        "ev-76",
+        "ev-93"
+      ],
+      "method": "keyword-density-v0"
+    },
+    {
+      "id": "f-9",
+      "claim": "Learn about the new performance insights, the power of Lighthouse directly in the DevTools Performance panel.",
+      "confidence": null,
+      "status": "needs_adjudication",
+      "sources": [
+        "https://developer.chrome.com/docs/devtools"
+      ],
+      "evidence": [
+        "ev-106",
+        "ev-76",
+        "ev-93"
+      ],
+      "method": "keyword-density-v0"
+    },
+    {
+      "id": "f-10",
+      "claim": "Scraping modern websites has become a massive headache. You basically have two choices: pay for an expensive API like Firecrawl&#x2F;Browserbase, or run a fleet of headless Chrome instances that eat 1GB of RAM per page and still get blocked by Cloudflare.<p>I built Draco to fix this. It\u2019s a fast, single-binary web scraper written in Rust. You point it at a URL, and it spits out perfectly clean Mar",
+      "confidence": null,
+      "status": "community_signal",
+      "sources": [
+        "https://news.ycombinator.com/item?id=49148163",
+        "https://news.ycombinator.com/item?id=48505364",
+        "https://news.ycombinator.com/item?id=47312509"
+      ],
+      "evidence": [
+        "ev-109",
+        "ev-110",
+        "ev-112"
+      ],
+      "method": "keyword-density-v0",
+      "dates": [
+        "2026-03-09",
+        "2026-06-12",
+        "2026-08-02"
+      ],
+      "community": {
+        "class": "community",
+        "frequency": 6,
+        "subreddit": "hacker-news"
+      }
+    },
+    {
+      "id": "f-11",
+      "claim": "Hey all, I built StackScope, a crawler&#x2F;catalogue that looks at new product launches and shows what they were built with.<p>It watches launches from Product Hunt, Show HN, and PeerPush, then crawls the public site behind each one. The goal is to show what people actually launched with: hosting, frameworks, analytics, DNS, security headers, legal pages, AI-builder signals, and other public clue",
+      "confidence": null,
+      "status": "community_signal",
+      "sources": [
+        "https://news.ycombinator.com/item?id=49148163",
+        "https://news.ycombinator.com/item?id=48505364",
+        "https://news.ycombinator.com/item?id=47312509"
+      ],
+      "evidence": [
+        "ev-109",
+        "ev-110",
+        "ev-112"
+      ],
+      "method": "keyword-density-v0",
+      "dates": [
+        "2026-03-09",
+        "2026-06-12",
+        "2026-08-02"
+      ],
+      "community": {
+        "class": "community",
+        "frequency": 6,
+        "subreddit": "hacker-news"
+      }
+    },
+    {
+      "id": "f-12",
+      "claim": "I&#x27;ve been working on browser automation infrastructure for a while and kept hitting the same ceiling: Playwright and Puppeteer are great for scripting but fall apart when you need stealth at scale. Cloud-based solutions like Browserbase work but you&#x27;re sending all your data to a third party and can&#x27;t control the environment.<p>So we built Owl Browser, a self-hosted Chromium-based en",
+      "confidence": null,
+      "status": "community_signal",
+      "sources": [
+        "https://news.ycombinator.com/item?id=49148163",
+        "https://news.ycombinator.com/item?id=48505364",
+        "https://news.ycombinator.com/item?id=47312509"
+      ],
+      "evidence": [
+        "ev-109",
+        "ev-110",
+        "ev-112"
+      ],
+      "method": "keyword-density-v0",
+      "dates": [
+        "2026-03-09",
+        "2026-06-12",
+        "2026-08-02"
+      ],
+      "community": {
+        "class": "community",
+        "frequency": 6,
+        "subreddit": "hacker-news"
+      }
+    },
+    {
+      "id": "f-13",
+      "claim": "Hello Hacker News! I\u2019m Tomasz, creator of Privacy Thing, a browser extension for Firefox and Chromium-based browsers. I\u2019ve just released its Preview version.<p>Privacy Thing aims to reduce browser fingerprinting\u2014the tracking of users without cookies.<p>It began as an internal project: a simple location simulator. Over time, I expanded it to cover more fingerprinting surfaces. It now has 13 protect",
+      "confidence": null,
+      "status": "community_signal",
+      "sources": [
+        "https://news.ycombinator.com/item?id=49124017",
+        "https://news.ycombinator.com/item?id=48326123",
+        "https://news.ycombinator.com/item?id=48768421"
+      ],
+      "evidence": [
+        "ev-115",
+        "ev-117",
+        "ev-116"
+      ],
+      "method": "keyword-density-v0",
+      "dates": [
+        "2026-05-29",
+        "2026-07-02",
+        "2026-07-31"
+      ],
+      "community": {
+        "class": "community",
+        "frequency": 4,
+        "subreddit": "hacker-news"
+      }
+    },
+    {
+      "id": "f-14",
+      "claim": "The premise is web pages have two readers, people and the AI reading for people. Web pages can now be written more for the AI and less for people. It\u2019s a companion to an earlier page about browser fingerprinting. \n(<a href=\"https:&#x2F;&#x2F;news.ycombinator.com&#x2F;item?id=48062178\">https:&#x2F;&#x2F;news.ycombinator.com&#x2F;item?id=48062178</a>)<p>On my page, the there\u2019s a planted phrase for A",
+      "confidence": null,
+      "status": "community_signal",
+      "sources": [
+        "https://news.ycombinator.com/item?id=49124017",
+        "https://news.ycombinator.com/item?id=48326123",
+        "https://news.ycombinator.com/item?id=48768421"
+      ],
+      "evidence": [
+        "ev-115",
+        "ev-117",
+        "ev-116"
+      ],
+      "method": "keyword-density-v0",
+      "dates": [
+        "2026-05-29",
+        "2026-07-02",
+        "2026-07-31"
+      ],
+      "community": {
+        "class": "community",
+        "frequency": 4,
+        "subreddit": "hacker-news"
+      }
+    },
+    {
+      "id": "f-15",
+      "claim": "Hello HN,<p>I started building GeoSpoof after I noticed my IP says one country, but the browser still hands sites my real location. Websites were flagging me because of this discrepancy. I searched for a good geolocation spoofer, only to go down a rabbit hole that there are dozens of signals that your browser emits and no tool could cover them all on every platform.<p>GeoSpoof overrides every loca",
+      "confidence": null,
+      "status": "community_signal",
+      "sources": [
+        "https://news.ycombinator.com/item?id=49124017",
+        "https://news.ycombinator.com/item?id=48326123",
+        "https://news.ycombinator.com/item?id=48768421"
+      ],
+      "evidence": [
+        "ev-115",
+        "ev-117",
+        "ev-116"
+      ],
+      "method": "keyword-density-v0",
+      "dates": [
+        "2026-05-29",
+        "2026-07-02",
+        "2026-07-31"
+      ],
+      "community": {
+        "class": "community",
+        "frequency": 4,
+        "subreddit": "hacker-news"
+      }
+    },
+    {
+      "id": "f-16",
+      "claim": "Hey HN! I\u2019m John from xhr.dev (<a href=\"https:&#x2F;&#x2F;xhr.dev\" rel=\"nofollow\">https:&#x2F;&#x2F;xhr.dev</a>). At xhr.dev, I\u2019m building tools\nfor reverse engineering websites, and our initial product is a one-line code\nintegration that enables bot detection avoidance via a forward proxy.<p>I\u2019ve been creating integrations for websites that lack official APIs for four\nyears; initially using Puppe",
+      "confidence": null,
+      "status": "community_signal",
+      "sources": [
+        "https://news.ycombinator.com/item?id=42347252",
+        "https://news.ycombinator.com/item?id=34217999",
+        "https://news.ycombinator.com/item?id=42193973"
+      ],
+      "evidence": [
+        "ev-121",
+        "ev-123",
+        "ev-122"
+      ],
+      "method": "keyword-density-v0",
+      "dates": [
+        "2023-01-02",
+        "2024-11-20",
+        "2024-12-07"
+      ],
+      "community": {
+        "class": "community",
+        "frequency": 6,
+        "subreddit": "hacker-news"
+      }
+    },
+    {
+      "id": "f-17",
+      "claim": "Right now if anyone tries to load a Cloudflared website over Tor or any &quot;bad&quot; IP, they get a captcha which breaks something like 90% of the time. It seems to only be &quot;under attack mode&quot; websites, by the fact that only a fraction of Cloudflared websites are doing this. We click the checkbox and it just shows a spinning wheel forever. If this is meant to be a block then show an a",
+      "confidence": null,
+      "status": "community_signal",
+      "sources": [
+        "https://news.ycombinator.com/item?id=42347252",
+        "https://news.ycombinator.com/item?id=34217999",
+        "https://news.ycombinator.com/item?id=42193973"
+      ],
+      "evidence": [
+        "ev-121",
+        "ev-123",
+        "ev-122"
+      ],
+      "method": "keyword-density-v0",
+      "dates": [
+        "2023-01-02",
+        "2024-11-20",
+        "2024-12-07"
+      ],
+      "community": {
+        "class": "community",
+        "frequency": 6,
+        "subreddit": "hacker-news"
+      }
+    },
+    {
+      "id": "f-18",
+      "claim": "I&#x27;ve launched the new product, xhr.dev (<a href=\"https:&#x2F;&#x2F;xhr.dev&#x2F;\" rel=\"nofollow\">https:&#x2F;&#x2F;xhr.dev&#x2F;</a>)<p>The initial product is a 1 line code integration that does bot detection avoidance via a forward proxy.<p>Ideal customer is someone who gets blocked by anti-bot defences like cloudflare or other captcha challenges. Usually these customers have web scraping us",
+      "confidence": null,
+      "status": "community_signal",
+      "sources": [
+        "https://news.ycombinator.com/item?id=42347252",
+        "https://news.ycombinator.com/item?id=34217999",
+        "https://news.ycombinator.com/item?id=42193973"
+      ],
+      "evidence": [
+        "ev-121",
+        "ev-123",
+        "ev-122"
+      ],
+      "method": "keyword-density-v0",
+      "dates": [
+        "2023-01-02",
+        "2024-11-20",
+        "2024-12-07"
+      ],
+      "community": {
+        "class": "community",
+        "frequency": 6,
+        "subreddit": "hacker-news"
+      }
+    },
+    {
+      "id": "f-19",
+      "claim": "Following up on earlier thread about what setup to use for main email account. Consensus appeared to be &#x27;Get a custom domain (e.g. with Cloudflare) and use it with e.g. Fastmail&#x27;. The plan is to then make that email address the cornerstone of my online security, use it for password manager recovery etc.<p>The domain registrar and the email hosting then appear key to the whole security mo",
+      "confidence": null,
+      "status": "community_signal",
+      "sources": [
+        "https://news.ycombinator.com/item?id=44022039",
+        "https://news.ycombinator.com/item?id=42810527",
+        "https://news.ycombinator.com/item?id=47113242"
+      ],
+      "evidence": [
+        "ev-129",
+        "ev-130",
+        "ev-126"
+      ],
+      "method": "keyword-density-v0",
+      "dates": [
+        "2025-01-24",
+        "2025-05-18",
+        "2026-02-22"
+      ],
+      "community": {
+        "class": "community",
+        "frequency": 8,
+        "subreddit": "hacker-news"
+      }
+    },
+    {
+      "id": "f-20",
+      "claim": "Bots account for just a ridiculous amount of web traffic, tying up resources and bandwidth, and the go to response to this is...basically nothing.  You can maybe throw Cloudflare in front of your site, and that&#x27;s it.<p>Within the last year it&#x27;s become much worse with AI bots vacuuming my content on my dime.<p>Why is there not some community-driven attempt block them?  Is this problem jus",
+      "confidence": null,
+      "status": "community_signal",
+      "sources": [
+        "https://news.ycombinator.com/item?id=44022039",
+        "https://news.ycombinator.com/item?id=42810527",
+        "https://news.ycombinator.com/item?id=47113242"
+      ],
+      "evidence": [
+        "ev-129",
+        "ev-130",
+        "ev-126"
+      ],
+      "method": "keyword-density-v0",
+      "dates": [
+        "2025-01-24",
+        "2025-05-18",
+        "2026-02-22"
+      ],
+      "community": {
+        "class": "community",
+        "frequency": 8,
+        "subreddit": "hacker-news"
+      }
+    },
+    {
+      "id": "f-21",
+      "claim": "Hi HN,<p>This weekend I built seafruit.pages.dev  to privately share any webpage with my LLM. More sites are (rightfully) blocking AI crawlers but as a reader with the page already open, it&#x27;s frustrating that my AI assistant can&#x27;t &quot;see&quot; what I&#x27;m already reading.<p>One click \u2192 clean Markdown \u2192 copied to clipboard. No extension, no tracking.<p>Existing solutions like AI brow",
+      "confidence": null,
+      "status": "community_signal",
+      "sources": [
+        "https://news.ycombinator.com/item?id=44022039",
+        "https://news.ycombinator.com/item?id=42810527",
+        "https://news.ycombinator.com/item?id=47113242"
+      ],
+      "evidence": [
+        "ev-129",
+        "ev-130",
+        "ev-126"
+      ],
+      "method": "keyword-density-v0",
+      "dates": [
+        "2025-01-24",
+        "2025-05-18",
+        "2026-02-22"
+      ],
+      "community": {
+        "class": "community",
+        "frequency": 8,
+        "subreddit": "hacker-news"
+      }
+    }
+  ],
+  "notes": "Extraction v0 is mechanical: paragraphs, keyword density, truncation. Findings are DRAFT candidate findings requiring adjudication before any corpus admission. Sessions are operational evidence records."
+}

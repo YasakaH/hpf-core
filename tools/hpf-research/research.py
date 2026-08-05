@@ -111,7 +111,20 @@ def classify_url(url: str) -> str:
 
 
 def split_paragraphs(text: str):
-    return [p.strip() for p in re.split(r"\n\s*\n", text) if len(p.strip()) > 80]
+    """Split text into paragraphs, keeping only prose (sentence-bearing).
+
+    Navigation chrome, TOC lists and menu fragments never become evidence.
+    """
+    parts = re.split(r"\n\s*\n+", text)
+    out = []
+    for p in parts:
+        p = " ".join(p.split())
+        if len(p) < 40:
+            continue
+        if "." not in p:
+            continue
+        out.append(p)
+    return out
 
 
 def keywords(topic: str, depth: str) -> list:
@@ -129,7 +142,7 @@ def density(paragraph: str, kw: list) -> float:
     return sum(text.count(k) for k in kw) / max(1, len(paragraph))
 
 
-def summary_of(s) -> dict:
+def summary_of(s, sdir: Path = None) -> dict:
     duration_s = None
     if s.get("started") and s.get("finished"):
         try:
@@ -138,19 +151,28 @@ def summary_of(s) -> dict:
             duration_s = max(0, round((b - a).total_seconds()))
         except (ValueError, TypeError):
             duration_s = None
+    adjudicated = None
+    if sdir is not None:
+        adjf = sdir / "adjudication.json"
+        if adjf.exists():
+            try:
+                adjudicated = json.loads(adjf.read_text(encoding="utf-8")).get("summary")
+            except (json.JSONDecodeError, OSError):
+                adjudicated = None
     return {
         "id": s.get("id"),
-        "topic": s.get("topic", ""),
-        "goal": s.get("goal", ""),
-        "audience": s.get("audience", ""),
-        "depth": s.get("depth", ""),
-        "status": s.get("status", ""),
-        "created": s.get("created", ""),
+        "topic": s.get("topic"),
+        "goal": s.get("goal"),
+        "audience": s.get("audience"),
+        "depth": s.get("depth"),
+        "status": s.get("status"),
+        "created": s.get("created"),
         "duration_s": duration_s,
         "sources": len(s.get("sources") or []),
         "evidence": len(s.get("evidence") or []),
         "findings": len(s.get("findings") or []),
         "community_signals": sum(1 for f in (s.get("findings") or []) if f.get("status") == "community_signal"),
+        "adjudicated": adjudicated,
         "failed": sum(1 for x in (s.get("sources") or []) if x.get("status") == "failed"),
     }
 
@@ -164,7 +186,7 @@ def write_manifest(root: Path) -> int:
         if not sf.exists():
             continue
         try:
-            entries.append(summary_of(json.loads(sf.read_text(encoding="utf-8"))))
+            entries.append(summary_of(json.loads(sf.read_text(encoding="utf-8")), d))
         except (json.JSONDecodeError, OSError):
             continue
     entries.sort(key=lambda e: e.get("created") or "", reverse=True)
@@ -188,6 +210,9 @@ def promote_session(sid: str, src_root: Path, exports_root: Path) -> int:
     shutil.copy2(src / "session.json", dst / "session.json")
     if (src / "session.md").exists():
         shutil.copy2(src / "session.md", dst / "session.md")
+    adj = src / "adjudication.json"
+    if adj.exists():
+        shutil.copy2(adj, dst / "adjudication.json")
     n = write_manifest(exports_root / "sessions")
     print(f"Released {sid} -> exports/sessions ({n} released sessions in manifest)")
     return 0
@@ -326,7 +351,7 @@ def main():
             if len(text) > 80:
                 evidence.append({
                     "id": f"ev-{len(evidence)+1}", "source": url, "excerpt": text[:600], "class": "community",
-                    "community": {"score": c.get("score"), "author": c.get("author"), "url": c.get("url")},
+                    "community": {"score": c.get("score"), "author": c.get("author"), "url": c.get("url"), "date": c.get("date") or ""},
                 })
         log(f"Community signal r/{sub}: {n} comments (class community)")
 
@@ -353,14 +378,19 @@ def main():
             else:
                 status = "needs_adjudication"
                 community = None
+            ev_urls = [e.get("community", {}).get("url") or e.get("source") or e.get("url") for e in ranked]
+            dates = sorted({e.get("community", {}).get("date") or "" for e in ranked if e.get("community", {}).get("date")})
             f = {
                 "id": f"f-{len(findings)+1}",
                 "claim": ev["excerpt"][:400],
                 "confidence": None,
                 "status": status,
-                "sources": [ev["source"]],
+                "sources": [u for u in dict.fromkeys(ev_urls) if u],
+                "evidence": [e["id"] for e in ranked],
                 "method": "keyword-density-v0",
             }
+            if dates:
+                f["dates"] = dates
             if community:
                 f["community"] = community
             findings.append(f)

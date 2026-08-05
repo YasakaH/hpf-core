@@ -65,6 +65,7 @@ def hn_search(query: str, limit: int) -> list:
             "author": h.get("author") or "",
             "url": f"https://news.ycombinator.com/item?id={h.get('objectID')}",
             "num_comments": h.get("num_comments") or 0,
+            "date": (h.get("created_at") or "")[:10],
         })
     return hits
 
@@ -79,6 +80,7 @@ def hn_payload(query: str, hits: list) -> dict:
                 "score": h["score"],
                 "author": h["author"],
                 "url": h["url"],
+                "date": h["date"],
             })
     return {
         "source": "hackernews",
@@ -97,7 +99,6 @@ def validate_payload(payload: dict) -> list:
     if not isinstance(payload.get("comments"), list):
         problems.append("comments must be a list")
     return problems
-
 
 def write_payload(payload: dict, out_path: Path) -> int:
     problems = validate_payload(payload)

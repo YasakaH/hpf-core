@@ -88,3 +88,60 @@ Connector behavior notes (mechanical, verified during the run):
   scientific source was collected (none existed for this topic); the manifest
   counts only what exists.
 
+## First full session review (2026-08-05) — Session 001
+
+`2026-08-05-0512-web-automation-pain-points-202` was the first session
+reviewed end-to-end before any deployment (the reviewer's rule: no release
+until a genuinely valuable research artifact exists). The review layer is a
+separate `adjudication.json` next to `session.json` — the mechanical record
+stays immutable; the review layer records what a reviewer decided. Written by
+`tools/hpf-research/adjudicate.py` (same immutability discipline: refuses to
+overwrite).
+
+Review outcome (21 draft findings → 7 revised, 14 rejected, 1 added):
+
+- **Rejected (14)** fell into three honest buckets: restatements of official
+  docs/nav chrome (f-1..f-3, f-7..f-9), code-source README blurbs with no
+  extracted claim (f-4..f-6), and product pitches / query drift (f-11, f-14,
+  f-18, f-19, f-21). ~9 of the original 21 were not findings at all.
+- **Revised (7)** survived because the pain-point claim inside the pitch was
+  independently corroborated: paid-API-vs-headless-fleet + RAM cost (f-10,
+  two occurrences), stealth at scale (f-12), fingerprinting counter-tooling
+  (f-13), geo-flagging + signal breadth (f-15), missing official APIs
+  (f-16), Cloudflare Under-Attack captcha ~90% failure (f-17, score 161 —
+  the anchor), site-operator bot traffic (f-20).
+- **Added (1)**: f-22, the contradiction finding — official docs present
+  automation as supported practice while community reports systematic
+  anti-bot blocking. Synthesized by the reviewer, kept as a draft
+  (`needs_adjudication`, confidence null) — it does not graduate
+  automatically.
+
+Pipeline defects this review exposed and fixed (same run):
+
+1. **`github.com/nodriver` was not a repo** — the fetch returned GitHub
+   homepage nav ("PROGRAMS / Security Lab / BY INDUSTRY") and the pipeline
+   turned nav menus into findings. Real repo is
+   `github.com/ultrafunkamsterdam/nodriver`. Fix: correct URL + prose filter.
+2. **Findings were severed from evidence** — findings carried a fake
+   `reddit://r/...` pseudo-URL; real HN thread URLs/scores existed only in
+   evidence. Fix: findings now carry `evidence` ids, real source URLs, and
+   `dates` (HN `created_at` now flows through the connector payload).
+3. **Plan dishonesty** — `depth=deep` forced `scientific: high` for a
+   non-research topic, contradicting the planner's own rule text in the
+   activity log. Fix: deep raises breadth, not relevance — off-topic classes
+   stay `low` and the plan records that.
+4. **`duration_s` in the manifest was always None** (dead expression) — fixed.
+5. **Pseudo-source URLs** — findings now link out to real HN items;
+   community sources render as links in the workbench.
+
+Workbench gained: adjudication rendering (per-finding decision badges,
+revised claims replace originals, rejected dimmed but retained, added
+findings shown with `adjudication-synthesis-v0` method), manifest
+`adjudicated` counts. All smoke tests pass (test4 manifest lazy-load,
+test5 community UI, test6 adjudication render).
+
+Review checklist kept for future sessions: research plan intent, evidence
+quality (thread/score/occurrences/date), claim extraction (finding vs
+restatement), community signal discipline (nothing graduates), contradictions
+(docs vs community divergence), corpus impact, publish pack quality.
+

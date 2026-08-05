@@ -63,6 +63,10 @@ async function loadSessions(baseUrl) {
 async function loadFullSession(s) {
   const base = (state.config.sessions_url || "sessions/");
   const sess = await fetch(base + s.id + "/session.json").then((r) => r.json());
+  try {
+    const adj = await fetch(base + s.id + "/adjudication.json").then((r) => r.json());
+    sess._adjudication = adj;
+  } catch { /* no review layer yet */ }
   const i = state.sessions.findIndex((x) => x.id === s.id);
   if (i !== -1) state.sessions[i] = sess;
   return sess;
@@ -312,13 +316,35 @@ function viewSession(id) {
     </div>`;
   const sources = (s.sources || []).map((src) => `<li><a href="${esc(src.url)}" target="_blank" rel="noopener">${esc(src.title)}</a> <span class="muted">· ${esc(src.status)}${src.chars ? " · " + src.chars + " chars" : ""}${src.class ? " · class " + esc(src.class) : ""}${src.error ? " · " + esc(src.error) : ""}</span></li>`).join("");
   const evidence = (s.evidence || []).map((ev) => `<div class="evidence-item"><span class="muted">[${esc(ev.id)}]</span> <span class="ev-src">${esc(ev.source)}</span>${ev.class === "community" ? ` <span class="badge signal">community</span>` : ""}<div class="ev-text">${esc(ev.excerpt)}</div></div>`).join("");
-  const findings = (s.findings || []).map((f) => `
-    <div class="finding-card ${badgeFor(f.status)}">
-      <div class="finding-head"><span class="badge ${badgeFor(f.status)}">${esc(f.status)}</span> <span class="muted">${esc(f.id)} · method ${esc(f.method)}</span></div>
-      <div class="finding-claim">${esc(f.claim)}</div>
-      ${f.community ? `<div class="muted">Community signal · ${esc(f.community.class || "community")} · frequency ${esc(f.community.frequency || "?")} comments${f.community.subreddit ? " · r/" + esc(f.community.subreddit) : ""}</div>` : ""}
-      <div class="muted">Sources: ${f.sources.map((u) => esc(u)).join(" · ")}</div>
-    </div>`).join("");
+  const adj = s._adjudication;
+  const adjBy = {};
+  (adj && adj.findings || []).forEach((d) => { adjBy[d.id] = d; });
+  const adjSummary = adj && adj.summary
+    ? ` · reviewed: ${adj.summary.approve} approved, ${adj.summary.revise} revised, ${adj.summary.reject} rejected, ${adj.summary.add} added`
+    : "";
+  const addedFindings = adj ? (adj.findings || []).filter((d) => d.decision === "add").map((d, i) => `
+      <div class="finding-card warn">
+        <div class="finding-head"><span class="badge warn">${esc(d.status || "needs_adjudication")}</span> <span class="badge valid">adjudicated: add</span> <span class="muted">${esc(d.id)} · method ${esc(d.method)}</span></div>
+        <div class="finding-claim">${esc(d.claim)}</div>
+        <div class="muted">Sources: ${(d.sources || []).map((u) => `<a href="${esc(u)}" target="_blank" rel="noopener">${esc(u.replace("https://news.ycombinator.com/item?id=", "HN ").replace("https://", "").slice(0, 48))}</a>`).join(" · ")}</div>
+        ${d.note ? `<div class="muted adjud-note">Review: ${esc(d.note)}</div>` : ""}
+      </div>`).join("") : "";
+  const findingCards = (s.findings || []).map((f) => {
+    const d = adjBy[f.id];
+    const decisionBadge = d
+      ? `<span class="badge ${d.decision === "approve" ? "valid" : d.decision === "revise" ? "signal" : d.decision === "add" ? "valid" : "planned"}">adjudicated: ${esc(d.decision)}</span>`
+      : "";
+    const claim = d && d.revised_claim ? d.revised_claim : f.claim;
+    const note = d && d.note ? `<div class="muted adjud-note">Review: ${esc(d.note)}</div>` : "";
+    return `
+      <div class="finding-card ${badgeFor(f.status)}${d && d.decision === "reject" ? " rejected" : ""}">
+        <div class="finding-head"><span class="badge ${badgeFor(f.status)}">${esc(f.status)}</span> ${decisionBadge} <span class="muted">${esc(f.id)} · method ${esc(f.method)}</span></div>
+        <div class="finding-claim">${esc(claim)}</div>
+        ${f.community ? `<div class="muted">Community signal · ${esc(f.community.class || "community")} · frequency ${esc(f.community.frequency || "?")} comments${f.community.subreddit ? " · r/" + esc(f.community.subreddit) : ""}${f.dates && f.dates.length ? " · dates " + f.dates.map((d2) => esc(d2)).join(", ") : ""}</div>` : ""}
+        <div class="muted">Sources: ${(f.sources || []).map((u) => `<a href="${esc(u)}" target="_blank" rel="noopener">${esc(u.replace("https://news.ycombinator.com/item?id=", "HN ").replace("https://", "").slice(0, 48))}</a>`).join(" · ")}</div>
+        ${note}
+      </div>`;
+  }).join("");
   const impact = corpusImpact(s);
   const decision = getDecision(s.id);
   const decisionBtns = ["approve", "reject", "needs_review"].map((v) =>
@@ -357,7 +383,7 @@ function viewSession(id) {
     </div>
     ${activityCard}
     <div class="card"><h2>Sources (${(s.sources || []).length})</h2><ul>${sources}</ul></div>
-    <div class="card"><h2>Findings (${(s.findings || []).length}) — drafts, require adjudication</h2>${findings}</div>
+    <div class="card"><h2>Findings (${(s.findings || []).length}) — drafts, require adjudication</h2>${adj ? `<p class="muted">Adjudicated ${esc((adj.adjudicated_at || "").replace("T", " ").slice(0, 16))} by ${esc(adj.adjudicator)}${adjSummary}. Rejected findings are retained for the record and marked.</p>` : `<p class="muted">Not yet adjudicated — findings are mechanical drafts.</p>`}${findingCards}${addedFindings}</div>
     ${impactCard}
     <div class="card"><h2>Evidence (${(s.evidence || []).length})</h2>${evidence}</div>
     <p class="muted">${esc(s.notes || "")}</p>`;

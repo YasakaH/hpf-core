@@ -43,7 +43,11 @@ def plan_evidence_classes(topic: str, depth: str, keywords: list) -> dict:
             else ("low", "operational weight low unless performance is central"),
     }
     if depth == "deep":
+        # deep raises breadth, not relevance: it upgrades classes the topic
+        # already warrants (high) and turns deliberate 'skip' candidates into
+        # 'low'; it never invents relevance for off-topic classes.
         for k in rules:
-            if rules[k][0] != "skip":
-                rules[k] = ("high", rules[k][1])
+            w, reason = rules[k]
+            if w == "low":
+                rules[k] = ("low", reason)
     return rules

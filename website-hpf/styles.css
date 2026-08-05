@@ -293,6 +293,8 @@ tr:hover td { background: rgba(245, 242, 235, 0.02); }
 .finding-card.valid { border-color: var(--ok); }
 .finding-card.signal { border-color: var(--accent); }
 .finding-card.warn { border-color: var(--warn); }
+.finding-card.rejected { opacity: 0.55; }
+.finding-card .adjud-note { margin-top: 8px; padding-top: 8px; border-top: 1px dashed var(--border); }
 .finding-head { display: flex; gap: 10px; align-items: baseline; margin-bottom: 6px; font-size: 12px; }
 .finding-head a { color: var(--accent); text-decoration: none; }
 .finding-claim { font-size: 13px; line-height: 1.5; }
