@@ -261,6 +261,26 @@ function viewSession(id) {
       <div class="finding-claim">${esc(f.claim)}</div>
       <div class="muted">Sources: ${f.sources.map((u) => esc(u)).join(" · ")}</div>
     </div>`).join("");
+  const impact = corpusImpact(s);
+  const decision = getDecision(s.id);
+  const decisionBtns = ["approve", "reject", "needs_review"].map((v) =>
+    `<button class="btn small ${decision === v ? "ghost" : ""}" data-decision="${v}" data-sid="${esc(s.id)}">${esc(v.replace("_", " "))}</button>`).join("");
+  const impactCard = `
+    <div class="card"><h2>Corpus impact</h2>
+      <div class="grid">
+        <div class="stat"><div class="num">${impact.touched.length}</div><div class="label">Existing concepts touched</div></div>
+        <div class="stat"><div class="num ${impact.novel ? "warn" : "ok"}">${impact.novel}</div><div class="label">Novel candidates</div></div>
+        <div class="stat"><div class="num">?</div><div class="label">Changed relationships</div></div>
+        <div class="stat"><div class="num ${impact.novel ? "warn" : "ok"}">${impact.novel ? "YES" : "NO"}</div><div class="label">Needs validation</div></div>
+      </div>
+      ${impact.touched.length ? `<p class="muted">Touches: ${impact.touched.map((t) => `<a href="#/object/${encodeURIComponent(t.id)}">${esc(t.title)}</a>`).join(", ")}</p>` : ""}
+      <p class="muted">Mechanical overlap between draft findings and corpus concepts. Changed relationships are not detectable by extraction v0.</p>
+      <div class="research-actions">
+        <span class="muted">Decision (recorded for the owner — corpus admission runs through the authoring pipeline):</span>
+        ${decisionBtns}
+        ${decision ? `<span class="badge ${badgeFor(decision)}">recorded: ${esc(decision.replace("_", " "))}</span>` : ""}
+      </div>
+    </div>`;
   return `
     <div class="row-between"><h1>Research Session</h1><a class="btn ghost" href="#/research">Back</a></div>
     <div class="card session-head">
@@ -274,8 +294,44 @@ function viewSession(id) {
     <div class="card"><h2>Research plan</h2><ol class="pipeline">${stages}</ol></div>
     <div class="card"><h2>Sources (${(s.sources || []).length})</h2><ul>${sources}</ul></div>
     <div class="card"><h2>Findings (${(s.findings || []).length}) — drafts, require adjudication</h2>${findings}</div>
+    ${impactCard}
     <div class="card"><h2>Evidence (${(s.evidence || []).length})</h2>${evidence}</div>
     <p class="muted">${esc(s.notes || "")}</p>`;
+}
+
+const STOP = new Set(["with", "this", "that", "from", "they", "have", "there", "their", "which", "about", "using", "uses", "used", "into", "than", "then", "such", "only", "does", "what", "will", "would", "these", "those", "the", "and", "for", "are", "not", "can", "its", "has", "had", "one", "two", "three", "was", "were", "been", "when", "where", "also", "very", "may", "might", "most", "more", "like", "than"]);
+
+function corpusImpact(s) {
+  const objs = (state.export.objects || []).filter((o) => o.schema_validation === "valid");
+  const corpusTexts = objs.map((o) => ({
+    id: o.id,
+    title: o.title,
+    text: (o.title + " " + (o.claims || []).map((c) => c.claim).join(" ")).toLowerCase(),
+  }));
+  const words = (txt) => [...new Set((txt.toLowerCase().match(/[a-z0-9-]{4,}/g) || []).filter((w) => !STOP.has(w)))];
+  const touched = [];
+  let novel = 0;
+  const seen = new Set();
+  for (const f of s.findings || []) {
+    const fw = words(f.claim);
+    const hits = corpusTexts.filter((o) => !seen.has(o.id) && fw.some((w) => o.text.includes(w))).slice(0, 3);
+    if (hits.length) {
+      hits.forEach((h) => { seen.add(h.id); touched.push(h); });
+    } else {
+      novel++;
+    }
+  }
+  return { touched, novel };
+}
+
+const DECISIONS_PREFIX = "hpf.research.decision.";
+
+function getDecision(sid) {
+  try { return localStorage.getItem(DECISIONS_PREFIX + sid) || ""; } catch { return ""; }
+}
+
+function setDecision(sid, v) {
+  try { localStorage.setItem(DECISIONS_PREFIX + sid, v); } catch {}
 }
 
 /* ---------- Library ---------- */
@@ -424,6 +480,7 @@ function viewPublish() {
   const targets = [
     ["Blog post", "one finding → one narrative, technical"],
     ["Comparison", "side-by-side across two or more findings"],
+    ["LinkedIn", "condensed finding threads for professionals"],
     ["Whitepaper", "evidence-backed argument, multiple findings"],
     ["Documentation", "reference material from validated concepts"],
     ["Tutorial", "step-by-step from verified recommendations"],
@@ -450,17 +507,16 @@ function viewValidation() {
   for (const o of invalid) for (const e of o.errors) tally[e] = (tally[e] || 0) + 1;
   const top = Object.entries(tally).sort((a, b) => b[1] - a[1]).slice(0, 3);
   const pct = s.total ? Math.round((s.valid / s.total) * 100) : 0;
-  const topIssue = top[0];
   const pctBad = invalid.length ? Math.round((invalid.length / s.total) * 100) : 0;
-  const fix = topIssue ? {
-    "No atomic evidence blocks found. Must have at least one.": "Add at least one atomic evidence block (claims, observations, relationships) to each affected file before the next release.",
-  }[topIssue[0]] : "";
-  const recommended = fix ? `<li><b>Recommended fix</b> — ${esc(fix)} <span class="muted">(${topIssue[1]}×)</span></li>` : "";
+  const FIX_MAP = {
+    "No atomic evidence blocks found. Must have at least one.": "Add at least one atomic evidence block (claims, observations, relationships) per file before the next release.",
+  };
+  const fixes = top.length ? `<h2>Recommended fixes</h2><ul class="pipeline">${top.map(([e, n]) => `<li><b>${esc(FIX_MAP[e] || "Review the listed issue and re-validate before the next release.")}</b> <span class="muted">— ${esc(e)} (${n}×)</span></li>`).join("")}</ul>` : "";
   return `
     <div class="row-between"><h1>Corpus Quality</h1></div>
     <div class="card"><h2>${s.invalid ? `${s.invalid} of ${s.total} documents (${pctBad}%) need attention` : "All documents pass validation"}</h2>
-      <p class="muted">${topIssue ? `Most common issue: ${esc(topIssue[0])} (${topIssue[1]}×).` : "No outstanding issues."}</p>
-      ${recommended ? `<ul class="pipeline">${recommended}</ul>` : ""}
+      <p class="muted">${top.length ? `Most common issue: ${esc(top[0][0])} (${top[0][1]}×).` : "No outstanding issues."}</p>
+      ${fixes}
     </div>
     <div class="grid">
       <div class="stat"><div class="num ok">${s.valid}</div><div class="label">Healthy documents (${pct}%)</div></div>
@@ -528,14 +584,25 @@ function viewDiagnostics() {
 function runSearch(q) {
   if (!q) return [];
   const needle = q.toLowerCase();
-  return state.index.objects
+  const out = state.index.objects
     .filter((o) =>
       (o.title || "").toLowerCase().includes(needle) ||
       (o.id || "").toLowerCase().includes(needle) ||
       (o.domain || "").toLowerCase().includes(needle) ||
       (o.kind || "").toLowerCase().includes(needle)
     )
-    .slice(0, 20);
+    .map((o) => ({ id: o.id, label: o.title, sub: `${o.id} · ${o.valid ? "valid" : "invalid"}` }));
+  for (const o of state.export.objects || []) {
+    if (o.schema_validation !== "valid") continue;
+    for (const c of o.claims || []) {
+      if (String(c.claim).toLowerCase().includes(needle)) {
+        out.push({ id: o.id, label: o.title, sub: "claim: " + String(c.claim).slice(0, 60) });
+        break;
+      }
+    }
+    if (out.length >= 24) break;
+  }
+  return out.slice(0, 20);
 }
 
 function renderSearchResults(q) {
@@ -548,8 +615,8 @@ function renderSearchResults(q) {
   box.innerHTML = results.length
     ? results.map((o) =>
         `<div class="search-result" data-id="${esc(o.id)}">
-           ${esc(o.title)}
-           <div class="muted">${esc(o.id)} · ${o.valid ? "valid" : "invalid"}</div>
+           ${esc(o.label)}
+           <div class="muted">${esc(o.sub)}</div>
          </div>`).join("")
     : `<div class="muted" style="padding:6px 8px">No results.</div>`;
   box.querySelectorAll(".search-result").forEach((el) =>
@@ -609,6 +676,12 @@ function bindPage(parts) {
       if (b.dataset.delete === "1") drafts.splice(i, 1);
       else if (b.dataset.next) drafts[i].status = b.dataset.next;
       saveDrafts(drafts);
+      render();
+    })
+  );
+  document.querySelectorAll("[data-decision]").forEach((b) =>
+    b.addEventListener("click", () => {
+      setDecision(b.dataset.sid, b.dataset.decision);
       render();
     })
   );
