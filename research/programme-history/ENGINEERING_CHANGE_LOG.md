@@ -77,3 +77,42 @@ unknown event types; queue marks statuses and rejects unknown statuses;
 `--events` completes end-to-end and reports honestly under rate-limit/404
 (a live run during this round was rate-limited and degraded gracefully,
 zero events, exit 0). Full suite (test4/8/9/10/11) green.
+
+## 2026-08-05 — blog/RSS connector (model validation, chronicle entry 34)
+
+**Chronicle decision**: entry 34. Infrastructure closed pending real usage.
+
+**Built**: second discovery connector log in
+	ools/hpf-research/connectors/discovery.py:
+
+- parse_feed(text, limit) — RSS 2.0 + Atom parsing, stdlib only
+  (xml.etree, email.utils.parsedate_to_datetime); namespaces stripped via
+  local tag names; dates normalized to YYYY-MM-DD UTC; items without
+  title/link/date skipped by the connector, not fabricated.
+- _resolve_feed(url) — watchlist log: values may be a blog root
+  (https:// prepended if scheme-less; common feed paths probed in order:
+  rss.xml, feed.xml, atom.xml, index.xml, rss, feed, feeds/posts/default;
+  first 600 chars sniffed for <rss/<feed/<rdf) or a direct feed URL
+  (ends with a feed path or contains .xml).
+- Emits ResearchEvent[] with event_type=blog, source=blog, summary
+  truncated to 200 chars, title to 120.
+
+No watchlist schema change (source values are free-form strings). No new
+dependencies, no auth.
+
+**Live validation** (2026-08-05): produced real blog events — Cloudflare
+OS / Agent Access Model (08-05), OpenAI cyber-evaluations (08-04), WebKit
+Safari 26.6 (07-27), Chrome agent-ready toolkit (06-22), Chromium
+JetStream 3 (03-31) — alongside release events. Three feeds unresolved
+(playwright.dev/blog, anthropic.com/research, blog.mozilla.org) reported
+honestly; owner can switch those values to direct feed URLs later.
+GitHub releases were rate-limited during the run; degradation was
+per-connector and graceful.
+
+**Fix during build**: _resolve_feed crashed with ValueError on
+scheme-less watchlist values (unknown url type) — scheme prepended;
+ValueError added to probe exception set. Console traceback confirmed the
+crash path was caught before release.
+
+**Tests**: test11 +2 offline checks (RSS 2.0 and Atom parse into event
+fields) — 15 checks total, full suite green.
