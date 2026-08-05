@@ -1,0 +1,14 @@
+{
+  "schema": "hpf-job-status-v0",
+  "job": "research-002",
+  "type": "research",
+  "owner": "hpf-research",
+  "status": "done",
+  "started": "2026-08-05T06:03:27.164329+00:00",
+  "updated": "2026-08-05T06:03:27.164354+00:00",
+  "progress": "released, 18 drafts awaiting review",
+  "research_session": "2026-08-05-0601-microsoft-fara-vs-nodriver-arc",
+  "outputs": [
+    "session.json"
+  ]
+}

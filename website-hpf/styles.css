@@ -256,6 +256,12 @@ tr:hover td { background: rgba(245, 242, 235, 0.02); }
 /* Pipeline */
 .pipeline { margin: 10px 0 0; padding-left: 20px; line-height: 1.9; }
 .pipeline li { font-size: 13px; }
+.job-chain { display: flex; flex-wrap: wrap; align-items: stretch; gap: 8px; margin-top: 10px; }
+.job-step { flex: 1 1 180px; border: 1px solid var(--border, #30363d); border-radius: 8px; padding: 10px 12px; display: flex; flex-direction: column; gap: 4px; }
+.job-step.empty { opacity: 0.55; }
+.job-type { font-weight: 600; }
+.job-arrow { align-self: center; color: var(--muted, #8b949e); }
+.tiny { font-size: 11px; }
 
 /* Concepts */
 #concept-q { margin-bottom: 12px; }

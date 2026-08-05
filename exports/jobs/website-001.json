@@ -1,0 +1,15 @@
+{
+  "schema": "hpf-job-status-v0",
+  "job": "website-001",
+  "type": "website",
+  "owner": "hpf-release",
+  "status": "done",
+  "started": "2026-08-05T06:03:26.844445+00:00",
+  "updated": "2026-08-05T06:03:26.844472+00:00",
+  "progress": "assembled and deployed",
+  "research_session": "2026-08-05-0512-web-automation-pain-points-202",
+  "outputs": [
+    "website-hpf/sessions/",
+    "website-hpf/publish/"
+  ]
+}

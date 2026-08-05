@@ -1,0 +1,15 @@
+{
+  "schema": "hpf-job-status-v0",
+  "job": "publish-001",
+  "type": "publishing",
+  "owner": "hpf-publish",
+  "status": "done",
+  "started": "2026-08-05T06:03:26.432279+00:00",
+  "updated": "2026-08-05T06:03:26.432309+00:00",
+  "progress": "pack compiled, 6 renders",
+  "research_session": "2026-08-05-0512-web-automation-pain-points-202",
+  "outputs": [
+    "publish-pack.json",
+    "renders/"
+  ]
+}

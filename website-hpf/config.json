@@ -5,5 +5,6 @@
   "contract_url": "https://github.com/YasakaH/hpf-core/blob/main/tools/hpf-engine/EXPORT_CONTRACT.md",
   "contract_label": "knowledge-export-core-v1 (EXPORT_CONTRACT.md)",
   "sessions_url": "sessions/",
-  "publish_url": "publish/"
+  "publish_url": "publish/",
+  "jobs_url": "jobs/"
 }

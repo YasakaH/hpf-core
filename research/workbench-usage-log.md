@@ -217,3 +217,53 @@ card deferred until 30-50 sessions. Priorities: run real research daily,
 publish from HPF not ad hoc prompts, measure editing time honestly, improve
 only what repeatedly slows work.
 
+
+## Session 002 — Microsoft Fara vs Nodriver (2026-08-05)
+
+Topic: "Microsoft Fara vs Nodriver: architecture, capabilities, and future of
+AI browser automation" (Blog, deep). Goal includes Technology Maturity
+assessment: production readiness, community adoption, maintenance activity,
+breaking changes, vendor commitment, migration risk.
+
+Run: 4 URLs fetched (microsoft/fara, ultrafunkamsterdam/nodriver, MS Learn
+Foundry browser automation tool, HF Fara1.5-9B model card), 2 community
+payloads (HN "Fara AI browser" 127 pts / 8 comments, "nodriver" 2 pts /
+6 comments), 330 evidence entries, 18 draft findings (6 community signals).
+
+Friction:
+- HN search_by_date is story-title search: "Fara AI browser" returns mostly
+  unrelated show-HN submissions; only 1-2 hits relevant (Puppeteer->Nodriver
+  story, proxy-rotation post). "Fara1.5" returned 0 comments. Connector
+  behaved honestly (refused empty payloads, exit 10). Community signal for
+  this topic is thin — reddit connector would help but stays blocked.
+- DeepWiki shows strong Fara repo documentation (5-browser-automation,
+  quick-start) — not fetched; DeepWiki mirrors the repo, low added value.
+- Keyword-density findings are heavy with code snippets (clone/install
+  commands) — adjudication will filter most.
+- Session id truncated to 30 chars ("...-arc").
+
+## Job Status Contract (2026-08-05) — the awareness gap
+
+Reviewer observation: HPF knows only what starts inside HPF. The publishing
+engine holds state HPF never sees (Article Started / Draft Complete). Fix is
+NOT coupling HPF to consumer internals — a shared, implementation-independent
+Job Status Contract, the export-contract principle in reverse:
+
+    Publishing -> status record -> exports/jobs/ -> HPF reads only that
+
+Contract hpf-job-status-v0: id, type (research|publishing|marketing|website),
+owner, status (queued|running|drafting|review|ready|done|blocked|cancelled),
+started, updated, progress (free-form), research_session, outputs.
+
+- tools/hpf-research/jobs.py: update/list/check; refuses unknown status/type
+  (exit 2), unreadable existing record (exit 3), invalid record (exit 4);
+  check exits 1 on any invalid record.
+- exports/jobs/<id>.json + index.json (registry, committed).
+- Workbench: Pipeline view (#/pipeline) — per-session chain Research ->
+  Publishing -> Website -> Marketing with status badges, owner, progress,
+  outputs. Read-only; HPF never writes consumer state.
+- Release workflow assembles exports/jobs -> website-hpf/jobs.
+
+First truthful records: research-001/publish-001/website-001 done;
+research-002 done (18 drafts awaiting review); publish-002 queued
+(awaiting research review).

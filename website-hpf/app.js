@@ -15,6 +15,7 @@ const state = {
   config: {},
   sessions: [],
   packs: [],
+  jobs: [],
 };
 
 const $ = (sel) => document.querySelector(sel);
@@ -43,6 +44,14 @@ async function loadData() {
   }
   if (cfg && cfg.sessions_url) state.sessions = await loadSessions(cfg.sessions_url);
   if (cfg && cfg.publish_url) state.packs = await loadPacks(cfg.publish_url);
+  if (cfg && cfg.jobs_url) state.jobs = await loadJobs(cfg.jobs_url);
+}
+
+async function loadJobs(baseUrl) {
+  try {
+    const idx = await fetch(baseUrl + "index.json").then((r) => r.json());
+    return idx.jobs || [];
+  } catch { return []; }
 }
 
 async function loadPacks(baseUrl) {
@@ -140,6 +149,7 @@ function render() {
   else if (one === "library") main.innerHTML = viewLibrary(parts[1]);
   else if (one === "findings") main.innerHTML = viewFindings();
   else if (one === "publish") main.innerHTML = parts[1] === "pack" ? viewPack(parts[2]) : viewPublish();
+  else if (one === "pipeline") main.innerHTML = viewPipeline();
   else if (one === "validation") main.innerHTML = viewValidation();
   else if (one === "diagnostics") main.innerHTML = viewDiagnostics();
   else if (one === "object") main.innerHTML = viewObject(parts[1]);
@@ -199,9 +209,10 @@ function viewHome() {
 }
 
 function badgeFor(status) {
-  if (status === "completed" || status === "verified" || status === "valid") return "valid";
+  if (status === "completed" || status === "verified" || status === "valid" || status === "done" || status === "ready") return "valid";
   if (status === "community_signal") return "signal";
-  if (status === "running" || status === "needs_adjudication" || status === "in_review") return "warn";
+  if (status === "running" || status === "needs_adjudication" || status === "in_review" || status === "drafting" || status === "review" || status === "queued") return "warn";
+  if (status === "blocked") return "signal";
   return "planned";
 }
 
@@ -582,6 +593,52 @@ function viewObject(id) {
       </table>
     </div>
     <div class="card">${blocks.join("") || `<p class="muted">No content.</p>`}</div>`;
+}
+
+/* ---------- Pipeline (end-to-end job view) ---------- */
+
+const JOB_ORDER = ["research", "publishing", "website", "marketing"];
+const JOB_LABEL = { research: "Research", publishing: "Publishing", website: "Website", marketing: "Marketing" };
+
+function viewPipeline() {
+  const jobs = state.jobs || [];
+  if (!jobs.length) {
+    return `<div class="row-between"><h1>Pipeline</h1></div>
+      <div class="card"><h2>Job status contract</h2>
+        <p class="muted">No job records yet. Subsystems (research, publishing, website, marketing) publish only their current job state to <code>exports/jobs/</code>; HPF reads those status records and never sees any subsystem's internals.</p>
+        <p class="muted">Contract: <code>hpf-job-status-v0</code> — id, type, owner, status, started, updated, outputs.</p></div>`;
+  }
+  const bySession = {};
+  for (const j of jobs) {
+    const key = j.research_session || j.job;
+    (bySession[key] = bySession[key] || []).push(j);
+  }
+  const rows = Object.entries(bySession).sort((a, b) => {
+    const ua = Math.max(...a[1].map((j) => j.updated || ""));
+    const ub = Math.max(...b[1].map((j) => j.updated || ""));
+    return ub > ua ? 1 : -1;
+  }).map(([session, js]) => {
+    const chain = JOB_ORDER.map((t) => {
+      const j = js.find((x) => x.type === t);
+      if (!j) return `<div class="job-step empty"><span class="job-type">${JOB_LABEL[t]}</span><span class="muted">—</span></div>`;
+      const out = (j.outputs || []).length ? ` · ${esc(j.outputs.join(", "))}` : "";
+      return `<div class="job-step">
+        <span class="job-type">${JOB_LABEL[t]}</span>
+        <span class="badge ${badgeFor(j.status)}">${esc(j.status)}</span>
+        <span class="muted">${j.progress ? esc(j.progress) : ""}${out}</span>
+        <div class="muted tiny">${esc(j.owner)} · ${esc((j.updated || "").slice(0, 16).replace("T", " "))}</div>
+      </div>`;
+    }).join(`<span class="job-arrow">→</span>`);
+    const link = state.sessions.find((s) => s.id === session)
+      ? `<a href="#/research/session/${encodeURIComponent(session)}">${esc(state.sessions.find((s) => s.id === session).topic)}</a>`
+      : `<span class="muted">${esc(session)}</span>`;
+    return `<div class="card"><h2>${link}</h2><div class="job-chain">${chain}</div></div>`;
+  }).join("");
+  return `
+    <div class="row-between"><h1>Pipeline</h1></div>
+    <div class="card"><h2>Job status contract</h2>
+      <p class="muted">Subsystems publish only their current job state; HPF consumes the status records and never depends on any subsystem's internals. Contract: <code>hpf-job-status-v0</code> — id, type, owner, status, started, updated, outputs.</p></div>
+    ${rows}`;
 }
 
 /* ---------- Publish ---------- */

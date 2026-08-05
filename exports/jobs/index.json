@@ -1,0 +1,75 @@
+{
+  "schema": "hpf-jobs-manifest-v0",
+  "jobs": [
+    {
+      "schema": "hpf-job-status-v0",
+      "job": "publish-002",
+      "type": "publishing",
+      "owner": "hpf-publish",
+      "status": "queued",
+      "started": "2026-08-05T06:03:27.562690+00:00",
+      "updated": "2026-08-05T06:03:27.562720+00:00",
+      "progress": "awaiting research review",
+      "research_session": "2026-08-05-0601-microsoft-fara-vs-nodriver-arc"
+    },
+    {
+      "schema": "hpf-job-status-v0",
+      "job": "research-002",
+      "type": "research",
+      "owner": "hpf-research",
+      "status": "done",
+      "started": "2026-08-05T06:03:27.164329+00:00",
+      "updated": "2026-08-05T06:03:27.164354+00:00",
+      "progress": "released, 18 drafts awaiting review",
+      "research_session": "2026-08-05-0601-microsoft-fara-vs-nodriver-arc",
+      "outputs": [
+        "session.json"
+      ]
+    },
+    {
+      "schema": "hpf-job-status-v0",
+      "job": "website-001",
+      "type": "website",
+      "owner": "hpf-release",
+      "status": "done",
+      "started": "2026-08-05T06:03:26.844445+00:00",
+      "updated": "2026-08-05T06:03:26.844472+00:00",
+      "progress": "assembled and deployed",
+      "research_session": "2026-08-05-0512-web-automation-pain-points-202",
+      "outputs": [
+        "website-hpf/sessions/",
+        "website-hpf/publish/"
+      ]
+    },
+    {
+      "schema": "hpf-job-status-v0",
+      "job": "publish-001",
+      "type": "publishing",
+      "owner": "hpf-publish",
+      "status": "done",
+      "started": "2026-08-05T06:03:26.432279+00:00",
+      "updated": "2026-08-05T06:03:26.432309+00:00",
+      "progress": "pack compiled, 6 renders",
+      "research_session": "2026-08-05-0512-web-automation-pain-points-202",
+      "outputs": [
+        "publish-pack.json",
+        "renders/"
+      ]
+    },
+    {
+      "schema": "hpf-job-status-v0",
+      "job": "research-001",
+      "type": "research",
+      "owner": "hpf-research",
+      "status": "done",
+      "started": "2026-08-05T06:03:26.078362+00:00",
+      "updated": "2026-08-05T06:03:26.078402+00:00",
+      "progress": "released, 8 accepted / 14 rejected",
+      "research_session": "2026-08-05-0512-web-automation-pain-points-202",
+      "outputs": [
+        "session.json",
+        "adjudication.json"
+      ]
+    }
+  ]
+}

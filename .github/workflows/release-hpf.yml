@@ -49,6 +49,16 @@ jobs:
             echo "no publish packs yet"
           fi
 
+      - name: Assemble job registry
+        run: |
+          if [ -d exports/jobs ]; then
+            mkdir -p website-hpf/jobs
+            cp -r exports/jobs/. website-hpf/jobs/
+            echo "assembled $(ls website-hpf/jobs | wc -l) job registry entries"
+          else
+            echo "no job registry yet"
+          fi
+
       - name: Deploy to Cloudflare Pages
         uses: cloudflare/wrangler-action@v3
         with:
