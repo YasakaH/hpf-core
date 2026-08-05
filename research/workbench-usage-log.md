@@ -311,3 +311,44 @@ job -> done (pack compiled, framing approved). Site publish/ synced.
 
 Editing-time metric for this pack: NOT YET MEASURED — first honest reading
 when the owner edits the article.
+
+## Measurements — editing time + rejection reasons (2026-08-05)
+
+Editing time is now THE most important HPF metric: "How many minutes does an
+expert need before they're comfortable pressing Publish?"
+
+Session 002 editing-time table (to be filled by the owner, honestly, during
+the first edit pass):
+
+| Render        | Editing Time | Notes                                |
+| ------------- | -----------: | ------------------------------------ |
+| Article       |        ? min | Architecture framing, flow, wording  |
+| Comparison    |        ? min | Accuracy/completeness                |
+| LinkedIn      |        ? min | Tone and hook                        |
+| X thread      |        ? min | Compression and readability          |
+| FAQ           |        ? min | Usually minimal edits                |
+| Documentation |        ? min | Technical precision                  |
+
+Rejection-reason categorization (first two data points, 27 rejects):
+
+| Reason                  | S001 | S002 | Total |
+| ----------------------- | ---: | ---: | -----:|
+| Restated documentation  |    6 |    7 |    13 |
+| Off-topic               |    2 |    4 |     6 |
+| Marketing language      |    4 |    0 |     4 |
+| Duplicate finding       |    1 |    1 |     2 |
+| Navigation chrome       |    1 |    0 |     1 |
+| Weak evidence/relevance |    0 |    1 |     1 |
+
+Signal: the extraction stage's dominant failure is restatement (docs
+installs, code samples, README blurbs) — that is the extraction roadmap.
+
+Benchmarks:
+- Session 001: regression benchmark (engine changes must not degrade it).
+- Session 002: CLASSIFICATION benchmark — engine changes must not collapse
+  the AI computer-use / browser framework / browser driver distinction.
+
+Roadmap B objective: reduce median manual editing time by improving
+compilation WITHOUT changing accepted findings. Compiler effort next:
+section ordering, transitions, comparison tables, narrative flow, evidence
+citations, uncertainty handling.
