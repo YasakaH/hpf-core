@@ -1,0 +1,1151 @@
+{
+  "schema": "hpf-session-v0",
+  "id": "2026-08-05-1750-cloudflare-os-and-the-agent-ac",
+  "topic": "Cloudflare OS and the Agent Access Model: implications for AI browser agents, browser automation, anti-detection, and secure agent infrastructure",
+  "goal": "Research goal: determine what changes for browser automation and secure agent infrastructure under Cloudflare's Agent Access Model (AAM) and Cloudflare OS. Cover: task-scoped identity brokering, capability ceilings, continuous mediation, the Trust Ratchet, Gatekeepers and zero-trust-by-default, agent workspaces, and the browser-agent primitives (Browser Run on Containers, Agents SDK, WebMCP). Include a Technology Maturity dimension (production readiness, community adoption, maintenance activity, breaking changes, vendor commitment, migration risk) and the anti-detection/bot-management implications for the browser automation ecosystem. Expected outcome: a documented architecture-level understanding of how Cloudflare is positioning infrastructure for AI browser agents, how it relates to existing browser automation layers (CDP drivers such as Nodriver, vision-first computer-use models such as Fara), and what it implies for cookbook knowledge and future research.",
+  "audience": "Blog",
+  "depth": "deep",
+  "created": "2026-08-05T17:50:22.714694+00:00",
+  "started": "2026-08-05T17:50:09.863822+00:00",
+  "finished": "2026-08-05T17:50:22.714666+00:00",
+  "activity": [
+    {
+      "ts": "2026-08-05T17:50:09.863850+00:00",
+      "msg": "Research started"
+    },
+    {
+      "ts": "2026-08-05T17:50:09.863936+00:00",
+      "msg": "Evidence class primary: high \u2014 official documentation anchors any topic"
+    },
+    {
+      "ts": "2026-08-05T17:50:09.863950+00:00",
+      "msg": "Evidence class code: high \u2014 repositories show implementation reality"
+    },
+    {
+      "ts": "2026-08-05T17:50:09.863960+00:00",
+      "msg": "Evidence class community: high \u2014 practitioner pain points are core signal for tooling topics"
+    },
+    {
+      "ts": "2026-08-05T17:50:09.863969+00:00",
+      "msg": "Evidence class scientific: high \u2014 benchmarks and papers matter when the topic names a model or method"
+    },
+    {
+      "ts": "2026-08-05T17:50:09.863978+00:00",
+      "msg": "Evidence class operational: low \u2014 operational weight low unless performance is central"
+    },
+    {
+      "ts": "2026-08-05T17:50:10.016023+00:00",
+      "msg": "Watchlist touches: tech.web.cloudflare (keyword overlap 0.0)"
+    },
+    {
+      "ts": "2026-08-05T17:50:10.016457+00:00",
+      "msg": "Provenance: seeded from evt-ace2fc4f822d, evt-6de7b262b7d9, evt-c7d15f3a60b9"
+    },
+    {
+      "ts": "2026-08-05T17:50:10.016480+00:00",
+      "msg": "Research plan built: 17 keywords, depth deep"
+    },
+    {
+      "ts": "2026-08-05T17:50:12.641801+00:00",
+      "msg": "Collected blog.cloudflare.com (44494 chars, class primary)"
+    },
+    {
+      "ts": "2026-08-05T17:50:14.033975+00:00",
+      "msg": "Collected blog.cloudflare.com (26511 chars, class primary)"
+    },
+    {
+      "ts": "2026-08-05T17:50:19.179524+00:00",
+      "msg": "Collected github.com (22301 chars, class code)"
+    },
+    {
+      "ts": "2026-08-05T17:50:20.862052+00:00",
+      "msg": "Collected developers.cloudflare.com (6291 chars, class primary)"
+    },
+    {
+      "ts": "2026-08-05T17:50:22.703580+00:00",
+      "msg": "Collected blog.cloudflare.com (21758 chars, class primary)"
+    },
+    {
+      "ts": "2026-08-05T17:50:22.703637+00:00",
+      "msg": "Extracted 123 evidence entries from 5 sources"
+    },
+    {
+      "ts": "2026-08-05T17:50:22.714613+00:00",
+      "msg": "Drafted 15 candidate findings (keyword-density-v0), 0 as community signals"
+    },
+    {
+      "ts": "2026-08-05T17:50:22.714671+00:00",
+      "msg": "Session artifact written"
+    }
+  ],
+  "plan": {
+    "keywords": [
+      "access",
+      "agent",
+      "agents",
+      "ai",
+      "anti-detection",
+      "architecture",
+      "automation",
+      "browser",
+      "cloudflare",
+      "implications",
+      "infrastructure",
+      "limitations",
+      "model",
+      "os",
+      "performance",
+      "secure",
+      "security"
+    ],
+    "depth": "deep",
+    "evidence_classes": {
+      "primary": "high",
+      "code": "high",
+      "community": "high",
+      "scientific": "high",
+      "operational": "low"
+    }
+  },
+  "watchlist": {
+    "matched": [
+      "tech.web.cloudflare"
+    ],
+    "keyword_overlap": 0.0
+  },
+  "provenance": {
+    "events": [
+      "evt-ace2fc4f822d",
+      "evt-6de7b262b7d9",
+      "evt-c7d15f3a60b9"
+    ]
+  },
+  "status": "draft",
+  "stages": [
+    {
+      "name": "plan",
+      "detail": "research question, keywords, depth",
+      "state": "done"
+    },
+    {
+      "name": "collect",
+      "detail": "sources fetched or imported",
+      "state": "done"
+    },
+    {
+      "name": "extract",
+      "detail": "text chunked into evidence entries",
+      "state": "done"
+    },
+    {
+      "name": "findings",
+      "detail": "draft candidate findings (not conclusions)",
+      "state": "done"
+    }
+  ],
+  "sources": [
+    {
+      "url": "https://blog.cloudflare.com/the-agent-access-model/",
+      "title": "blog.cloudflare.com",
+      "status": "fetched",
+      "chars": 44494,
+      "class": "primary"
+    },
+    {
+      "url": "https://blog.cloudflare.com/cloudflare-os/",
+      "title": "blog.cloudflare.com",
+      "status": "fetched",
+      "chars": 26511,
+      "class": "primary"
+    },
+    {
+      "url": "https://github.com/cloudflare/cloudflare-os",
+      "title": "github.com",
+      "status": "fetched",
+      "chars": 22301,
+      "class": "code"
+    },
+    {
+      "url": "https://developers.cloudflare.com/agents/",
+      "title": "developers.cloudflare.com",
+      "status": "fetched",
+      "chars": 6291,
+      "class": "primary"
+    },
+    {
+      "url": "https://blog.cloudflare.com/browser-run-containers/",
+      "title": "blog.cloudflare.com",
+      "status": "fetched",
+      "chars": 21758,
+      "class": "primary"
+    }
+  ],
+  "evidence": [
+    {
+      "id": "ev-1",
+      "source": "https://blog.cloudflare.com/the-agent-access-model/",
+      "excerpt": "Selected Tags AgentsAgents WeekAIIdentityProduct NewsSASEZero Trust All tags Matching tags No tags found 1.1.1.1 2FA Abuse Access Access Control Lists (ACLs) Accessibility Account Takeover Acquisitions Addressing Advanced Certificate Manager Advanced DDoS Advertising Aegis Africa Afroflare Agent Development Lifecycle Agent Readiness Agents Agents Week Agents Week 2026 AI AI Bots AI Gateway AI Search AI-SPM AI WAF AI Week Alertmanager Always Online AMD AMP Analytics Anonymous Anti Malware Anycast API API Gateway API Security API Shield APJC Apple Application Security Application Services Area 1",
+      "class": "primary"
+    },
+    {
+      "id": "ev-2",
+      "source": "https://blog.cloudflare.com/the-agent-access-model/",
+      "excerpt": "For the last twelve years, enterprise security has moved away from trusting the network. BeyondCorp made the case that a request's origin, inside the corporate perimeter or on the open Internet, should not decide whether it is allowed. Identity and device health should. That model won: it now underpins much of Zero Trust. Google\u2019s BeyondCorp assumed a specific principal: a human at a device, acting at human speed. Organizations are now deploying agents, software principals that reason, act, and reach into systems on our behalf. A task-scoped agent run is ephemeral. It ends when its work is don",
+      "class": "primary"
+    },
+    {
+      "id": "ev-3",
+      "source": "https://blog.cloudflare.com/the-agent-access-model/",
+      "excerpt": "We\u2019ll never share your email address.Subscribe Thanks for subscribing! Check your inbox to confirm.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-4",
+      "source": "https://blog.cloudflare.com/the-agent-access-model/",
+      "excerpt": "\u00a9 2026 Cloudflare, Inc. |Your privacy choicesReport security issues|Privacy Policy|Terms of use|GDPR|Trademark",
+      "class": "primary"
+    },
+    {
+      "id": "ev-5",
+      "source": "https://blog.cloudflare.com/the-agent-access-model/",
+      "excerpt": "Search is temporarily unavailable. Products Solutions Resources Pricing Login opens in a new tabContact Sales opens in a new tabStart Building opens in a new tab",
+      "class": "primary"
+    },
+    {
+      "id": "ev-6",
+      "source": "https://blog.cloudflare.com/cloudflare-os/",
+      "excerpt": "Selected Tags AgentsAgents WeekAICloudflare AccessCloudflare OSCloudflare WorkersDeveloper PlatformDevelopersOpen SourceProduct News All tags Matching tags No tags found 1.1.1.1 2FA Abuse Access Access Control Lists (ACLs) Accessibility Account Takeover Acquisitions Addressing Advanced Certificate Manager Advanced DDoS Advertising Aegis Africa Afroflare Agent Development Lifecycle Agent Readiness Agents Agents Week Agents Week 2026 AI AI Bots AI Gateway AI Search AI-SPM AI WAF AI Week Alertmanager Always Online AMD AMP Analytics Anonymous Anti Malware Anycast API API Gateway API Security API S",
+      "class": "primary"
+    },
+    {
+      "id": "ev-7",
+      "source": "https://blog.cloudflare.com/cloudflare-os/",
+      "excerpt": "Every organization has a mission, a reason for being. Organizations pass that mission \u2014 along with their terminology, procedures, systems, standards, and ways of working \u2014 to their people. People, in turn, take this context together with their own experience and work towards the mission. Work can take many forms, from code, to documents and slides, to relationships, to outcomes in the physical world. Some of these are straightforward: code either runs or it doesn\u2019t. Agents have been using this feedback loop to produce code that \u201cworks\u201d for developers over the last couple of years. But what abo",
+      "class": "primary"
+    },
+    {
+      "id": "ev-8",
+      "source": "https://blog.cloudflare.com/cloudflare-os/",
+      "excerpt": "Cloudflare OS combines three parts: An agent workspace grounded in context and skills your company curates, with an isolated runtime where agents can write and run code. A new security and governance framework for safe access to internal data and services. A platform for personal, modifiable apps that people can build, share, and continue changing. What begins as a conversation can become a doc, an app, or a workflow that continues doing the work. An agent workspace for everyone in your company Agent workspaces were designed for everyone in your organization to use. You interact with them in y",
+      "class": "primary"
+    },
+    {
+      "id": "ev-9",
+      "source": "https://blog.cloudflare.com/cloudflare-os/",
+      "excerpt": "Create docs, slides, and spreadsheets A workspace can turn its research into a document, presentation, or spreadsheet that you can continue editing. These outputs do not have to be static files. They can remain connected to live data, be updated as their sources change, and still be exported to familiar formats or services such as Google Drive.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-10",
+      "source": "https://blog.cloudflare.com/cloudflare-os/",
+      "excerpt": "Create collaborative, connected apps for your team When a document or spreadsheet is not enough, the agent can build an app with its own interface, logic, and state. The app can use connected company resources and support multiple people working together.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-11",
+      "source": "https://blog.cloudflare.com/cloudflare-os/",
+      "excerpt": "Run deterministic workflows Not every job needs a full agent session. Many are a known sequence of steps with one or two places where judgment is useful. A workspace can turn those jobs into mostly deterministic workflows, using code for the predictable steps and a model only where it adds value. Workflows can run on demand, on a schedule, or when an event occurs in a connected system.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-12",
+      "source": "https://blog.cloudflare.com/cloudflare-os/",
+      "excerpt": "Cloudflare OS gives agents and apps governed access to systems of record through Gatekeepers (more on this in the security section below). It also supports existing Model Context Protocol (MCP) servers your organization already uses via MCP Server Portals. A new security and governance framework for safe access to internal data and services As people begin experimenting with AI at work, one of their first requests is often for API keys to company systems. This makes sense: AI isn\u2019t much use at work if it doesn\u2019t have access to the systems people use to do their jobs. But handing over API keys ",
+      "class": "primary"
+    },
+    {
+      "id": "ev-13",
+      "source": "https://blog.cloudflare.com/cloudflare-os/",
+      "excerpt": "Policy follows what the agent has seen Controlling the initial read is not enough. Take, for example, the case where an agent reads a sensitive table in a data warehouse and uses it to produce a live dashboard. Sharing the dashboard must not become a way to share the table with people who could not access it directly. Cloudflare OS records every resource agents observe. These observations remain attached to the agent and its work. When another person tries to open the workspace, interact with the agent, or view what it produced, Gatekeepers verify that person's access to the observed resources",
+      "class": "primary"
+    },
+    {
+      "id": "ev-14",
+      "source": "https://blog.cloudflare.com/cloudflare-os/",
+      "excerpt": "The same observation log is used to inform policies that determine when agents can make external requests. A read of sensitive data can prevent the agent from writing data to certain sources, inviting new collaborators, handing work to another agent, or making an outbound request. People using agents or building apps do not have to worry about making these mistakes. The platform can now be used to handle this. A platform for building and sharing personal, modifiable apps Most productivity suites give you a fixed set of applications: documents, spreadsheets, and presentations. In Cloudflare OS,",
+      "class": "primary"
+    },
+    {
+      "id": "ev-15",
+      "source": "https://blog.cloudflare.com/cloudflare-os/",
+      "excerpt": "The browser client talks to the server using Cap\u2019n Web, Cloudflare\u2019s open source object-capability Remote Procedure Call (RPC) system. A server method can be called from the client like a normal JavaScript function: const issues = await app.listIssues({ status: \"done\", }); The special part is that the agent can also call the same method. So if you can build a tool to do a job yourself, agents can use your tool to do the job when you\u2019re not there. Share the app, or share how it was built When you build an app in Cloudflare OS, you have two ways to share them: Sharing your app itself lets other ",
+      "class": "primary"
+    },
+    {
+      "id": "ev-16",
+      "source": "https://blog.cloudflare.com/cloudflare-os/",
+      "excerpt": "An app instantiated from a blueprint contains the original app\u2019s code. But it does not contain its SQLite data, conversation history, credentials, or connected resources. Each new app starts with independent state and resources. This means when you share apps with your team, they can modify them themselves with AI instead of filing a feature request and assigning you. Use any model, and control what it costs Cloudflare OS can be used with any model. Every inference call runs through Cloudflare AI Gateway, giving your organization one place to decide which models are available and which model s",
+      "class": "primary"
+    },
+    {
+      "id": "ev-17",
+      "source": "https://blog.cloudflare.com/cloudflare-os/",
+      "excerpt": "Not every task needs the most expensive model. You may not want to run the most expensive frontier model to summarize your unread emails every morning. AI Gateway gives you the control needed to make sure expensive models are only being used for the hardest work. Every request is attributed to the person, team, or workspace that made it. Administrators can see where inference spend is going, set budgets and rate limits, and decide what happens when a limit is reached. Open source, so you can make it yours Cloudflare OS is available today and is open source. Check out the cloudflare-os GitHub r",
+      "class": "primary"
+    },
+    {
+      "id": "ev-18",
+      "source": "https://blog.cloudflare.com/cloudflare-os/",
+      "excerpt": "We\u2019ll never share your email address.Subscribe Thanks for subscribing! Check your inbox to confirm.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-19",
+      "source": "https://blog.cloudflare.com/cloudflare-os/",
+      "excerpt": "\u00a9 2026 Cloudflare, Inc. |Your privacy choicesReport security issues|Privacy Policy|Terms of use|GDPR|Trademark",
+      "class": "primary"
+    },
+    {
+      "id": "ev-20",
+      "source": "https://blog.cloudflare.com/cloudflare-os/",
+      "excerpt": "Search is temporarily unavailable. Products Solutions Resources Pricing Login opens in a new tabContact Sales opens in a new tabStart Building opens in a new tab",
+      "class": "primary"
+    },
+    {
+      "id": "ev-21",
+      "source": "https://github.com/cloudflare/cloudflare-os",
+      "excerpt": "You signed in with another tab or window. Reload to refresh your session. You signed out in another tab or window. Reload to refresh your session. You switched accounts on another tab or window. Reload to refresh your session.",
+      "class": "code"
+    },
+    {
+      "id": "ev-22",
+      "source": "https://github.com/cloudflare/cloudflare-os",
+      "excerpt": "There was an error while loading. Please reload this page.",
+      "class": "code"
+    },
+    {
+      "id": "ev-23",
+      "source": "https://github.com/cloudflare/cloudflare-os",
+      "excerpt": "README Code of conduct Contributing Apache-2.0 license Security",
+      "class": "code"
+    },
+    {
+      "id": "ev-24",
+      "source": "https://github.com/cloudflare/cloudflare-os",
+      "excerpt": "Cloudflare OS is an \"operating system\" for AI productivity originally developed for use inside Cloudflare. A large portion of Cloudflare's workforce -- from engineering to sales and everything in between -- uses Cloudflare OS every day to help them do their jobs.",
+      "class": "code"
+    },
+    {
+      "id": "ev-25",
+      "source": "https://github.com/cloudflare/cloudflare-os",
+      "excerpt": "This is not a traditional computer operating system. We use the term \"operating system\" in two senses:",
+      "class": "code"
+    },
+    {
+      "id": "ev-26",
+      "source": "https://github.com/cloudflare/cloudflare-os",
+      "excerpt": "An operating system for the company to be productive with AI, in a way that is safe, so that the security team can sleep at night.",
+      "class": "code"
+    },
+    {
+      "id": "ev-27",
+      "source": "https://github.com/cloudflare/cloudflare-os",
+      "excerpt": "An operating system for AI workloads, analogous to the sense in which a traditional operating system manages compute workloads.",
+      "class": "code"
+    },
+    {
+      "id": "ev-28",
+      "source": "https://github.com/cloudflare/cloudflare-os",
+      "excerpt": "An agent chat UI where you can ask agents to do tasks, preloaded with knowledge about how your company operates.",
+      "class": "code"
+    },
+    {
+      "id": "ev-29",
+      "source": "https://github.com/cloudflare/cloudflare-os",
+      "excerpt": "Sandboxed application development, so that you can ask agents to build \"gadgets\" (small personal apps) and safely share what you've built with others.",
+      "class": "code"
+    },
+    {
+      "id": "ev-30",
+      "source": "https://github.com/cloudflare/cloudflare-os",
+      "excerpt": "A security framework, called Gatekeepers, that applies guardrails to both agents and apps such that non-technical users can safely \"go nuts\" and nothing bad will happen.",
+      "class": "code"
+    },
+    {
+      "id": "ev-31",
+      "source": "https://github.com/cloudflare/cloudflare-os",
+      "excerpt": "We are making Cloudflare OS open source so that others can copy it and customize it for their own company. The idea is not that your company uses Cloudflare OS, but rather that you make it \"Your Company OS\".",
+      "class": "code"
+    },
+    {
+      "id": "ev-32",
+      "source": "https://github.com/cloudflare/cloudflare-os",
+      "excerpt": "This runs the whole stack locally on wrangler and workerd. This is not meant for production use, but is a quick way to see what the product does.",
+      "class": "code"
+    },
+    {
+      "id": "ev-33",
+      "source": "https://github.com/cloudflare/cloudflare-os",
+      "excerpt": "Alternatively, you can deploy to your Cloudflare account.",
+      "class": "code"
+    },
+    {
+      "id": "ev-34",
+      "source": "https://github.com/cloudflare/cloudflare-os",
+      "excerpt": "(More options at the end of this readme.)",
+      "class": "code"
+    },
+    {
+      "id": "ev-35",
+      "source": "https://github.com/cloudflare/cloudflare-os",
+      "excerpt": "\"Make slides for my upcoming meeting with a customer.\" (This will use the built-in slides blueprint.)",
+      "class": "code"
+    },
+    {
+      "id": "ev-36",
+      "source": "https://github.com/cloudflare/cloudflare-os",
+      "excerpt": "\"Make a collaborative whiteboard app.\" (This will create a new app from scratch.)",
+      "class": "code"
+    },
+    {
+      "id": "ev-37",
+      "source": "https://github.com/cloudflare/cloudflare-os",
+      "excerpt": "\"Make a tic tac toe game.\" followed by \"I'll be X and you be O. I've made my first move. Your turn.\"",
+      "class": "code"
+    },
+    {
+      "id": "ev-38",
+      "source": "https://github.com/cloudflare/cloudflare-os",
+      "excerpt": "\"Make an issue dashboard for this GitHub repo.\" (Attach a repo; requires that the GitHub integration is configured.)",
+      "class": "code"
+    },
+    {
+      "id": "ev-39",
+      "source": "https://github.com/cloudflare/cloudflare-os",
+      "excerpt": "\"Fix the typos in this Google Doc.\" (Attach a doc; requires that the Google integration is configured.)",
+      "class": "code"
+    },
+    {
+      "id": "ev-40",
+      "source": "https://github.com/cloudflare/cloudflare-os",
+      "excerpt": "Cloudflare OS is in a state of heavy development. This repository is actually version 2, a complete rewrite taking what we learned from version 1 and putting it on a new foundation.",
+      "class": "code"
+    },
+    {
+      "id": "ev-41",
+      "source": "https://github.com/cloudflare/cloudflare-os",
+      "excerpt": "As of the August 2026 release, Cloudflare OS v2 is very capable, but still has many rough edges. We know, and we're working on it. For now, consider this an \"early access\" release.",
+      "class": "code"
+    },
+    {
+      "id": "ev-42",
+      "source": "https://github.com/cloudflare/cloudflare-os",
+      "excerpt": "Cloudflare OS is more than just another chatbox with connectors. The system revolves around a new approach to software, where every user runs their own copy of the productivity apps they use.",
+      "class": "code"
+    },
+    {
+      "id": "ev-43",
+      "source": "https://github.com/cloudflare/cloudflare-os",
+      "excerpt": "When you create a slide deck in Cloudflare OS, you are not calling out to some SaaS software running in the cloud. The system creates a private instance of the slide deck software just for you. We call this a \"gadget\". This instance runs in a separate sandbox from everyone else's slide decks.",
+      "class": "code"
+    },
+    {
+      "id": "ev-44",
+      "source": "https://github.com/cloudflare/cloudflare-os",
+      "excerpt": "It's impossible for the slide deck app to have a security bug that leaks your slides to an attacker. The Cloudflare OS sandbox controls all access to your private instance of the app.",
+      "class": "code"
+    },
+    {
+      "id": "ev-45",
+      "source": "https://github.com/cloudflare/cloudflare-os",
+      "excerpt": "If you want, you can freely modify the code. If the slide deck app is missing a feature you need, you can just ask your agent to add it. And because of point 1, it's totally safe to do so.",
+      "class": "code"
+    },
+    {
+      "id": "ev-46",
+      "source": "https://github.com/cloudflare/cloudflare-os",
+      "excerpt": "This is a big departure from the last 25 years of cloud architecture and \"Software as a Service\", but we think AI has changed the equation. When any user is capable of prompting an agent to add the features they need, the centralized model of software stops making sense.",
+      "class": "code"
+    },
+    {
+      "id": "ev-47",
+      "source": "https://github.com/cloudflare/cloudflare-os",
+      "excerpt": "Gatekeepers are like supercharged MCP servers.",
+      "class": "code"
+    },
+    {
+      "id": "ev-48",
+      "source": "https://github.com/cloudflare/cloudflare-os",
+      "excerpt": "When you introduce an agent or Gadget to an external resource, a Gatekeeper is created to manage that access. The Gatekeeper is a piece of software specific to each external service which moderates a Gadget's connection to that service. It:",
+      "class": "code"
+    },
+    {
+      "id": "ev-49",
+      "source": "https://github.com/cloudflare/cloudflare-os",
+      "excerpt": "Provides a clean Cap'n Web API to the service (wrapping whatever API the service provides natively).",
+      "class": "code"
+    },
+    {
+      "id": "ev-50",
+      "source": "https://github.com/cloudflare/cloudflare-os",
+      "excerpt": "Enforces narrow access to only the specific resource the user intended.",
+      "class": "code"
+    },
+    {
+      "id": "ev-51",
+      "source": "https://github.com/cloudflare/cloudflare-os",
+      "excerpt": "Logs every action the Gadget (or agent) performs, for your review.",
+      "class": "code"
+    },
+    {
+      "id": "ev-52",
+      "source": "https://github.com/cloudflare/cloudflare-os",
+      "excerpt": "For any action which has side effects, provides the human user an opportunity to approve or deny the action (\"human in the loop\").",
+      "class": "code"
+    },
+    {
+      "id": "ev-53",
+      "source": "https://github.com/cloudflare/cloudflare-os",
+      "excerpt": "On the last point, Gatekeepers implement a significant advancement in the state of the art. Traditionally, human-in-the-loop setups require the human to approve actions synchronously. When the agent wants to do something, it has to stop and wait for said approval before it can continue. This is annoying: you give your agent a task, then walk away and get a coffee, only to come back and find the agent got stuck on an approval on the first step and has made no progress. As a result, people often give in and set their agents to \"auto-approve\", or --dangerously-skip-permissions, which is, obviousl",
+      "class": "code"
+    },
+    {
+      "id": "ev-54",
+      "source": "https://github.com/cloudflare/cloudflare-os",
+      "excerpt": "Gatekeepers provide a better way: When the agent (or Gadget) performs an action that requires approval, the Gatekeeper will simulate the outcome locally, allowing the agent to proceed and queue up more actions. The Gatekeeper tells the agent that the action completed, and if the agent tries to read back the results, the Gatekeeper gives it simulated results. Once the agent is done, the user may approve or reject the actions in bulk, or one-by-one, but either way, they can do it later, when it is convenient.",
+      "class": "code"
+    },
+    {
+      "id": "ev-55",
+      "source": "https://github.com/cloudflare/cloudflare-os",
+      "excerpt": "Logistically, each Gatekeeper is implemented as a separate Worker. In the future, we envision Gatekeeper services being deployed and maintained independently from OS instances, but the details have yet to be worked out. For now, we have provided a few interesting Gatekeepers in this repository which you can deploy together with your own OS instance.",
+      "class": "code"
+    },
+    {
+      "id": "ev-56",
+      "source": "https://github.com/cloudflare/cloudflare-os",
+      "excerpt": "The basic user experience of Cloudflare OS is something like an online office suite, like Google Docs or MS Office. But, imagine that instead of a fixed set of file types (document, spreadsheet, slide deck), each file -- or \"Gadget\" -- is potentially its own custom application, written by AI to serve exactly your needs.",
+      "class": "code"
+    },
+    {
+      "id": "ev-57",
+      "source": "https://github.com/cloudflare/cloudflare-os",
+      "excerpt": "Just like office docs, each gadget is private by default, but can be shared -- securely -- in order to collaborate with your team or your friends.",
+      "class": "code"
+    },
+    {
+      "id": "ev-58",
+      "source": "https://github.com/cloudflare/cloudflare-os",
+      "excerpt": "Just like office docs, you can have thousands of them. You can create them on a whim.",
+      "class": "code"
+    },
+    {
+      "id": "ev-59",
+      "source": "https://github.com/cloudflare/cloudflare-os",
+      "excerpt": "Just like office docs, you can start from \"templates\" -- called \"Blueprints\". But where an office template is just some content, a Blueprint specifies a whole application.",
+      "class": "code"
+    },
+    {
+      "id": "ev-60",
+      "source": "https://github.com/cloudflare/cloudflare-os",
+      "excerpt": "Like office docs, you can create new templates (blueprints) from your own docs (Gadgets) and share them with others. But when you do so, you are sharing the code for a whole app.",
+      "class": "code"
+    },
+    {
+      "id": "ev-61",
+      "source": "https://github.com/cloudflare/cloudflare-os",
+      "excerpt": "The OS terminology isn't entirely marketing. Cloudflare OS is actually analogous to an operating system on a technical level.",
+      "class": "code"
+    },
+    {
+      "id": "ev-62",
+      "source": "https://github.com/cloudflare/cloudflare-os",
+      "excerpt": "Our \"kernel\" is in the workshop-backend package. The backend legitimately does a lot of things similar to real OS kernels: it connects users to programs and devices (Gadgets and Gatekeepers, as we call them) while implementing security by sandboxing applications and enforcing access control.",
+      "class": "code"
+    },
+    {
+      "id": "ev-63",
+      "source": "https://github.com/cloudflare/cloudflare-os",
+      "excerpt": "In this analogy, Gatekeepers -- which connect users and agents to external services -- are like drivers -- which connect users and programs to external devices.",
+      "class": "code"
+    },
+    {
+      "id": "ev-64",
+      "source": "https://github.com/cloudflare/cloudflare-os",
+      "excerpt": "There is one thing that traditional OSes don't really manage today, but Cloudflare OS does: AI agents. If you think about it, this is really a missing feature in traditional OSes. We believe that AI agents cannot simply be treated as users. They must be accountable to a human user, while at the same time having their own restricted permissions. Agents do work by writing snippets of code and executing them on the fly. The ideal security model for all of this is capability-based security, not access control lists. See what I mean? Perhaps traditional OSes ought to give AI agents special treatmen",
+      "class": "code"
+    },
+    {
+      "id": "ev-65",
+      "source": "https://github.com/cloudflare/cloudflare-os",
+      "excerpt": "Cloudflare OS is built on Cloudflare Workers, making heavy use of Durable Objects, Dynamic Workers, and Facets in particular. Every workspace is its own Durable Object, every Gadget runs in a Dynamic Worker Facet, and Gatekeepers also install facets into each workspace to manage access to remote services.",
+      "class": "code"
+    },
+    {
+      "id": "ev-66",
+      "source": "https://github.com/cloudflare/cloudflare-os",
+      "excerpt": "Cloudflare OS is, in fact, built by the very people who built Workers itself. It uses cutting-edge features of the Workers Runtime -- in fact, Dynamic Workers, Facets, and several other features were added to the runtime specifically to support Cloudflare OS, with more to come. Studying the Cloudflare OS source code is a great way to understand how the Workers Runtime team thinks Workers should be used.",
+      "class": "code"
+    },
+    {
+      "id": "ev-67",
+      "source": "https://github.com/cloudflare/cloudflare-os",
+      "excerpt": "Being built on Workers does not mean that Cloudflare OS can only run on Cloudflare. In fact, workerd, the Cloudflare Workers Runtime, is itself open source, and Cloudflare OS can run entirely on top of it on your own servers.",
+      "class": "code"
+    },
+    {
+      "id": "ev-68",
+      "source": "https://github.com/cloudflare/cloudflare-os",
+      "excerpt": "The Cloudflare OS coding agent is actually a fully multi-purpose agent that can perform arbitrary tasks; like other popular coding agents, you don't have to code with it. You can use it to build Gadgets, but you can also skip the Gadget and just have the agent perform tasks directly. The Cloudflare OS agent is a Code Mode agent -- it performs tasks by writing and immediately executing snippets of code. It can be connected to external resources using Gatekeepers (like MCP -- see below).",
+      "class": "code"
+    },
+    {
+      "id": "ev-69",
+      "source": "https://github.com/cloudflare/cloudflare-os",
+      "excerpt": "While you can code a Gadget by hand if you want, the expectation is that AI writes the code for you. Cloudflare OS features a built-in coding agent that will build whatever you ask it, test it for you, and debug errors.",
+      "class": "code"
+    },
+    {
+      "id": "ev-70",
+      "source": "https://github.com/cloudflare/cloudflare-os",
+      "excerpt": "You can choose your LLM. Cloudflare OS works with many major AI model providers and self-hosted models, with more providers being added all the time.",
+      "class": "code"
+    },
+    {
+      "id": "ev-71",
+      "source": "https://github.com/cloudflare/cloudflare-os",
+      "excerpt": "Because of the tightly-integrated and simplified nature of the platform, even when using the same underlying AI models, the Cloudflare OS coding agent often performs better and faster with fewer tokens than a general-purpose coding agent would.",
+      "class": "code"
+    },
+    {
+      "id": "ev-72",
+      "source": "https://github.com/cloudflare/cloudflare-os",
+      "excerpt": "Every app built with Cloudflare OS automatically has an agent-friendly API. That means, after you've asked AI to build the app, you can also ask AI to collaborate with you inside the app. No need to build an MCP server nor integrate a custom agent loop. It's just there by default.",
+      "class": "code"
+    },
+    {
+      "id": "ev-73",
+      "source": "https://github.com/cloudflare/cloudflare-os",
+      "excerpt": "This works because the client and server portions of a Gadget are required to communicate via Cap'n Web RPC. This is a win-win:",
+      "class": "code"
+    },
+    {
+      "id": "ev-74",
+      "source": "https://github.com/cloudflare/cloudflare-os",
+      "excerpt": "Cap'n Web is extremely low-boilerplate, which makes it easy for agents to work with. You basically just define a method on your server, then call it from your client, as if it were a local call.",
+      "class": "code"
+    },
+    {
+      "id": "ev-75",
+      "source": "https://github.com/cloudflare/cloudflare-os",
+      "excerpt": "Meanwhile, it means that the server necessarily exposes an easy-to-understand API which could be called directly by an agent. The AI Agent harness uses Code Mode for tool calling, making it trivial to expose the Gadget's API directly for the agent to invoke.",
+      "class": "code"
+    },
+    {
+      "id": "ev-76",
+      "source": "https://github.com/cloudflare/cloudflare-os",
+      "excerpt": "You can share your Gadget just like you'd share a document in a typical online office suite. You can give specific users access, or create a share link that provides access to anyone who opens it. And just like those online office suites, you'll be able to see your collaborators' actions in real time.",
+      "class": "code"
+    },
+    {
+      "id": "ev-77",
+      "source": "https://github.com/cloudflare/cloudflare-os",
+      "excerpt": "This works because every Gadget is backed by a Durable Object, Cloudflare's stateful serverless primitive which makes real-time multiplayer collaboration easy. It's so easy that the coding agent just implements it by default, without being asked.",
+      "class": "code"
+    },
+    {
+      "id": "ev-78",
+      "source": "https://github.com/cloudflare/cloudflare-os",
+      "excerpt": "If you've created a Gadget that might be useful to others, but you don't want to share the Gadget itself, you can instead share a Blueprint, allowing other people to create their own copy of the Gadget. A Blueprint is essentially a copy of the code.",
+      "class": "code"
+    },
+    {
+      "id": "ev-79",
+      "source": "https://github.com/cloudflare/cloudflare-os",
+      "excerpt": "It may sound simple, but Blueprints are a major change from cloud software tradition. Traditionally, if you create a web app that you want to share with other users, you host the app on your server, and the users connect to that. Blueprints are much more like mobile apps and traditional PC apps: every user runs their own copy of the software.",
+      "class": "code"
+    },
+    {
+      "id": "ev-80",
+      "source": "https://github.com/cloudflare/cloudflare-os",
+      "excerpt": "In the age of AI, this change is critically important. On one hand, AI empowers an individual developer to build more than ever, but it is still difficult for an individual developer to maintain an online service; this eliminates the need. On the other hand -- and even more importantly -- allowing each user to run their own copy of the software empowers the user to change the software to meet their needs, using AI. No need to file a feature request, no need to beg the developer to prioritize it. The end user can solve their own problems.",
+      "class": "code"
+    },
+    {
+      "id": "ev-81",
+      "source": "https://github.com/cloudflare/cloudflare-os",
+      "excerpt": "Each Gadget runs in a secure sandbox that prevents it from talking to the internet at all without your explicit consent. In particular:",
+      "class": "code"
+    },
+    {
+      "id": "ev-82",
+      "source": "https://github.com/cloudflare/cloudflare-os",
+      "excerpt": "The server runs in a Dynamic Worker which has had its access to the internet disabled. It can only communicate with specific external resources that you have explicitly designated, via Workers Bindings.",
+      "class": "code"
+    },
+    {
+      "id": "ev-83",
+      "source": "https://github.com/cloudflare/cloudflare-os",
+      "excerpt": "The client code runs in a sandboxed iframe. This iframe can communicate with its server only via a Cap'n Web RPC session provided over postMessage() to the parent frame. The iframe is otherwise blocked from accessing the internet (to the maximum extent allowed by browsers, via Content-Security-Policy and iframe sandbox settings).",
+      "class": "code"
+    },
+    {
+      "id": "ev-84",
+      "source": "https://github.com/cloudflare/cloudflare-os",
+      "excerpt": "Each agent, and each Gadget, by default has access to nothing. Even if you've configured the Gadget Workshop with access to external accounts, agents and Gadgets do NOT automatically get to use them.",
+      "class": "code"
+    },
+    {
+      "id": "ev-85",
+      "source": "https://github.com/cloudflare/cloudflare-os",
+      "excerpt": "Instead, you must introduce each agent (or Gadget) to any particular resources you want it to access. For instance, you may introduce a GitHub repository by pasting a link to it, or clicking \"add resource\" and selecting it via the UI. An agent can also request an introduction to a resource it thinks it needs, which you can then provide or deny.",
+      "class": "code"
+    },
+    {
+      "id": "ev-86",
+      "source": "https://github.com/cloudflare/cloudflare-os",
+      "excerpt": "This differs from most agent harnesses, where MCP servers are configured upfront, making broad access to all your services ambiently available to the agent in every chat. Capability-based introductions keep each agent restricted to only the access it actually needs for the job at hand.",
+      "class": "code"
+    },
+    {
+      "id": "ev-87",
+      "source": "https://github.com/cloudflare/cloudflare-os",
+      "excerpt": "https://github.com/cloudflare/cloudflare-os-starter",
+      "class": "code"
+    },
+    {
+      "id": "ev-88",
+      "source": "https://github.com/cloudflare/cloudflare-os",
+      "excerpt": "This runs Cloudflare OS using wrangler, the Workers developer tooling CLI. This is not the right way to run the OS on a production server, but it works fine for trying it out on your local machine.",
+      "class": "code"
+    },
+    {
+      "id": "ev-89",
+      "source": "https://github.com/cloudflare/cloudflare-os",
+      "excerpt": "Your data will be stored in a subdirectory named .wrangler.",
+      "class": "code"
+    },
+    {
+      "id": "ev-90",
+      "source": "https://github.com/cloudflare/cloudflare-os",
+      "excerpt": "Cloudflare OS can run entirely on workerd, Cloudflare's open source runtime for Workers. In fact, the \"run locally\" instructions above use workerd under the hood. We are still working on documentation and tooling to help you smoothly deploy the OS on top of workerd on your own servers. If you are feeling adventurous, read the low-level documentation for workerd config (or point your agent at it) and have a go.",
+      "class": "code"
+    },
+    {
+      "id": "ev-91",
+      "source": "https://github.com/cloudflare/cloudflare-os",
+      "excerpt": "Many Gatekeepers require configuration in order to be able to connect to third-party services, including obtaining OAuth client credentials for each service. Unfortunately, many service providers intentionally do not make this easy, since the intended audience for OAuth is developers.",
+      "class": "code"
+    },
+    {
+      "id": "ev-92",
+      "source": "https://github.com/cloudflare/cloudflare-os",
+      "excerpt": "At this time, we are not seeking outside contribution.",
+      "class": "code"
+    },
+    {
+      "id": "ev-93",
+      "source": "https://github.com/cloudflare/cloudflare-os",
+      "excerpt": "AI has made writing code easy. The hard part, today, is not writing the code, but reviewing it, making sure quality stays high, and keeping the product coherent. In that light, unfortunately, external code contributions are \"donating\" the easy part of the job, while creating more of the hard work.",
+      "class": "code"
+    },
+    {
+      "id": "ev-94",
+      "source": "https://github.com/cloudflare/cloudflare-os",
+      "excerpt": "With that said, we are happy to accept small, trivially-verified PRs that fix a problem. However, we ask that you refrain from submitting low-value PRs (e.g. typo fixes) or PRs that are more than a dozen or so lines. Such PRs will be closed with a reference to this guideline.",
+      "class": "code"
+    },
+    {
+      "id": "ev-95",
+      "source": "https://github.com/cloudflare/cloudflare-os",
+      "excerpt": "If you have a big idea you'd like us to consider, feel free to open a discussion about it.",
+      "class": "code"
+    },
+    {
+      "id": "ev-96",
+      "source": "https://github.com/cloudflare/cloudflare-os",
+      "excerpt": "This policy may change in the future as the project matures. Until then, thank you for your understanding.",
+      "class": "code"
+    },
+    {
+      "id": "ev-97",
+      "source": "https://github.com/cloudflare/cloudflare-os",
+      "excerpt": "About Agent workspace built on Cloudflare Workers for creating documents, building apps, and running agents with your company\u2019s context and systems. os.cloudflare.app Resources Readme Apache-2.0 license Code of conduct Code of conduct Contributing Contributing Security policy Security policy Activity Custom properties Stars 1.3k stars Watchers 4 watching Forks 71 forks Report repository",
+      "class": "code"
+    },
+    {
+      "id": "ev-98",
+      "source": "https://github.com/cloudflare/cloudflare-os",
+      "excerpt": "You can\u2019t perform that action at this time.",
+      "class": "code"
+    },
+    {
+      "id": "ev-99",
+      "source": "https://developers.cloudflare.com/agents/",
+      "excerpt": "Skip to contentDocumentation Index Fetch the complete documentation index at: https://developers.cloudflare.com/agents/llms.txt Use this file to discover all available pages before exploring further.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-100",
+      "source": "https://developers.cloudflare.com/agents/",
+      "excerpt": "Agent setup \u2197 Cloudflare Skills \u2197 Code Mode MCP Server \u2197 Domain-specific MCP Servers \u2197MCP Agents llms.txt \u2197 Agents llms-full.txt \u2197 Cloudflare Docs llms.txt \u2197 Cloudflare Docs llms-full.txt \u2197",
+      "class": "primary"
+    },
+    {
+      "id": "ev-101",
+      "source": "https://developers.cloudflare.com/agents/",
+      "excerpt": "Build and host Agents on Cloudflare, connect chat, voice, email, Slack, and webhooks to a durable agent runtime with Browser, Sandbox, AI Search, MCP, Payments, and other MCP tools.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-102",
+      "source": "https://developers.cloudflare.com/agents/",
+      "excerpt": "When you host agents on Cloudflare, each agent session has a durable identity, local SQL storage, real-time connections, scheduled work, and recoverable execution.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-103",
+      "source": "https://developers.cloudflare.com/agents/",
+      "excerpt": "Deploy once and Cloudflare runs your agents across its global network, scaling to tens of millions of instances. No infrastructure to manage, no sessions to reconstruct, no state to externalize.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-104",
+      "source": "https://developers.cloudflare.com/agents/",
+      "excerpt": "Agent harness Controls planning, tool use, and response flow. Project ThinkBuild-your-own agent",
+      "class": "primary"
+    },
+    {
+      "id": "ev-105",
+      "source": "https://developers.cloudflare.com/agents/",
+      "excerpt": "Agents SDK runtime Durable identity, state, connections, scheduling, and recovery.Agent class StateSessionsRoutingWebSocketsSchedulingFibers",
+      "class": "primary"
+    },
+    {
+      "id": "ev-106",
+      "source": "https://developers.cloudflare.com/agents/",
+      "excerpt": "Communication channels define how users and systems reach your agent, such as chat, voice, email, Slack, webhooks, and other event sources.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-107",
+      "source": "https://developers.cloudflare.com/agents/",
+      "excerpt": "The agent harness defines the loop: how the agent calls models, selects tools, handles tool results, streams responses, and decides whether to continue. Use Project Think for an opinionated harness, or build your own loop directly on the Agents SDK runtime.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-108",
+      "source": "https://developers.cloudflare.com/agents/",
+      "excerpt": "The Agents SDK runtime provides durable infrastructure: the Agent class, state, sessions, routing, WebSockets, scheduling, fibers, and observability.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-109",
+      "source": "https://developers.cloudflare.com/agents/",
+      "excerpt": "Tools give the agent capabilities: browser automation, sandboxed code execution, AI Search, MCP tools, and payments. Code Mode lets models discover and orchestrate multiple tools by writing code.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-110",
+      "source": "https://developers.cloudflare.com/agents/",
+      "excerpt": "Three commands to a running agent. No API keys required \u2014 the starter uses Workers AI by default. npx create-cloudflare@latest --template cloudflare/agents-starter cd agents-starter && npm install npm run dev",
+      "class": "primary"
+    },
+    {
+      "id": "ev-111",
+      "source": "https://developers.cloudflare.com/agents/",
+      "excerpt": "The starter includes streaming AI chat, server-side and client-side tools, human-in-the-loop approval, and task scheduling \u2014 a foundation you can build on or tear apart. You can also swap in OpenAI, Anthropic, Google Gemini, or any other provider.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-112",
+      "source": "https://developers.cloudflare.com/agents/",
+      "excerpt": "Build a streaming AI chat agent with tools and human-in-the-loop approvals.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-113",
+      "source": "https://developers.cloudflare.com/agents/",
+      "excerpt": "Build an agent that responds to Slack messages, mentions, and commands.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-114",
+      "source": "https://developers.cloudflare.com/agents/",
+      "excerpt": "Build a real-time voice agent with speech-to-text and text-to-speech.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-115",
+      "source": "https://developers.cloudflare.com/agents/",
+      "excerpt": "Build an agent that can inspect pages, capture screenshots, and use browser tools.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-116",
+      "source": "https://developers.cloudflare.com/agents/",
+      "excerpt": "Build an agent that sends, receives, routes, and replies to email.NextQuick start",
+      "class": "primary"
+    },
+    {
+      "id": "ev-117",
+      "source": "https://blog.cloudflare.com/browser-run-containers/",
+      "excerpt": "Selected Tags AgentsBrowser RenderingBrowser RunChromeCloudflare WorkersContainersDeveloper PlatformDevelopers All tags Matching tags No tags found 1.1.1.1 2FA Abuse Access Access Control Lists (ACLs) Accessibility Account Takeover Acquisitions Addressing Advanced Certificate Manager Advanced DDoS Advertising Aegis Africa Afroflare Agent Development Lifecycle Agent Readiness Agents Agents Week Agents Week 2026 AI AI Bots AI Gateway AI Search AI-SPM AI WAF AI Week Alertmanager Always Online AMD AMP Analytics Anonymous Anti Malware Anycast API API Gateway API Security API Shield APJC Apple Appli",
+      "class": "primary"
+    },
+    {
+      "id": "ev-118",
+      "source": "https://blog.cloudflare.com/browser-run-containers/",
+      "excerpt": "This post is also available in \u65e5\u672c\u8a9e, \ud55c\uad6d\uc5b4, \u7e41\u9ad4\u4e2d\u6587, and \u7b80\u4f53\u4e2d\u6587.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-119",
+      "source": "https://blog.cloudflare.com/browser-run-containers/",
+      "excerpt": "We\u2019ve enabled higher usage limits, faster performance, and better reliability for Browser Run by rebuilding on top of Cloudflare\u2019s Containers. You can now spin up 60 browsers per minute via the Workers binding and run up to 120 concurrently \u2014 4x the previous limit. Also, Quick Action response times dropped more than 50%. You don't need to change anything: these improvements are live today. On top of that, we\u2019re shipping fixes and new features faster than before. Read on to learn how we did it and see the data. Remind me: what is Browser Run? Browser Run enables developers to programmatically c",
+      "class": "primary"
+    },
+    {
+      "id": "ev-120",
+      "source": "https://blog.cloudflare.com/browser-run-containers/",
+      "excerpt": "Overcoming our real-time state management at this new scale meant we could spend more time in the playground, discovering and cooking up new features such as our recently launched /crawl endpoint. Better browser flexibility We also benefitted from another important perk by leaving behind shared Browser Isolation containers: faster upgrades. When our browsers ran on shared product infrastructure, upgrading Chrome meant coordinating across multiple teams and products, each with their own roadmap and priorities. However, now that we run our own container image, we can upgrade at a faster tempo. F",
+      "class": "primary"
+    },
+    {
+      "id": "ev-121",
+      "source": "https://blog.cloudflare.com/browser-run-containers/",
+      "excerpt": "We\u2019ll never share your email address.Subscribe Thanks for subscribing! Check your inbox to confirm.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-122",
+      "source": "https://blog.cloudflare.com/browser-run-containers/",
+      "excerpt": "\u00a9 2026 Cloudflare, Inc. |Your privacy choicesReport security issues|Privacy Policy|Terms of use|GDPR|Trademark",
+      "class": "primary"
+    },
+    {
+      "id": "ev-123",
+      "source": "https://blog.cloudflare.com/browser-run-containers/",
+      "excerpt": "Search is temporarily unavailable. Products Solutions Resources Pricing Login opens in a new tabContact Sales opens in a new tabStart Building opens in a new tab",
+      "class": "primary"
+    }
+  ],
+  "findings": [
+    {
+      "id": "f-1",
+      "claim": "Selected Tags AgentsAgents WeekAIIdentityProduct NewsSASEZero Trust All tags Matching tags No tags found 1.1.1.1 2FA Abuse Access Access Control Lists (ACLs) Accessibility Account Takeover Acquisitions Addressing Advanced Certificate Manager Advanced DDoS Advertising Aegis Africa Afroflare Agent Development Lifecycle Agent Readiness Agents Agents Week Agents Week 2026 AI AI Bots AI Gateway AI Sear",
+      "confidence": null,
+      "status": "needs_adjudication",
+      "sources": [
+        "https://blog.cloudflare.com/the-agent-access-model/"
+      ],
+      "evidence": [
+        "ev-1",
+        "ev-4",
+        "ev-3"
+      ],
+      "method": "keyword-density-v0"
+    },
+    {
+      "id": "f-2",
+      "claim": "\u00a9 2026 Cloudflare, Inc. |Your privacy choicesReport security issues|Privacy Policy|Terms of use|GDPR|Trademark",
+      "confidence": null,
+      "status": "needs_adjudication",
+      "sources": [
+        "https://blog.cloudflare.com/the-agent-access-model/"
+      ],
+      "evidence": [
+        "ev-1",
+        "ev-4",
+        "ev-3"
+      ],
+      "method": "keyword-density-v0"
+    },
+    {
+      "id": "f-3",
+      "claim": "We\u2019ll never share your email address.Subscribe Thanks for subscribing! Check your inbox to confirm.",
+      "confidence": null,
+      "status": "needs_adjudication",
+      "sources": [
+        "https://blog.cloudflare.com/the-agent-access-model/"
+      ],
+      "evidence": [
+        "ev-1",
+        "ev-4",
+        "ev-3"
+      ],
+      "method": "keyword-density-v0"
+    },
+    {
+      "id": "f-4",
+      "claim": "Selected Tags AgentsAgents WeekAICloudflare AccessCloudflare OSCloudflare WorkersDeveloper PlatformDevelopersOpen SourceProduct News All tags Matching tags No tags found 1.1.1.1 2FA Abuse Access Access Control Lists (ACLs) Accessibility Account Takeover Acquisitions Addressing Advanced Certificate Manager Advanced DDoS Advertising Aegis Africa Afroflare Agent Development Lifecycle Agent Readiness ",
+      "confidence": null,
+      "status": "needs_adjudication",
+      "sources": [
+        "https://blog.cloudflare.com/cloudflare-os/"
+      ],
+      "evidence": [
+        "ev-6",
+        "ev-16",
+        "ev-12"
+      ],
+      "method": "keyword-density-v0"
+    },
+    {
+      "id": "f-5",
+      "claim": "An app instantiated from a blueprint contains the original app\u2019s code. But it does not contain its SQLite data, conversation history, credentials, or connected resources. Each new app starts with independent state and resources. This means when you share apps with your team, they can modify them themselves with AI instead of filing a feature request and assigning you. Use any model, and control wh",
+      "confidence": null,
+      "status": "needs_adjudication",
+      "sources": [
+        "https://blog.cloudflare.com/cloudflare-os/"
+      ],
+      "evidence": [
+        "ev-6",
+        "ev-16",
+        "ev-12"
+      ],
+      "method": "keyword-density-v0"
+    },
+    {
+      "id": "f-6",
+      "claim": "Cloudflare OS gives agents and apps governed access to systems of record through Gatekeepers (more on this in the security section below). It also supports existing Model Context Protocol (MCP) servers your organization already uses via MCP Server Portals. A new security and governance framework for safe access to internal data and services As people begin experimenting with AI at work, one of the",
+      "confidence": null,
+      "status": "needs_adjudication",
+      "sources": [
+        "https://blog.cloudflare.com/cloudflare-os/"
+      ],
+      "evidence": [
+        "ev-6",
+        "ev-16",
+        "ev-12"
+      ],
+      "method": "keyword-density-v0"
+    },
+    {
+      "id": "f-7",
+      "claim": "You can choose your LLM. Cloudflare OS works with many major AI model providers and self-hosted models, with more providers being added all the time.",
+      "confidence": null,
+      "status": "needs_adjudication",
+      "sources": [
+        "https://github.com/cloudflare/cloudflare-os"
+      ],
+      "evidence": [
+        "ev-70",
+        "ev-64",
+        "ev-71"
+      ],
+      "method": "keyword-density-v0"
+    },
+    {
+      "id": "f-8",
+      "claim": "There is one thing that traditional OSes don't really manage today, but Cloudflare OS does: AI agents. If you think about it, this is really a missing feature in traditional OSes. We believe that AI agents cannot simply be treated as users. They must be accountable to a human user, while at the same time having their own restricted permissions. Agents do work by writing snippets of code and execut",
+      "confidence": null,
+      "status": "needs_adjudication",
+      "sources": [
+        "https://github.com/cloudflare/cloudflare-os"
+      ],
+      "evidence": [
+        "ev-70",
+        "ev-64",
+        "ev-71"
+      ],
+      "method": "keyword-density-v0"
+    },
+    {
+      "id": "f-9",
+      "claim": "Because of the tightly-integrated and simplified nature of the platform, even when using the same underlying AI models, the Cloudflare OS coding agent often performs better and faster with fewer tokens than a general-purpose coding agent would.",
+      "confidence": null,
+      "status": "needs_adjudication",
+      "sources": [
+        "https://github.com/cloudflare/cloudflare-os"
+      ],
+      "evidence": [
+        "ev-70",
+        "ev-64",
+        "ev-71"
+      ],
+      "method": "keyword-density-v0"
+    },
+    {
+      "id": "f-10",
+      "claim": "Agent setup \u2197 Cloudflare Skills \u2197 Code Mode MCP Server \u2197 Domain-specific MCP Servers \u2197MCP Agents llms.txt \u2197 Agents llms-full.txt \u2197 Cloudflare Docs llms.txt \u2197 Cloudflare Docs llms-full.txt \u2197",
+      "confidence": null,
+      "status": "needs_adjudication",
+      "sources": [
+        "https://developers.cloudflare.com/agents/"
+      ],
+      "evidence": [
+        "ev-100",
+        "ev-101",
+        "ev-110"
+      ],
+      "method": "keyword-density-v0"
+    },
+    {
+      "id": "f-11",
+      "claim": "Build and host Agents on Cloudflare, connect chat, voice, email, Slack, and webhooks to a durable agent runtime with Browser, Sandbox, AI Search, MCP, Payments, and other MCP tools.",
+      "confidence": null,
+      "status": "needs_adjudication",
+      "sources": [
+        "https://developers.cloudflare.com/agents/"
+      ],
+      "evidence": [
+        "ev-100",
+        "ev-101",
+        "ev-110"
+      ],
+      "method": "keyword-density-v0"
+    },
+    {
+      "id": "f-12",
+      "claim": "Three commands to a running agent. No API keys required \u2014 the starter uses Workers AI by default. npx create-cloudflare@latest --template cloudflare/agents-starter cd agents-starter && npm install npm run dev",
+      "confidence": null,
+      "status": "needs_adjudication",
+      "sources": [
+        "https://developers.cloudflare.com/agents/"
+      ],
+      "evidence": [
+        "ev-100",
+        "ev-101",
+        "ev-110"
+      ],
+      "method": "keyword-density-v0"
+    },
+    {
+      "id": "f-13",
+      "claim": "Selected Tags AgentsBrowser RenderingBrowser RunChromeCloudflare WorkersContainersDeveloper PlatformDevelopers All tags Matching tags No tags found 1.1.1.1 2FA Abuse Access Access Control Lists (ACLs) Accessibility Account Takeover Acquisitions Addressing Advanced Certificate Manager Advanced DDoS Advertising Aegis Africa Afroflare Agent Development Lifecycle Agent Readiness Agents Agents Week Age",
+      "confidence": null,
+      "status": "needs_adjudication",
+      "sources": [
+        "https://blog.cloudflare.com/browser-run-containers/"
+      ],
+      "evidence": [
+        "ev-117",
+        "ev-118",
+        "ev-122"
+      ],
+      "method": "keyword-density-v0"
+    },
+    {
+      "id": "f-14",
+      "claim": "This post is also available in \u65e5\u672c\u8a9e, \ud55c\uad6d\uc5b4, \u7e41\u9ad4\u4e2d\u6587, and \u7b80\u4f53\u4e2d\u6587.",
+      "confidence": null,
+      "status": "needs_adjudication",
+      "sources": [
+        "https://blog.cloudflare.com/browser-run-containers/"
+      ],
+      "evidence": [
+        "ev-117",
+        "ev-118",
+        "ev-122"
+      ],
+      "method": "keyword-density-v0"
+    },
+    {
+      "id": "f-15",
+      "claim": "\u00a9 2026 Cloudflare, Inc. |Your privacy choicesReport security issues|Privacy Policy|Terms of use|GDPR|Trademark",
+      "confidence": null,
+      "status": "needs_adjudication",
+      "sources": [
+        "https://blog.cloudflare.com/browser-run-containers/"
+      ],
+      "evidence": [
+        "ev-117",
+        "ev-118",
+        "ev-122"
+      ],
+      "method": "keyword-density-v0"
+    }
+  ],
+  "notes": "Extraction v0 is mechanical: paragraphs, keyword density, truncation. Findings are DRAFT candidate findings requiring adjudication before any corpus admission. Sessions are operational evidence records."
+}

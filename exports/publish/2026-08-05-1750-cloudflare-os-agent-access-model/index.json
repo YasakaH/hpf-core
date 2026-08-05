@@ -1,0 +1,13 @@
+{
+  "schema": "hpf-publish-manifest-v0",
+  "packs": [
+    {
+      "session_id": "2026-08-05-1750-cloudflare-os-and-the-agent-ac",
+      "topic": "Cloudflare OS and the Agent Access Model: implications for AI browser agents, browser automation, anti-detection, and secure agent infrastructure",
+      "compiled_at": "2026-08-05T17:53:58.327634+00:00",
+      "accepted": 14,
+      "rejected": 8,
+      "status": "draft"
+    }
+  ]
+}

@@ -1,0 +1,184 @@
+# Research session: Cloudflare OS and the Agent Access Model: implications for AI browser agents, browser automation, anti-detection, and secure agent infrastructure
+
+Goal: Research goal: determine what changes for browser automation and secure agent infrastructure under Cloudflare's Agent Access Model (AAM) and Cloudflare OS. Cover: task-scoped identity brokering, capability ceilings, continuous mediation, the Trust Ratchet, Gatekeepers and zero-trust-by-default, agent workspaces, and the browser-agent primitives (Browser Run on Containers, Agents SDK, WebMCP). Include a Technology Maturity dimension (production readiness, community adoption, maintenance activity, breaking changes, vendor commitment, migration risk) and the anti-detection/bot-management implications for the browser automation ecosystem. Expected outcome: a documented architecture-level understanding of how Cloudflare is positioning infrastructure for AI browser agents, how it relates to existing browser automation layers (CDP drivers such as Nodriver, vision-first computer-use models such as Fara), and what it implies for cookbook knowledge and future research.
+Audience: Blog · Depth: deep
+Status: draft · id: 2026-08-05-1750-cloudflare-os-and-the-agent-ac
+
+## Sources
+- [blog.cloudflare.com](https://blog.cloudflare.com/the-agent-access-model/) — fetched (44494 chars)
+- [blog.cloudflare.com](https://blog.cloudflare.com/cloudflare-os/) — fetched (26511 chars)
+- [github.com](https://github.com/cloudflare/cloudflare-os) — fetched (22301 chars)
+- [developers.cloudflare.com](https://developers.cloudflare.com/agents/) — fetched (6291 chars)
+- [blog.cloudflare.com](https://blog.cloudflare.com/browser-run-containers/) — fetched (21758 chars)
+
+## Findings (drafts)
+- **Selected Tags AgentsAgents WeekAIIdentityProduct NewsSASEZero Trust All tags Matching tags No tags found 1.1.1.1 2FA Abuse Access Access Control Lists (ACLs) Accessibility Account …**
+  - sources: https://blog.cloudflare.com/the-agent-access-model/
+  - status: needs_adjudication · method: keyword-density-v0
+- **© 2026 Cloudflare, Inc. |Your privacy choicesReport security issues|Privacy Policy|Terms of use|GDPR|Trademark**
+  - sources: https://blog.cloudflare.com/the-agent-access-model/
+  - status: needs_adjudication · method: keyword-density-v0
+- **We’ll never share your email address.Subscribe Thanks for subscribing! Check your inbox to confirm.**
+  - sources: https://blog.cloudflare.com/the-agent-access-model/
+  - status: needs_adjudication · method: keyword-density-v0
+- **Selected Tags AgentsAgents WeekAICloudflare AccessCloudflare OSCloudflare WorkersDeveloper PlatformDevelopersOpen SourceProduct News All tags Matching tags No tags found 1.1.1.1 2F…**
+  - sources: https://blog.cloudflare.com/cloudflare-os/
+  - status: needs_adjudication · method: keyword-density-v0
+- **An app instantiated from a blueprint contains the original app’s code. But it does not contain its SQLite data, conversation history, credentials, or connected resources. Each new …**
+  - sources: https://blog.cloudflare.com/cloudflare-os/
+  - status: needs_adjudication · method: keyword-density-v0
+- **Cloudflare OS gives agents and apps governed access to systems of record through Gatekeepers (more on this in the security section below). It also supports existing Model Context P…**
+  - sources: https://blog.cloudflare.com/cloudflare-os/
+  - status: needs_adjudication · method: keyword-density-v0
+- **You can choose your LLM. Cloudflare OS works with many major AI model providers and self-hosted models, with more providers being added all the time.**
+  - sources: https://github.com/cloudflare/cloudflare-os
+  - status: needs_adjudication · method: keyword-density-v0
+- **There is one thing that traditional OSes don't really manage today, but Cloudflare OS does: AI agents. If you think about it, this is really a missing feature in traditional OSes. …**
+  - sources: https://github.com/cloudflare/cloudflare-os
+  - status: needs_adjudication · method: keyword-density-v0
+- **Because of the tightly-integrated and simplified nature of the platform, even when using the same underlying AI models, the Cloudflare OS coding agent often performs better and fas…**
+  - sources: https://github.com/cloudflare/cloudflare-os
+  - status: needs_adjudication · method: keyword-density-v0
+- **Agent setup ↗ Cloudflare Skills ↗ Code Mode MCP Server ↗ Domain-specific MCP Servers ↗MCP Agents llms.txt ↗ Agents llms-full.txt ↗ Cloudflare Docs llms.txt ↗ Cloudflare Docs llms-f…**
+  - sources: https://developers.cloudflare.com/agents/
+  - status: needs_adjudication · method: keyword-density-v0
+- **Build and host Agents on Cloudflare, connect chat, voice, email, Slack, and webhooks to a durable agent runtime with Browser, Sandbox, AI Search, MCP, Payments, and other MCP tools…**
+  - sources: https://developers.cloudflare.com/agents/
+  - status: needs_adjudication · method: keyword-density-v0
+- **Three commands to a running agent. No API keys required — the starter uses Workers AI by default. npx create-cloudflare@latest --template cloudflare/agents-starter cd agents-starte…**
+  - sources: https://developers.cloudflare.com/agents/
+  - status: needs_adjudication · method: keyword-density-v0
+- **Selected Tags AgentsBrowser RenderingBrowser RunChromeCloudflare WorkersContainersDeveloper PlatformDevelopers All tags Matching tags No tags found 1.1.1.1 2FA Abuse Access Access …**
+  - sources: https://blog.cloudflare.com/browser-run-containers/
+  - status: needs_adjudication · method: keyword-density-v0
+- **This post is also available in 日本語, 한국어, 繁體中文, and 简体中文.**
+  - sources: https://blog.cloudflare.com/browser-run-containers/
+  - status: needs_adjudication · method: keyword-density-v0
+- **© 2026 Cloudflare, Inc. |Your privacy choicesReport security issues|Privacy Policy|Terms of use|GDPR|Trademark**
+  - sources: https://blog.cloudflare.com/browser-run-containers/
+  - status: needs_adjudication · method: keyword-density-v0
+
+## Evidence
+- [ev-1] Selected Tags AgentsAgents WeekAIIdentityProduct NewsSASEZero Trust All tags Matching tags No tags found 1.1.1.1 2FA Abuse Access Access Control Lists (ACLs) Accessibility Account Takeover Acquisitions Addressing Advanced Certificate Manage… (https://blog.cloudflare.com/the-agent-access-model/)
+- [ev-2] For the last twelve years, enterprise security has moved away from trusting the network. BeyondCorp made the case that a request's origin, inside the corporate perimeter or on the open Internet, should not decide whether it is allowed. Iden… (https://blog.cloudflare.com/the-agent-access-model/)
+- [ev-3] We’ll never share your email address.Subscribe Thanks for subscribing! Check your inbox to confirm. (https://blog.cloudflare.com/the-agent-access-model/)
+- [ev-4] © 2026 Cloudflare, Inc. |Your privacy choicesReport security issues|Privacy Policy|Terms of use|GDPR|Trademark (https://blog.cloudflare.com/the-agent-access-model/)
+- [ev-5] Search is temporarily unavailable. Products Solutions Resources Pricing Login opens in a new tabContact Sales opens in a new tabStart Building opens in a new tab (https://blog.cloudflare.com/the-agent-access-model/)
+- [ev-6] Selected Tags AgentsAgents WeekAICloudflare AccessCloudflare OSCloudflare WorkersDeveloper PlatformDevelopersOpen SourceProduct News All tags Matching tags No tags found 1.1.1.1 2FA Abuse Access Access Control Lists (ACLs) Accessibility Acc… (https://blog.cloudflare.com/cloudflare-os/)
+- [ev-7] Every organization has a mission, a reason for being. Organizations pass that mission — along with their terminology, procedures, systems, standards, and ways of working — to their people. People, in turn, take this context together with th… (https://blog.cloudflare.com/cloudflare-os/)
+- [ev-8] Cloudflare OS combines three parts: An agent workspace grounded in context and skills your company curates, with an isolated runtime where agents can write and run code. A new security and governance framework for safe access to internal da… (https://blog.cloudflare.com/cloudflare-os/)
+- [ev-9] Create docs, slides, and spreadsheets A workspace can turn its research into a document, presentation, or spreadsheet that you can continue editing. These outputs do not have to be static files. They can remain connected to live data, be up… (https://blog.cloudflare.com/cloudflare-os/)
+- [ev-10] Create collaborative, connected apps for your team When a document or spreadsheet is not enough, the agent can build an app with its own interface, logic, and state. The app can use connected company resources and support multiple people wo… (https://blog.cloudflare.com/cloudflare-os/)
+- [ev-11] Run deterministic workflows Not every job needs a full agent session. Many are a known sequence of steps with one or two places where judgment is useful. A workspace can turn those jobs into mostly deterministic workflows, using code for th… (https://blog.cloudflare.com/cloudflare-os/)
+- [ev-12] Cloudflare OS gives agents and apps governed access to systems of record through Gatekeepers (more on this in the security section below). It also supports existing Model Context Protocol (MCP) servers your organization already uses via MCP… (https://blog.cloudflare.com/cloudflare-os/)
+- [ev-13] Policy follows what the agent has seen Controlling the initial read is not enough. Take, for example, the case where an agent reads a sensitive table in a data warehouse and uses it to produce a live dashboard. Sharing the dashboard must no… (https://blog.cloudflare.com/cloudflare-os/)
+- [ev-14] The same observation log is used to inform policies that determine when agents can make external requests. A read of sensitive data can prevent the agent from writing data to certain sources, inviting new collaborators, handing work to anot… (https://blog.cloudflare.com/cloudflare-os/)
+- [ev-15] The browser client talks to the server using Cap’n Web, Cloudflare’s open source object-capability Remote Procedure Call (RPC) system. A server method can be called from the client like a normal JavaScript function: const issues = await app… (https://blog.cloudflare.com/cloudflare-os/)
+- [ev-16] An app instantiated from a blueprint contains the original app’s code. But it does not contain its SQLite data, conversation history, credentials, or connected resources. Each new app starts with independent state and resources. This means … (https://blog.cloudflare.com/cloudflare-os/)
+- [ev-17] Not every task needs the most expensive model. You may not want to run the most expensive frontier model to summarize your unread emails every morning. AI Gateway gives you the control needed to make sure expensive models are only being use… (https://blog.cloudflare.com/cloudflare-os/)
+- [ev-18] We’ll never share your email address.Subscribe Thanks for subscribing! Check your inbox to confirm. (https://blog.cloudflare.com/cloudflare-os/)
+- [ev-19] © 2026 Cloudflare, Inc. |Your privacy choicesReport security issues|Privacy Policy|Terms of use|GDPR|Trademark (https://blog.cloudflare.com/cloudflare-os/)
+- [ev-20] Search is temporarily unavailable. Products Solutions Resources Pricing Login opens in a new tabContact Sales opens in a new tabStart Building opens in a new tab (https://blog.cloudflare.com/cloudflare-os/)
+- [ev-21] You signed in with another tab or window. Reload to refresh your session. You signed out in another tab or window. Reload to refresh your session. You switched accounts on another tab or window. Reload to refresh your session. (https://github.com/cloudflare/cloudflare-os)
+- [ev-22] There was an error while loading. Please reload this page. (https://github.com/cloudflare/cloudflare-os)
+- [ev-23] README Code of conduct Contributing Apache-2.0 license Security (https://github.com/cloudflare/cloudflare-os)
+- [ev-24] Cloudflare OS is an "operating system" for AI productivity originally developed for use inside Cloudflare. A large portion of Cloudflare's workforce -- from engineering to sales and everything in between -- uses Cloudflare OS every day to h… (https://github.com/cloudflare/cloudflare-os)
+- [ev-25] This is not a traditional computer operating system. We use the term "operating system" in two senses: (https://github.com/cloudflare/cloudflare-os)
+- [ev-26] An operating system for the company to be productive with AI, in a way that is safe, so that the security team can sleep at night. (https://github.com/cloudflare/cloudflare-os)
+- [ev-27] An operating system for AI workloads, analogous to the sense in which a traditional operating system manages compute workloads. (https://github.com/cloudflare/cloudflare-os)
+- [ev-28] An agent chat UI where you can ask agents to do tasks, preloaded with knowledge about how your company operates. (https://github.com/cloudflare/cloudflare-os)
+- [ev-29] Sandboxed application development, so that you can ask agents to build "gadgets" (small personal apps) and safely share what you've built with others. (https://github.com/cloudflare/cloudflare-os)
+- [ev-30] A security framework, called Gatekeepers, that applies guardrails to both agents and apps such that non-technical users can safely "go nuts" and nothing bad will happen. (https://github.com/cloudflare/cloudflare-os)
+- [ev-31] We are making Cloudflare OS open source so that others can copy it and customize it for their own company. The idea is not that your company uses Cloudflare OS, but rather that you make it "Your Company OS". (https://github.com/cloudflare/cloudflare-os)
+- [ev-32] This runs the whole stack locally on wrangler and workerd. This is not meant for production use, but is a quick way to see what the product does. (https://github.com/cloudflare/cloudflare-os)
+- [ev-33] Alternatively, you can deploy to your Cloudflare account. (https://github.com/cloudflare/cloudflare-os)
+- [ev-34] (More options at the end of this readme.) (https://github.com/cloudflare/cloudflare-os)
+- [ev-35] "Make slides for my upcoming meeting with a customer." (This will use the built-in slides blueprint.) (https://github.com/cloudflare/cloudflare-os)
+- [ev-36] "Make a collaborative whiteboard app." (This will create a new app from scratch.) (https://github.com/cloudflare/cloudflare-os)
+- [ev-37] "Make a tic tac toe game." followed by "I'll be X and you be O. I've made my first move. Your turn." (https://github.com/cloudflare/cloudflare-os)
+- [ev-38] "Make an issue dashboard for this GitHub repo." (Attach a repo; requires that the GitHub integration is configured.) (https://github.com/cloudflare/cloudflare-os)
+- [ev-39] "Fix the typos in this Google Doc." (Attach a doc; requires that the Google integration is configured.) (https://github.com/cloudflare/cloudflare-os)
+- [ev-40] Cloudflare OS is in a state of heavy development. This repository is actually version 2, a complete rewrite taking what we learned from version 1 and putting it on a new foundation. (https://github.com/cloudflare/cloudflare-os)
+- [ev-41] As of the August 2026 release, Cloudflare OS v2 is very capable, but still has many rough edges. We know, and we're working on it. For now, consider this an "early access" release. (https://github.com/cloudflare/cloudflare-os)
+- [ev-42] Cloudflare OS is more than just another chatbox with connectors. The system revolves around a new approach to software, where every user runs their own copy of the productivity apps they use. (https://github.com/cloudflare/cloudflare-os)
+- [ev-43] When you create a slide deck in Cloudflare OS, you are not calling out to some SaaS software running in the cloud. The system creates a private instance of the slide deck software just for you. We call this a "gadget". This instance runs in… (https://github.com/cloudflare/cloudflare-os)
+- [ev-44] It's impossible for the slide deck app to have a security bug that leaks your slides to an attacker. The Cloudflare OS sandbox controls all access to your private instance of the app. (https://github.com/cloudflare/cloudflare-os)
+- [ev-45] If you want, you can freely modify the code. If the slide deck app is missing a feature you need, you can just ask your agent to add it. And because of point 1, it's totally safe to do so. (https://github.com/cloudflare/cloudflare-os)
+- [ev-46] This is a big departure from the last 25 years of cloud architecture and "Software as a Service", but we think AI has changed the equation. When any user is capable of prompting an agent to add the features they need, the centralized model … (https://github.com/cloudflare/cloudflare-os)
+- [ev-47] Gatekeepers are like supercharged MCP servers. (https://github.com/cloudflare/cloudflare-os)
+- [ev-48] When you introduce an agent or Gadget to an external resource, a Gatekeeper is created to manage that access. The Gatekeeper is a piece of software specific to each external service which moderates a Gadget's connection to that service. It: (https://github.com/cloudflare/cloudflare-os)
+- [ev-49] Provides a clean Cap'n Web API to the service (wrapping whatever API the service provides natively). (https://github.com/cloudflare/cloudflare-os)
+- [ev-50] Enforces narrow access to only the specific resource the user intended. (https://github.com/cloudflare/cloudflare-os)
+- [ev-51] Logs every action the Gadget (or agent) performs, for your review. (https://github.com/cloudflare/cloudflare-os)
+- [ev-52] For any action which has side effects, provides the human user an opportunity to approve or deny the action ("human in the loop"). (https://github.com/cloudflare/cloudflare-os)
+- [ev-53] On the last point, Gatekeepers implement a significant advancement in the state of the art. Traditionally, human-in-the-loop setups require the human to approve actions synchronously. When the agent wants to do something, it has to stop and… (https://github.com/cloudflare/cloudflare-os)
+- [ev-54] Gatekeepers provide a better way: When the agent (or Gadget) performs an action that requires approval, the Gatekeeper will simulate the outcome locally, allowing the agent to proceed and queue up more actions. The Gatekeeper tells the agen… (https://github.com/cloudflare/cloudflare-os)
+- [ev-55] Logistically, each Gatekeeper is implemented as a separate Worker. In the future, we envision Gatekeeper services being deployed and maintained independently from OS instances, but the details have yet to be worked out. For now, we have pro… (https://github.com/cloudflare/cloudflare-os)
+- [ev-56] The basic user experience of Cloudflare OS is something like an online office suite, like Google Docs or MS Office. But, imagine that instead of a fixed set of file types (document, spreadsheet, slide deck), each file -- or "Gadget" -- is p… (https://github.com/cloudflare/cloudflare-os)
+- [ev-57] Just like office docs, each gadget is private by default, but can be shared -- securely -- in order to collaborate with your team or your friends. (https://github.com/cloudflare/cloudflare-os)
+- [ev-58] Just like office docs, you can have thousands of them. You can create them on a whim. (https://github.com/cloudflare/cloudflare-os)
+- [ev-59] Just like office docs, you can start from "templates" -- called "Blueprints". But where an office template is just some content, a Blueprint specifies a whole application. (https://github.com/cloudflare/cloudflare-os)
+- [ev-60] Like office docs, you can create new templates (blueprints) from your own docs (Gadgets) and share them with others. But when you do so, you are sharing the code for a whole app. (https://github.com/cloudflare/cloudflare-os)
+- [ev-61] The OS terminology isn't entirely marketing. Cloudflare OS is actually analogous to an operating system on a technical level. (https://github.com/cloudflare/cloudflare-os)
+- [ev-62] Our "kernel" is in the workshop-backend package. The backend legitimately does a lot of things similar to real OS kernels: it connects users to programs and devices (Gadgets and Gatekeepers, as we call them) while implementing security by s… (https://github.com/cloudflare/cloudflare-os)
+- [ev-63] In this analogy, Gatekeepers -- which connect users and agents to external services -- are like drivers -- which connect users and programs to external devices. (https://github.com/cloudflare/cloudflare-os)
+- [ev-64] There is one thing that traditional OSes don't really manage today, but Cloudflare OS does: AI agents. If you think about it, this is really a missing feature in traditional OSes. We believe that AI agents cannot simply be treated as users.… (https://github.com/cloudflare/cloudflare-os)
+- [ev-65] Cloudflare OS is built on Cloudflare Workers, making heavy use of Durable Objects, Dynamic Workers, and Facets in particular. Every workspace is its own Durable Object, every Gadget runs in a Dynamic Worker Facet, and Gatekeepers also insta… (https://github.com/cloudflare/cloudflare-os)
+- [ev-66] Cloudflare OS is, in fact, built by the very people who built Workers itself. It uses cutting-edge features of the Workers Runtime -- in fact, Dynamic Workers, Facets, and several other features were added to the runtime specifically to sup… (https://github.com/cloudflare/cloudflare-os)
+- [ev-67] Being built on Workers does not mean that Cloudflare OS can only run on Cloudflare. In fact, workerd, the Cloudflare Workers Runtime, is itself open source, and Cloudflare OS can run entirely on top of it on your own servers. (https://github.com/cloudflare/cloudflare-os)
+- [ev-68] The Cloudflare OS coding agent is actually a fully multi-purpose agent that can perform arbitrary tasks; like other popular coding agents, you don't have to code with it. You can use it to build Gadgets, but you can also skip the Gadget and… (https://github.com/cloudflare/cloudflare-os)
+- [ev-69] While you can code a Gadget by hand if you want, the expectation is that AI writes the code for you. Cloudflare OS features a built-in coding agent that will build whatever you ask it, test it for you, and debug errors. (https://github.com/cloudflare/cloudflare-os)
+- [ev-70] You can choose your LLM. Cloudflare OS works with many major AI model providers and self-hosted models, with more providers being added all the time. (https://github.com/cloudflare/cloudflare-os)
+- [ev-71] Because of the tightly-integrated and simplified nature of the platform, even when using the same underlying AI models, the Cloudflare OS coding agent often performs better and faster with fewer tokens than a general-purpose coding agent wo… (https://github.com/cloudflare/cloudflare-os)
+- [ev-72] Every app built with Cloudflare OS automatically has an agent-friendly API. That means, after you've asked AI to build the app, you can also ask AI to collaborate with you inside the app. No need to build an MCP server nor integrate a custo… (https://github.com/cloudflare/cloudflare-os)
+- [ev-73] This works because the client and server portions of a Gadget are required to communicate via Cap'n Web RPC. This is a win-win: (https://github.com/cloudflare/cloudflare-os)
+- [ev-74] Cap'n Web is extremely low-boilerplate, which makes it easy for agents to work with. You basically just define a method on your server, then call it from your client, as if it were a local call. (https://github.com/cloudflare/cloudflare-os)
+- [ev-75] Meanwhile, it means that the server necessarily exposes an easy-to-understand API which could be called directly by an agent. The AI Agent harness uses Code Mode for tool calling, making it trivial to expose the Gadget's API directly for th… (https://github.com/cloudflare/cloudflare-os)
+- [ev-76] You can share your Gadget just like you'd share a document in a typical online office suite. You can give specific users access, or create a share link that provides access to anyone who opens it. And just like those online office suites, y… (https://github.com/cloudflare/cloudflare-os)
+- [ev-77] This works because every Gadget is backed by a Durable Object, Cloudflare's stateful serverless primitive which makes real-time multiplayer collaboration easy. It's so easy that the coding agent just implements it by default, without being … (https://github.com/cloudflare/cloudflare-os)
+- [ev-78] If you've created a Gadget that might be useful to others, but you don't want to share the Gadget itself, you can instead share a Blueprint, allowing other people to create their own copy of the Gadget. A Blueprint is essentially a copy of … (https://github.com/cloudflare/cloudflare-os)
+- [ev-79] It may sound simple, but Blueprints are a major change from cloud software tradition. Traditionally, if you create a web app that you want to share with other users, you host the app on your server, and the users connect to that. Blueprints… (https://github.com/cloudflare/cloudflare-os)
+- [ev-80] In the age of AI, this change is critically important. On one hand, AI empowers an individual developer to build more than ever, but it is still difficult for an individual developer to maintain an online service; this eliminates the need. … (https://github.com/cloudflare/cloudflare-os)
+- [ev-81] Each Gadget runs in a secure sandbox that prevents it from talking to the internet at all without your explicit consent. In particular: (https://github.com/cloudflare/cloudflare-os)
+- [ev-82] The server runs in a Dynamic Worker which has had its access to the internet disabled. It can only communicate with specific external resources that you have explicitly designated, via Workers Bindings. (https://github.com/cloudflare/cloudflare-os)
+- [ev-83] The client code runs in a sandboxed iframe. This iframe can communicate with its server only via a Cap'n Web RPC session provided over postMessage() to the parent frame. The iframe is otherwise blocked from accessing the internet (to the ma… (https://github.com/cloudflare/cloudflare-os)
+- [ev-84] Each agent, and each Gadget, by default has access to nothing. Even if you've configured the Gadget Workshop with access to external accounts, agents and Gadgets do NOT automatically get to use them. (https://github.com/cloudflare/cloudflare-os)
+- [ev-85] Instead, you must introduce each agent (or Gadget) to any particular resources you want it to access. For instance, you may introduce a GitHub repository by pasting a link to it, or clicking "add resource" and selecting it via the UI. An ag… (https://github.com/cloudflare/cloudflare-os)
+- [ev-86] This differs from most agent harnesses, where MCP servers are configured upfront, making broad access to all your services ambiently available to the agent in every chat. Capability-based introductions keep each agent restricted to only the… (https://github.com/cloudflare/cloudflare-os)
+- [ev-87] https://github.com/cloudflare/cloudflare-os-starter (https://github.com/cloudflare/cloudflare-os)
+- [ev-88] This runs Cloudflare OS using wrangler, the Workers developer tooling CLI. This is not the right way to run the OS on a production server, but it works fine for trying it out on your local machine. (https://github.com/cloudflare/cloudflare-os)
+- [ev-89] Your data will be stored in a subdirectory named .wrangler. (https://github.com/cloudflare/cloudflare-os)
+- [ev-90] Cloudflare OS can run entirely on workerd, Cloudflare's open source runtime for Workers. In fact, the "run locally" instructions above use workerd under the hood. We are still working on documentation and tooling to help you smoothly deploy… (https://github.com/cloudflare/cloudflare-os)
+- [ev-91] Many Gatekeepers require configuration in order to be able to connect to third-party services, including obtaining OAuth client credentials for each service. Unfortunately, many service providers intentionally do not make this easy, since t… (https://github.com/cloudflare/cloudflare-os)
+- [ev-92] At this time, we are not seeking outside contribution. (https://github.com/cloudflare/cloudflare-os)
+- [ev-93] AI has made writing code easy. The hard part, today, is not writing the code, but reviewing it, making sure quality stays high, and keeping the product coherent. In that light, unfortunately, external code contributions are "donating" the e… (https://github.com/cloudflare/cloudflare-os)
+- [ev-94] With that said, we are happy to accept small, trivially-verified PRs that fix a problem. However, we ask that you refrain from submitting low-value PRs (e.g. typo fixes) or PRs that are more than a dozen or so lines. Such PRs will be closed… (https://github.com/cloudflare/cloudflare-os)
+- [ev-95] If you have a big idea you'd like us to consider, feel free to open a discussion about it. (https://github.com/cloudflare/cloudflare-os)
+- [ev-96] This policy may change in the future as the project matures. Until then, thank you for your understanding. (https://github.com/cloudflare/cloudflare-os)
+- [ev-97] About Agent workspace built on Cloudflare Workers for creating documents, building apps, and running agents with your company’s context and systems. os.cloudflare.app Resources Readme Apache-2.0 license Code of conduct Code of conduct Contr… (https://github.com/cloudflare/cloudflare-os)
+- [ev-98] You can’t perform that action at this time. (https://github.com/cloudflare/cloudflare-os)
+- [ev-99] Skip to contentDocumentation Index Fetch the complete documentation index at: https://developers.cloudflare.com/agents/llms.txt Use this file to discover all available pages before exploring further. (https://developers.cloudflare.com/agents/)
+- [ev-100] Agent setup ↗ Cloudflare Skills ↗ Code Mode MCP Server ↗ Domain-specific MCP Servers ↗MCP Agents llms.txt ↗ Agents llms-full.txt ↗ Cloudflare Docs llms.txt ↗ Cloudflare Docs llms-full.txt ↗ (https://developers.cloudflare.com/agents/)
+- [ev-101] Build and host Agents on Cloudflare, connect chat, voice, email, Slack, and webhooks to a durable agent runtime with Browser, Sandbox, AI Search, MCP, Payments, and other MCP tools. (https://developers.cloudflare.com/agents/)
+- [ev-102] When you host agents on Cloudflare, each agent session has a durable identity, local SQL storage, real-time connections, scheduled work, and recoverable execution. (https://developers.cloudflare.com/agents/)
+- [ev-103] Deploy once and Cloudflare runs your agents across its global network, scaling to tens of millions of instances. No infrastructure to manage, no sessions to reconstruct, no state to externalize. (https://developers.cloudflare.com/agents/)
+- [ev-104] Agent harness Controls planning, tool use, and response flow. Project ThinkBuild-your-own agent (https://developers.cloudflare.com/agents/)
+- [ev-105] Agents SDK runtime Durable identity, state, connections, scheduling, and recovery.Agent class StateSessionsRoutingWebSocketsSchedulingFibers (https://developers.cloudflare.com/agents/)
+- [ev-106] Communication channels define how users and systems reach your agent, such as chat, voice, email, Slack, webhooks, and other event sources. (https://developers.cloudflare.com/agents/)
+- [ev-107] The agent harness defines the loop: how the agent calls models, selects tools, handles tool results, streams responses, and decides whether to continue. Use Project Think for an opinionated harness, or build your own loop directly on the Ag… (https://developers.cloudflare.com/agents/)
+- [ev-108] The Agents SDK runtime provides durable infrastructure: the Agent class, state, sessions, routing, WebSockets, scheduling, fibers, and observability. (https://developers.cloudflare.com/agents/)
+- [ev-109] Tools give the agent capabilities: browser automation, sandboxed code execution, AI Search, MCP tools, and payments. Code Mode lets models discover and orchestrate multiple tools by writing code. (https://developers.cloudflare.com/agents/)
+- [ev-110] Three commands to a running agent. No API keys required — the starter uses Workers AI by default. npx create-cloudflare@latest --template cloudflare/agents-starter cd agents-starter && npm install npm run dev (https://developers.cloudflare.com/agents/)
+- [ev-111] The starter includes streaming AI chat, server-side and client-side tools, human-in-the-loop approval, and task scheduling — a foundation you can build on or tear apart. You can also swap in OpenAI, Anthropic, Google Gemini, or any other pr… (https://developers.cloudflare.com/agents/)
+- [ev-112] Build a streaming AI chat agent with tools and human-in-the-loop approvals. (https://developers.cloudflare.com/agents/)
+- [ev-113] Build an agent that responds to Slack messages, mentions, and commands. (https://developers.cloudflare.com/agents/)
+- [ev-114] Build a real-time voice agent with speech-to-text and text-to-speech. (https://developers.cloudflare.com/agents/)
+- [ev-115] Build an agent that can inspect pages, capture screenshots, and use browser tools. (https://developers.cloudflare.com/agents/)
+- [ev-116] Build an agent that sends, receives, routes, and replies to email.NextQuick start (https://developers.cloudflare.com/agents/)
+- [ev-117] Selected Tags AgentsBrowser RenderingBrowser RunChromeCloudflare WorkersContainersDeveloper PlatformDevelopers All tags Matching tags No tags found 1.1.1.1 2FA Abuse Access Access Control Lists (ACLs) Accessibility Account Takeover Acquisit… (https://blog.cloudflare.com/browser-run-containers/)
+- [ev-118] This post is also available in 日本語, 한국어, 繁體中文, and 简体中文. (https://blog.cloudflare.com/browser-run-containers/)
+- [ev-119] We’ve enabled higher usage limits, faster performance, and better reliability for Browser Run by rebuilding on top of Cloudflare’s Containers. You can now spin up 60 browsers per minute via the Workers binding and run up to 120 concurrently… (https://blog.cloudflare.com/browser-run-containers/)
+- [ev-120] Overcoming our real-time state management at this new scale meant we could spend more time in the playground, discovering and cooking up new features such as our recently launched /crawl endpoint. Better browser flexibility We also benefitt… (https://blog.cloudflare.com/browser-run-containers/)
+- [ev-121] We’ll never share your email address.Subscribe Thanks for subscribing! Check your inbox to confirm. (https://blog.cloudflare.com/browser-run-containers/)
+- [ev-122] © 2026 Cloudflare, Inc. |Your privacy choicesReport security issues|Privacy Policy|Terms of use|GDPR|Trademark (https://blog.cloudflare.com/browser-run-containers/)
+- [ev-123] Search is temporarily unavailable. Products Solutions Resources Pricing Login opens in a new tabContact Sales opens in a new tabStart Building opens in a new tab (https://blog.cloudflare.com/browser-run-containers/)

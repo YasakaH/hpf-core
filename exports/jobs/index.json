@@ -3,6 +3,30 @@
   "jobs": [
     {
       "schema": "hpf-job-status-v0",
+      "job": "publishing-003",
+      "type": "publishing",
+      "owner": "orchestrator",
+      "status": "review",
+      "started": "2026-08-05T17:56:44.555722+00:00",
+      "updated": "2026-08-05T17:56:44.555792+00:00",
+      "progress": "pack compiled, awaiting owner edit pass",
+      "research_session": "2026-08-05-1750-cloudflare-os-and-the-agent-ac",
+      "outputs": [
+        "exports/publish/2026-08-05-1750-cloudflare-os-agent-access-model"
+      ]
+    },
+    {
+      "schema": "hpf-job-status-v0",
+      "job": "research-003",
+      "type": "research",
+      "owner": "orchestrator",
+      "status": "done",
+      "started": "2026-08-05T17:56:44.198196+00:00",
+      "updated": "2026-08-05T17:56:44.198423+00:00",
+      "research_session": "2026-08-05-1750-cloudflare-os-and-the-agent-ac"
+    },
+    {
+      "schema": "hpf-job-status-v0",
       "job": "publish-002",
       "type": "publishing",
       "owner": "hpf-publish",

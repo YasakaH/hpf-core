@@ -1,0 +1,10 @@
+{
+  "schema": "hpf-job-status-v0",
+  "job": "research-003",
+  "type": "research",
+  "owner": "orchestrator",
+  "status": "done",
+  "started": "2026-08-05T17:56:44.198196+00:00",
+  "updated": "2026-08-05T17:56:44.198423+00:00",
+  "research_session": "2026-08-05-1750-cloudflare-os-and-the-agent-ac"
+}

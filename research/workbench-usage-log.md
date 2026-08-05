@@ -343,6 +343,66 @@ Rejection-reason categorization (first two data points, 27 rejects):
 Signal: the extraction stage's dominant failure is restatement (docs
 installs, code samples, README blurbs) — that is the extraction roadmap.
 
+## Session 003 — Cloudflare OS / Agent Access Model (2026-08-05)
+
+First event-seeded session (provenance: evt-ace2fc4f822d,
+evt-6de7b262b7d9, evt-c7d15f3a60b9 — Cloudflare blog events surfaced by
+the blog/RSS connector; the topic was chosen by the reviewer from those
+events, then confirmed against canonical URLs). Infrastructure-analysis
+research style — third distinct style after S001 pain-points and S002
+product comparison.
+
+Run: 5 sources (AAM post, Cloudflare OS post, cloudflare-os repo,
+Agents docs, Browser Run rebuild post), 123 evidence entries, 15 draft
+findings. Watchlist touch: tech.web.cloudflare.
+
+Adjudication: 7 revised, 8 rejected, 7 added = 14 accepted of 15.
+Research Yield 93%; raw draft survival 47% (7 of 15 drafts survived
+unmodified in substance).
+
+Rejection-reason update (third data point, 8 rejects — ALL navigation
+chrome/page boilerplate): tag lists, docs TOC, footer, subscribe box,
+translation bar. First session where restatement was NOT the dominant
+rejection category; nav-chrome now totals 9 across sessions.
+
+| Reason                  | S001 | S002 | S003 | Total |
+| ----------------------- | ---: | ---: | ---: | -----:|
+| Restated documentation  |    6 |    7 |    0 |    13 |
+| Off-topic               |    2 |    4 |    0 |     6 |
+| Marketing language      |    4 |    0 |    0 |     4 |
+| Duplicate finding       |    1 |    1 |    0 |     2 |
+| Navigation chrome       |    1 |    0 |    8 |     9 |
+| Weak evidence/relevance |    0 |    1 |    0 |     1 |
+
+Measured extraction weakness (new data point): the Agent Access Model
+post — the session's core source — was under-extracted into the
+evidence layer. 123 evidence entries were dominated by the cloudflare-os
+repo README (70+ chunks) and page chrome; the AAM post contributed only
+its intro paragraph plus boilerplate, losing the five-component model,
+the capability-ceiling example, and the multiplayer access-control
+discussion. The review compensated with 7 reviewer-added findings
+sourced to the canonical URL, and this entry records that extraction
+weighting toward long-form primary sources is a concrete, measured
+extraction defect — not a design idea — for the post-30-session review.
+
+Pack: compiled with reviewer-directed title "Cloudflare OS and the
+Agent Access Model: Governing Infrastructure for AI Browser Agents";
+14 accepted / 8 rejected excluded / LEAK none; six renders. Editing-time
+table for this pack: NOT YET MEASURED.
+
+Session 003 editing-time table (to be filled by the owner during the
+edit pass):
+
+| Render        | Editing Time | Notes                                |
+| ------------- | -----------: | ------------------------------------ |
+| Article       |        ? min | Architecture framing, flow, wording  |
+| Comparison    |        ? min | Accuracy/completeness                |
+| LinkedIn      |        ? min | Tone and hook                        |
+| X thread      |        ? min | Compression and readability          |
+| FAQ           |        ? min | Usually minimal edits                |
+| Documentation |        ? min | Technical precision                  |
+
+
 Benchmarks:
 - Session 001: regression benchmark (engine changes must not degrade it).
 - Session 002: CLASSIFICATION benchmark — engine changes must not collapse
