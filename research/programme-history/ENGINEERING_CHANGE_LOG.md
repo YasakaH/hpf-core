@@ -191,3 +191,38 @@ provenance rows (all released sessions predate the field), clean exit.
 
 This closes the discovery subsystem for v1. Next work is operational:
 Sessions 003–020 through the pipeline, then the measured-friction review.
+
+---
+
+## Connector yield refinement (review round 8, pre-freeze)
+
+Reviewer feedback round 8: the metric name `Yield` implies a 0–100%
+conversion rate but the ratio is findings-per-event and can exceed 100%
+(a single event can seed a session with several accepted findings).
+Renamed and extended — the report remains derived from data already
+consumed, no new infrastructure.
+
+- **`Yield` → `F/Event`** (Findings/Event). Same semantics, honest name
+  for a ratio that may exceed 100%. Section header note extended:
+  "ratios may exceed 100%".
+- **`Ignored` column added** — events of that source whose queue status
+  is `ignored`. Uses the same queue file `--report` already reads.
+- **`Sessions` + `S/Event` columns added** — distinct sessions the
+  source's events seeded, and the sessions-per-event ratio. Answers
+  "did this connector inspire research?" separately from "did it
+  produce findings?" (F/Event).
+- Table order: `Source | Events | Researched | Ignored | Sessions |
+  Findings | S/Event | F/Event`. Multi-connector sessions still appear
+  in each row they seeded (directional analysis; totals are NOT
+  additive — unchanged from round 7, documented).
+
+**Tests**: test12 fixture extended with a third event marked `ignored`
+in the queue (never used); expectations updated for the renamed and new
+columns; +1 check that the old `Yield` header is gone. test12 = 13
+checks; test10 (17) and test11 (13) rerun green. Real-data smoke: clean
+exit, zero provenance rows as expected.
+
+Discovery subsystem is now closed for v1. Further analytical reports
+(e.g. the full pipeline conversion report from connector → published
+pack) are postponed until operational data from Sessions 003–020 makes
+them meaningful.

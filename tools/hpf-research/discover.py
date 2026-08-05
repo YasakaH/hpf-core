@@ -142,15 +142,17 @@ def main():
                     d["events"].append(r["event"])
                 d["used"].add(r["event"])
                 d["sessions"].add(r["session"])
-            print("connector yield (accepted findings counted per seeded session; multi-connector sessions appear in each row)")
-            print(f"  {'Source':<20}{'Events':>7}{'Researched':>11}{'Findings':>9}{'Yield':>7}")
+            print("connector yield (accepted findings counted per seeded session; multi-connector sessions appear in each row; ratios may exceed 100%)")
+            print(f"  {'Source':<20}{'Events':>7}{'Researched':>11}{'Ignored':>8}{'Sessions':>9}{'Findings':>9}{'S/Event':>8}{'F/Event':>8}")
             names = {"github_releases": "GitHub Releases", "blog": "Blogs", "manual": "Manual URLs"}
             for src in sorted(by_source, key=lambda s: -len(by_source[s]["sessions"])):
                 d = by_source[src]
+                total = len(d["events"]) or 1
                 researched = len(d["used"]) + sum(1 for eid in d["events"] if eid not in d["used"] and statuses.get(eid) == "researched")
+                ignored = sum(1 for eid in d["events"] if statuses.get(eid) == "ignored")
+                sessions = len(d["sessions"])
                 findings = sum(session_accepted.get(sid, 0) for sid in d["sessions"])
-                yld = findings / len(d["events"]) if d["events"] else 0.0
-                print(f"  {names.get(src, src):<20}{len(d['events']):>7}{researched:>11}{findings:>9}{yld * 100:>6.0f}%")
+                print(f"  {names.get(src, src):<20}{len(d['events']):>7}{researched:>11}{ignored:>8}{sessions:>9}{findings:>9}{sessions / total * 100:>7.0f}%{findings / total * 100:>7.0f}%")
         return 0
 
     try:
