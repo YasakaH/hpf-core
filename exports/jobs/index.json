@@ -3,6 +3,30 @@
   "jobs": [
     {
       "schema": "hpf-job-status-v0",
+      "job": "publishing-004",
+      "type": "publishing",
+      "owner": "orchestrator",
+      "status": "review",
+      "started": "2026-08-05T18:49:11.358611+00:00",
+      "updated": "2026-08-05T18:49:11.358702+00:00",
+      "progress": "pack compiled, awaiting owner edit pass",
+      "research_session": "2026-08-05-1845-chrome-s-agent-ready-toolkit-h",
+      "outputs": [
+        "exports/publish/2026-08-05-1845-chrome-s-agent-ready-toolkit-h"
+      ]
+    },
+    {
+      "schema": "hpf-job-status-v0",
+      "job": "research-004",
+      "type": "research",
+      "owner": "orchestrator",
+      "status": "done",
+      "started": "2026-08-05T18:49:10.757621+00:00",
+      "updated": "2026-08-05T18:49:10.757658+00:00",
+      "research_session": "2026-08-05-1845-chrome-s-agent-ready-toolkit-h"
+    },
+    {
+      "schema": "hpf-job-status-v0",
       "job": "publishing-003",
       "type": "publishing",
       "owner": "orchestrator",

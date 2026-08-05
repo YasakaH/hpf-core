@@ -1,0 +1,13 @@
+{
+  "schema": "hpf-publish-manifest-v0",
+  "packs": [
+    {
+      "session_id": "2026-08-05-1845-chrome-s-agent-ready-toolkit-h",
+      "topic": "Chrome's agent-ready toolkit: how the web platform is being reshaped so AI agents can use websites, and what it means for browser automation, anti-detection, and agent infrastructure",
+      "compiled_at": "2026-08-05T18:48:38.890560+00:00",
+      "accepted": 17,
+      "rejected": 5,
+      "status": "draft"
+    }
+  ]
+}

@@ -1,0 +1,219 @@
+{
+  "schema": "hpf-adjudication-v0",
+  "session_id": "2026-08-05-1845-chrome-s-agent-ready-toolkit-h",
+  "provenance": {
+    "events": [
+      "evt-8c2caf7bdb43",
+      "evt-132e44406e3d"
+    ]
+  },
+  "adjudicated_at": "2026-08-05T18:47:33.394893+00:00",
+  "adjudicator": "cycle-reviewer",
+  "summary": {
+    "approve": 0,
+    "revise": 7,
+    "reject": 5,
+    "add": 10
+  },
+  "extraction_flag": {
+    "flagged": true,
+    "added_findings": 10,
+    "threshold": 3,
+    "reason": "reviewer had to introduce findings the extraction stage missed"
+  },
+  "findings": [
+    {
+      "id": "f-3",
+      "decision": "reject",
+      "note": "nav chrome: site-wide tagline repeated on every developer.chrome.com page, not a claim"
+    },
+    {
+      "id": "f-4",
+      "decision": "reject",
+      "note": "nav chrome: same tagline as f-3, duplicate across sources"
+    },
+    {
+      "id": "f-5",
+      "decision": "reject",
+      "note": "nav chrome: site-wide tagline, not a claim"
+    },
+    {
+      "id": "f-8",
+      "decision": "reject",
+      "note": "nav chrome: same tagline as f-3, duplicate across sources"
+    },
+    {
+      "id": "f-9",
+      "decision": "reject",
+      "note": "nav chrome: same tagline as f-5, duplicate across sources"
+    },
+    {
+      "id": "f-1",
+      "decision": "revise",
+      "note": "restatement sharpened into the two-stage model with the search-vs-use distinction",
+      "revised_claim": "The agentic web has two stages: agents searching the web and agents using the web. SEO principles still apply while agents only search; when agents interact directly with a website, developers need predictable machine-readable signals and dedicated tooling."
+    },
+    {
+      "id": "f-2",
+      "decision": "revise",
+      "note": "restatement; dropped the doc-pointer noise",
+      "revised_claim": "WebMCP is a proposed standard that exposes structured tools to AI agents on existing websites, accelerating and simplifying agent interactions without rebuilding the site."
+    },
+    {
+      "id": "f-6",
+      "decision": "revise",
+      "note": "restatement of the availability condition",
+      "revised_claim": "Third-party developer tools for Chrome DevTools for agents are experimental and available from version 0.25.0, enabled via the --categoryExperimentalThirdParty command-line flag."
+    },
+    {
+      "id": "f-7",
+      "decision": "revise",
+      "note": "prescription synthesized from the docs' recommendations (ev-89, ev-90, ev-91)",
+      "revised_claim": "To make a website agent-ready, adopt WebMCP to explicitly expose logic and forms, ensure a sound accessibility tree (semantic HTML, proper ARIA), and optimize layout stability so elements do not move between an agent identifying and interacting with them."
+    },
+    {
+      "id": "f-10",
+      "decision": "revise",
+      "note": "restatement, trim the implementation block",
+      "revised_claim": "WebMCP supports MCP sampling: the server can request LLM completions through the client, enabling sophisticated agentic behaviors while maintaining security and privacy via human oversight."
+    },
+    {
+      "id": "f-11",
+      "decision": "revise",
+      "note": "config block restated as an installation claim",
+      "revised_claim": "WebMCP is installed client-side as an MCP server via npx @jason.today/webmcp@latest --mcp (for example in Claude Desktop); MCP clients may need a restart before newly registered tools appear."
+    },
+    {
+      "id": "f-12",
+      "decision": "revise",
+      "note": "restatement, keep the library/widget identity",
+      "revised_claim": "WebMCP is an open-source JavaScript library that lets any website integrate with the Model Context Protocol, adding a small widget so users can connect to and interact with the page through an LLM or agent."
+    },
+    {
+      "id": "a-1",
+      "decision": "add",
+      "note": "synthesized from ev-10, ev-14, ev-73, ev-75, ev-76",
+      "claim": "Lighthouse Agentic browsing (available from Chrome M150) is informational and deliberately unbenchmarked: deterministic audits emit pass/fail statuses and warnings plus a fractional pass ratio, with no weighted 0-100 score, because agentic-web standards are still emerging and the focus is actionable signals rather than ranking.",
+      "status": "needs_adjudication",
+      "method": "adjudication-synthesis-v0",
+      "sources": [
+        "https://developer.chrome.com/blog/agent-ready-toolkit",
+        "https://developer.chrome.com/docs/lighthouse/agentic-browsing/"
+      ],
+      "confidence": null
+    },
+    {
+      "id": "a-2",
+      "decision": "add",
+      "note": "synthesized from ev-11, ev-84, ev-85, ev-86",
+      "claim": "AI agents use the accessibility tree as their primary data model: the Agentic Browsing audits verify a machine-critical subset of accessibility checks, including programmatic names and labels on every interactive element, tree integrity (valid roles and parent-child relationships), and visibility of interactive content.",
+      "status": "needs_adjudication",
+      "method": "adjudication-synthesis-v0",
+      "sources": [
+        "https://developer.chrome.com/blog/agent-ready-toolkit",
+        "https://developer.chrome.com/docs/lighthouse/agentic-browsing/"
+      ],
+      "confidence": null
+    },
+    {
+      "id": "a-3",
+      "decision": "add",
+      "note": "synthesized from ev-12, ev-78, ev-79, ev-80, ev-87",
+      "claim": "Layout stability is an agentic-readiness criterion: Cumulative Layout Shift from ads, images without dimensions, or injected content moves elements between the time an agent identifies them and the time it attempts an interaction, causing misclicks; agentic-audit results also fluctuate with dynamic WebMCP tool registration timing and accessibility-tree variability from DOM changes.",
+      "status": "needs_adjudication",
+      "method": "adjudication-synthesis-v0",
+      "sources": [
+        "https://developer.chrome.com/blog/agent-ready-toolkit",
+        "https://developer.chrome.com/docs/lighthouse/agentic-browsing/"
+      ],
+      "confidence": null
+    },
+    {
+      "id": "a-4",
+      "decision": "add",
+      "note": "synthesized from ev-88, ev-82",
+      "claim": "Lighthouse checks for llms.txt, a machine-readable summary at the domain root, as an agentic-readiness signal, and verifies WebMCP registration through the CDP WebMCP domain covering both declarative tools defined in HTML and imperative tools defined in JavaScript.",
+      "status": "needs_adjudication",
+      "method": "adjudication-synthesis-v0",
+      "sources": [
+        "https://developer.chrome.com/docs/lighthouse/agentic-browsing/"
+      ],
+      "confidence": null
+    },
+    {
+      "id": "a-5",
+      "decision": "add",
+      "note": "synthesized from ev-18, ev-19, ev-20, ev-21",
+      "claim": "Chrome DevTools for Agents provides a testing persona that transforms a coding agent into a browsing agent: it can simulate the exact steps an agent would take, invoke lighthouse_audit directly on the active tab for an instant multi-category health check, and screencast how the agent perceives the page, exposing machine-readable signals such as the accessibility tree that may confuse agents.",
+      "status": "needs_adjudication",
+      "method": "adjudication-synthesis-v0",
+      "sources": [
+        "https://developer.chrome.com/blog/agent-ready-toolkit"
+      ],
+      "confidence": null
+    },
+    {
+      "id": "a-6",
+      "decision": "add",
+      "note": "synthesized from ev-17",
+      "claim": "Modern Web Guidance packages agent-ready best practices and skills, including a webmcp skill that lets a coding agent implement WebMCP tools, so applications are built agent-friendly from the ground up.",
+      "status": "needs_adjudication",
+      "method": "adjudication-synthesis-v0",
+      "sources": [
+        "https://developer.chrome.com/blog/agent-ready-toolkit"
+      ],
+      "confidence": null
+    },
+    {
+      "id": "a-7",
+      "decision": "add",
+      "note": "synthesized from ev-44, ev-45, ev-46, ev-47, ev-48, ev-49, ev-50",
+      "claim": "Third-party developer tools for Chrome DevTools for agents use an event-based JavaScript API: pages listen for the devtoolstooldiscovery event on the window (dispatched on navigation or page change) and respond with a ToolGroup of tools defined by JSON Schema inputs and execute functions running in the page context; returned DOM elements are automatically mapped to the same UIDs used by the take_snapshot tool.",
+      "status": "needs_adjudication",
+      "method": "adjudication-synthesis-v0",
+      "sources": [
+        "https://developer.chrome.com/blog/devtools-for-agents-3p-tools"
+      ],
+      "confidence": null
+    },
+    {
+      "id": "a-8",
+      "decision": "add",
+      "note": "synthesized from ev-40, ev-41, ev-51, ev-52, ev-53, ev-57, ev-58, ev-60",
+      "claim": "Agents invoke third-party tools through list_3p_developer_tools, execute_3p_developer_tool (with DevTools validating parameters against the tool schema) or evaluate_script; the rationale is that application truth lives in framework internals invisible to the DOM, so Angular ships Signal Graph and Dependency Injection Graph tools for agents while React is experimenting with the API.",
+      "status": "needs_adjudication",
+      "method": "adjudication-synthesis-v0",
+      "sources": [
+        "https://developer.chrome.com/blog/devtools-for-agents-3p-tools"
+      ],
+      "confidence": null
+    },
+    {
+      "id": "a-9",
+      "decision": "add",
+      "note": "synthesized from ev-98, ev-100, ev-101, ev-103, ev-105, ev-107",
+      "claim": "WebMCP exposes MCP primitives directly on the page via registerTool, registerPrompt, registerResource and resource templates, plus sampling through the client; tools should be registered immediately after loading webmcp.js because MCP clients may need to be restarted before new tools appear.",
+      "status": "needs_adjudication",
+      "method": "adjudication-synthesis-v0",
+      "sources": [
+        "https://webmcp.dev",
+        "https://developer.chrome.com/docs/lighthouse/agentic-browsing/"
+      ],
+      "confidence": null
+    },
+    {
+      "id": "a-10",
+      "decision": "add",
+      "note": "synthesized from ev-24, ev-26, ev-61, ev-71",
+      "claim": "The Chrome agent-ready toolkit is experimental end to end: Agentic Browsing requires Chrome 150 or later, WebMCP audits require registration for the WebMCP origin trial, third-party developer tools require DevTools for agents 0.25.0+ with an explicit flag, and the experimental flags are documented as unstable.",
+      "status": "needs_adjudication",
+      "method": "adjudication-synthesis-v0",
+      "sources": [
+        "https://developer.chrome.com/blog/agent-ready-toolkit",
+        "https://developer.chrome.com/docs/lighthouse/agentic-browsing/",
+        "https://developer.chrome.com/blog/devtools-for-agents-3p-tools"
+      ],
+      "confidence": null
+    }
+  ]
+}

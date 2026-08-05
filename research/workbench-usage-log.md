@@ -435,6 +435,68 @@ research or adjudication.
 
 No further metrics until 20-30 sessions of data accumulate.
 
+## Session 004 — Chrome's agent-ready toolkit (2026-08-05)
+
+First session run with the extraction round in place (round 9 commit
+8d1ebc2). Event-seeded (provenance: evt-8c2caf7bdb43 — agent-ready
+toolkit post, evt-132e44406e3d — third-party DevTools for agents post;
+both from the blog/RSS connector run for this session). Infrastructure-
+analysis research style, same as S003, but on the web-platform side.
+
+Run: 4 sources (agent-ready-toolkit post, devtools-for-agents-3p-tools
+post, Agentic Browsing Lighthouse docs, webmcp.dev), 109 evidence
+entries, 12 draft findings. Watchlist touch: tech.web.chrome — FIRST
+non-zero keyword overlap recorded in a real session (0.045). S003's
+0.0-despite-matching bug is fixed in live data; note the S003 record
+above logged the same touch condition as overlap 0.0.
+
+Extraction measurements (the round's purpose): per-source coverage
+0.527 / 0.498 / 0.380 / 0.640 vs S003's 0.069-0.415, and every core
+article's body is present in the evidence layer (S003's AAM post had
+contributed one substantive paragraph). Zero evidence entries are page
+chrome. 5 of 12 drafts were still boilerplate — but a narrower class:
+the site-wide developer.chrome.com taglines ("Design a beautiful and
+performant web with Chrome.", "Create the best experience for your users
+with the web's best tools."), which repeat on every page and are NOT in
+the is_boilerplate blocklist. Recorded as a pattern gap for the next
+extraction round (add tagline patterns), not engineering this round.
+
+Adjudication: 7 revised, 5 rejected, 10 added = 17 accepted of 22.
+Research Yield 77%; raw draft survival 58% (7 of 12 drafts survived
+unmodified in substance) vs S003's 47% — survival up despite the
+mechanical drafter still producing weak drafts.
+
+Rejection-reason update (fourth data point, 5 rejects — ALL the site
+tagline boilerplate; nav chrome now totals 14 across sessions).
+
+| Reason                  | S001 | S002 | S003 | S004 | Total |
+| ----------------------- | ---: | ---: | ---: | ---: | -----:|
+| Restated documentation  |    6 |    7 |    0 |    0 |    13 |
+| Off-topic               |    2 |    4 |    0 |    0 |     6 |
+| Marketing language      |    4 |    0 |    0 |    0 |     4 |
+| Duplicate finding       |    1 |    1 |    0 |    0 |     2 |
+| Navigation chrome       |    1 |    0 |    8 |    5 |    14 |
+| Weak evidence/relevance |    0 |    1 |    0 |    0 |     1 |
+
+Extraction flag fired (10 adds > threshold 3) — recorded honestly, with
+a meaning refinement: this session's 10 adds ALL trace to evidence
+present in the layer (extraction worked); the flag fired because the
+keyword-density-v0 drafter is weak, not because content was lost. S003's
+flag would have meant extraction loss. The flag conflates drafting-stage
+weakness with extraction loss; next extraction round should separate
+them (e.g. flag on chrome-only evidence fraction + coverage, not adds).
+
+Pack: compiled (title "Chrome's agent-ready toolkit"); 17 accepted /
+5 rejected excluded / LEAK none; six renders; jobs research-004 done,
+publishing-004 review. Editing-time table: NOT YET MEASURED.
+
+Operational-config upkeep (allowed under the freeze): tech.web.chrome
+gained alias "chrome" — the topic said "Chrome's...", the entry only
+had "google chrome", so the session would otherwise have recorded no
+watchlist touch. Same defect class as the S003 overlap bug (name vs
+alias mismatch), fixed at the data level.
+
+
 ## Research Opportunity Engine — PARKED (2026-08-05)
 
 Architect proposal: scheduled discovery (cron) -> opportunity scoring ->

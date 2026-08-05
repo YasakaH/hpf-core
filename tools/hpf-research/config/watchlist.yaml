@@ -165,7 +165,7 @@ topics:
   web-platform:
     - id: tech.web.chrome
       name: Google Chrome
-      aliases: [google chrome]
+      aliases: [google chrome, chrome]
       type: engine
       sources:
         docs: [developer.chrome.com]

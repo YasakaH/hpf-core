@@ -1,0 +1,23 @@
+# X thread draft — Chrome's agent-ready toolkit: how the web platform is being reshaped so AI agents can use websites, and what it means for browser automation, anti-detection, and agent infrastructure
+
+## Thread (one claim per post)
+
+1/18 Thread: Chrome's agent-ready toolkit: how the web platform is being reshaped so AI agents can use websites, and what it means for browser automation, anti-detection, and agent infrastructure
+2/18 The agentic web has two stages: agents searching the web and agents using the web. SEO principles still apply while agents only search; when agents interact directly with a website, developers need predictable machine-readable signals and dedicated t
+3/18 WebMCP is a proposed standard that exposes structured tools to AI agents on existing websites, accelerating and simplifying agent interactions without rebuilding the site.
+4/18 Third-party developer tools for Chrome DevTools for agents are experimental and available from version 0.25.0, enabled via the --categoryExperimentalThirdParty command-line flag.
+5/18 To make a website agent-ready, adopt WebMCP to explicitly expose logic and forms, ensure a sound accessibility tree (semantic HTML, proper ARIA), and optimize layout stability so elements do not move between an agent identifying and interacting with 
+6/18 WebMCP supports MCP sampling: the server can request LLM completions through the client, enabling sophisticated agentic behaviors while maintaining security and privacy via human oversight.
+7/18 WebMCP is installed client-side as an MCP server via npx @jason.today/webmcp@latest --mcp (for example in Claude Desktop); MCP clients may need a restart before newly registered tools appear.
+8/18 WebMCP is an open-source JavaScript library that lets any website integrate with the Model Context Protocol, adding a small widget so users can connect to and interact with the page through an LLM or agent.
+9/18 Lighthouse Agentic browsing (available from Chrome M150) is informational and deliberately unbenchmarked: deterministic audits emit pass/fail statuses and warnings plus a fractional pass ratio, with no weighted 0-100 score, because agentic-web standa
+10/18 AI agents use the accessibility tree as their primary data model: the Agentic Browsing audits verify a machine-critical subset of accessibility checks, including programmatic names and labels on every interactive element, tree integrity (valid roles 
+11/18 Layout stability is an agentic-readiness criterion: Cumulative Layout Shift from ads, images without dimensions, or injected content moves elements between the time an agent identifies them and the time it attempts an interaction, causing misclicks; 
+12/18 Lighthouse checks for llms.txt, a machine-readable summary at the domain root, as an agentic-readiness signal, and verifies WebMCP registration through the CDP WebMCP domain covering both declarative tools defined in HTML and imperative tools defined
+13/18 Chrome DevTools for Agents provides a testing persona that transforms a coding agent into a browsing agent: it can simulate the exact steps an agent would take, invoke lighthouse_audit directly on the active tab for an instant multi-category health c
+14/18 Modern Web Guidance packages agent-ready best practices and skills, including a webmcp skill that lets a coding agent implement WebMCP tools, so applications are built agent-friendly from the ground up.
+15/18 Third-party developer tools for Chrome DevTools for agents use an event-based JavaScript API: pages listen for the devtoolstooldiscovery event on the window (dispatched on navigation or page change) and respond with a ToolGroup of tools defined by JS
+16/18 Agents invoke third-party tools through list_3p_developer_tools, execute_3p_developer_tool (with DevTools validating parameters against the tool schema) or evaluate_script; the rationale is that application truth lives in framework internals invisibl
+17/18 WebMCP exposes MCP primitives directly on the page via registerTool, registerPrompt, registerResource and resource templates, plus sampling through the client; tools should be registered immediately after loading webmcp.js because MCP clients may nee
+18/18 The Chrome agent-ready toolkit is experimental end to end: Agentic Browsing requires Chrome 150 or later, WebMCP audits require registration for the WebMCP origin trial, third-party developer tools require DevTools for agents 0.25.0+ with an explicit
+18/18 Source session: 2026-08-05-1845-chrome-s-agent-ready-toolkit-h — draft findings, confidence null, not validated facts.

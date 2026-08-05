@@ -1,0 +1,160 @@
+# Research session: Chrome's agent-ready toolkit: how the web platform is being reshaped so AI agents can use websites, and what it means for browser automation, anti-detection, and agent infrastructure
+
+Goal: Research goal: determine what the Chrome team's agent-ready toolkit (2026-06-22) and the wider Chrome agent push (DevTools for agents, third-party tools, runtime insights) change for browser automation and agent infrastructure. Cover: the agent-ready toolkit components (Lighthouse Agentic browsing audits, Chrome DevTools for Agents, WebMCP, Modern Web Guidance), Chrome's stance on AI agents versus bots, and the implications for the anti-detection / undetectable-automation ecosystem and for how agent vendors (Browser Use, Stagehand, Playwright, Nodriver-class CDP drivers) interact with the platform. Include a Technology Maturity dimension (production readiness, community adoption, maintenance activity, breaking changes, vendor commitment, migration risk). Expected outcome: a documented architecture-level understanding of Chrome's agent-first web platform work, how it relates to existing browser automation layers and the agent-access-model discussions (Session 003), and what it implies for cookbook knowledge and future research.
+Audience: Blog · Depth: deep
+Status: draft · id: 2026-08-05-1845-chrome-s-agent-ready-toolkit-h
+
+## Sources
+- [developer.chrome.com](https://developer.chrome.com/blog/agent-ready-toolkit) — fetched (13000 chars)
+- [developer.chrome.com](https://developer.chrome.com/blog/devtools-for-agents-3p-tools) — fetched (12057 chars)
+- [developer.chrome.com](https://developer.chrome.com/docs/lighthouse/agentic-browsing/) — fetched (10985 chars)
+- [webmcp.dev](https://webmcp.dev) — fetched (5541 chars)
+
+## Findings (drafts)
+- **The shift to the agentic web involves two major stages: agents searching the web and agents using the web.**
+  - sources: https://developer.chrome.com/blog/agent-ready-toolkit
+  - status: needs_adjudication · method: keyword-density-v0
+- **WebMCP is a proposed standard that aims to expose structure tools to AI Agents on existing websites, accelerating and simplifying agent interactions. For more information about imp…**
+  - sources: https://developer.chrome.com/blog/agent-ready-toolkit
+  - status: needs_adjudication · method: keyword-density-v0
+- **Design a beautiful and performant web with Chrome.**
+  - sources: https://developer.chrome.com/blog/agent-ready-toolkit
+  - status: needs_adjudication · method: keyword-density-v0
+- **Design a beautiful and performant web with Chrome.**
+  - sources: https://developer.chrome.com/blog/devtools-for-agents-3p-tools
+  - status: needs_adjudication · method: keyword-density-v0
+- **Create the best experience for your users with the web's best tools.**
+  - sources: https://developer.chrome.com/blog/devtools-for-agents-3p-tools
+  - status: needs_adjudication · method: keyword-density-v0
+- **This experimental feature is available in Chrome DevTools for agents starting with version 0.25.0. To enable it, use the --categoryExperimentalThirdParty command-line flag.**
+  - sources: https://developer.chrome.com/blog/devtools-for-agents-3p-tools
+  - status: needs_adjudication · method: keyword-density-v0
+- **Adopt WebMCP: Use the WebMCP API to explicitly expose your site's logic and forms to AI agents.**
+  - sources: https://developer.chrome.com/docs/lighthouse/agentic-browsing/
+  - status: needs_adjudication · method: keyword-density-v0
+- **Design a beautiful and performant web with Chrome.**
+  - sources: https://developer.chrome.com/docs/lighthouse/agentic-browsing/
+  - status: needs_adjudication · method: keyword-density-v0
+- **Create the best experience for your users with the web's best tools.**
+  - sources: https://developer.chrome.com/docs/lighthouse/agentic-browsing/
+  - status: needs_adjudication · method: keyword-density-v0
+- **Sampling allows servers to request LLM completions through the client. This enables sophisticated agentic behaviors while maintaining security and privacy via human oversight.**
+  - sources: https://webmcp.dev
+  - status: needs_adjudication · method: keyword-density-v0
+- **{ "mcpServers": { "webmcp": { "command": "npx", "args": [ "-y", "@jason.today/webmcp@latest", "--mcp" ] } } }**
+  - sources: https://webmcp.dev
+  - status: needs_adjudication · method: keyword-density-v0
+- **WebMCP is an open source JavaScript library that allows any website to integrate with the Model Context Protocol. It provides a small blue widget in the bottom right corner of your…**
+  - sources: https://webmcp.dev
+  - status: needs_adjudication · method: keyword-density-v0
+
+## Evidence
+- [ev-1] Learn how Chrome works, participate in origin trials, and build with Chrome everywhere. (https://developer.chrome.com/blog/agent-ready-toolkit)
+- [ev-2] Create the best experience for your users with the web's best tools. (https://developer.chrome.com/blog/agent-ready-toolkit)
+- [ev-3] Get things done quicker and neater, with our ready-made libraries. (https://developer.chrome.com/blog/agent-ready-toolkit)
+- [ev-4] Design a beautiful and performant web with Chrome. (https://developer.chrome.com/blog/agent-ready-toolkit)
+- [ev-5] Save and categorize content based on your preferences. (https://developer.chrome.com/blog/agent-ready-toolkit)
+- [ev-6] As AI agents evolve from only generating text to browsing, interacting, and completing complex tasks on your website, developers need dedicated tools to ensure a high-quality experience for these non-human users. The new Lighthouse Agentic … (https://developer.chrome.com/blog/agent-ready-toolkit)
+- [ev-7] The shift to the agentic web involves two major stages: agents searching the web and agents using the web. (https://developer.chrome.com/blog/agent-ready-toolkit)
+- [ev-8] When agents are just searching for websites, the principles for Search Engine Optimization (SEO) still apply. In this blog post, we focus on the work that developers can do when an agent interacts directly with the website. (https://developer.chrome.com/blog/agent-ready-toolkit)
+- [ev-9] For an AI agent to reliably complete a flow on your site, such as booking an appointment or placing an order, it needs predictable, machine-readable signals. Here are the tools to help you assess and improve that readiness. (https://developer.chrome.com/blog/agent-ready-toolkit)
+- [ev-10] The new Agentic browsing category in Lighthouse is available starting from M150 and provides developers with a set of deterministic audits to assess how agent-friendly their websites are, encouraging the adoption of new industry standards. (https://developer.chrome.com/blog/agent-ready-toolkit)
+- [ev-11] Accessibility: Accessibility is for humans first. Agents rely on the accessibility tree, derived from DOM for assistive technology (AT), as their primary data model. The Agentic Browsing audit verifies a subset of categories from the Access… (https://developer.chrome.com/blog/agent-ready-toolkit)
+- [ev-12] Stability: Measures visual stability using Cumulative Layout Shift (CLS) to ensure elements don't move unexpectedly, preventing agent misclicks. (https://developer.chrome.com/blog/agent-ready-toolkit)
+- [ev-13] WebMCP integration: Checks for the availability of registered WebMCP tools, forms missing declarative WebMCP, and schema validity. Adopting WebMCP helps agents explicitly expose your site's logic and forms, making interaction reliable. (https://developer.chrome.com/blog/agent-ready-toolkit)
+- [ev-14] The score: Unlike other Lighthouse categories, at the time of publication, Agentic Browsing is informational and unbenchmarked. The focus is on providing actionable signals (pass or fail status and warnings) rather than a definitive ranking… (https://developer.chrome.com/blog/agent-ready-toolkit)
+- [ev-15] To learn more about the specific audit checks and what you can do to improve, see the documentation for Agent browsing audits for Lighthouse. (https://developer.chrome.com/blog/agent-ready-toolkit)
+- [ev-16] WebMCP is a proposed standard that aims to expose structure tools to AI Agents on existing websites, accelerating and simplifying agent interactions. For more information about implementation, see Read about WebMCP. (https://developer.chrome.com/blog/agent-ready-toolkit)
+- [ev-17] Modern Web Guidance provides a collection of best practices and skills to help developers build agent-ready websites. It includes the webmcp skill, which lets you delegate implementation of the WebMCP tools to your coding agent. By integrat… (https://developer.chrome.com/blog/agent-ready-toolkit)
+- [ev-18] For deep debugging and iterative development, Chrome DevTools for Agents offers a unique testing persona. It lets you transform your own AI-assisted IDE or coding agent into a browsing agent, giving you a high degree of control. (https://developer.chrome.com/blog/agent-ready-toolkit)
+- [ev-19] Simulate agent interaction: You can simulate the precise steps an agent would take, effectively "becoming the user" (or the agent) to reproduce failures and verify that your website's flows are deterministic. (https://developer.chrome.com/blog/agent-ready-toolkit)
+- [ev-20] Direct Lighthouse invocation: Your testing environment can directly invoke the lighthouse_audit tool on the active tab. This provides an instant, multi-category health check based on the page's current state, allowing you to verify fixes it… (https://developer.chrome.com/blog/agent-ready-toolkit)
+- [ev-21] Screencast and debug: The tool offers detailed logging and screencast capabilities, so you can see exactly how the agent perceives and interacts with the page. This exposes some machine-readable signals, such as the accessibility tree, that… (https://developer.chrome.com/blog/agent-ready-toolkit)
+- [ev-22] This helps you ensure a high-quality experience for non-human users before deployment. (https://developer.chrome.com/blog/agent-ready-toolkit)
+- [ev-23] To learn more about capabilities and configuration of Chrome DevTools for Agents, see our GitHub repository. (https://developer.chrome.com/blog/agent-ready-toolkit)
+- [ev-24] Note: Make sure that in chrome://inspect Remote Debugging is enabled. If you want to trigger WebMCP tools from Chrome DevTools for Agents, make sure your browser, for example Chrome Canary, is running and has enabled the Chrome flag needed … (https://developer.chrome.com/blog/agent-ready-toolkit)
+- [ev-25] The following example configuration of Chrome DevTools for Agents (~/.gemini/config/mcp_config.json for AntigravityCLI or configured in Antigravity) connects to Chrome Canary. (https://developer.chrome.com/blog/agent-ready-toolkit)
+- [ev-26] Tip: Experimental features of Chrome DevTools for Agents like --categoryExperimentalWebmcp or --experimentalScreencast can behave in an unstable way. If you are using AntigravityCLI and notice unexpected behavior, restart the tool. (https://developer.chrome.com/blog/agent-ready-toolkit)
+- [ev-27] Use the example query: "Using Chrome DevTools MCP, go to https://googlechromelabs.github.io/webmcp-tools/demos/pizza-maker/ and create me a pizza with 10 mushrooms and 2 bell peppers; make sure to give me a summary of what you did and what … (https://developer.chrome.com/blog/agent-ready-toolkit)
+- [ev-28] "I want to do an agentic lighthouse audit on https://googlechromelabs.github.io/webmcp-tools/demos/french-bistro/?notoolname using Chrome DevTools MCP; give me a full summary." (https://developer.chrome.com/blog/agent-ready-toolkit)
+- [ev-29] To contribute and join the discussion, see the official Lighthouse repository. (https://developer.chrome.com/blog/agent-ready-toolkit)
+- [ev-30] For more information about WebMCP, see WebMCP documentation. For more information about Modern Web Guidance, see Modern Web Guidance documentation. For more information about optimizing your website for generative AI, see Optimizing your we… (https://developer.chrome.com/blog/agent-ready-toolkit)
+- [ev-31] Except as otherwise noted, the content of this page is licensed under the Creative Commons Attribution 4.0 License, and code samples are licensed under the Apache 2.0 License. For details, see the Google Developers Site Policies. Java is a … (https://developer.chrome.com/blog/agent-ready-toolkit)
+- [ev-32] [[["Easy to understand","easyToUnderstand","thumb-up"],["Solved my problem","solvedMyProblem","thumb-up"],["Other","otherUp","thumb-up"]],[["Missing the information I need","missingTheInformationINeed","thumb-down"],["Too complicated / too … (https://developer.chrome.com/blog/agent-ready-toolkit)
+- [ev-33] Learn how Chrome works, participate in origin trials, and build with Chrome everywhere. (https://developer.chrome.com/blog/devtools-for-agents-3p-tools)
+- [ev-34] Create the best experience for your users with the web's best tools. (https://developer.chrome.com/blog/devtools-for-agents-3p-tools)
+- [ev-35] Get things done quicker and neater, with our ready-made libraries. (https://developer.chrome.com/blog/devtools-for-agents-3p-tools)
+- [ev-36] Design a beautiful and performant web with Chrome. (https://developer.chrome.com/blog/devtools-for-agents-3p-tools)
+- [ev-37] Save and categorize content based on your preferences. (https://developer.chrome.com/blog/devtools-for-agents-3p-tools)
+- [ev-38] To debug a modern web application effectively, an AI agent needs more than just your source code; it needs to understand how the application behaves at runtime. (https://developer.chrome.com/blog/devtools-for-agents-3p-tools)
+- [ev-39] We are excited to introduce third-party developer tools for Chrome DevTools for agents. Now, your apps and frameworks can give AI agents a direct look at their internal state. This helps agents connect the dots between what's happening on t… (https://developer.chrome.com/blog/devtools-for-agents-3p-tools)
+- [ev-40] Modern web development is built on abstractions—frameworks like Angular, React, or Vue; CMS platforms like WordPress or Shopify; and libraries for CSS, 3D graphics, or animations. While DevTools has direct access to the final rendered DOM, … (https://developer.chrome.com/blog/devtools-for-agents-3p-tools)
+- [ev-41] Our goal with third-party developer tools is to provide a path for any library to share this rich, actionable context with AI agents. By doing so, this lets agents debug issues that were previously "invisible" to them, for example: (https://developer.chrome.com/blog/devtools-for-agents-3p-tools)
+- [ev-42] Component hierarchies: Map a DOM element on the page directly to its corresponding framework component and internal state. (https://developer.chrome.com/blog/devtools-for-agents-3p-tools)
+- [ev-43] Internal state inspection: Access server-side state or database content directly within the debugging session. (https://developer.chrome.com/blog/devtools-for-agents-3p-tools)
+- [ev-44] Third-party developer tools use an event-based JavaScript API. The Chrome DevTools MCP server discovers these tools by dispatching a devtoolstooldiscovery event on the global window object. The devtoolstooldiscovery event is automatically d… (https://developer.chrome.com/blog/devtools-for-agents-3p-tools)
+- [ev-45] To expose tools from your library or application, you need to listen for this discovery event and respond with a ToolGroup. (https://developer.chrome.com/blog/devtools-for-agents-3p-tools)
+- [ev-46] window.addEventListener('devtoolstooldiscovery', (event) => { event.respondWith({ name: "My Library Tools", description: "Tools for inspecting internal library state", tools: [ { name: "getInternalState", description: "Returns the current i… (https://developer.chrome.com/blog/devtools-for-agents-3p-tools)
+- [ev-47] Define the schema: Use JSON Schema to define the input your tool expects. (https://developer.chrome.com/blog/devtools-for-agents-3p-tools)
+- [ev-48] Handle the logic: Implement an execute function that runs in the page's context and returns serializable data. (https://developer.chrome.com/blog/devtools-for-agents-3p-tools)
+- [ev-49] DOM elements: Non-serializable objects cannot be sent between the page and DevTools for agents. DOM elements are an exception. When your tools return DOM elements, DevTools for agents automatically maps them to the same UIDs used by the tak… (https://developer.chrome.com/blog/devtools-for-agents-3p-tools)
+- [ev-50] tool. This lets your agent interact with all page elements (whether they come from a framework or from a page snapshot) in the same way. (https://developer.chrome.com/blog/devtools-for-agents-3p-tools)
+- [ev-51] Once you register your tools, your coding agent can interact with them through DevTools for agents. The list_3p_developer_tools MCP tool returns descriptions of the third-party tools available on the page. Additionally, when the selected pa… (https://developer.chrome.com/blog/devtools-for-agents-3p-tools)
+- [ev-52] To use these tools, your agent calls execute_3p_developer_tool. DevTools automatically validates input parameters to ensure they match the tool's definition. (https://developer.chrome.com/blog/devtools-for-agents-3p-tools)
+- [ev-53] You can also invoke tools using the evaluate_script MCP tool. Your agent provides a JavaScript snippet that DevTools executes on the page. This snippet can call third-party developer tools and immediately use their output for further calcul… (https://developer.chrome.com/blog/devtools-for-agents-3p-tools)
+- [ev-54] Compose operations: Combine multiple steps into a single execution. (https://developer.chrome.com/blog/devtools-for-agents-3p-tools)
+- [ev-55] Handle non-serializable values: Process framework-specific objects or signals directly in the page context. (https://developer.chrome.com/blog/devtools-for-agents-3p-tools)
+- [ev-56] Optimize performance: Minimize serialization overhead and avoid multiple round trips between the agent and the browser. (https://developer.chrome.com/blog/devtools-for-agents-3p-tools)
+- [ev-57] Signal Graph tool: Gives agents the ability to visualize relationships between the state and the view, helping them identify dependencies that cause infinite loops or failed updates. (https://developer.chrome.com/blog/devtools-for-agents-3p-tools)
+- [ev-58] Dependency Injection (DI) Graph tool: Exposes the element injectors, which lets agents see exactly where a service is provided or where it is missing. Because Angular's DI graph is a runtime-only construct, static analysis alone cannot debu… (https://developer.chrome.com/blog/devtools-for-agents-3p-tools)
+- [ev-59] A screencast showing an AI agent using the Angular Signal Graph tool to debug a reactive loop. (https://developer.chrome.com/blog/devtools-for-agents-3p-tools)
+- [ev-60] The React team has also started experimenting with third-party developer tools. (https://developer.chrome.com/blog/devtools-for-agents-3p-tools)
+- [ev-61] This experimental feature is available in Chrome DevTools for agents starting with version 0.25.0. To enable it, use the --categoryExperimentalThirdParty command-line flag. (https://developer.chrome.com/blog/devtools-for-agents-3p-tools)
+- [ev-62] Explore the docs: Technical Guide on GitHub. (https://developer.chrome.com/blog/devtools-for-agents-3p-tools)
+- [ev-63] Reach out: We are looking for partners to iterate on these APIs and help define the future of AI-powered web debugging. You can create an issue in the GitHub repository to reach out. (https://developer.chrome.com/blog/devtools-for-agents-3p-tools)
+- [ev-64] Except as otherwise noted, the content of this page is licensed under the Creative Commons Attribution 4.0 License, and code samples are licensed under the Apache 2.0 License. For details, see the Google Developers Site Policies. Java is a … (https://developer.chrome.com/blog/devtools-for-agents-3p-tools)
+- [ev-65] [[["Easy to understand","easyToUnderstand","thumb-up"],["Solved my problem","solvedMyProblem","thumb-up"],["Other","otherUp","thumb-up"]],[["Missing the information I need","missingTheInformationINeed","thumb-down"],["Too complicated / too … (https://developer.chrome.com/blog/devtools-for-agents-3p-tools)
+- [ev-66] Learn how Chrome works, participate in origin trials, and build with Chrome everywhere. (https://developer.chrome.com/docs/lighthouse/agentic-browsing/)
+- [ev-67] Create the best experience for your users with the web's best tools. (https://developer.chrome.com/docs/lighthouse/agentic-browsing/)
+- [ev-68] Get things done quicker and neater, with our ready-made libraries. (https://developer.chrome.com/docs/lighthouse/agentic-browsing/)
+- [ev-69] Design a beautiful and performant web with Chrome. (https://developer.chrome.com/docs/lighthouse/agentic-browsing/)
+- [ev-70] Save and categorize content based on your preferences. (https://developer.chrome.com/docs/lighthouse/agentic-browsing/)
+- [ev-71] Note: The Agentic Browsing category and WebMCP support are experimental and based on proposed standards. Testing this category requires Chrome 150 or later, and WebMCP audits require registering for the WebMCP origin trial. (https://developer.chrome.com/docs/lighthouse/agentic-browsing/)
+- [ev-72] The Agentic Browsing category evaluates how well your site is constructed for machine interaction through a set of deterministic audits. (https://developer.chrome.com/docs/lighthouse/agentic-browsing/)
+- [ev-73] Unlike other Lighthouse categories, the Agentic Browsing category does not have a weighted average score from 0 to 100. Because the standards for the agentic web are still emerging, the current focus is to gather data and provide actionable… (https://developer.chrome.com/docs/lighthouse/agentic-browsing/)
+- [ev-74] A fractional score: A ratio showing how many agentic readiness checks your site passes. (https://developer.chrome.com/docs/lighthouse/agentic-browsing/)
+- [ev-75] Pass or Fail status: Specific audits may emit errors or warnings if technical requirements (like WebMCP schema validity) are not met. (https://developer.chrome.com/docs/lighthouse/agentic-browsing/)
+- [ev-76] Informational counts: The category header may include a pass ratio to help you observe overall progress at a glance. (https://developer.chrome.com/docs/lighthouse/agentic-browsing/)
+- [ev-77] While the audits are deterministic, your results may fluctuate due to changes in how your site registers its tools or responds to agentic requests. Common causes include: (https://developer.chrome.com/docs/lighthouse/agentic-browsing/)
+- [ev-78] Dynamic tool registration: If your site registers WebMCP tools using JavaScript (Imperative API), the timing of these registrations can affect whether they are captured during the Lighthouse snapshot. (https://developer.chrome.com/docs/lighthouse/agentic-browsing/)
+- [ev-79] Variability in A11y tree construction: Significant changes to DOM size or complexity can impact the structure of the accessibility tree, which is a core metric for agentic navigation. (https://developer.chrome.com/docs/lighthouse/agentic-browsing/)
+- [ev-80] Cumulative Layout Shift (CLS): Layout shifts caused by ads, images without dimensions, or injected content can move elements between the time an agent identifies them and the time it attempts an interaction. (https://developer.chrome.com/docs/lighthouse/agentic-browsing/)
+- [ev-81] Lighthouse uses a set of deterministic signals to evaluate your page. This ensures that the audits are reproducible and suitable for integration into CI/CD pipelines. (https://developer.chrome.com/docs/lighthouse/agentic-browsing/)
+- [ev-82] Lighthouse calls the Chrome DevTools Protocol (CDP) WebMCP domain to monitor tool registration events. It verifies both declarative tools (defined in HTML) and imperative tools (defined in JS). (https://developer.chrome.com/docs/lighthouse/agentic-browsing/)
+- [ev-83] Agents rely on the accessibility tree as their primary data model. Lighthouse filters a specific subset of accessibility audits that are critical for machine interaction, such as: (https://developer.chrome.com/docs/lighthouse/agentic-browsing/)
+- [ev-84] Names and labels: Ensuring every interactive element has a programmatic name. (https://developer.chrome.com/docs/lighthouse/agentic-browsing/)
+- [ev-85] Tree integrity: Verifying that roles and parent-child relationships are valid. (https://developer.chrome.com/docs/lighthouse/agentic-browsing/)
+- [ev-86] Visibility: Confirming that content is not hidden from the accessibility tree while being interactive. (https://developer.chrome.com/docs/lighthouse/agentic-browsing/)
+- [ev-87] Cumulative Layout Shift (CLS): Measures visual stability, which is critical for agents relying on element positioning. (https://developer.chrome.com/docs/lighthouse/agentic-browsing/)
+- [ev-88] llms.txt: Checks for the presence of a machine-readable summary at the domain root. (https://developer.chrome.com/docs/lighthouse/agentic-browsing/)
+- [ev-89] Adopt WebMCP: Use the WebMCP API to explicitly expose your site's logic and forms to AI agents. (https://developer.chrome.com/docs/lighthouse/agentic-browsing/)
+- [ev-90] Ensure a sound a11y tree: Prioritize semantic HTML and proper ARIA labeling, as these are the "machine-eye view" of your page. (https://developer.chrome.com/docs/lighthouse/agentic-browsing/)
+- [ev-91] Optimize for stability: Reduce layout shifts to ensure that agents can reliably interact with your UI without elements moving unexpectedly. (https://developer.chrome.com/docs/lighthouse/agentic-browsing/)
+- [ev-92] Except as otherwise noted, the content of this page is licensed under the Creative Commons Attribution 4.0 License, and code samples are licensed under the Apache 2.0 License. For details, see the Google Developers Site Policies. Java is a … (https://developer.chrome.com/docs/lighthouse/agentic-browsing/)
+- [ev-93] [[["Easy to understand","easyToUnderstand","thumb-up"],["Solved my problem","solvedMyProblem","thumb-up"],["Other","otherUp","thumb-up"]],[["Missing the information I need","missingTheInformationINeed","thumb-down"],["Too complicated / too … (https://developer.chrome.com/docs/lighthouse/agentic-browsing/)
+- [ev-94] WebMCP is an open source JavaScript library that allows any website to integrate with the Model Context Protocol. It provides a small blue widget in the bottom right corner of your page that allows users to connect to and interact with your… (https://webmcp.dev)
+- [ev-95] { "mcpServers": { "webmcp": { "command": "npx", "args": [ "-y", "@jason.today/webmcp@latest", "--mcp" ] } } } (https://webmcp.dev)
+- [ev-96] If you're using Claude Desktop and/or don't see tools immediately appear, restart your MCP client. (hopefully all MCP client will support tool changes soon!) (https://webmcp.dev)
+- [ev-97] The WebMCP widget will automatically initialize and appear in the bottom right corner of your page. (https://webmcp.dev)
+- [ev-98] Tools allow the LLM to perform actions on your website. They are registered via calling registerTool. (https://webmcp.dev)
+- [ev-99] // Register custom tools mcp.registerTool( 'weather', 'Get weather information', { location: { type: "string" } }, function(args) { return { content: [{ type: "text", text: `Weather for ${args.location}: Sunny, 22°C` }] }; } ); (https://webmcp.dev)
+- [ev-100] To provide the best experience for users, it is recommended to register all tools directly after loading <script src="webmcp.js"></script>, as MCP clients may need to be restarted to get the available tools. (https://webmcp.dev)
+- [ev-101] Prompts are predefined templates that clients can use for LLM interactions. They allow standardization of common queries and can accept dynamic arguments. (https://webmcp.dev)
+- [ev-102] // Register a prompt for generating a Git commit message mcp.registerPrompt( 'git-commit', 'Generate a Git commit message', [ { name: 'changes', description: 'Git diff or description of changes', required: true } ], function(args) { return … (https://webmcp.dev)
+- [ev-103] Resources expose data and content that can be read by clients and used as context for LLM interactions. Resources are identified by URIs and can contain either text or binary data. (https://webmcp.dev)
+- [ev-104] // Register a resource for a specific file mcp.registerResource( 'page-content', 'Current page content', { uri: 'page://current', mimeType: 'text/html' }, function(uri) { return { contents: [ { uri: uri, mimeType: 'text/html', text: documen… (https://webmcp.dev)
+- [ev-105] // Register a resource template for dynamic data mcp.registerResource( 'element-content', 'Content of a specific DOM element by ID', { uriTemplate: 'element://{elementId}', mimeType: 'text/html' }, function(uri) { // Parse element ID from U… (https://webmcp.dev)
+- [ev-106] return { contents: [ { uri: uri, mimeType: 'text/html', text: element.innerHTML } ] }; } ); (https://webmcp.dev)
+- [ev-107] Sampling allows servers to request LLM completions through the client. This enables sophisticated agentic behaviors while maintaining security and privacy via human oversight. (https://webmcp.dev)
+- [ev-108] // Sampling is handled automatically by WebMCP // The server sends a sampling request: { "method": "sampling/createMessage", "params": { "messages": [ { "role": "user", "content": { "type": "text", "text": "Write the appropriate DuckDB SQL … (https://webmcp.dev)
+- [ev-109] { "name": "John Doe", "email": "john.doe@example.com", "preferences": { "theme": "dark", "notifications": true, "language": "en-US" }, "recentActivity": [ {"type": "login", "timestamp": "2023-03-01T08:30:45Z"}, {"type": "view", "page": "das… (https://webmcp.dev)

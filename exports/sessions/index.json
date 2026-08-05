@@ -2,6 +2,48 @@
   "schema": "hpf-sessions-manifest-v0",
   "sessions": [
     {
+      "id": "2026-08-05-1845-chrome-s-agent-ready-toolkit-h",
+      "topic": "Chrome's agent-ready toolkit: how the web platform is being reshaped so AI agents can use websites, and what it means for browser automation, anti-detection, and agent infrastructure",
+      "goal": "Research goal: determine what the Chrome team's agent-ready toolkit (2026-06-22) and the wider Chrome agent push (DevTools for agents, third-party tools, runtime insights) change for browser automation and agent infrastructure. Cover: the agent-ready toolkit components (Lighthouse Agentic browsing audits, Chrome DevTools for Agents, WebMCP, Modern Web Guidance), Chrome's stance on AI agents versus bots, and the implications for the anti-detection / undetectable-automation ecosystem and for how agent vendors (Browser Use, Stagehand, Playwright, Nodriver-class CDP drivers) interact with the platform. Include a Technology Maturity dimension (production readiness, community adoption, maintenance activity, breaking changes, vendor commitment, migration risk). Expected outcome: a documented architecture-level understanding of Chrome's agent-first web platform work, how it relates to existing browser automation layers and the agent-access-model discussions (Session 003), and what it implies for cookbook knowledge and future research.",
+      "audience": "Blog",
+      "depth": "deep",
+      "status": "draft",
+      "created": "2026-08-05T18:45:56.080823+00:00",
+      "duration_s": 6,
+      "sources": 4,
+      "evidence": 109,
+      "findings": 12,
+      "community_signals": 0,
+      "adjudicated": {
+        "approve": 0,
+        "revise": 7,
+        "reject": 5,
+        "add": 10
+      },
+      "failed": 0
+    },
+    {
+      "id": "2026-08-05-1750-cloudflare-os-and-the-agent-ac",
+      "topic": "Cloudflare OS and the Agent Access Model: implications for AI browser agents, browser automation, anti-detection, and secure agent infrastructure",
+      "goal": "Research goal: determine what changes for browser automation and secure agent infrastructure under Cloudflare's Agent Access Model (AAM) and Cloudflare OS. Cover: task-scoped identity brokering, capability ceilings, continuous mediation, the Trust Ratchet, Gatekeepers and zero-trust-by-default, agent workspaces, and the browser-agent primitives (Browser Run on Containers, Agents SDK, WebMCP). Include a Technology Maturity dimension (production readiness, community adoption, maintenance activity, breaking changes, vendor commitment, migration risk) and the anti-detection/bot-management implications for the browser automation ecosystem. Expected outcome: a documented architecture-level understanding of how Cloudflare is positioning infrastructure for AI browser agents, how it relates to existing browser automation layers (CDP drivers such as Nodriver, vision-first computer-use models such as Fara), and what it implies for cookbook knowledge and future research.",
+      "audience": "Blog",
+      "depth": "deep",
+      "status": "draft",
+      "created": "2026-08-05T17:50:22.714694+00:00",
+      "duration_s": 13,
+      "sources": 5,
+      "evidence": 123,
+      "findings": 15,
+      "community_signals": 0,
+      "adjudicated": {
+        "approve": 0,
+        "revise": 7,
+        "reject": 8,
+        "add": 7
+      },
+      "failed": 0
+    },
+    {
       "id": "2026-08-05-1527-why-nodriver-sessions-die-over",
       "topic": "Why nodriver sessions die overnight and how production systems prevent it",
       "goal": "Document why persisted browser automation sessions fail between runs (cookie expiry, token invalidation, profile corruption, OS restart, lock contention) and which recovery/health-check/re-authentication patterns production systems use. Research for article 3: Why Your nodriver Session Dies Overnight (and How Production Systems Prevent It).",
