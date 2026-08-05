@@ -19,7 +19,7 @@ Usage:
     python discover.py --report                     provenance report (read-only)
     python discover.py --queue <path>               override queue file
     python discover.py --sessions <dir>             sessions dir for --report
-    python discover.py --events-json <file>         enrich --report with event details
+    python discover.py --events-json <file>         enrich --report with event details + connector yield
 """
 
 import argparse
@@ -126,6 +126,31 @@ def main():
             detail = f" ({ev['technology']} {ev['event_type']} {ev['title']})" if ev else ""
             print(f"  [{r['status']:10}] {r['event']}{detail} -> {r['session']} \"{r['topic'][:60]}\" ({r['accepted']} accepted)")
         print(f"summary: {len(rows)} provenance events, {len(seeded)} sessions seeded, {sum(session_accepted.get(sid, 0) for sid in seeded)} accepted findings")
+        print()
+        if not enrichment:
+            print("connector yield: unavailable (provide --events-json to attribute events to connectors)")
+        else:
+            by_source = {}
+            for eid, ev in enrichment.items():
+                src = ev.get("source", "manual")
+                by_source.setdefault(src, {"events": [], "used": set(), "sessions": set()})["events"].append(eid)
+            for r in rows:
+                ev = enrichment.get(r["event"])
+                src = ev.get("source", "manual") if ev else "manual"
+                d = by_source.setdefault(src, {"events": [], "used": set(), "sessions": set()})
+                if ev is None:
+                    d["events"].append(r["event"])
+                d["used"].add(r["event"])
+                d["sessions"].add(r["session"])
+            print("connector yield (accepted findings counted per seeded session; multi-connector sessions appear in each row)")
+            print(f"  {'Source':<20}{'Events':>7}{'Researched':>11}{'Findings':>9}{'Yield':>7}")
+            names = {"github_releases": "GitHub Releases", "blog": "Blogs", "manual": "Manual URLs"}
+            for src in sorted(by_source, key=lambda s: -len(by_source[s]["sessions"])):
+                d = by_source[src]
+                researched = len(d["used"]) + sum(1 for eid in d["events"] if eid not in d["used"] and statuses.get(eid) == "researched")
+                findings = sum(session_accepted.get(sid, 0) for sid in d["sessions"])
+                yld = findings / len(d["events"]) if d["events"] else 0.0
+                print(f"  {names.get(src, src):<20}{len(d['events']):>7}{researched:>11}{findings:>9}{yld * 100:>6.0f}%")
         return 0
 
     try:

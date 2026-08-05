@@ -149,3 +149,45 @@ which became findings, which were ignored".
 enriches, statuses honored, summary counts, adjudication provenance
 carry-through, `make_session` provenance storage. test10 and test11
 unchanged; full suite green (17 + 13 + 7).
+
+---
+
+## Connector yield table (review round 7 follow-up, pre-freeze)
+
+Reviewer's final pre-freeze request: the provenance report must also
+compute connector yield automatically — a report derived from data
+already collected, not new infrastructure.
+
+- `discover.py --report` now prints a per-connector table after the
+  summary when `--events-json` is provided:
+  `Source | Events | Researched | Findings | Yield`.
+- Semantics (documented in the change log, not the code):
+  - **Events** — distinct events of that source in the events JSON
+    (denominator = total discovered, including never-researched).
+  - **Researched** — events of that source that seeded a session
+    (provenance) or were marked `researched` in the queue.
+  - **Findings** — accepted findings (approve/revise/add) of sessions the
+    source's events seeded; counted per seeded session, so
+    multi-connector sessions appear in each row they seeded (directional
+    analysis, not a ledger).
+  - **Yield** — findings / events.
+- **Manual URLs** row: provenance events absent from the events JSON
+  (owner-supplied seeds never produced by a connector). Their event
+  counts are known only via provenance, so the manual denominator is
+  "manual events used", not "all manual events ever".
+- Without `--events-json`, the table prints `connector yield:
+  unavailable (...)` — the report stays honest rather than inventing a
+  source for unenriched events.
+
+**Fix during validation**: manual row showed `Events 0, Researched 1` —
+manual events (absent from the events JSON) were added to `used` but
+never to the events list; the rows loop now appends unenriched events to
+their source's event list. Test caught it via the fixture's manual event.
+
+**Tests**: test12 +5 checks (yield table present, GitHub Releases row,
+Blogs row, Manual URLs row, gated without `--events-json`) — 12 checks;
+test10 (17) and test11 (13) rerun green. Real-data smoke: zero
+provenance rows (all released sessions predate the field), clean exit.
+
+This closes the discovery subsystem for v1. Next work is operational:
+Sessions 003–020 through the pipeline, then the measured-friction review.
