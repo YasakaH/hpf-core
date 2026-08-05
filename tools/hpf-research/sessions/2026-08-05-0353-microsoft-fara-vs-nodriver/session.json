@@ -1,0 +1,444 @@
+{
+  "schema": "hpf-session-v0",
+  "id": "2026-08-05-0353-microsoft-fara-vs-nodriver",
+  "topic": "Microsoft Fara vs nodriver",
+  "goal": "Does Microsoft Fara make nodriver obsolete?",
+  "audience": "Blog",
+  "depth": "standard",
+  "created": "2026-08-05T03:53:21.620081+00:00",
+  "started": "2026-08-05T03:53:21.615940+00:00",
+  "finished": "2026-08-05T03:53:21.620066+00:00",
+  "activity": [
+    {
+      "ts": "2026-08-05T03:53:21.615973+00:00",
+      "msg": "Research started"
+    },
+    {
+      "ts": "2026-08-05T03:53:21.616031+00:00",
+      "msg": "Evidence class primary: high \u2014 official documentation anchors any topic"
+    },
+    {
+      "ts": "2026-08-05T03:53:21.616044+00:00",
+      "msg": "Evidence class code: high \u2014 repositories show implementation reality"
+    },
+    {
+      "ts": "2026-08-05T03:53:21.616054+00:00",
+      "msg": "Evidence class community: high \u2014 practitioner pain points are core signal for tooling topics"
+    },
+    {
+      "ts": "2026-08-05T03:53:21.616063+00:00",
+      "msg": "Evidence class scientific: high \u2014 benchmarks and papers matter when the topic names a model or method"
+    },
+    {
+      "ts": "2026-08-05T03:53:21.616073+00:00",
+      "msg": "Evidence class operational: low \u2014 operational weight low unless performance is central"
+    },
+    {
+      "ts": "2026-08-05T03:53:21.616082+00:00",
+      "msg": "Research plan built: 6 keywords, depth standard"
+    },
+    {
+      "ts": "2026-08-05T03:53:21.617405+00:00",
+      "msg": "Imported evidence-fara-github (2416 chars, class primary)"
+    },
+    {
+      "ts": "2026-08-05T03:53:21.618282+00:00",
+      "msg": "Imported evidence-fara-msr (1335 chars, class primary)"
+    },
+    {
+      "ts": "2026-08-05T03:53:21.618953+00:00",
+      "msg": "Imported evidence-nodriver-pypi (1153 chars, class primary)"
+    },
+    {
+      "ts": "2026-08-05T03:53:21.619809+00:00",
+      "msg": "Community signal r/webscraping: 4 comments (class community)"
+    },
+    {
+      "ts": "2026-08-05T03:53:21.619834+00:00",
+      "msg": "Extracted 23 evidence entries from 4 sources"
+    },
+    {
+      "ts": "2026-08-05T03:53:21.620055+00:00",
+      "msg": "Drafted 12 candidate findings (keyword-density-v0), 3 as community signals"
+    },
+    {
+      "ts": "2026-08-05T03:53:21.620070+00:00",
+      "msg": "Session artifact written"
+    }
+  ],
+  "plan": {
+    "keywords": [
+      "architecture",
+      "fara",
+      "limitations",
+      "microsoft",
+      "nodriver",
+      "performance"
+    ],
+    "depth": "standard",
+    "evidence_classes": {
+      "primary": "high",
+      "code": "high",
+      "community": "high",
+      "scientific": "high",
+      "operational": "low"
+    }
+  },
+  "status": "draft",
+  "stages": [
+    {
+      "name": "plan",
+      "detail": "research question, keywords, depth",
+      "state": "done"
+    },
+    {
+      "name": "collect",
+      "detail": "sources fetched or imported",
+      "state": "done"
+    },
+    {
+      "name": "extract",
+      "detail": "text chunked into evidence entries",
+      "state": "done"
+    },
+    {
+      "name": "findings",
+      "detail": "draft candidate findings (not conclusions)",
+      "state": "done"
+    }
+  ],
+  "sources": [
+    {
+      "url": "https://github.com/microsoft/fara",
+      "title": "evidence-fara-github",
+      "status": "imported",
+      "chars": 2416,
+      "class": "primary"
+    },
+    {
+      "url": "https://www.microsoft.com/en-us/research/blog/fara-7b-an-efficient-agentic-model-for-computer-use/",
+      "title": "evidence-fara-msr",
+      "status": "imported",
+      "chars": 1335,
+      "class": "primary"
+    },
+    {
+      "url": "https://pypi.org/project/nodriver/",
+      "title": "evidence-nodriver-pypi",
+      "status": "imported",
+      "chars": 1153,
+      "class": "primary"
+    },
+    {
+      "url": "reddit://r/webscraping/comments/nodriver vs playwright undetected 2026",
+      "title": "r/webscraping community signal (4 comments)",
+      "status": "imported",
+      "chars": 584,
+      "class": "community",
+      "community": {
+        "subreddit": "webscraping",
+        "thread": "nodriver vs playwright undetected 2026",
+        "score": 412,
+        "comments": 4
+      }
+    }
+  ],
+  "evidence": [
+    {
+      "id": "ev-1",
+      "source": "https://github.com/microsoft/fara",
+      "excerpt": "Fara-7B is Microsoft's first agentic small language model (SLM) designed specifically for computer use. With only 7 billion parameters, Fara-7B is an ultra-compact Computer Use Agent (CUA) that achieves state-of-the-art performance within its size class and is competitive with larger, more resource-intensive agentic systems.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-2",
+      "source": "https://github.com/microsoft/fara",
+      "excerpt": "Unlike traditional chat models that generate text-based responses, Fara-7B leverages computer interfaces - mouse and keyboard - to perform multi-step tasks on behalf of users.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-3",
+      "source": "https://github.com/microsoft/fara",
+      "excerpt": "The model operates visually by perceiving webpages and taking actions like scrolling, typing, and clicking on directly predicted coordinates. It uses the same modalities as humans to interact with computers - no accessibility trees or separate parsing models required.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-4",
+      "source": "https://github.com/microsoft/fara",
+      "excerpt": "Fara-7B enables on-device deployment due to its compact 7B parameter size, resulting in reduced latency and improved privacy as user data remains local. It completes tasks efficiently, averaging only about 16 steps per task compared to roughly 41 for comparable models.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-5",
+      "source": "https://github.com/microsoft/fara",
+      "excerpt": "Fara-7B is trained using a novel synthetic data generation pipeline built on the Magentic-One framework.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-6",
+      "source": "https://github.com/microsoft/fara",
+      "excerpt": "The evaluation setup leverages Playwright - a cross-browser automation framework that replicates browser environments - plus an Abstract Web Agent Interface that allows integration of any model from any source, and a Fara-Agent Class reference implementation for running the Fara models.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-7",
+      "source": "https://github.com/microsoft/fara",
+      "excerpt": "The repository is MIT licensed. Running the agent requires hosting the model (for example with vLLM on port 5000), cloning the repository, setting up a Python virtual environment, installing the package with pip, and running playwright install.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-8",
+      "source": "https://github.com/microsoft/fara",
+      "excerpt": "Fara1.5 is a family of frontier computer use agent models (4B, 9B, 27B) available on Microsoft Foundry. All five models operate through an observe-think-act loop: given a screenshot of the browser and the conversation history, the model reasons about the state of the task and outputs an action - mouse and keyboard inputs on directly predicted coordinates, web searches, or context management operations.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-9",
+      "source": "https://github.com/microsoft/fara",
+      "excerpt": "WebTailBench is a new evaluation benchmark focusing on 11 real-world task types. Online agent evaluation results show Fara-7B achieving 73.5% success on one benchmark with 34.1%, 26.2%, and 38.4% on others, results averaged over 3 runs.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-10",
+      "source": "https://www.microsoft.com/en-us/research/blog/fara-7b-an-efficient-agentic-model-for-computer-use/",
+      "excerpt": "Source: https://www.microsoft.com/en-us/research/blog/fara-7b-an-efficient-agentic-model-for-computer-use/",
+      "class": "primary"
+    },
+    {
+      "id": "ev-11",
+      "source": "https://www.microsoft.com/en-us/research/blog/fara-7b-an-efficient-agentic-model-for-computer-use/",
+      "excerpt": "We ask Fara-7B to find and summarize the latest three issues on GitHub microsoft/Magentic-UI. In another demo Fara-7B uses different tools to find relevant information and analyze it through Magentic-UI - it finds driving time between two places, and suggests a cheese place near the location, using Bing Maps to find driving time and Bing search to find relevant information.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-12",
+      "source": "https://www.microsoft.com/en-us/research/blog/fara-7b-an-efficient-agentic-model-for-computer-use/",
+      "excerpt": "Fara-7B exhibits strong performance compared to existing models across a diverse set of benchmarks, including both existing benchmarks and new evaluations covering useful task segments that are underrepresented in common benchmarks, such as finding job postings and comparing prices across retailers.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-13",
+      "source": "https://www.microsoft.com/en-us/research/blog/fara-7b-an-efficient-agentic-model-for-computer-use/",
+      "excerpt": "While Fara-7B demonstrates strong benchmark results, even against much larger models, it shares many of the limitations of large models, including challenges with accuracy on more complex tasks, mistakes in following instructions, and susceptibility to hallucinations.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-14",
+      "source": "https://www.microsoft.com/en-us/research/blog/fara-7b-an-efficient-agentic-model-for-computer-use/",
+      "excerpt": "Microsoft engaged with a trusted third party, Browserbase, to independently verify Fara-7B with human annotators, establishing 62% accuracy of Fara-7B on filtered and re-refreshed WebVoyager tasks.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-15",
+      "source": "https://pypi.org/project/nodriver/",
+      "excerpt": "nodriver provides next level async webscraping and browser automation library for python with an easy interface. This is the official successor of the Undetected-Chromedriver python package. No more webdriver, no more selenium.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-16",
+      "source": "https://pypi.org/project/nodriver/",
+      "excerpt": "Direct communication provides even better resistance against web application firewalls (WAFs), while performance gets a massive boost.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-17",
+      "source": "https://pypi.org/project/nodriver/",
+      "excerpt": "What makes this package different from other known packages is the optimization to stay undetected for most anti-bot solutions.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-18",
+      "source": "https://pypi.org/project/nodriver/",
+      "excerpt": "Another focus point is usability and quick prototyping, so expect a lot to work as-is, with most method parameters having best practice defaults. Using 1 or 2 lines, this is up and running.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-19",
+      "source": "https://pypi.org/project/nodriver/",
+      "excerpt": "nodriver is open-source, an asynchronous Python library that drives Chrome directly over the Chrome DevTools Protocol (CDP), with no Selenium or WebDriver binary in the loop. Instead of patching a ChromeDriver binary to hide automation markers, it sidesteps that layer entirely by talking to the browser's debugging protocol.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-20",
+      "source": "reddit://r/webscraping/comments/nodriver vs playwright undetected 2026",
+      "excerpt": "nodriver is undetected by default but Playwright gets flagged by most anti-bot systems these days. Websites increasingly detect automation via CDP fingerprints.",
+      "class": "community",
+      "community": {
+        "score": 81,
+        "author": "scraper_dev",
+        "url": "https://reddit.com/r/webscraping/comments/1/node1"
+      }
+    },
+    {
+      "id": "ev-21",
+      "source": "reddit://r/webscraping/comments/nodriver vs playwright undetected 2026",
+      "excerpt": "We moved from Selenium to nodriver because ChromeDriver binary detection was killing us. Direct CDP over websocket is the only thing that passed their WAF.",
+      "class": "community",
+      "community": {
+        "score": 54,
+        "author": "automation_ops",
+        "url": "https://reddit.com/r/webscraping/comments/1/node2"
+      }
+    },
+    {
+      "id": "ev-22",
+      "source": "reddit://r/webscraping/comments/nodriver vs playwright undetected 2026",
+      "excerpt": "Careful with nodriver after Chrome updates - CDP changes have broken it twice this year for us. Pin your Chrome version.",
+      "class": "community",
+      "community": {
+        "score": 33,
+        "author": "ops_guy",
+        "url": "https://reddit.com/r/webscraping/comments/1/node3"
+      }
+    },
+    {
+      "id": "ev-23",
+      "source": "reddit://r/webscraping/comments/nodriver vs playwright undetected 2026",
+      "excerpt": "Fara is a model that uses browser automation, not a scraping library. Comparing it with nodriver is apples to oranges, they solve different problems.",
+      "class": "community",
+      "community": {
+        "score": 29,
+        "author": "agent_researcher",
+        "url": "https://reddit.com/r/webscraping/comments/1/node4"
+      }
+    }
+  ],
+  "findings": [
+    {
+      "id": "f-1",
+      "claim": "Fara-7B is Microsoft's first agentic small language model (SLM) designed specifically for computer use. With only 7 billion parameters, Fara-7B is an ultra-compact Computer Use Agent (CUA) that achieves state-of-the-art performance within its size class and is competitive with larger, more resource-intensive agentic systems.",
+      "confidence": null,
+      "status": "needs_adjudication",
+      "sources": [
+        "https://github.com/microsoft/fara"
+      ],
+      "method": "keyword-density-v0"
+    },
+    {
+      "id": "f-2",
+      "claim": "Fara-7B is trained using a novel synthetic data generation pipeline built on the Magentic-One framework.",
+      "confidence": null,
+      "status": "needs_adjudication",
+      "sources": [
+        "https://github.com/microsoft/fara"
+      ],
+      "method": "keyword-density-v0"
+    },
+    {
+      "id": "f-3",
+      "claim": "The evaluation setup leverages Playwright - a cross-browser automation framework that replicates browser environments - plus an Abstract Web Agent Interface that allows integration of any model from any source, and a Fara-Agent Class reference implementation for running the Fara models.",
+      "confidence": null,
+      "status": "needs_adjudication",
+      "sources": [
+        "https://github.com/microsoft/fara"
+      ],
+      "method": "keyword-density-v0"
+    },
+    {
+      "id": "f-4",
+      "claim": "Source: https://www.microsoft.com/en-us/research/blog/fara-7b-an-efficient-agentic-model-for-computer-use/",
+      "confidence": null,
+      "status": "needs_adjudication",
+      "sources": [
+        "https://www.microsoft.com/en-us/research/blog/fara-7b-an-efficient-agentic-model-for-computer-use/"
+      ],
+      "method": "keyword-density-v0"
+    },
+    {
+      "id": "f-5",
+      "claim": "Microsoft engaged with a trusted third party, Browserbase, to independently verify Fara-7B with human annotators, establishing 62% accuracy of Fara-7B on filtered and re-refreshed WebVoyager tasks.",
+      "confidence": null,
+      "status": "needs_adjudication",
+      "sources": [
+        "https://www.microsoft.com/en-us/research/blog/fara-7b-an-efficient-agentic-model-for-computer-use/"
+      ],
+      "method": "keyword-density-v0"
+    },
+    {
+      "id": "f-6",
+      "claim": "We ask Fara-7B to find and summarize the latest three issues on GitHub microsoft/Magentic-UI. In another demo Fara-7B uses different tools to find relevant information and analyze it through Magentic-UI - it finds driving time between two places, and suggests a cheese place near the location, using Bing Maps to find driving time and Bing search to find relevant information.",
+      "confidence": null,
+      "status": "needs_adjudication",
+      "sources": [
+        "https://www.microsoft.com/en-us/research/blog/fara-7b-an-efficient-agentic-model-for-computer-use/"
+      ],
+      "method": "keyword-density-v0"
+    },
+    {
+      "id": "f-7",
+      "claim": "Direct communication provides even better resistance against web application firewalls (WAFs), while performance gets a massive boost.",
+      "confidence": null,
+      "status": "needs_adjudication",
+      "sources": [
+        "https://pypi.org/project/nodriver/"
+      ],
+      "method": "keyword-density-v0"
+    },
+    {
+      "id": "f-8",
+      "claim": "nodriver provides next level async webscraping and browser automation library for python with an easy interface. This is the official successor of the Undetected-Chromedriver python package. No more webdriver, no more selenium.",
+      "confidence": null,
+      "status": "needs_adjudication",
+      "sources": [
+        "https://pypi.org/project/nodriver/"
+      ],
+      "method": "keyword-density-v0"
+    },
+    {
+      "id": "f-9",
+      "claim": "nodriver is open-source, an asynchronous Python library that drives Chrome directly over the Chrome DevTools Protocol (CDP), with no Selenium or WebDriver binary in the loop. Instead of patching a ChromeDriver binary to hide automation markers, it sidesteps that layer entirely by talking to the browser's debugging protocol.",
+      "confidence": null,
+      "status": "needs_adjudication",
+      "sources": [
+        "https://pypi.org/project/nodriver/"
+      ],
+      "method": "keyword-density-v0"
+    },
+    {
+      "id": "f-10",
+      "claim": "Fara is a model that uses browser automation, not a scraping library. Comparing it with nodriver is apples to oranges, they solve different problems.",
+      "confidence": null,
+      "status": "community_signal",
+      "sources": [
+        "reddit://r/webscraping/comments/nodriver vs playwright undetected 2026"
+      ],
+      "method": "keyword-density-v0",
+      "community": {
+        "class": "community",
+        "frequency": 4,
+        "subreddit": "webscraping"
+      }
+    },
+    {
+      "id": "f-11",
+      "claim": "Careful with nodriver after Chrome updates - CDP changes have broken it twice this year for us. Pin your Chrome version.",
+      "confidence": null,
+      "status": "community_signal",
+      "sources": [
+        "reddit://r/webscraping/comments/nodriver vs playwright undetected 2026"
+      ],
+      "method": "keyword-density-v0",
+      "community": {
+        "class": "community",
+        "frequency": 4,
+        "subreddit": "webscraping"
+      }
+    },
+    {
+      "id": "f-12",
+      "claim": "We moved from Selenium to nodriver because ChromeDriver binary detection was killing us. Direct CDP over websocket is the only thing that passed their WAF.",
+      "confidence": null,
+      "status": "community_signal",
+      "sources": [
+        "reddit://r/webscraping/comments/nodriver vs playwright undetected 2026"
+      ],
+      "method": "keyword-density-v0",
+      "community": {
+        "class": "community",
+        "frequency": 4,
+        "subreddit": "webscraping"
+      }
+    }
+  ],
+  "notes": "Extraction v0 is mechanical: paragraphs, keyword density, truncation. Findings are DRAFT candidate findings requiring adjudication before any corpus admission. Sessions are operational evidence records."
+}

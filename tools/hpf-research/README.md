@@ -18,14 +18,44 @@ python research.py --topic "Microsoft Fara vs nodriver" \
   --audience Blog --depth standard \
   --import-md evidence-1.md --source-url https://github.com/microsoft/fara \
   --import-md evidence-2.md \
+  --community-payload community.json \
   --sync-web ../../website-hpf/sessions
 ```
 
 - `--url URL` fetches a page (stdlib only); `--import-md` imports a text/markdown
   file with a declared `--source-url`.
+- `--community-payload FILE` imports structured community evidence (see
+  `connectors/community.py` for the schema). Community evidence is labeled
+  `class: community`; findings derived from it carry `status:
+  community_signal` with frequency metadata — observation, never truth.
 - `--sync-web <dir>` copies the session into the workbench's `sessions/` dir and
   writes a summary manifest `index.json` so the workbench can render the session
   list without loading full records.
+
+## Evidence classes and the planner
+
+The planner (`connectors/__init__.py`) recommends which evidence classes a
+research request needs, mechanically, from topic keywords:
+
+- `primary` (docs/RFCs), `code` (GitHub/GitLab), `community` (Reddit/HN/SO),
+  `scientific` (papers), `operational` (benchmarks/telemetry).
+
+Developer-tooling topics (automation, scraping, drivers, CDP, agents…) get a
+high `community` weight; RFC/medical-style topics skip it. The chosen weights
+are recorded in the session's `plan.evidence_classes` and rendered as badges
+on the session view.
+
+## Community connector (v1: Devvit CLI)
+
+```bash
+python connectors/community.py --subreddit webscraping --query "nodriver fara" --out payload.json
+python connectors/community.py --payload payload.json --out validated.json   # validate/normalize
+```
+
+The connector is a thin wrapper over the Devvit CLI and emits *structured
+payloads only* — HPF never reads raw Reddit. If `devvit` is not installed the
+connector fails loudly (exit 4) instead of fabricating data; the same payload
+schema works for HN, Stack Overflow, or GitHub Discussions later.
 
 ## Releasing sessions (first-class artifacts)
 

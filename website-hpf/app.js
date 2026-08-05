@@ -186,6 +186,7 @@ function viewHome() {
 
 function badgeFor(status) {
   if (status === "completed" || status === "verified" || status === "valid") return "valid";
+  if (status === "community_signal") return "signal";
   if (status === "running" || status === "needs_adjudication" || status === "in_review") return "warn";
   return "planned";
 }
@@ -309,12 +310,13 @@ function viewSession(id) {
       <p class="muted">Recorded by the orchestrator during the run (UTC). ${elapsed ? `Elapsed: <b>${esc(elapsed)}</b>.` : ""}</p>`
       : `<p class="muted">No per-step log recorded for this session (orchestrator v0 ran before activity logging). Showing the session record only — no timestamps are estimated.</p>`}
     </div>`;
-  const sources = (s.sources || []).map((src) => `<li><a href="${esc(src.url)}" target="_blank" rel="noopener">${esc(src.title)}</a> <span class="muted">· ${esc(src.status)}${src.chars ? " · " + src.chars + " chars" : ""}${src.error ? " · " + esc(src.error) : ""}</span></li>`).join("");
-  const evidence = (s.evidence || []).map((ev) => `<div class="evidence-item"><span class="muted">[${esc(ev.id)}]</span> <span class="ev-src">${esc(ev.source)}</span><div class="ev-text">${esc(ev.excerpt)}</div></div>`).join("");
+  const sources = (s.sources || []).map((src) => `<li><a href="${esc(src.url)}" target="_blank" rel="noopener">${esc(src.title)}</a> <span class="muted">· ${esc(src.status)}${src.chars ? " · " + src.chars + " chars" : ""}${src.class ? " · class " + esc(src.class) : ""}${src.error ? " · " + esc(src.error) : ""}</span></li>`).join("");
+  const evidence = (s.evidence || []).map((ev) => `<div class="evidence-item"><span class="muted">[${esc(ev.id)}]</span> <span class="ev-src">${esc(ev.source)}</span>${ev.class === "community" ? ` <span class="badge signal">community</span>` : ""}<div class="ev-text">${esc(ev.excerpt)}</div></div>`).join("");
   const findings = (s.findings || []).map((f) => `
     <div class="finding-card ${badgeFor(f.status)}">
       <div class="finding-head"><span class="badge ${badgeFor(f.status)}">${esc(f.status)}</span> <span class="muted">${esc(f.id)} · method ${esc(f.method)}</span></div>
       <div class="finding-claim">${esc(f.claim)}</div>
+      ${f.community ? `<div class="muted">Community signal · ${esc(f.community.class || "community")} · frequency ${esc(f.community.frequency || "?")} comments${f.community.subreddit ? " · r/" + esc(f.community.subreddit) : ""}</div>` : ""}
       <div class="muted">Sources: ${f.sources.map((u) => esc(u)).join(" · ")}</div>
     </div>`).join("");
   const impact = corpusImpact(s);
@@ -346,6 +348,7 @@ function viewSession(id) {
         <span class="muted">${esc(s.created.replace("T", " ").slice(0, 16))} · ${esc(s.audience)} · ${esc(s.depth)} · ${esc(s.id)}</span>
       </div>
       ${s.goal ? `<p class="muted">Goal: ${esc(s.goal)}</p>` : ""}
+      ${s.plan && s.plan.evidence_classes ? `<p class="muted">Evidence plan: ${Object.entries(s.plan.evidence_classes).map(([c, w]) => `<span class="badge ${w === "high" ? "valid" : ""}">${esc(c)}: ${esc(w)}</span>`).join(" ")}</p>` : ""}
     </div>
     <div class="card"><h2>Research progress</h2>
       <div class="grid">${stats}</div>

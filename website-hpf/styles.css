@@ -152,6 +152,7 @@ tr:hover td { background: rgba(245, 242, 235, 0.02); }
   margin-right: 4px;
 }
 .badge.valid { color: var(--ok); border-color: var(--ok); }
+.badge.signal { color: var(--accent); border-color: var(--accent); }
 .badge.invalid { color: var(--bad); border-color: var(--bad); }
 .badge.warn { color: var(--warn); border-color: var(--warn); }
 .badge.planned { color: var(--muted); border-color: var(--border); }
@@ -290,6 +291,7 @@ tr:hover td { background: rgba(245, 242, 235, 0.02); }
 .ev-text { margin-top: 4px; line-height: 1.5; }
 .finding-card { border: 1px solid var(--border); border-radius: 8px; padding: 12px; margin-bottom: 10px; }
 .finding-card.valid { border-color: var(--ok); }
+.finding-card.signal { border-color: var(--accent); }
 .finding-card.warn { border-color: var(--warn); }
 .finding-head { display: flex; gap: 10px; align-items: baseline; margin-bottom: 6px; font-size: 12px; }
 .finding-head a { color: var(--accent); text-decoration: none; }

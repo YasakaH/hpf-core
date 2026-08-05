@@ -31,6 +31,18 @@ import sys
 import urllib.request
 from pathlib import Path
 
+try:
+    from connectors import EVIDENCE_CLASSES, plan_evidence_classes
+    from connectors.community import validate_payload
+except ImportError:
+    EVIDENCE_CLASSES = ("primary", "code", "community", "scientific", "operational")
+
+    def plan_evidence_classes(topic, depth, keywords):
+        return {}
+
+    def validate_payload(payload):
+        return []
+
 STAGES = [
     ("plan", "research question, keywords, depth"),
     ("collect", "sources fetched or imported"),
@@ -124,6 +136,7 @@ def summary_of(s) -> dict:
         "sources": len(s.get("sources") or []),
         "evidence": len(s.get("evidence") or []),
         "findings": len(s.get("findings") or []),
+        "community_signals": sum(1 for f in (s.get("findings") or []) if f.get("status") == "community_signal"),
         "failed": sum(1 for x in (s.get("sources") or []) if x.get("status") == "failed"),
     }
 
@@ -166,7 +179,7 @@ def promote_session(sid: str, src_root: Path, exports_root: Path) -> int:
     return 0
 
 
-def make_session(topic, goal, audience, depth, sources, evidence, findings, activity, started, finished, dirpath):
+def make_session(topic, goal, audience, depth, sources, evidence, findings, activity, started, finished, plan, dirpath):
     now = datetime.datetime.now(datetime.timezone.utc)
     sid = now.strftime("%Y-%m-%d-%H%M") + "-" + re.sub(r"[^a-z0-9-]+", "-", topic.lower()).strip("-")[:30]
     session = {
@@ -180,6 +193,7 @@ def make_session(topic, goal, audience, depth, sources, evidence, findings, acti
         "started": started,
         "finished": finished,
         "activity": activity,
+        "plan": plan,
         "status": "draft",
         "stages": [{"name": n, "detail": d, "state": "done"} for n, d in STAGES],
         "sources": sources,
@@ -222,6 +236,7 @@ def main():
     ap.add_argument("--url", action="append", default=[], help="URL to fetch (repeatable)")
     ap.add_argument("--import-md", action="append", default=[], help="markdown/text file to import (repeatable)")
     ap.add_argument("--source-url", action="append", default=[], help="URL for the imported file (paired with --import-md)")
+    ap.add_argument("--community-payload", action="append", default=[], help="community evidence payload JSON (see connectors/community.py)")
     ap.add_argument("--dir", default=str(Path(__file__).resolve().parent / "sessions"))
     ap.add_argument("--sync-web", default="", help="copy sessions here and write sessions/index.json (e.g. website-hpf/sessions)")
     args = ap.parse_args()
@@ -240,29 +255,65 @@ def main():
     log("Research started")
 
     stage("plan", f"keywords: {', '.join(kw) or '(none)'}")
+    evidence_plan = plan_evidence_classes(args.topic, args.depth, kw)
+    plan_lines = []
+    for cls in EVIDENCE_CLASSES:
+        weight, reason = evidence_plan.get(cls, ("low", "no rule matched"))
+        plan_lines.append(f"{cls}={weight} ({reason})")
+        log(f"Evidence class {cls}: {weight} — {reason}")
     log(f"Research plan built: {len(kw)} keywords, depth {args.depth}")
+    session_plan = {
+        "keywords": kw,
+        "depth": args.depth,
+        "evidence_classes": {cls: evidence_plan.get(cls, ("low", ""))[0] for cls in EVIDENCE_CLASSES},
+    }
 
-    stage("collect", f"{len(args.url)} urls, {len(args.import_md)} imports")
+    stage("collect", f"{len(args.url)} urls, {len(args.import_md)} imports, {len(args.community_payload)} community payloads")
     for i, url in enumerate(args.url):
         try:
             text = fetch(url)
             title = url.split("/")[2] if len(url.split("/")) > 2 else url
-            sources.append({"url": url, "title": title, "status": "fetched", "chars": len(text)})
+            sources.append({"url": url, "title": title, "status": "fetched", "chars": len(text), "class": "primary"})
             for para in split_paragraphs(text):
-                evidence.append({"id": f"ev-{len(evidence)+1}", "source": url, "excerpt": para[:600]})
-            log(f"Collected {title} ({len(text)} chars)")
+                evidence.append({"id": f"ev-{len(evidence)+1}", "source": url, "excerpt": para[:600], "class": "primary"})
+            log(f"Collected {title} ({len(text)} chars, class primary)")
         except Exception as e:
-            sources.append({"url": url, "title": url, "status": "failed", "error": str(e)})
+            sources.append({"url": url, "title": url, "status": "failed", "error": str(e), "class": "primary"})
             log(f"Failed {url}: {e}")
 
     for i, path in enumerate(args.import_md):
         text = Path(path).read_text(encoding="utf-8")
         title = Path(path).stem
         url = args.source_url[i] if i < len(args.source_url) else f"file:{path}"
-        sources.append({"url": url, "title": title, "status": "imported", "chars": len(text)})
+        sources.append({"url": url, "title": title, "status": "imported", "chars": len(text), "class": "primary"})
         for para in split_paragraphs(text):
-            evidence.append({"id": f"ev-{len(evidence)+1}", "source": url, "excerpt": para[:600]})
-        log(f"Imported {title} ({len(text)} chars)")
+            evidence.append({"id": f"ev-{len(evidence)+1}", "source": url, "excerpt": para[:600], "class": "primary"})
+        log(f"Imported {title} ({len(text)} chars, class primary)")
+
+    for path in args.community_payload:
+        payload = json.loads(Path(path).read_text(encoding="utf-8"))
+        problems = validate_payload(payload)
+        if problems:
+            log(f"Community payload {Path(path).name} rejected: {', '.join(problems)}")
+            continue
+        sub = payload.get("subreddit", "unknown")
+        thread = payload.get("thread", "")
+        url = payload.get("url") or f"reddit://r/{sub}/comments/{thread}"
+        comments = payload.get("comments") or []
+        n = len([c for c in comments if c.get("text")])
+        sources.append({
+            "url": url, "title": f"r/{sub} community signal ({n} comments)", "status": "imported",
+            "chars": sum(len(c.get("text", "")) for c in comments), "class": "community",
+            "community": {"subreddit": sub, "thread": thread, "score": payload.get("score"), "comments": n},
+        })
+        for c in comments:
+            text = (c.get("text") or "").strip()
+            if len(text) > 80:
+                evidence.append({
+                    "id": f"ev-{len(evidence)+1}", "source": url, "excerpt": text[:600], "class": "community",
+                    "community": {"score": c.get("score"), "author": c.get("author"), "url": c.get("url")},
+                })
+        log(f"Community signal r/{sub}: {n} comments (class community)")
 
     stage("extract", f"{len(evidence)} evidence entries from {len(sources)} sources")
     log(f"Extracted {len(evidence)} evidence entries from {len(sources)} sources")
@@ -271,24 +322,40 @@ def main():
     per_source = {}
     for ev in evidence:
         per_source.setdefault(ev["source"], []).append(ev)
+    community_findings = 0
     for url, entries in per_source.items():
         ranked = sorted(entries, key=lambda e: density(e["excerpt"], kw), reverse=True)[:3]
+        src = next((s for s in sources if s.get("url") == url), {})
+        is_community = src.get("class") == "community" or any(e.get("class") == "community" for e in entries)
         for ev in ranked:
-            findings.append({
+            if is_community:
+                community_findings += 1
+                status = "community_signal"
+                community = {"class": "community", "frequency": len(entries)}
+                sub = (src.get("community") or {}).get("subreddit")
+                if sub:
+                    community["subreddit"] = sub
+            else:
+                status = "needs_adjudication"
+                community = None
+            f = {
                 "id": f"f-{len(findings)+1}",
                 "claim": ev["excerpt"][:400],
                 "confidence": None,
-                "status": "needs_adjudication",
+                "status": status,
                 "sources": [ev["source"]],
                 "method": "keyword-density-v0",
-            })
-    log(f"Drafted {len(findings)} candidate findings (keyword-density-v0)")
+            }
+            if community:
+                f["community"] = community
+            findings.append(f)
+    log(f"Drafted {len(findings)} candidate findings (keyword-density-v0), {community_findings} as community signals")
 
     finished = now().isoformat()
     log("Session artifact written")
 
     sid, session = make_session(args.topic, args.goal, args.audience, args.depth,
-                                sources, evidence, findings, activity, started, finished, args.dir)
+                                sources, evidence, findings, activity, started, finished, session_plan, args.dir)
     print(f"\nSession {sid} written: {len(sources)} sources, {len(evidence)} evidence, {len(findings)} draft findings")
     print(f"  {Path(args.dir) / sid}")
 

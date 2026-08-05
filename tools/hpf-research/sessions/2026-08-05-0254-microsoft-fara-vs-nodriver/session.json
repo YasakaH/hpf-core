@@ -1,0 +1,353 @@
+{
+  "schema": "hpf-session-v0",
+  "id": "2026-08-05-0254-microsoft-fara-vs-nodriver",
+  "topic": "Microsoft Fara vs nodriver",
+  "goal": "Does Microsoft Fara make nodriver obsolete?",
+  "audience": "Blog",
+  "depth": "standard",
+  "created": "2026-08-05T02:54:29.748559+00:00",
+  "started": "2026-08-05T02:54:29.744136+00:00",
+  "finished": "2026-08-05T02:54:29.748548+00:00",
+  "activity": [
+    {
+      "ts": "2026-08-05T02:54:29.744153+00:00",
+      "msg": "Research started"
+    },
+    {
+      "ts": "2026-08-05T02:54:29.744175+00:00",
+      "msg": "Research plan built: 6 keywords, depth standard"
+    },
+    {
+      "ts": "2026-08-05T02:54:29.745413+00:00",
+      "msg": "Imported evidence-fara-github (2416 chars)"
+    },
+    {
+      "ts": "2026-08-05T02:54:29.746431+00:00",
+      "msg": "Imported evidence-fara-msr (1335 chars)"
+    },
+    {
+      "ts": "2026-08-05T02:54:29.747375+00:00",
+      "msg": "Imported evidence-nodriver-pypi (1153 chars)"
+    },
+    {
+      "ts": "2026-08-05T02:54:29.748339+00:00",
+      "msg": "Imported evidence-nodriver-guide (2656 chars)"
+    },
+    {
+      "ts": "2026-08-05T02:54:29.748361+00:00",
+      "msg": "Extracted 26 evidence entries from 4 sources"
+    },
+    {
+      "ts": "2026-08-05T02:54:29.748540+00:00",
+      "msg": "Drafted 12 candidate findings (keyword-density-v0)"
+    },
+    {
+      "ts": "2026-08-05T02:54:29.748551+00:00",
+      "msg": "Session artifact written"
+    }
+  ],
+  "status": "draft",
+  "stages": [
+    {
+      "name": "plan",
+      "detail": "research question, keywords, depth",
+      "state": "done"
+    },
+    {
+      "name": "collect",
+      "detail": "sources fetched or imported",
+      "state": "done"
+    },
+    {
+      "name": "extract",
+      "detail": "text chunked into evidence entries",
+      "state": "done"
+    },
+    {
+      "name": "findings",
+      "detail": "draft candidate findings (not conclusions)",
+      "state": "done"
+    }
+  ],
+  "sources": [
+    {
+      "url": "https://github.com/microsoft/fara",
+      "title": "evidence-fara-github",
+      "status": "imported",
+      "chars": 2416
+    },
+    {
+      "url": "https://www.microsoft.com/en-us/research/blog/fara-7b-an-efficient-agentic-model-for-computer-use/",
+      "title": "evidence-fara-msr",
+      "status": "imported",
+      "chars": 1335
+    },
+    {
+      "url": "https://pypi.org/project/nodriver/",
+      "title": "evidence-nodriver-pypi",
+      "status": "imported",
+      "chars": 1153
+    },
+    {
+      "url": "https://bytetunnels.com/posts/nodriver-complete-guide-undetected-browser-automation-python",
+      "title": "evidence-nodriver-guide",
+      "status": "imported",
+      "chars": 2656
+    }
+  ],
+  "evidence": [
+    {
+      "id": "ev-1",
+      "source": "https://github.com/microsoft/fara",
+      "excerpt": "Fara-7B is Microsoft's first agentic small language model (SLM) designed specifically for computer use. With only 7 billion parameters, Fara-7B is an ultra-compact Computer Use Agent (CUA) that achieves state-of-the-art performance within its size class and is competitive with larger, more resource-intensive agentic systems."
+    },
+    {
+      "id": "ev-2",
+      "source": "https://github.com/microsoft/fara",
+      "excerpt": "Unlike traditional chat models that generate text-based responses, Fara-7B leverages computer interfaces - mouse and keyboard - to perform multi-step tasks on behalf of users."
+    },
+    {
+      "id": "ev-3",
+      "source": "https://github.com/microsoft/fara",
+      "excerpt": "The model operates visually by perceiving webpages and taking actions like scrolling, typing, and clicking on directly predicted coordinates. It uses the same modalities as humans to interact with computers - no accessibility trees or separate parsing models required."
+    },
+    {
+      "id": "ev-4",
+      "source": "https://github.com/microsoft/fara",
+      "excerpt": "Fara-7B enables on-device deployment due to its compact 7B parameter size, resulting in reduced latency and improved privacy as user data remains local. It completes tasks efficiently, averaging only about 16 steps per task compared to roughly 41 for comparable models."
+    },
+    {
+      "id": "ev-5",
+      "source": "https://github.com/microsoft/fara",
+      "excerpt": "Fara-7B is trained using a novel synthetic data generation pipeline built on the Magentic-One framework."
+    },
+    {
+      "id": "ev-6",
+      "source": "https://github.com/microsoft/fara",
+      "excerpt": "The evaluation setup leverages Playwright - a cross-browser automation framework that replicates browser environments - plus an Abstract Web Agent Interface that allows integration of any model from any source, and a Fara-Agent Class reference implementation for running the Fara models."
+    },
+    {
+      "id": "ev-7",
+      "source": "https://github.com/microsoft/fara",
+      "excerpt": "The repository is MIT licensed. Running the agent requires hosting the model (for example with vLLM on port 5000), cloning the repository, setting up a Python virtual environment, installing the package with pip, and running playwright install."
+    },
+    {
+      "id": "ev-8",
+      "source": "https://github.com/microsoft/fara",
+      "excerpt": "Fara1.5 is a family of frontier computer use agent models (4B, 9B, 27B) available on Microsoft Foundry. All five models operate through an observe-think-act loop: given a screenshot of the browser and the conversation history, the model reasons about the state of the task and outputs an action - mouse and keyboard inputs on directly predicted coordinates, web searches, or context management operations."
+    },
+    {
+      "id": "ev-9",
+      "source": "https://github.com/microsoft/fara",
+      "excerpt": "WebTailBench is a new evaluation benchmark focusing on 11 real-world task types. Online agent evaluation results show Fara-7B achieving 73.5% success on one benchmark with 34.1%, 26.2%, and 38.4% on others, results averaged over 3 runs."
+    },
+    {
+      "id": "ev-10",
+      "source": "https://www.microsoft.com/en-us/research/blog/fara-7b-an-efficient-agentic-model-for-computer-use/",
+      "excerpt": "Source: https://www.microsoft.com/en-us/research/blog/fara-7b-an-efficient-agentic-model-for-computer-use/"
+    },
+    {
+      "id": "ev-11",
+      "source": "https://www.microsoft.com/en-us/research/blog/fara-7b-an-efficient-agentic-model-for-computer-use/",
+      "excerpt": "We ask Fara-7B to find and summarize the latest three issues on GitHub microsoft/Magentic-UI. In another demo Fara-7B uses different tools to find relevant information and analyze it through Magentic-UI - it finds driving time between two places, and suggests a cheese place near the location, using Bing Maps to find driving time and Bing search to find relevant information."
+    },
+    {
+      "id": "ev-12",
+      "source": "https://www.microsoft.com/en-us/research/blog/fara-7b-an-efficient-agentic-model-for-computer-use/",
+      "excerpt": "Fara-7B exhibits strong performance compared to existing models across a diverse set of benchmarks, including both existing benchmarks and new evaluations covering useful task segments that are underrepresented in common benchmarks, such as finding job postings and comparing prices across retailers."
+    },
+    {
+      "id": "ev-13",
+      "source": "https://www.microsoft.com/en-us/research/blog/fara-7b-an-efficient-agentic-model-for-computer-use/",
+      "excerpt": "While Fara-7B demonstrates strong benchmark results, even against much larger models, it shares many of the limitations of large models, including challenges with accuracy on more complex tasks, mistakes in following instructions, and susceptibility to hallucinations."
+    },
+    {
+      "id": "ev-14",
+      "source": "https://www.microsoft.com/en-us/research/blog/fara-7b-an-efficient-agentic-model-for-computer-use/",
+      "excerpt": "Microsoft engaged with a trusted third party, Browserbase, to independently verify Fara-7B with human annotators, establishing 62% accuracy of Fara-7B on filtered and re-refreshed WebVoyager tasks."
+    },
+    {
+      "id": "ev-15",
+      "source": "https://pypi.org/project/nodriver/",
+      "excerpt": "nodriver provides next level async webscraping and browser automation library for python with an easy interface. This is the official successor of the Undetected-Chromedriver python package. No more webdriver, no more selenium."
+    },
+    {
+      "id": "ev-16",
+      "source": "https://pypi.org/project/nodriver/",
+      "excerpt": "Direct communication provides even better resistance against web application firewalls (WAFs), while performance gets a massive boost."
+    },
+    {
+      "id": "ev-17",
+      "source": "https://pypi.org/project/nodriver/",
+      "excerpt": "What makes this package different from other known packages is the optimization to stay undetected for most anti-bot solutions."
+    },
+    {
+      "id": "ev-18",
+      "source": "https://pypi.org/project/nodriver/",
+      "excerpt": "Another focus point is usability and quick prototyping, so expect a lot to work as-is, with most method parameters having best practice defaults. Using 1 or 2 lines, this is up and running."
+    },
+    {
+      "id": "ev-19",
+      "source": "https://pypi.org/project/nodriver/",
+      "excerpt": "nodriver is open-source, an asynchronous Python library that drives Chrome directly over the Chrome DevTools Protocol (CDP), with no Selenium or WebDriver binary in the loop. Instead of patching a ChromeDriver binary to hide automation markers, it sidesteps that layer entirely by talking to the browser's debugging protocol."
+    },
+    {
+      "id": "ev-20",
+      "source": "https://bytetunnels.com/posts/nodriver-complete-guide-undetected-browser-automation-python",
+      "excerpt": "Source: https://bytetunnels.com/posts/nodriver-complete-guide-undetected-browser-automation-python"
+    },
+    {
+      "id": "ev-21",
+      "source": "https://bytetunnels.com/posts/nodriver-complete-guide-undetected-browser-automation-python",
+      "excerpt": "The key architectural difference between nodriver and traditional Selenium is the removal of every intermediary that leaves a detectable fingerprint. Selenium works through a chain: your Python script talks to the Selenium client library, which talks to the ChromeDriver binary over HTTP, which talks to Chrome over the DevTools Protocol. Each link in that chain introduces artifacts that detection systems look for. Nodriver collapses that chain to a single hop: the Python script talks directly to Chrome over a WebSocket using the CDP."
+    },
+    {
+      "id": "ev-22",
+      "source": "https://bytetunnels.com/posts/nodriver-complete-guide-undetected-browser-automation-python",
+      "excerpt": "No ChromeDriver binary - detection systems scan for the ChromeDriver process and its characteristic cdc_ variables injected into the page; nodriver never launches ChromeDriver, so these artifacts do not exist. No Selenium WebDriver - Selenium sets navigator.webdriver to true by default; nodriver does not use Selenium at all, so this property stays at its default undefined state. No automation flags - ChromeDriver passes --enable-automation and related flags to Chrome; nodriver launches Chrome with a clean set of arguments, the same way a regular user would."
+    },
+    {
+      "id": "ev-23",
+      "source": "https://bytetunnels.com/posts/nodriver-complete-guide-undetected-browser-automation-python",
+      "excerpt": "Direct CDP communication over WebSocket is the same protocol that Chrome DevTools itself uses, making the connection indistinguishable from a developer inspecting their own browser. A fresh nodriver session passes most common bot detection checks without additional configuration; no stealth plugins, JavaScript overrides, or custom browser builds are required."
+    },
+    {
+      "id": "ev-24",
+      "source": "https://bytetunnels.com/posts/nodriver-complete-guide-undetected-browser-automation-python",
+      "excerpt": "nodriver is a pure Python package with minimal dependencies, installed with pip install nodriver. There is no binary to download, no browser to install separately, and no driver version to match - nodriver finds your installed Chrome automatically."
+    },
+    {
+      "id": "ev-25",
+      "source": "https://bytetunnels.com/posts/nodriver-complete-guide-undetected-browser-automation-python",
+      "excerpt": "Comparison summary: nodriver is Python only, stealth by default, requires no driver binary, Chrome/Chromium support, async native, low learning curve, small community. Best for stealth scraping in Python. Playwright offers Chromium/Firefox/WebKit support, robust waiting, network interception, and AI agent integration - not stealthy by default, but the most capable general-purpose tool. Selenium is for cross-browser and cross-language support."
+    },
+    {
+      "id": "ev-26",
+      "source": "https://bytetunnels.com/posts/nodriver-complete-guide-undetected-browser-automation-python",
+      "excerpt": "Nodriver works with the installed Chrome version; occasional Chrome updates change CDP behavior in ways that can break nodriver. Use persistent profiles; add human-like delays even though nodriver is undetected at the browser level, because sending requests at machine speed can trigger rate-based detection."
+    }
+  ],
+  "findings": [
+    {
+      "id": "f-1",
+      "claim": "Fara-7B is Microsoft's first agentic small language model (SLM) designed specifically for computer use. With only 7 billion parameters, Fara-7B is an ultra-compact Computer Use Agent (CUA) that achieves state-of-the-art performance within its size class and is competitive with larger, more resource-intensive agentic systems.",
+      "confidence": null,
+      "status": "needs_adjudication",
+      "sources": [
+        "https://github.com/microsoft/fara"
+      ],
+      "method": "keyword-density-v0"
+    },
+    {
+      "id": "f-2",
+      "claim": "Fara-7B is trained using a novel synthetic data generation pipeline built on the Magentic-One framework.",
+      "confidence": null,
+      "status": "needs_adjudication",
+      "sources": [
+        "https://github.com/microsoft/fara"
+      ],
+      "method": "keyword-density-v0"
+    },
+    {
+      "id": "f-3",
+      "claim": "The evaluation setup leverages Playwright - a cross-browser automation framework that replicates browser environments - plus an Abstract Web Agent Interface that allows integration of any model from any source, and a Fara-Agent Class reference implementation for running the Fara models.",
+      "confidence": null,
+      "status": "needs_adjudication",
+      "sources": [
+        "https://github.com/microsoft/fara"
+      ],
+      "method": "keyword-density-v0"
+    },
+    {
+      "id": "f-4",
+      "claim": "Source: https://www.microsoft.com/en-us/research/blog/fara-7b-an-efficient-agentic-model-for-computer-use/",
+      "confidence": null,
+      "status": "needs_adjudication",
+      "sources": [
+        "https://www.microsoft.com/en-us/research/blog/fara-7b-an-efficient-agentic-model-for-computer-use/"
+      ],
+      "method": "keyword-density-v0"
+    },
+    {
+      "id": "f-5",
+      "claim": "Microsoft engaged with a trusted third party, Browserbase, to independently verify Fara-7B with human annotators, establishing 62% accuracy of Fara-7B on filtered and re-refreshed WebVoyager tasks.",
+      "confidence": null,
+      "status": "needs_adjudication",
+      "sources": [
+        "https://www.microsoft.com/en-us/research/blog/fara-7b-an-efficient-agentic-model-for-computer-use/"
+      ],
+      "method": "keyword-density-v0"
+    },
+    {
+      "id": "f-6",
+      "claim": "We ask Fara-7B to find and summarize the latest three issues on GitHub microsoft/Magentic-UI. In another demo Fara-7B uses different tools to find relevant information and analyze it through Magentic-UI - it finds driving time between two places, and suggests a cheese place near the location, using Bing Maps to find driving time and Bing search to find relevant information.",
+      "confidence": null,
+      "status": "needs_adjudication",
+      "sources": [
+        "https://www.microsoft.com/en-us/research/blog/fara-7b-an-efficient-agentic-model-for-computer-use/"
+      ],
+      "method": "keyword-density-v0"
+    },
+    {
+      "id": "f-7",
+      "claim": "Direct communication provides even better resistance against web application firewalls (WAFs), while performance gets a massive boost.",
+      "confidence": null,
+      "status": "needs_adjudication",
+      "sources": [
+        "https://pypi.org/project/nodriver/"
+      ],
+      "method": "keyword-density-v0"
+    },
+    {
+      "id": "f-8",
+      "claim": "nodriver provides next level async webscraping and browser automation library for python with an easy interface. This is the official successor of the Undetected-Chromedriver python package. No more webdriver, no more selenium.",
+      "confidence": null,
+      "status": "needs_adjudication",
+      "sources": [
+        "https://pypi.org/project/nodriver/"
+      ],
+      "method": "keyword-density-v0"
+    },
+    {
+      "id": "f-9",
+      "claim": "nodriver is open-source, an asynchronous Python library that drives Chrome directly over the Chrome DevTools Protocol (CDP), with no Selenium or WebDriver binary in the loop. Instead of patching a ChromeDriver binary to hide automation markers, it sidesteps that layer entirely by talking to the browser's debugging protocol.",
+      "confidence": null,
+      "status": "needs_adjudication",
+      "sources": [
+        "https://pypi.org/project/nodriver/"
+      ],
+      "method": "keyword-density-v0"
+    },
+    {
+      "id": "f-10",
+      "claim": "nodriver is a pure Python package with minimal dependencies, installed with pip install nodriver. There is no binary to download, no browser to install separately, and no driver version to match - nodriver finds your installed Chrome automatically.",
+      "confidence": null,
+      "status": "needs_adjudication",
+      "sources": [
+        "https://bytetunnels.com/posts/nodriver-complete-guide-undetected-browser-automation-python"
+      ],
+      "method": "keyword-density-v0"
+    },
+    {
+      "id": "f-11",
+      "claim": "Source: https://bytetunnels.com/posts/nodriver-complete-guide-undetected-browser-automation-python",
+      "confidence": null,
+      "status": "needs_adjudication",
+      "sources": [
+        "https://bytetunnels.com/posts/nodriver-complete-guide-undetected-browser-automation-python"
+      ],
+      "method": "keyword-density-v0"
+    },
+    {
+      "id": "f-12",
+      "claim": "Nodriver works with the installed Chrome version; occasional Chrome updates change CDP behavior in ways that can break nodriver. Use persistent profiles; add human-like delays even though nodriver is undetected at the browser level, because sending requests at machine speed can trigger rate-based detection.",
+      "confidence": null,
+      "status": "needs_adjudication",
+      "sources": [
+        "https://bytetunnels.com/posts/nodriver-complete-guide-undetected-browser-automation-python"
+      ],
+      "method": "keyword-density-v0"
+    }
+  ],
+  "notes": "Extraction v0 is mechanical: paragraphs, keyword density, truncation. Findings are DRAFT candidate findings requiring adjudication before any corpus admission. Sessions are operational evidence records."
+}
