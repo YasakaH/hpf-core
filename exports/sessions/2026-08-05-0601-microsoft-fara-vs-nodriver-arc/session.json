@@ -1,0 +1,2585 @@
+{
+  "schema": "hpf-session-v0",
+  "id": "2026-08-05-0601-microsoft-fara-vs-nodriver-arc",
+  "topic": "Microsoft Fara vs Nodriver: architecture, capabilities, and future of AI browser automation",
+  "goal": "Determine whether Microsoft Fara represents an architectural evolution over Nodriver or addresses a different class of browser automation problems. Identify evidence for capability overlap, unique strengths, limitations, and likely future adoption. Include Technology Maturity assessment: production readiness, community adoption, maintenance activity, breaking changes, vendor commitment, migration risk. Produce an adjudicated comparison suitable for publication.",
+  "audience": "Blog",
+  "depth": "deep",
+  "created": "2026-08-05T06:01:19.353930+00:00",
+  "started": "2026-08-05T06:01:15.658406+00:00",
+  "finished": "2026-08-05T06:01:19.353876+00:00",
+  "activity": [
+    {
+      "ts": "2026-08-05T06:01:15.658428+00:00",
+      "msg": "Research started"
+    },
+    {
+      "ts": "2026-08-05T06:01:15.658482+00:00",
+      "msg": "Evidence class primary: high \u2014 official documentation anchors any topic"
+    },
+    {
+      "ts": "2026-08-05T06:01:15.658495+00:00",
+      "msg": "Evidence class code: high \u2014 repositories show implementation reality"
+    },
+    {
+      "ts": "2026-08-05T06:01:15.658505+00:00",
+      "msg": "Evidence class community: high \u2014 practitioner pain points are core signal for tooling topics"
+    },
+    {
+      "ts": "2026-08-05T06:01:15.658514+00:00",
+      "msg": "Evidence class scientific: high \u2014 benchmarks and papers matter when the topic names a model or method"
+    },
+    {
+      "ts": "2026-08-05T06:01:15.658524+00:00",
+      "msg": "Evidence class operational: low \u2014 operational weight low unless performance is central"
+    },
+    {
+      "ts": "2026-08-05T06:01:15.658533+00:00",
+      "msg": "Research plan built: 12 keywords, depth deep"
+    },
+    {
+      "ts": "2026-08-05T06:01:16.818572+00:00",
+      "msg": "Collected github.com (19486 chars, class code)"
+    },
+    {
+      "ts": "2026-08-05T06:01:17.766679+00:00",
+      "msg": "Collected github.com (14414 chars, class code)"
+    },
+    {
+      "ts": "2026-08-05T06:01:18.268224+00:00",
+      "msg": "Collected learn.microsoft.com (38136 chars, class primary)"
+    },
+    {
+      "ts": "2026-08-05T06:01:19.340851+00:00",
+      "msg": "Collected huggingface.co (18473 chars, class primary)"
+    },
+    {
+      "ts": "2026-08-05T06:01:19.343277+00:00",
+      "msg": "Community signal r/hacker-news: 8 comments (class community)"
+    },
+    {
+      "ts": "2026-08-05T06:01:19.345343+00:00",
+      "msg": "Community signal r/hacker-news: 6 comments (class community)"
+    },
+    {
+      "ts": "2026-08-05T06:01:19.345392+00:00",
+      "msg": "Extracted 330 evidence entries from 6 sources"
+    },
+    {
+      "ts": "2026-08-05T06:01:19.353725+00:00",
+      "msg": "Drafted 18 candidate findings (keyword-density-v0), 6 as community signals"
+    },
+    {
+      "ts": "2026-08-05T06:01:19.353887+00:00",
+      "msg": "Session artifact written"
+    }
+  ],
+  "plan": {
+    "keywords": [
+      "ai",
+      "architecture",
+      "automation",
+      "browser",
+      "capabilities",
+      "fara",
+      "future",
+      "limitations",
+      "microsoft",
+      "nodriver",
+      "performance",
+      "security"
+    ],
+    "depth": "deep",
+    "evidence_classes": {
+      "primary": "high",
+      "code": "high",
+      "community": "high",
+      "scientific": "high",
+      "operational": "low"
+    }
+  },
+  "status": "draft",
+  "stages": [
+    {
+      "name": "plan",
+      "detail": "research question, keywords, depth",
+      "state": "done"
+    },
+    {
+      "name": "collect",
+      "detail": "sources fetched or imported",
+      "state": "done"
+    },
+    {
+      "name": "extract",
+      "detail": "text chunked into evidence entries",
+      "state": "done"
+    },
+    {
+      "name": "findings",
+      "detail": "draft candidate findings (not conclusions)",
+      "state": "done"
+    }
+  ],
+  "sources": [
+    {
+      "url": "https://github.com/microsoft/fara",
+      "title": "github.com",
+      "status": "fetched",
+      "chars": 19486,
+      "class": "code"
+    },
+    {
+      "url": "https://github.com/ultrafunkamsterdam/nodriver",
+      "title": "github.com",
+      "status": "fetched",
+      "chars": 14414,
+      "class": "code"
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "title": "learn.microsoft.com",
+      "status": "fetched",
+      "chars": 38136,
+      "class": "primary"
+    },
+    {
+      "url": "https://huggingface.co/microsoft/Fara1.5-9B/blob/main/README.md",
+      "title": "huggingface.co",
+      "status": "fetched",
+      "chars": 18473,
+      "class": "primary"
+    },
+    {
+      "url": "reddit://r/hacker-news/comments/Fara AI browser",
+      "title": "r/hacker-news community signal (8 comments)",
+      "status": "imported",
+      "chars": 18502,
+      "class": "community",
+      "community": {
+        "subreddit": "hacker-news",
+        "thread": "Fara AI browser",
+        "score": 127,
+        "comments": 8
+      }
+    },
+    {
+      "url": "reddit://r/hacker-news/comments/nodriver",
+      "title": "r/hacker-news community signal (6 comments)",
+      "status": "imported",
+      "chars": 8364,
+      "class": "community",
+      "community": {
+        "subreddit": "hacker-news",
+        "thread": "nodriver",
+        "score": 288,
+        "comments": 6
+      }
+    }
+  ],
+  "evidence": [
+    {
+      "id": "ev-1",
+      "source": "https://github.com/microsoft/fara",
+      "excerpt": "You signed in with another tab or window. Reload to refresh your session. You signed out in another tab or window. Reload to refresh your session. You switched accounts on another tab or window. Reload to refresh your session.",
+      "class": "code"
+    },
+    {
+      "id": "ev-2",
+      "source": "https://github.com/microsoft/fara",
+      "excerpt": "There was an error while loading. Please reload this page.",
+      "class": "code"
+    },
+    {
+      "id": "ev-3",
+      "source": "https://github.com/microsoft/fara",
+      "excerpt": "Fara1.5 \u2013 A family of frontier computer use agent models",
+      "class": "code"
+    },
+    {
+      "id": "ev-4",
+      "source": "https://github.com/microsoft/fara",
+      "excerpt": "2026-07-22 \u2014 Fara1.5 released! A family of native computer use agents at three scales (Fara1.5-4B, Fara1.5-9B, Fara1.5-27B) built on Qwen3.5 and trained on data from the FaraGen1.5 pipeline. All three models have weights available on Hugging Face and can be hosted through Microsoft Foundry (Fara1.5-4B, Fara1.5-9B, Fara1.5-27B). Fara1.5-9B reaches 63.4% on Online-Mind2Web and 86.6% on WebVoyager, a new state of the art for its size class; Fara1.5-27B achieves 72.3% on Online-Mind2Web, outperforming much larger proprietary systems. Read the paper and the blog post.",
+      "class": "code"
+    },
+    {
+      "id": "ev-5",
+      "source": "https://github.com/microsoft/fara",
+      "excerpt": "2026-05-12 \u2014 WebTailBench is now a first-class benchmark in this repo: the loader auto-downloads tasks and rubrics from microsoft/WebTailBench (use the refreshed test_v2 split; a V1\u2194V2 diff is hosted here), the Universal Verifier (MMRubricAgent) is the official judge, and the reproducibility CLI lives in webeval/scripts/webtailbench.py (stand-alone re-scoring via webeval/scripts/verify_trajectories.py).",
+      "class": "code"
+    },
+    {
+      "id": "ev-6",
+      "source": "https://github.com/microsoft/fara",
+      "excerpt": "2026-04-19 \u2014 Released CUAVerifierBench, a human-annotated benchmark for evaluating CUA verifiers (i.e. judges that score agent trajectories). Two splits \u2014 fara7b_om2w_browserbase (106 Fara-7B Online-Mind2Web/Browserbase trajectories, ~2 reviewers each) and internal (154 trajectories from a heldout aurora-v2 task suite) \u2014 with per-judge UV-blind / UV-informed labels, Universal Verifier outputs, and legacy verifier outputs side-by-side. The build script that produced the dataset lives alongside the data on Hugging Face.",
+      "class": "code"
+    },
+    {
+      "id": "ev-7",
+      "source": "https://github.com/microsoft/fara",
+      "excerpt": "Fara1.5 is a family of native Computer Use Agents (CUAs) at three scales \u2014 Fara1.5-4B, Fara1.5-9B, and Fara1.5-27B \u2014 built on Qwen3.5 and trained with supervised finetuning on data from FaraGen1.5, our scalable data pipeline of environments, solvers, and verifiers. Each model sets a new state of the art for its size class on browser-use benchmarks, and Fara1.5-27B outperforms much larger proprietary systems such as OpenAI Operator and Gemini 2.5 Computer Use on Online-Mind2Web.",
+      "class": "code"
+    },
+    {
+      "id": "ev-8",
+      "source": "https://github.com/microsoft/fara",
+      "excerpt": "Fara1.5 models operate through an observe-think-act loop: given a screenshot of the browser and the conversation history, the model reasons about the state of the task and outputs an action \u2014 mouse and keyboard inputs on directly predicted coordinates, web searches, or context management operations \u2014 with no accessibility trees or separate parsing models.",
+      "class": "code"
+    },
+    {
+      "id": "ev-9",
+      "source": "https://github.com/microsoft/fara",
+      "excerpt": "All three models are available on Microsoft Foundry: Fara1.5-4B, Fara1.5-9B, and Fara1.5-27B.",
+      "class": "code"
+    },
+    {
+      "id": "ev-10",
+      "source": "https://github.com/microsoft/fara",
+      "excerpt": "Try Fara1.5-9B as follows (see Installation for detailed instructions):",
+      "class": "code"
+    },
+    {
+      "id": "ev-11",
+      "source": "https://github.com/microsoft/fara",
+      "excerpt": "# 1. Clone repository git clone https://github.com/microsoft/fara.git cd fara",
+      "class": "code"
+    },
+    {
+      "id": "ev-12",
+      "source": "https://github.com/microsoft/fara",
+      "excerpt": "# 2. Setup environment python3 -m venv .venv source .venv/bin/activate pip install -e . playwright install",
+      "class": "code"
+    },
+    {
+      "id": "ev-13",
+      "source": "https://github.com/microsoft/fara",
+      "excerpt": "Deploy Fara1.5-9B from the Microsoft Foundry catalog and put your endpoint in a config JSON (e.g. azure_foundry_config.json):",
+      "class": "code"
+    },
+    {
+      "id": "ev-14",
+      "source": "https://github.com/microsoft/fara",
+      "excerpt": "{ \"model\": \"Fara1.5-9B\", \"base_url\": \"https://your-endpoint.inference.ml.azure.com/\", \"api_key\": \"YOUR_API_KEY_HERE\" }",
+      "class": "code"
+    },
+    {
+      "id": "ev-15",
+      "source": "https://github.com/microsoft/fara",
+      "excerpt": "fara-cli --task \"whats the weather in new york now\" --endpoint_config azure_foundry_config.json",
+      "class": "code"
+    },
+    {
+      "id": "ev-16",
+      "source": "https://github.com/microsoft/fara",
+      "excerpt": "To try Fara inside Magentic-UI \u2014 a sandboxed browser environment with auditable action logging and user prompts at critical points \u2014 follow the instructions in the Magentic-UI repo. You will need a model endpoint as before, but instead of fara-cli you can use Magentic-UI which has a nice UI (see video demos below).",
+      "class": "code"
+    },
+    {
+      "id": "ev-17",
+      "source": "https://github.com/microsoft/fara",
+      "excerpt": "Note: If you're using Windows, we highly recommend using WSL2 (Windows Subsystem for Linux). Please see the Windows instructions in the Installation section.",
+      "class": "code"
+    },
+    {
+      "id": "ev-18",
+      "source": "https://github.com/microsoft/fara",
+      "excerpt": "Unlike traditional chat models that generate text-based responses, Fara1.5 leverages computer interfaces\u2014mouse and keyboard\u2014to perform multi-step tasks on behalf of users. The models:",
+      "class": "code"
+    },
+    {
+      "id": "ev-19",
+      "source": "https://github.com/microsoft/fara",
+      "excerpt": "Interact with users: trained with a user simulator on multi-turn rollouts, Fara1.5 can ask for missing information, flag ambiguous tasks, and pause for approval before irreversible actions",
+      "class": "code"
+    },
+    {
+      "id": "ev-20",
+      "source": "https://github.com/microsoft/fara",
+      "excerpt": "FaraGen1.5: Scalable Learning Environments",
+      "class": "code"
+    },
+    {
+      "id": "ev-21",
+      "source": "https://github.com/microsoft/fara",
+      "excerpt": "Collecting computer use data from human demonstrations is expensive and slow. FaraGen1.5 is a scalable data pipeline composed of three modular components:",
+      "class": "code"
+    },
+    {
+      "id": "ev-22",
+      "source": "https://github.com/microsoft/fara",
+      "excerpt": "Solvers \u2014 a solver harness that can be powered by multiple models, including strong frontier models such as GPT-5.4, paired with a user simulator to enable multi-turn rollouts",
+      "class": "code"
+    },
+    {
+      "id": "ev-23",
+      "source": "https://github.com/microsoft/fara",
+      "excerpt": "The resulting training mix contains roughly 2M samples: ~60% web trajectories, 12.8% synthetic environments, 12.5% form filling, 8.8% grounding, 4.9% VQA, and 0.8% GUI drag tasks.",
+      "class": "code"
+    },
+    {
+      "id": "ev-24",
+      "source": "https://github.com/microsoft/fara",
+      "excerpt": "Fara1.5 can automate everyday web tasks including:",
+      "class": "code"
+    },
+    {
+      "id": "ev-25",
+      "source": "https://github.com/microsoft/fara",
+      "excerpt": "Each Fara1.5 model sets a new state of the art for its size class. Fara1.5-9B improves over Fara-7B by +29.3 points on Online-Mind2Web, +13.1 points on WebVoyager, and +8.2 points on WebTailBench outcome success:",
+      "class": "code"
+    },
+    {
+      "id": "ev-26",
+      "source": "https://github.com/microsoft/fara",
+      "excerpt": "Model Size WebVoyager Online-Mind2Web WebTailBench v1.5 (Process) WebTailBench v1.5 (Outcome)",
+      "class": "code"
+    },
+    {
+      "id": "ev-27",
+      "source": "https://github.com/microsoft/fara",
+      "excerpt": "FaraGen1.5 Solver (GPT-5.4) - 93.4 83.4 79.6 57.4",
+      "class": "code"
+    },
+    {
+      "id": "ev-28",
+      "source": "https://github.com/microsoft/fara",
+      "excerpt": "Table: Task success rate (%) on WebVoyager, Online-Mind2Web, and WebTailBench v1.5. For WebTailBench v1.5 we report both Process Success (correct intermediate steps) and Outcome Success (final task state correct). All Fara1.5 and Fara-7B numbers are averaged over three independent runs. The GPT-5.4-based FaraGen1.5 solver is an upper-bound reference for the SFT-based distillation. \u2020 denotes numbers sourced from the model's official release or leaderboard rather than re-run by us.",
+      "class": "code"
+    },
+    {
+      "id": "ev-29",
+      "source": "https://github.com/microsoft/fara",
+      "excerpt": "WebTailBench is our evaluation benchmark focusing on 11 real-world task types that are underrepresented or missing in existing benchmarks. The benchmark includes 609 tasks across diverse categories, with the first 8 segments testing single skills or objectives (usually on a single website), and the remaining 3 evaluating more difficult multi-step or cross-site tasks (shopping lists, comparison shopping, and compositional tasks). Tasks and precomputed rubrics are on Hugging Face (use the refreshed test_v2 split), the Universal Verifier (MMRubricAgent) is the official judge, and the reproducibil",
+      "class": "code"
+    },
+    {
+      "id": "ev-30",
+      "source": "https://github.com/microsoft/fara",
+      "excerpt": "While WebTailBench measures agents, CUAVerifierBench measures the judges that score those agents. Each row pairs a Fara agent trajectory (instruction, screenshots, web_surfer log, final answer) with one human reviewer's verdict, plus the verdicts produced by the Universal Verifier (MMRubricAgent) and several legacy verifiers \u2014 so researchers can compute verifier\u2013human agreement (Cohen's \u03ba, accuracy, F1) on a fixed corpus and iterate on new judge prompts / architectures against a frozen ground-truth set.",
+      "class": "code"
+    },
+    {
+      "id": "ev-31",
+      "source": "https://github.com/microsoft/fara",
+      "excerpt": "Reviewer identities are anonymized as Judge1 \u2026 JudgeN using a single shared map across both splits. The build script that produced the dataset (with full schema + provenance) ships alongside the data on Hugging Face at microsoft/CUAVerifierBench; see the dataset README for the full column list.",
+      "class": "code"
+    },
+    {
+      "id": "ev-32",
+      "source": "https://github.com/microsoft/fara",
+      "excerpt": "Note: Fara1.5 is a research preview designed to invite hands-on exploration and feedback from the community. We recommend running it in a sandboxed environment, monitoring its execution, and avoiding sensitive data or high-risk domains.",
+      "class": "code"
+    },
+    {
+      "id": "ev-33",
+      "source": "https://github.com/microsoft/fara",
+      "excerpt": "The following instructions are for Linux systems, see the Windows section below for Windows instructions.",
+      "class": "code"
+    },
+    {
+      "id": "ev-34",
+      "source": "https://github.com/microsoft/fara",
+      "excerpt": "# 1. Clone repository git clone https://github.com/microsoft/fara.git cd fara",
+      "class": "code"
+    },
+    {
+      "id": "ev-35",
+      "source": "https://github.com/microsoft/fara",
+      "excerpt": "# 2. Setup environment python3 -m venv .venv source .venv/bin/activate pip install -e .[vllm] playwright install",
+      "class": "code"
+    },
+    {
+      "id": "ev-36",
+      "source": "https://github.com/microsoft/fara",
+      "excerpt": "Note: If you plan on hosting with Microsoft Foundry only, you can skip the [vllm] and just do pip install -e .",
+      "class": "code"
+    },
+    {
+      "id": "ev-37",
+      "source": "https://github.com/microsoft/fara",
+      "excerpt": "For Windows, we highly recommend using WSL2 (Windows Subsystem for Linux) to provide a Linux-like environment. However, if you prefer to run natively on Windows, follow these steps:",
+      "class": "code"
+    },
+    {
+      "id": "ev-38",
+      "source": "https://github.com/microsoft/fara",
+      "excerpt": "# 1. Clone repository git clone https://github.com/microsoft/fara.git cd fara",
+      "class": "code"
+    },
+    {
+      "id": "ev-39",
+      "source": "https://github.com/microsoft/fara",
+      "excerpt": "# 2. Setup environment python3 -m venv .venv .venv\\Scripts\\activate pip install -e . python3 -m playwright install",
+      "class": "code"
+    },
+    {
+      "id": "ev-40",
+      "source": "https://github.com/microsoft/fara",
+      "excerpt": "Recommended: The easiest way to get started is using Microsoft Foundry hosting, which requires no GPU hardware or model downloads. All three Fara1.5 models are available on Foundry.",
+      "class": "code"
+    },
+    {
+      "id": "ev-41",
+      "source": "https://github.com/microsoft/fara",
+      "excerpt": "Deploy Fara1.5 models from the Microsoft Foundry catalog (Fara1.5-4B, Fara1.5-9B, Fara1.5-27B) without needing to download weights or manage GPU infrastructure.",
+      "class": "code"
+    },
+    {
+      "id": "ev-42",
+      "source": "https://github.com/microsoft/fara",
+      "excerpt": "Then create a endpoint configuration JSON file (e.g., azure_foundry_config.json):",
+      "class": "code"
+    },
+    {
+      "id": "ev-43",
+      "source": "https://github.com/microsoft/fara",
+      "excerpt": "{ \"model\": \"Fara1.5-9B\", \"base_url\": \"https://your-endpoint.inference.ml.azure.com/\", \"api_key\": \"YOUR_API_KEY_HERE\" }",
+      "class": "code"
+    },
+    {
+      "id": "ev-44",
+      "source": "https://github.com/microsoft/fara",
+      "excerpt": "fara-cli --task \"how many pages does wikipedia have\" --endpoint_config azure_foundry_config.json [--headful]",
+      "class": "code"
+    },
+    {
+      "id": "ev-45",
+      "source": "https://github.com/microsoft/fara",
+      "excerpt": "Note: you can also specify the endpoint config with the args --base_url [your_base_url] --api_key [your_api_key] --model [your_model_name] instead of using a config JSON file.",
+      "class": "code"
+    },
+    {
+      "id": "ev-46",
+      "source": "https://github.com/microsoft/fara",
+      "excerpt": "python -m fara.run_fara --task \"what is the weather in new york now\"",
+      "class": "code"
+    },
+    {
+      "id": "ev-47",
+      "source": "https://github.com/microsoft/fara",
+      "excerpt": "That's it! No GPU or model downloads required.",
+      "class": "code"
+    },
+    {
+      "id": "ev-48",
+      "source": "https://github.com/microsoft/fara",
+      "excerpt": "The previous-generation Fara-7B weights remain available on Hugging Face (with GGUF variants for LM Studio / Ollama). Pass --fara-7b to run the Fara-7B agent instead of Fara1.5:",
+      "class": "code"
+    },
+    {
+      "id": "ev-49",
+      "source": "https://github.com/microsoft/fara",
+      "excerpt": "fara-cli --fara-7b --task \"how many pages does wikipedia have\" --endpoint_config fara7b_config.json",
+      "class": "code"
+    },
+    {
+      "id": "ev-50",
+      "source": "https://github.com/microsoft/fara",
+      "excerpt": "If you didn't use vLLM to host, specify --base_url [your_base_url] --api_key [your_api_key] --model [your_model_name] when running fara-cli. Please ensure that context length is set to at least 15000 tokens and temperature to 0 for best results.",
+      "class": "code"
+    },
+    {
+      "id": "ev-51",
+      "source": "https://github.com/microsoft/fara",
+      "excerpt": "Runs save a full trajectory \u2014 per-step screenshots and a data_point.json (task, actions, observations, and outcome) \u2014 to the folder passed via --output_folder.",
+      "class": "code"
+    },
+    {
+      "id": "ev-52",
+      "source": "https://github.com/microsoft/fara",
+      "excerpt": "Instructions to reproduce our benchmark results (WebVoyager, Online-Mind2Web, WebTailBench) with the webeval/ framework \u2014 including installation, the per-benchmark CLIs, BrowserBase setup, and result analysis \u2014 live in docs/eval_reproducibility.md.",
+      "class": "code"
+    },
+    {
+      "id": "ev-53",
+      "source": "https://github.com/microsoft/fara",
+      "excerpt": "Note: the webeval pipeline documented there produced the previous-generation (Fara-7B) numbers and is being updated for the Fara1.5 evaluation stack.",
+      "class": "code"
+    },
+    {
+      "id": "ev-54",
+      "source": "https://github.com/microsoft/fara",
+      "excerpt": "If you use Fara1.5 in your research, please use the following BibTeX entry.",
+      "class": "code"
+    },
+    {
+      "id": "ev-55",
+      "source": "https://github.com/microsoft/fara",
+      "excerpt": "@article{fara152026, title={Fara1.5: Scalable Learning Environments for Computer Use Agents}, author={Awadallah, Ahmed and Gupta, Sahil and Lara, Yash and Lu, Yadong and Mozannar, Hussein and Nambi, Akshay and Nussbaum, Zach and Pandya, Yash and Rajeswaran, Aravind and Rosset, Corby and Taymanov, Alexey and do Valle, Luiz and Vineet, Vibhav and Whitehead, Spencer and Zhao, Andrew}, journal={arXiv:2606.20785}, year={2026} }",
+      "class": "code"
+    },
+    {
+      "id": "ev-56",
+      "source": "https://github.com/microsoft/fara",
+      "excerpt": "@article{fara7b2025, title={Fara-7B: An Efficient Agentic Model for Computer Use}, author={Awadallah, Ahmed and Lara, Yash and Magazine, Raghav and Mozannar, Hussein and Nambi, Akshay and Pandya, Yash and Rajeswaran, Aravind and Rosset, Corby and Taymanov, Alexey and Vineet, Vibhav and Whitehead, Spencer and Zhao, Andrew}, journal={arXiv:2511.19663}, year={2025} }",
+      "class": "code"
+    },
+    {
+      "id": "ev-57",
+      "source": "https://github.com/microsoft/fara",
+      "excerpt": "About Fara1.5 \u2013 A family of frontier computer use agent models www.microsoft.com/en-us/research/articles/fara1-5-computer-use-agent/ Topics agentbrowser-usecomputer-usecomputer-use-agentcua Resources Readme MIT license Code of conduct Code of conduct Security policy Security policy Activity Custom properties Stars 6.1k stars Watchers 42 watching Forks 598 forks Report repository",
+      "class": "code"
+    },
+    {
+      "id": "ev-58",
+      "source": "https://github.com/microsoft/fara",
+      "excerpt": "You can\u2019t perform that action at this time.",
+      "class": "code"
+    },
+    {
+      "id": "ev-59",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "You signed in with another tab or window. Reload to refresh your session. You signed out in another tab or window. Reload to refresh your session. You switched accounts on another tab or window. Reload to refresh your session.",
+      "class": "code"
+    },
+    {
+      "id": "ev-60",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "This is the official successor of the Undetected-Chromedriver python package.",
+      "class": "code"
+    },
+    {
+      "id": "ev-61",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "Direct communication provides even better resistance against web applicatinon firewalls (WAF\u2019s), while performance gets a massive boost. This module is, contrary to undetected-chromedriver, fully asynchronous.",
+      "class": "code"
+    },
+    {
+      "id": "ev-62",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "What makes this package different from other known packages, is the optimization to stay undetected for most anti-bot solutions.",
+      "class": "code"
+    },
+    {
+      "id": "ev-63",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "Another focus point is usability and quick prototyping, so expect a lot to work -as is- , with most method parameters having best practice defaults. Using 1 or 2 lines, this is up and running, providing best practice config by default. It cleans up created files (profile) afterwards.",
+      "class": "code"
+    },
+    {
+      "id": "ev-64",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "While usability and convenience is important. It\u2019s also easy to fully customizable everything using the entire array of CDP domains, methods and events available.",
+      "class": "code"
+    },
+    {
+      "id": "ev-65",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "smart and performant element lookup, by selector or text, including iframe content. this could also be used as wait condition for a element to appear, since it will retry for the duration of until found. so an await tab.select('body') could be used as an indicator whether a page is loaded. the find method searches by text, but will not naively return the first matching element, but will match candidates by closest matching text length (shortest wins), this makes lookups like tab.find('accept all') return the actual cookie button instead of a script in the headers",
+      "class": "code"
+    },
+    {
+      "id": "ev-66",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "utility function to convert a running undetected_chromedriver.Chrome instance to a nodriver.Browser instance and contintue from there",
+      "class": "code"
+    },
+    {
+      "id": "ev-67",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "Parts are rewritten to use flat connections in the protocol. Why? - iframes are included in most operations. - tab got a new method: await tab.get_frames() which will return Iframes that are inspectable. - find() will include iframes, so you can even search for \"verify you are human\" and click the verification checkbox in js challenges.",
+      "class": "code"
+    },
+    {
+      "id": "ev-68",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "Since this required quite some rewriting, please test thoroughly, especially if you run large projects.",
+      "class": "code"
+    },
+    {
+      "id": "ev-69",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "finds the checkbox and click it successfully this only works when NOT in expert mode. currently built-in english only requires opencv-python package to be installed",
+      "class": "code"
+    },
+    {
+      "id": "ev-70",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "tab.bypass_insecure_connection_warning()",
+      "class": "code"
+    },
+    {
+      "id": "ev-71",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "convenience method, for insecure page warning. for example when a certificate is invalid.",
+      "class": "code"
+    },
+    {
+      "id": "ev-72",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "callback may accept a single argument (event), or 2 arguments (event, tab).",
+      "class": "code"
+    },
+    {
+      "id": "ev-73",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "does some hacking for more experienced users. It disables web security and origin-trials, as well as ensures shadow-roots are always open. This makes you more detectable though!",
+      "class": "code"
+    },
+    {
+      "id": "ev-74",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "you need chrome (or some chromium based browser) installed preferably in the default location on the machine where you use this package.",
+      "class": "code"
+    },
+    {
+      "id": "ev-75",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "when running on a headless machine, like AWS or any other environment where no display is present, it's best to use some Xvfb tool, to emulate a screen. alternatively this package can be used in headless mode.",
+      "class": "code"
+    },
+    {
+      "id": "ev-76",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "The aim of this project (just like undetected-chromedriver, somewhere long ago) is to keep it short and simple, so you can quickly open an editor or interactive session, type or paste a few lines and off you go.",
+      "class": "code"
+    },
+    {
+      "id": "ev-77",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "browser = await uc.start() page = await browser.get('https://www.nowsecure.nl')",
+      "class": "code"
+    },
+    {
+      "id": "ev-78",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "if __name__ == '__main__': # since asyncio.run never worked (for me) uc.loop().run_until_complete(main())",
+      "class": "code"
+    },
+    {
+      "id": "ev-79",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "browser = await start( headless=False, user_data_dir=\"/path/to/existing/profile\", # by specifying it, it won't be automatically cleaned up when finished browser_executable_path=\"/path/to/some/other/browser\", browser_args=['--some-browser-arg=true', '--some-other-option'], lang=\"en-US\" # this could set iso-language-code in navigator, not recommended to change ) tab = await browser.get('https://somewebsite.com')",
+      "class": "code"
+    },
+    {
+      "id": "ev-80",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "config = Config() config.headless = False config.user_data_dir=\"/path/to/existing/profile\", # by specifying it, it won't be automatically cleaned up when finished config.browser_executable_path=\"/path/to/some/other/browser\", config.browser_args=['--some-browser-arg=true', '--some-other-option'], config.lang=\"en-US\" # this could set iso-language-code in navigator, not recommended to change )",
+      "class": "code"
+    },
+    {
+      "id": "ev-81",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "browser = await nodriver.start() page = await browser.get('https://www.nowsecure.nl')",
+      "class": "code"
+    },
+    {
+      "id": "ev-82",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "await page.save_screenshot() await page.get_content() await page.scroll_down(150) elems = await page.select_all('*[src]')",
+      "class": "code"
+    },
+    {
+      "id": "ev-83",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "page2 = await browser.get('https://twitter.com', new_tab=True) page3 = await browser.get('https://github.com/ultrafunkamsterdam/nodriver', new_window=True)",
+      "class": "code"
+    },
+    {
+      "id": "ev-84",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "for p in (page, page2, page3): await p.bring_to_front() await p.scroll_down(200) await p # wait for events to be processed await p.reload() if p != page3: await p.close()",
+      "class": "code"
+    },
+    {
+      "id": "ev-85",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "# since asyncio.run never worked (for me) uc.loop().run_until_complete(main())",
+      "class": "code"
+    },
+    {
+      "id": "ev-86",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "A more concrete example, which can be found in the ./example/ folder, shows a script to create a twitter account",
+      "class": "code"
+    },
+    {
+      "id": "ev-87",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "async def main(): driver = await uc.start()",
+      "class": "code"
+    },
+    {
+      "id": "ev-88",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "tab = await driver.get(\"https://twitter.com\")",
+      "class": "code"
+    },
+    {
+      "id": "ev-89",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "# wait for text to appear instead of a static number of seconds to wait # this does not always work as expected, due to speed. print('finding the \"create account\" button') create_account = await tab.find(\"create account\", best_match=True)",
+      "class": "code"
+    },
+    {
+      "id": "ev-90",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "print('\"create account\" => click') await create_account.click()",
+      "class": "code"
+    },
+    {
+      "id": "ev-91",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "print(\"finding the email input field\") email = await tab.select(\"input[type=email]\")",
+      "class": "code"
+    },
+    {
+      "id": "ev-92",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "# sometimes, email field is not shown, because phone is being asked instead # when this occurs, find the small text which says \"use email instead\" if not email: use_mail_instead = await tab.find(\"use email instead\") # and click it await use_mail_instead.click()",
+      "class": "code"
+    },
+    {
+      "id": "ev-93",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "# now find the email field again email = await tab.select(\"input[type=email]\")",
+      "class": "code"
+    },
+    {
+      "id": "ev-94",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "randstr = lambda k: \"\".join(random.choices(string.ascii_letters, k=k))",
+      "class": "code"
+    },
+    {
+      "id": "ev-95",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "# send keys to email field print('filling in the \"email\" input field') await email.send_keys(\"\".join([randstr(8), \"@\", randstr(8), \".com\"]))",
+      "class": "code"
+    },
+    {
+      "id": "ev-96",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "# find the name input field print(\"finding the name input field\") name = await tab.select(\"input[type=text]\")",
+      "class": "code"
+    },
+    {
+      "id": "ev-97",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "# again, send random text print('filling in the \"name\" input field') await name.send_keys(randstr(8))",
+      "class": "code"
+    },
+    {
+      "id": "ev-98",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "# since there are 3 select fields on the tab, we can use unpacking # to assign each field print('finding the \"month\" , \"day\" and \"year\" fields in 1 go') sel_month, sel_day, sel_year = await tab.select_all(\"select\")",
+      "class": "code"
+    },
+    {
+      "id": "ev-99",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "# await sel_month.focus() print('filling in the \"month\" input field') await sel_month.send_keys(months[random.randint(0, 11)].title())",
+      "class": "code"
+    },
+    {
+      "id": "ev-100",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "# await sel_day.focus() # i don't want to bother with month-lengths and leap years print('filling in the \"day\" input field') await sel_day.send_keys(str(random.randint(0, 28)))",
+      "class": "code"
+    },
+    {
+      "id": "ev-101",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "# await sel_year.focus() # i don't want to bother with age restrictions print('filling in the \"year\" input field') await sel_year.send_keys(str(random.randint(1980, 2005)))",
+      "class": "code"
+    },
+    {
+      "id": "ev-102",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "# let's handle the cookie nag as well cookie_bar_accept = await tab.find(\"accept all\", best_match=True) if cookie_bar_accept: await cookie_bar_accept.click()",
+      "class": "code"
+    },
+    {
+      "id": "ev-103",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "next_btn = await tab.find(text=\"next\", best_match=True) # for btn in reversed(next_btns): await next_btn.mouse_click()",
+      "class": "code"
+    },
+    {
+      "id": "ev-104",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "print(\"sleeping 2 seconds\") await tab.sleep(2) # visually see what part we're actually in",
+      "class": "code"
+    },
+    {
+      "id": "ev-105",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "print('finding \"next\" button') next_btn = await tab.find(text=\"next\", best_match=True) print('clicking \"next\" button') await next_btn.mouse_click()",
+      "class": "code"
+    },
+    {
+      "id": "ev-106",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "# just wait for some button, before we continue await tab.select(\"[role=button]\")",
+      "class": "code"
+    },
+    {
+      "id": "ev-107",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "print('finding \"sign up\" button') sign_up_btn = await tab.find(\"Sign up\", best_match=True) # we need the second one print('clicking \"sign up\" button') await sign_up_btn.click()",
+      "class": "code"
+    },
+    {
+      "id": "ev-108",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "print('the rest of the \"implementation\" is out of scope') # further implementation outside of scope await tab.sleep(10) driver.stop()",
+      "class": "code"
+    },
+    {
+      "id": "ev-109",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "if __name__ == \"__main__\": # since asyncio.run never worked (for me) # i use uc.loop().run_until_complete(main())",
+      "class": "code"
+    },
+    {
+      "id": "ev-110",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "About Successor of Undetected-Chromedriver. Providing a blazing fast framework for web automation, webscraping, bots and any other creative ideas which are normally hindered by annoying anti bot systems like Captcha / CloudFlare / Imperva / hCaptcha Resources Readme AGPL-3.0 license Activity Stars 4.6k stars Watchers 94 watching Forks 430 forks Report repository",
+      "class": "code"
+    },
+    {
+      "id": "ev-111",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "You can\u2019t perform that action at this time.",
+      "class": "code"
+    },
+    {
+      "id": "ev-112",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "Upgrade to Microsoft Edge to take advantage of the latest features, security updates, and technical support.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-113",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "Access to this page requires authorization. You can try signing in or changing directories.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-114",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "Access to this page requires authorization. You can try changing directories.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-115",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "Items marked (preview) in this article are currently in public preview. This preview is provided without a service-level agreement, and we don't recommend it for production workloads. Certain features might not be supported or might have constrained capabilities. For more information, see Supplemental Terms of Use for Microsoft Azure Previews.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-116",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "This article explains how to configure and use the Browser Automation tool with Foundry agents to automate web browsing workflows.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-117",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "Consider adding this tool using a toolbox. By using a toolbox, you are able to reuse the tool across agents and runtimes, as well as centralizing credential management, versioning, and policy enforcement through a managed MCP endpoint. See the toolbox quickstart.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-118",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "The Browser Automation Tool comes with significant security risks. When you use the Browser Automation Tool, an AI spins up remote browsers sessions to perform actions and can use credentials you explicitly share with the agent, such as to email, financial accounts, social networks, and enterprise systems. The AI agent may make mistakes and may be fooled by malicious data it may encounter on the Internet.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-119",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "You're responsible for reviewing and testing your applications and implementing your own responsible AI mitigations. By using the Browser Automation Tool, you are acknowledging that you bear responsibility and liability for any use of it and all outcomes. Use judgment in deciding which credentials you provide to your browser sessions. See the Foundry Agent Service transparency note.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-120",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "Browser Automation Tool (BAT) enables scalable, reliable browser-based automation within Foundry agents. BAT is available as an MCP tool powered by Playwright workspaces as its headless browser infrastructure layer. It integrates seamlessly with modern agentic workflows while providing enterprise-grade security, observability, and extensibility.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-121",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "The private website feature in Playwright Workspaces is currently available in private preview. Interested users can fill out this form to enroll for the private preview.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-122",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "The following table shows SDK and setup support.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-123",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "The interaction starts when the user sends a query to an agent connected to the Browser Automation tool. For example, \"Show me all available yoga classes this week from the following URL <url>.\" When the agent receives the request, Foundry Agent Service creates an isolated browser session using your provisioned Playwright workspace. Each session is sandboxed for privacy and security.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-124",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "The browser performs Playwright-driven actions, such as navigating to relevant pages and applying filters or parameters based on user preferences (such as time, location, and instructor). By combining the model with Playwright, the model can parse HTML or XML into DOM documents, make decisions, and perform actions like selecting UI elements, typing, and navigating websites. Exercise caution when using this tool.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-125",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "A user sends a request to the model that includes a call to the Browser Automation tool with the URL you want to go to.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-126",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "The Browser Automation tool receives a response from the model. If the response has action items, those items contain suggested actions to make progress toward the specified goal. For example, an action might be a screenshot so the model can assess the current state with an updated screenshot or click with X/Y coordinates indicating where the mouse should be moved.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-127",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "The Browser Automation tool executes the action in a sandboxed environment.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-128",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "After executing the action, the Browser Automation tool captures the updated state of the environment as a screenshot.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-129",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "The tool sends a new request with the updated state, and repeats this loop until the model stops requesting actions or the user decides to stop.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-130",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "The Browser Automation tool supports multi-turn conversations, allowing the user to refine their request and complete form filling and web scraping scenarios.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-131",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "An Azure subscription. Create one for free.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-132",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "Contributor or Owner role on a resource group.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-133",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "A Foundry project with a configured endpoint.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-134",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "An AI model deployed in your project (for example, gpt-5.4).",
+      "class": "primary"
+    },
+    {
+      "id": "ev-135",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "A project connection set up for your Playwright workspace.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-136",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "For Python examples, install the required packages: pip install \"azure-ai-projects>=2.0.0\"",
+      "class": "primary"
+    },
+    {
+      "id": "ev-137",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "The .NET SDK is currently in preview. For more information, see the quickstart.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-138",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "Get your project endpoint: Open your project in the Foundry portal, and copy the endpoint from the project overview page. The format is https://{account-name}.services.ai.azure.com/api/projects/{project-name}.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-139",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "Connection ID format: Use /subscriptions/{{subscriptionID}}/resourceGroups/{{resourceGroupName}}/providers/Microsoft.CognitiveServices/accounts/{{foundryAccountName}}/projects/{{foundryProjectName}}/connections/{{foundryConnectionName}}. You can find this value on the tool's details page after you connect the Browser Automation tool.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-140",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "In the Azure portal, create a Playwright Workspace resource.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-141",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "After the workspace is created, go to Settings > Access Management.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-142",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "Confirm the Playwright Service Access Token authentication method is enabled.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-143",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "Select Generate Token, enter a name (for example, foundry-connection), and choose an expiry period.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-144",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "Copy the token immediately. You can't view it again after closing the page.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-145",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "On the workspace Overview page, copy the Browser endpoint (it starts with wss://).",
+      "class": "primary"
+    },
+    {
+      "id": "ev-146",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "Give the project identity a Contributor role on the Playwright workspace resource, or configure a custom role.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-147",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "Go to the Foundry portal and select your project.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-148",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "Fill in the Name and Description for your toolbox.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-149",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "Playwright Workspace: Select the Playwright Workspace resource.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-150",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "Auth Type: Select the authentication type for your connection.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-151",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "After the toolbox is created, you can view the Project connection ID on the tool's details page. Use this value as the browser automation connection ID in your code.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-152",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "To add browser automation to a Toolbox, use the Azure Developer CLI to create a Playwrite workspace. This article assumes you already have a Playwright workspace resource. See the prerequisites section.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-153",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "Create the Playwright Workspace connection.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-154",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "azd ai connection create my-browser-conn \\ --kind PlaywrightWorkspace \\ --target wss://your-browser-endpoint.api.playwright.microsoft.com/playwrightworkspaces/browsers \\ --auth-type api-key \\ --key \"<playwright-workspaces-access-token>\"",
+      "class": "primary"
+    },
+    {
+      "id": "ev-155",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "--kind PlaywrightWorkspace requires exact PascalCase.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-156",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "azd ai toolbox create my-toolbox --from-file my-toolbox.yaml",
+      "class": "primary"
+    },
+    {
+      "id": "ev-157",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "After you run a sample, verify the tool was called by using tracing in Microsoft Foundry. For guidance on validating tool invocation, see Best practices for using tools in Microsoft Foundry Agent Service. If you use streaming, you can also look for browser_automation_preview_call events.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-158",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "The .NET SDK is currently in preview. For more information, see the quickstart.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-159",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "The following Python example demonstrates how to create an AI agent with browser automation capabilities. Select Prompt Agents to use the Azure AI Projects SDK to create a server-side prompt agent, or Hosted Agents to use the Agent Framework FoundryChatClient to build an ephemeral, in-process agent.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-160",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "import json from azure.identity import DefaultAzureCredential from azure.ai.projects import AIProjectClient from azure.ai.projects.models import ( PromptAgentDefinition, BrowserAutomationPreviewTool, BrowserAutomationToolParameters, BrowserAutomationToolConnectionParameters, )",
+      "class": "primary"
+    },
+    {
+      "id": "ev-161",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "# Format: \"https://resource_name.ai.azure.com/api/projects/project_name\" PROJECT_ENDPOINT = \"your_project_endpoint\" BROWSER_CONNECTION_ID = \"your-browser-automation-connection-id\"",
+      "class": "primary"
+    },
+    {
+      "id": "ev-162",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "# Create clients to call Foundry API project = AIProjectClient( endpoint=PROJECT_ENDPOINT, credential=DefaultAzureCredential(), ) openai = project.get_openai_client()",
+      "class": "primary"
+    },
+    {
+      "id": "ev-163",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "agent = project.agents.create_version( agent_name=\"MyAgent\", definition=PromptAgentDefinition( model=\"gpt-4.1-mini\", instructions=\"\"\"You are an Agent helping with browser automation tasks. You can answer questions, provide information, and assist with various tasks related to web browsing using the Browser Automation tool available to you.\"\"\", tools=[tool], ), ) print(f\"Agent created (id: {agent.id}, name: {agent.name}, version: {agent.version})\")",
+      "class": "primary"
+    },
+    {
+      "id": "ev-164",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "stream_response = openai.responses.create( stream=True, tool_choice=\"required\", input=\"\"\" Your goal is to report the percent of Microsoft year-to-date stock price change. To do that, go to the website finance.yahoo.com. At the top of the page, you will find a search bar. Enter the value 'MSFT', to get information about the Microsoft stock price. At the top of the resulting page you will see a default chart of Microsoft stock price. Click on 'YTD' at the top of that chart, and report the percent value that shows up just below it.\"\"\", extra_body={\"agent_reference\": {\"name\": agent.name, \"type\": \"",
+      "class": "primary"
+    },
+    {
+      "id": "ev-165",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "for event in stream_response: if event.type == \"response.created\": print(f\"Follow-up response created with ID: {event.response.id}\") elif event.type == \"response.output_text.delta\": print(f\"Delta: {event.delta}\") elif event.type == \"response.text.done\": print(f\"\\nFollow-up response done!\") elif event.type == \"response.output_item.done\": item = event.item if item.type == \"browser_automation_preview_call\": arguments_str = getattr(item, \"arguments\", \"{}\")",
+      "class": "primary"
+    },
+    {
+      "id": "ev-166",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "# Parse the arguments string into a dictionary arguments = json.loads(arguments_str) query = arguments.get(\"query\")",
+      "class": "primary"
+    },
+    {
+      "id": "ev-167",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "print(f\"Call ID: {getattr(item, 'call_id')}\") print(f\"Query arguments: {query}\") elif event.type == \"response.completed\": print(f\"\\nFollow-up completed!\") print(f\"Full response: {event.response.output_text}\")",
+      "class": "primary"
+    },
+    {
+      "id": "ev-168",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "print(\"\\nCleaning up...\") project.agents.delete_version(agent_name=agent.name, agent_version=agent.version) print(\"Agent deleted\")",
+      "class": "primary"
+    },
+    {
+      "id": "ev-169",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "This example creates an agent version with the Browser Automation tool enabled, then sends a prompt that requires the agent to use the tool. It also processes streaming events so you can observe progress and tool calls.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-170",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "A Foundry project endpoint and a browser automation connection ID. See Configuration for details.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-171",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "When you create the agent, you see output similar to: Agent created (id: ..., name: ..., version: ...)",
+      "class": "primary"
+    },
+    {
+      "id": "ev-172",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "During streaming, you might also see deltas and tool-call details. Output varies based on the website content and model behavior.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-173",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "This sample uses FoundryChatClient from the Microsoft Agent Framework to create the browser-automation-toolbox and connect to its MCP endpoint with MCPStreamableHTTPTool. Install the packages with pip install agent-framework-foundry httpx azure-ai-projects, replace PROJECT_ENDPOINT and BROWSER_CONNECTION_ID with your project values, and sign in with az login. For the complete hosted-agent toolbox pattern, see the full sample. import asyncio",
+      "class": "primary"
+    },
+    {
+      "id": "ev-174",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "import httpx from agent_framework import Agent, MCPStreamableHTTPTool from agent_framework.foundry import FoundryChatClient from azure.ai.projects import AIProjectClient from azure.ai.projects.models import ( BrowserAutomationPreviewTool, BrowserAutomationToolParameters, BrowserAutomationToolConnectionParameters, ) from azure.identity import AzureCliCredential, get_bearer_token_provider",
+      "class": "primary"
+    },
+    {
+      "id": "ev-175",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "PROJECT_ENDPOINT = \"https://<account>.services.ai.azure.com/api/projects/<project>\" BROWSER_CONNECTION_ID = \"your-browser-automation-connection-id\"",
+      "class": "primary"
+    },
+    {
+      "id": "ev-176",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "class _ToolboxAuth(httpx.Auth): def __init__(self, token_provider): self._token_provider = token_provider",
+      "class": "primary"
+    },
+    {
+      "id": "ev-177",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "def auth_flow(self, request): request.headers[\"Authorization\"] = f\"Bearer {self._token_provider()}\" yield request",
+      "class": "primary"
+    },
+    {
+      "id": "ev-178",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "# 1. Add the Browser Automation tool to a toolbox. Using a toolbox is the recommended way # to give agents tools: you curate tools once and reuse the toolbox across agents. # See /azure/foundry/agents/concepts/toolbox-overview project = AIProjectClient(endpoint=PROJECT_ENDPOINT, credential=credential) tool = BrowserAutomationPreviewTool( browser_automation_preview=BrowserAutomationToolParameters( connection=BrowserAutomationToolConnectionParameters( project_connection_id=BROWSER_CONNECTION_ID, ) ) ) toolbox = project.toolboxes.create_toolbox_version( name=\"browser-automation-toolbox\", descript",
+      "class": "primary"
+    },
+    {
+      "id": "ev-179",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "# 2. The toolbox exposes an MCP-compatible endpoint. TOOLBOX_MCP_URL = ( f\"{PROJECT_ENDPOINT}/toolboxes/{toolbox.name}\" f\"/versions/{toolbox.version}/mcp?api-version=v1\" )",
+      "class": "primary"
+    },
+    {
+      "id": "ev-180",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "# 3. Attach the toolbox to the hosted agent as an MCP tool. token_provider = get_bearer_token_provider(credential, \"https://ai.azure.com/.default\") http_client = httpx.AsyncClient(auth=_ToolboxAuth(token_provider), timeout=120.0) mcp_tool = MCPStreamableHTTPTool( name=\"toolbox\", url=TOOLBOX_MCP_URL, http_client=http_client, load_prompts=False, )",
+      "class": "primary"
+    },
+    {
+      "id": "ev-181",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "agent = Agent( client=FoundryChatClient(credential=credential), instructions=( \"You help with browser automation tasks. Use the Browser Automation tool \" \"to navigate and read information from websites.\" ), tools=[mcp_tool], )",
+      "class": "primary"
+    },
+    {
+      "id": "ev-182",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "result = await agent.run( \"Go to finance.yahoo.com, search for MSFT, click 'YTD' on the price chart, \" \"and report the year-to-date percent change.\" ) print(f\"Agent: {result.text}\")",
+      "class": "primary"
+    },
+    {
+      "id": "ev-183",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "if __name__ == \"__main__\": asyncio.run(main())",
+      "class": "primary"
+    },
+    {
+      "id": "ev-184",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "The agent navigates the live website through the Browser Automation tool in the toolbox and reports the YTD value it observes. Output varies based on website content: Agent: The year-to-date change for MSFT is approximately +18.4%.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-185",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "For the complete hosted-agent toolbox pattern, see the full sample.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-186",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "Before running this sample, complete the setup steps in Set up Browser Automation.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-187",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "The following C# example demonstrates how to create an AI agent with Browser Automation capabilities. Select Prompt Agents to use the Azure AI Projects SDK to create a server-side prompt agent, or Hosted Agents to use the Microsoft Agent Framework to build an ephemeral, in-process agent.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-188",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "This example uses synchronous methods of the Azure AI Projects client library. For an example that uses asynchronous methods, see the Sample for use of BrowserAutomationPreviewTool and Agents sample in the Azure SDK for .NET repository on GitHub. using System; using Azure.AI.Projects; using Azure.AI.Extensions.OpenAI; using Azure.Identity;",
+      "class": "primary"
+    },
+    {
+      "id": "ev-189",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "// Format: \"https://resource_name.ai.azure.com/api/projects/project_name\" var projectEndpoint = \"your_project_endpoint\"; var browserConnectionId = \"your-browser-automation-connection-id\";",
+      "class": "primary"
+    },
+    {
+      "id": "ev-190",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "// Note that Browser automation operations can take longer than usual // and require the request timeout to be at least 5 minutes. AIProjectClientOptions options = new() { NetworkTimeout = TimeSpan.FromMinutes(5) }; AIProjectClient projectClient = new(endpoint: new Uri(projectEndpoint), tokenProvider: new DefaultAzureCredential(), options: options);",
+      "class": "primary"
+    },
+    {
+      "id": "ev-191",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "// Create the Browser Automation tool using the Playwright connection. BrowserAutomationPreviewTool playwrightTool = new( new BrowserAutomationToolParameters( new BrowserAutomationToolConnectionParameters(browserConnectionId) ));",
+      "class": "primary"
+    },
+    {
+      "id": "ev-192",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "// Create the Agent version with the Browser Automation tool. DeclarativeAgentDefinition agentDefinition = new(model: \"gpt-4.1-mini\") { Instructions = \"You are an Agent helping with browser automation tasks.\\n\" + \"You can answer questions, provide information, and assist with various tasks\\n\" + \"related to web browsing using the Browser Automation tool available to you.\", Tools = { playwrightTool } }; AgentVersion agentVersion = projectClient.AgentAdministrationClient.CreateAgentVersion( agentName: \"myAgent\", options: new(agentDefinition));",
+      "class": "primary"
+    },
+    {
+      "id": "ev-193",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "// Create the response stream. Also set ToolChoice = ResponseToolChoice.CreateRequiredChoice() // on the ResponseCreationOptions to ensure the agent uses the Browser Automation tool. ProjectResponsesClient responseClient = projectClient.ProjectOpenAIClient.GetProjectResponsesClientForAgent(agentVersion.Name); CreateResponseOptions responseOptions = new() { ToolChoice = ResponseToolChoice.CreateRequiredChoice(), StreamingEnabled = true, InputItems = { ResponseItem.CreateUserMessageItem(\"Your goal is to report the percent of Microsoft year-to-date stock price change.\\n\" + \"To do that, go to the ",
+      "class": "primary"
+    },
+    {
+      "id": "ev-194",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "// Delete the Agent version to clean up resources. projectClient.AgentAdministrationClient.DeleteAgentVersion(agentName: agentVersion.Name, agentVersion: agentVersion.Version);",
+      "class": "primary"
+    },
+    {
+      "id": "ev-195",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "This example creates an agent version with the Browser Automation tool enabled, sends a prompt that requires tool usage, and prints streaming updates as the agent works through the browser steps.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-196",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "A Foundry project endpoint and a browser automation connection ID. See Configuration for details.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-197",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "A Playwright connection created in your Foundry project.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-198",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "You see streaming progress messages, such as text deltas, and a completed response. The output varies based on the website content and model behavior.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-199",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "This sample creates the Browser Automation toolbox with the Azure AI Projects SDK, then uses ResponsesServer from the Microsoft Agent Framework with a custom ToolboxMcpClient to discover and invoke the tool through the toolbox MCP endpoint. Install the Agent Framework packages, set the AZURE_AI_PROJECT_ENDPOINT, AZURE_AI_MODEL_DEPLOYMENT_NAME, and BROWSER_AUTOMATION_CONNECTION_ID environment variables, and sign in with az login. using System.IO; using System.Runtime.CompilerServices; using Azure.AI.AgentServer.Responses; using Azure.AI.AgentServer.Responses.Models; using Azure.AI.OpenAI; using",
+      "class": "primary"
+    },
+    {
+      "id": "ev-200",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "string projectEndpoint = Environment.GetEnvironmentVariable(\"AZURE_AI_PROJECT_ENDPOINT\") ?? \"https://<account>.services.ai.azure.com/api/projects/<project>\"; string deploymentName = Environment.GetEnvironmentVariable(\"AZURE_AI_MODEL_DEPLOYMENT_NAME\") ?? \"gpt-5-mini\"; string browserConnectionId = Environment.GetEnvironmentVariable(\"BROWSER_AUTOMATION_CONNECTION_ID\") ?? \"your-browser-automation-connection-id\";",
+      "class": "primary"
+    },
+    {
+      "id": "ev-201",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "var openAiEndpoint = new Uri(projectEndpoint).GetLeftPart(UriPartial.Authority); DefaultAzureCredential credential = new();",
+      "class": "primary"
+    },
+    {
+      "id": "ev-202",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "// 1. Create the Browser Automation tool and add it to a toolbox. Using a toolbox is the // recommended way to give agents tools. See /azure/foundry/agents/concepts/toolbox-overview AIProjectClient projectClient = new(endpoint: new Uri(projectEndpoint), tokenProvider: credential); ProjectsAgentTool browserTool = new BrowserAutomationPreviewTool( new BrowserAutomationToolParameters( new BrowserAutomationToolConnectionParameters(browserConnectionId) )); ToolboxVersion toolboxVersion = projectClient.AgentAdministrationClient .GetAgentToolboxes().CreateToolboxVersion( toolboxName: \"browser-automat",
+      "class": "primary"
+    },
+    {
+      "id": "ev-203",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "// 2. The toolbox exposes an MCP-compatible endpoint. string toolboxMcpEndpoint = $\"{projectEndpoint}/toolboxes/{toolboxVersion.Name}/versions/{toolboxVersion.Version}/mcp?api-version=v1\";",
+      "class": "primary"
+    },
+    {
+      "id": "ev-204",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "// 3. Attach the toolbox to the hosted agent. var openAIClient = new AzureOpenAIClient(new Uri(openAiEndpoint), credential); ChatClient chatClient = openAIClient.GetChatClient(deploymentName);",
+      "class": "primary"
+    },
+    {
+      "id": "ev-205",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "// ToolboxMcpClient discovers tools from the toolbox MCP endpoint and calls them // through tools/call. ToolboxHandler maps model tool calls to that MCP client. var toolboxClient = new ToolboxMcpClient(toolboxMcpEndpoint, credential);",
+      "class": "primary"
+    },
+    {
+      "id": "ev-206",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "ResponsesServer.Run<ToolboxHandler>(configure: builder => { builder.Services.AddSingleton(new AgentConfig(chatClient, toolboxClient)); });",
+      "class": "primary"
+    },
+    {
+      "id": "ev-207",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "The hosted agent connects to the Browser Automation tool through the toolbox MCP endpoint and uses the browser to complete the requested web task. Output varies based on website content and model behavior: Agent: The year-to-date change for MSFT is approximately +18.4%.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-208",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "For the complete hosted-agent toolbox pattern, see the full sample.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-209",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "Get an access token: export AGENT_TOKEN=$(az account get-access-token --scope \"https://ai.azure.com/.default\" --query accessToken -o tsv)",
+      "class": "primary"
+    },
+    {
+      "id": "ev-210",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "The recommended way to add Browser Automation is through a toolbox, then attach the toolbox to your agent as an MCP tool. See What is a toolbox?",
+      "class": "primary"
+    },
+    {
+      "id": "ev-211",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "The toolbox exposes an MCP-compatible endpoint at $FOUNDRY_PROJECT_ENDPOINT/toolboxes/browser-automation-toolbox/versions/<version>/mcp?api-version=v1, where <version> is the version returned by the previous call.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-212",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "Create a remote-tool project connection that points at the toolbox endpoint, using a user Entra token so the caller's identity is passed through (audience https://ai.azure.com).",
+      "class": "primary"
+    },
+    {
+      "id": "ev-213",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "azd ai connection create browser-automation-toolbox-conn \\ --kind remote-tool \\ --target \"$FOUNDRY_PROJECT_ENDPOINT/toolboxes/browser-automation-toolbox/versions/<version>/mcp?api-version=v1\" \\ --auth-type user-entra-token \\ --audience https://ai.azure.com",
+      "class": "primary"
+    },
+    {
+      "id": "ev-214",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "Create a response that uses the toolbox by attaching it as an MCP tool.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-215",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "curl --request POST \\ --url \"${FOUNDRY_PROJECT_ENDPOINT}/openai/v1/responses\" \\ --header \"Authorization: Bearer ${AGENT_TOKEN}\" \\ --header \"Content-Type: application/json\" \\ --header \"User-Agent: insomnia/11.6.1\" \\ --data @- <<JSON { \"model\": \"${FOUNDRY_MODEL_DEPLOYMENT_NAME}\", \"input\": [ { \"role\": \"user\", \"content\": [ { \"type\": \"input_text\", \"text\": \"Your goal is to report the percent of Microsoft year-to-date stock price change.\" }, { \"type\": \"input_text\", \"text\": \"Go to finance.yahoo.com, search for MSFT, select YTD on the chart, and report the percent value shown.\" } ] } ], \"tools\": [ { \"t",
+      "class": "primary"
+    },
+    {
+      "id": "ev-216",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "The following TypeScript sample demonstrates how to create an agent with Browser Automation tool, perform web browsing tasks, and process streaming responses with browser automation events. For a JavaScript version of this sample, see the JavaScript sample for Browser Automation tool in the Azure SDK for JavaScript repository on GitHub. import { DefaultAzureCredential } from \"@azure/identity\"; import { AIProjectClient } from \"@azure/ai-projects\";",
+      "class": "primary"
+    },
+    {
+      "id": "ev-217",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "// Format: \"https://resource_name.ai.azure.com/api/projects/project_name\" const PROJECT_ENDPOINT = \"your_project_endpoint\"; const BROWSER_CONNECTION_ID = \"your-browser-automation-connection-id\";",
+      "class": "primary"
+    },
+    {
+      "id": "ev-218",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "const handleBrowserCall = (item: any) => { // TODO: support browser_automation_preview_call schema const callId = item.call_id; const argumentsStr = item.arguments;",
+      "class": "primary"
+    },
+    {
+      "id": "ev-219",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "// Parse the arguments string into a dictionary let query = null; if (argumentsStr && typeof argumentsStr === \"string\") { try { const argumentsObj = JSON.parse(argumentsStr); query = argumentsObj.query; } catch (e) { console.error(\"Failed to parse arguments:\", e); } }",
+      "class": "primary"
+    },
+    {
+      "id": "ev-220",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "console.log(`Call ID: ${callId ?? \"None\"}`); console.log(`Query arguments: ${query ?? \"None\"}`); };",
+      "class": "primary"
+    },
+    {
+      "id": "ev-221",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "export async function main(): Promise<void> { // Create clients to call Foundry API const project = new AIProjectClient(PROJECT_ENDPOINT, new DefaultAzureCredential()); const openai = project.getOpenAIClient();",
+      "class": "primary"
+    },
+    {
+      "id": "ev-222",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "console.log(\"Creating a toolbox with the Browser Automation tool...\");",
+      "class": "primary"
+    },
+    {
+      "id": "ev-223",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "// 1. Add the Browser Automation tool to a toolbox. Using a toolbox is the recommended // way to give agents tools. See /azure/foundry/agents/concepts/toolbox-overview const toolbox = await project.toolboxes.createVersion( \"browser-automation-toolbox\", [ { type: \"browser_automation_preview\", browser_automation_preview: { connection: { project_connection_id: BROWSER_CONNECTION_ID, }, }, }, ], { description: \"Toolbox with the Browser Automation tool\" }, );",
+      "class": "primary"
+    },
+    {
+      "id": "ev-224",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "// 2. The toolbox exposes an MCP-compatible endpoint. const toolboxMcpUrl = `${PROJECT_ENDPOINT}/toolboxes/${toolbox.name}` + `/versions/${toolbox.version}/mcp?api-version=v1`;",
+      "class": "primary"
+    },
+    {
+      "id": "ev-225",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "// 3. Create a remote-tool project connection that points at the toolbox endpoint. // Use a user Entra token so the caller's identity is passed through // (audience https://ai.azure.com). Create the connection once, for example // with the Azure Developer CLI: // // azd ai connection create browser-automation-toolbox-conn \\ // --kind remote-tool \\ // --target \"<toolboxMcpUrl>\" \\ // --auth-type user-entra-token \\ // --audience https://ai.azure.com const toolboxConnectionName = \"browser-automation-toolbox-conn\";",
+      "class": "primary"
+    },
+    {
+      "id": "ev-226",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "// 4. Attach the toolbox to a prompt agent as an MCP tool. const agent = await project.agents.createVersion(\"MyAgent\", { kind: \"prompt\", model: \"gpt-4.1-mini\", instructions: `You are an Agent helping with browser automation tasks. You can answer questions, provide information, and assist with various tasks related to web browsing using the Browser Automation tool available to you.`, tools: [ { type: \"mcp\", server_label: \"toolbox\", server_url: toolboxMcpUrl, require_approval: \"never\", project_connection_id: toolboxConnectionName, }, ], }); console.log(`Agent created (id: ${agent.id}, name: ${ag",
+      "class": "primary"
+    },
+    {
+      "id": "ev-227",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "console.log(\"\\nSending browser automation request with streaming...\"); const streamResponse = await openai.responses.create( { input: `Your goal is to report the percent of Microsoft year-to-date stock price change. To do that, go to the website finance.yahoo.com. At the top of the page, you will find a search bar. Enter the value 'MSFT', to get information about the Microsoft stock price. At the top of the resulting page you will see a default chart of Microsoft stock price. Click on 'YTD' at the top of that chart, and report the percent value that shows up just below it.`, stream: true, }, {",
+      "class": "primary"
+    },
+    {
+      "id": "ev-228",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "// Process the streaming response for await (const event of streamResponse) { if (event.type === \"response.created\") { console.log(`Follow-up response created with ID: ${event.response.id}`); } else if (event.type === \"response.output_text.delta\") { process.stdout.write(event.delta); } else if (event.type === \"response.output_text.done\") { console.log(\"\\n\\nFollow-up response done!\"); } else if ( event.type === \"response.output_item.done\" || event.type === \"response.output_item.added\" ) { const item = event.item as any; if (item.type === \"browser_automation_preview_call\") { handleBrowserCall(it",
+      "class": "primary"
+    },
+    {
+      "id": "ev-229",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "// Clean up resources by deleting the agent version // This prevents accumulation of unused resources in your project console.log(\"\\nCleaning up resources...\"); await project.agents.deleteVersion(agent.name, agent.version); console.log(\"Agent deleted\");",
+      "class": "primary"
+    },
+    {
+      "id": "ev-230",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "console.log(\"\\nBrowser Automation sample completed!\"); }",
+      "class": "primary"
+    },
+    {
+      "id": "ev-231",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "main().catch((err) => { console.error(\"The sample encountered an error:\", err); });",
+      "class": "primary"
+    },
+    {
+      "id": "ev-232",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "This example creates an agent version with the Browser Automation tool enabled, sends a prompt that requires tool usage, and processes streaming events, including browser automation call events, as they arrive.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-233",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "A Foundry project endpoint and a browser automation connection ID. See Configuration for details.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-234",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "You see an \"Agent created ...\" message, streaming text output, and optionally, browser call details when the tool is invoked. The output varies based on the website content and model behavior.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-235",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "projectEndpoint \u2014 Your project endpoint.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-236",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "toolboxMcpUrl \u2014 The MCP endpoint for the toolbox version that contains the Browser Automation tool.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-237",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "toolboxConnectionName \u2014 The remote-tool project connection name for the toolbox endpoint.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-238",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "Add the dependency to your pom.xml: <dependency> <groupId>com.azure</groupId> <artifactId>azure-ai-agents</artifactId> <version>2.2.0</version> </dependency>",
+      "class": "primary"
+    },
+    {
+      "id": "ev-239",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "Recommended: For most agents, add the Browser Automation tool through a toolbox and attach the toolbox to your agent as an MCP tool. The Java SDK doesn't yet expose a toolbox creation API, so create the toolbox by using the Python, REST API, C#, or TypeScript example, or the Foundry portal, and then reference its MCP endpoint from your Java agent as an McpTool.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-240",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "Trusted sites only: Use this tool only with sites you trust. Avoid pages that prompt for credentials, payments, or other sensitive actions.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-241",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "Page volatility: Web pages can change at any time. Your agent might fail if the page layout, labels, or navigation flows change. Build error handling into your workflows.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-242",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "Complex single-page applications: JavaScript-heavy SPAs with dynamic content might not render correctly.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-243",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "This tool uses a Playwright workspace resource to run browser sessions. Review the Playwright workspace documentation for pricing and usage details. For guidance on optimizing tool usage, see Best practices for using tools in Microsoft Foundry Agent Service.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-244",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "Confirm you created the agent with the Browser Automation tool enabled.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-245",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "In your request, require tool usage (for example, tool_choice=\"required\").",
+      "class": "primary"
+    },
+    {
+      "id": "ev-246",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "Use tracing in Microsoft Foundry to confirm whether a tool call occurred. For guidance, see Best practices for using tools in Microsoft Foundry Agent Service.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-247",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "Confirm the browser automation connection ID matches the Playwright workspace connection resource ID in your project.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-248",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "Confirm the project identity has access to the Playwright workspace resource.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-249",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "If you recently rotated the Playwright access token, update the Foundry project connection key.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-250",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "Workspace not found: Verify your project endpoint uses the correct format: https://{account-name}.services.ai.azure.com/api/projects/{project-name}. Don't use the legacy Azure ML endpoint format.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-251",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "Unexpected keyword argument errors: Ensure you're using the latest version of azure-ai-projects. Run pip install \"azure-ai-projects>=2.0.0\" --upgrade to update.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-252",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "Import errors: Install all required packages: pip install \"azure-ai-projects>=2.0.0\".",
+      "class": "primary"
+    },
+    {
+      "id": "ev-253",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "Browser automation can take longer than typical requests.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-254",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "Increase the client timeout (the C# sample sets a 5-minute timeout).",
+      "class": "primary"
+    },
+    {
+      "id": "ev-255",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "Reduce the scope of your prompt (for example, fewer pages and fewer interactions).",
+      "class": "primary"
+    },
+    {
+      "id": "ev-256",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "Delete the agent version you created for testing.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-257",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "Revoke or rotate the Playwright access token if you no longer need it.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-258",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "Remove the project connection if it\u2019s no longer required. For more information, see Add a connection in Microsoft Foundry.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-259",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "Form filling: Handles diverse form types with validation, DOM, authentication, compliance, and supporting multi-turn reasoning.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-260",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "Web scraping: Navigates authenticated sites to scrape, compare, and structure data across sources.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-261",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "Review the transparency note when using this tool. The Browser Automation tool is a tool that can perform real-world browser tasks through natural language prompts, enabling automated browsing activities without human intervention.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-262",
+      "source": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation",
+      "excerpt": "Review the responsible AI considerations when using this tool.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-263",
+      "source": "https://huggingface.co/microsoft/Fara1.5-9B/blob/main/README.md",
+      "excerpt": "Use this model Instructions to use microsoft/Fara1.5-9B with libraries, inference providers, notebooks, and local apps. Follow these links to get started. Libraries Transformers How to use microsoft/Fara1.5-9B with Transformers: # Use a pipeline as a high-level helper from transformers import pipeline",
+      "class": "primary"
+    },
+    {
+      "id": "ev-264",
+      "source": "https://huggingface.co/microsoft/Fara1.5-9B/blob/main/README.md",
+      "excerpt": "pipe = pipeline(\"image-text-to-text\", model=\"microsoft/Fara1.5-9B\") messages = [ { \"role\": \"user\", \"content\": [ {\"type\": \"image\", \"url\": \"https://huggingface.co/datasets/huggingface/documentation-images/resolve/main/p-blog/candy.JPG\"}, {\"type\": \"text\", \"text\": \"What animal is on the candy?\"} ] }, ] pipe(text=messages) # Load model directly from transformers import AutoProcessor, AutoModelForMultimodalLM",
+      "class": "primary"
+    },
+    {
+      "id": "ev-265",
+      "source": "https://huggingface.co/microsoft/Fara1.5-9B/blob/main/README.md",
+      "excerpt": "processor = AutoProcessor.from_pretrained(\"microsoft/Fara1.5-9B\") model = AutoModelForMultimodalLM.from_pretrained(\"microsoft/Fara1.5-9B\", device_map=\"auto\") messages = [ { \"role\": \"user\", \"content\": [ {\"type\": \"image\", \"url\": \"https://huggingface.co/datasets/huggingface/documentation-images/resolve/main/p-blog/candy.JPG\"}, {\"type\": \"text\", \"text\": \"What animal is on the candy?\"} ] }, ] inputs = processor.apply_chat_template( messages, add_generation_prompt=True, tokenize=True, return_dict=True, return_tensors=\"pt\", ).to(model.device)",
+      "class": "primary"
+    },
+    {
+      "id": "ev-266",
+      "source": "https://huggingface.co/microsoft/Fara1.5-9B/blob/main/README.md",
+      "excerpt": "outputs = model.generate(**inputs, max_new_tokens=40) print(processor.decode(outputs[0][inputs[\"input_ids\"].shape[-1]:])) Notebooks Google Colab Kaggle Local Apps Settings vLLM How to use microsoft/Fara1.5-9B with vLLM: Install from pip and serve model # Install vLLM from pip: pip install vllm # Start the vLLM server: vllm serve \"microsoft/Fara1.5-9B\" # Call the server using curl (OpenAI-compatible API): curl -X POST \"http://localhost:8000/v1/chat/completions\" \\ -H \"Content-Type: application/json\" \\ --data '{ \"model\": \"microsoft/Fara1.5-9B\", \"messages\": [ { \"role\": \"user\", \"content\": [ { \"type",
+      "class": "primary"
+    },
+    {
+      "id": "ev-267",
+      "source": "https://huggingface.co/microsoft/Fara1.5-9B/blob/main/README.md",
+      "excerpt": "swhitehead Update README.md (#4) 1a93677 9 days ago",
+      "class": "primary"
+    },
+    {
+      "id": "ev-268",
+      "source": "https://huggingface.co/microsoft/Fara1.5-9B/blob/main/README.md",
+      "excerpt": "metadata license: mit library_name: transformers pipeline_tag: image-text-to-text language: - en base_model: - Qwen/Qwen3.5-9B tags: - computer-use - cua - web-agent - multimodal - vision-language - agent - browser-automation - magentic - fara",
+      "class": "primary"
+    },
+    {
+      "id": "ev-269",
+      "source": "https://huggingface.co/microsoft/Fara1.5-9B/blob/main/README.md",
+      "excerpt": "Fara1.5-9B is a multimodal computer use agent (CUA) for web browsers, from Microsoft Research AI Frontiers. It observes the browser through screenshots and acts on the user's behalf by emitting structured tool calls \u2014 click, type, scroll, visit URL, web search, and so on \u2014 to complete tasks end-to-end.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-270",
+      "source": "https://huggingface.co/microsoft/Fara1.5-9B/blob/main/README.md",
+      "excerpt": "The model is vision-only at perception time: it sees the browser through screenshots, not the DOM or accessibility tree. Internal reasoning and trajectory history are tracked as text. Given the latest screenshot and prior actions, it predicts the next action with grounded arguments (e.g., pixel coordinates for a click).",
+      "class": "primary"
+    },
+    {
+      "id": "ev-271",
+      "source": "https://huggingface.co/microsoft/Fara1.5-9B/blob/main/README.md",
+      "excerpt": "Fara1.5-9B is supervised fine-tuned from Qwen3.5-9B on data generated by FaraGen1.5, our multi-agent pipeline that synthesizes web tasks, executes trajectories to solve them, and verifies the results before training.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-272",
+      "source": "https://huggingface.co/microsoft/Fara1.5-9B/blob/main/README.md",
+      "excerpt": "Please use only with the harness developped in Github/fara CLI or Magentic-Lite.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-273",
+      "source": "https://huggingface.co/microsoft/Fara1.5-9B/blob/main/README.md",
+      "excerpt": "It's co-designed with MagenticLite, and that's the recommended deployment for both research and production.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-274",
+      "source": "https://huggingface.co/microsoft/Fara1.5-9B/blob/main/README.md",
+      "excerpt": "End-to-end web task completion. Fills forms, books reservations, applies for jobs, plans trips, runs shopping carts. Not just clicking around \u2014 sequencing actions toward a goal.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-275",
+      "source": "https://huggingface.co/microsoft/Fara1.5-9B/blob/main/README.md",
+      "excerpt": "Vision-only perception. Operates on screenshots alone, no DOM access required. Matches the input modality available to a human user.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-276",
+      "source": "https://huggingface.co/microsoft/Fara1.5-9B/blob/main/README.md",
+      "excerpt": "Coordinate-grounded actions. Predicts pixel-level click and drag targets directly. No separate grounding model needed.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-277",
+      "source": "https://huggingface.co/microsoft/Fara1.5-9B/blob/main/README.md",
+      "excerpt": "Critical-points safety design. Trained to stop and ask before personal info entry, payments, submissions, sign-ins, sending messages, or other irreversible actions \u2014 even if it could technically continue.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-278",
+      "source": "https://huggingface.co/microsoft/Fara1.5-9B/blob/main/README.md",
+      "excerpt": "262K context. Long enough for multi-screenshot trajectories with full action history.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-279",
+      "source": "https://huggingface.co/microsoft/Fara1.5-9B/blob/main/README.md",
+      "excerpt": "On-device viable. 9B parameters means it runs on a single A100/H100/B200 with room for the screenshot history.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-280",
+      "source": "https://huggingface.co/microsoft/Fara1.5-9B/blob/main/README.md",
+      "excerpt": "The safest way to run Fara1.5-9B is inside MagenticLite, which provides:",
+      "class": "primary"
+    },
+    {
+      "id": "ev-281",
+      "source": "https://huggingface.co/microsoft/Fara1.5-9B/blob/main/README.md",
+      "excerpt": "If you integrate Fara1.5-9B directly, you're responsible for these controls. Don't run this model with unrestricted browser access on a machine that has anything sensitive on it.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-282",
+      "source": "https://huggingface.co/microsoft/Fara1.5-9B/blob/main/README.md",
+      "excerpt": "vllm serve microsoft/Fara1.5-9B \\ --dtype bfloat16 \\ --max-model-len 262144 \\ --limit-mm-per-prompt image=10",
+      "class": "primary"
+    },
+    {
+      "id": "ev-283",
+      "source": "https://huggingface.co/microsoft/Fara1.5-9B/blob/main/README.md",
+      "excerpt": "Fara1.5-9B is trained against a specific system prompt. Use it verbatim for best results: You are Fara, a computer use agent (CUA) specialized for web browsers. You are developed by Microsoft AI Frontiers. You assist users with completing and automating tasks that require the use of a web browser.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-284",
+      "source": "https://huggingface.co/microsoft/Fara1.5-9B/blob/main/README.md",
+      "excerpt": "The model was trained in the timeframe of January - April 2026. You can effectively perform tasks even beyond this range by accessing the web browser and using the latest information on the live web. But your knowledge cutoff is limited to early 2026, so you may not be aware of events or developments that occurred after that time, without explicitly browsing and searching for latest information on the web.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-285",
+      "source": "https://huggingface.co/microsoft/Fara1.5-9B/blob/main/README.md",
+      "excerpt": "This edition of the model was trained using SFT on top of Qwen3.5-9B, using a synthetic data mixture generated and developed by Microsoft AI Frontiers.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-286",
+      "source": "https://huggingface.co/microsoft/Fara1.5-9B/blob/main/README.md",
+      "excerpt": "A critical point is a situation where we must pause and request information or confirmation from the user before proceeding. There are three types:",
+      "class": "primary"
+    },
+    {
+      "id": "ev-287",
+      "source": "https://huggingface.co/microsoft/Fara1.5-9B/blob/main/README.md",
+      "excerpt": "Case 1: Missing User Information \u2014 The task requires personal information that the user has not provided (e.g., email, phone number, address, payment details). Never fabricate or assume personal information. Fill in only what the user has explicitly provided, then pause and ask for any missing required fields.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-288",
+      "source": "https://huggingface.co/microsoft/Fara1.5-9B/blob/main/README.md",
+      "excerpt": "Case 2: Underspecified Task \u2014 The task description is ambiguous or missing details needed to make a decision at the current step. Pause and ask for clarification.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-289",
+      "source": "https://huggingface.co/microsoft/Fara1.5-9B/blob/main/README.md",
+      "excerpt": "Case 3: Irreversible Action \u2014 We are about to perform an action that cannot be undone (e.g., submitting a form, completing a purchase, sending a message, deleting data). If the user explicitly authorized the action, proceed. Otherwise, stop and ask for confirmation.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-290",
+      "source": "https://huggingface.co/microsoft/Fara1.5-9B/blob/main/README.md",
+      "excerpt": "Only stop at a critical point if (1) required information is missing, (2) the task is ambiguous, OR (3) an irreversible action lacks explicit user authorization.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-291",
+      "source": "https://huggingface.co/microsoft/Fara1.5-9B/blob/main/README.md",
+      "excerpt": "The full system prompt, including the complete computer_use tool schema, ships with the model in MagenticLite.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-292",
+      "source": "https://huggingface.co/microsoft/Fara1.5-9B/blob/main/README.md",
+      "excerpt": "Fara1.5-9B emits actions as <tool_call>...</tool_call> XML blocks containing a JSON object that calls the computer_use function. Supported actions:",
+      "class": "primary"
+    },
+    {
+      "id": "ev-293",
+      "source": "https://huggingface.co/microsoft/Fara1.5-9B/blob/main/README.md",
+      "excerpt": "The screen resolution Fara is most commonly trained with is 1440\u00d7900. Match this in your sandbox for the most reliable grounding.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-294",
+      "source": "https://huggingface.co/microsoft/Fara1.5-9B/blob/main/README.md",
+      "excerpt": "Note: We strongly recommend to use only with the harness developped in Github/fara or Magentic-Lite. # Pseudocode for a single-step interaction. Use vLLM's OpenAI-compatible # endpoint and pass the screenshot as an image content part.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-295",
+      "source": "https://huggingface.co/microsoft/Fara1.5-9B/blob/main/README.md",
+      "excerpt": "messages = [ {\"role\": \"system\", \"content\": FARA_SYSTEM_PROMPT}, {\"role\": \"user\", \"content\": [ {\"type\": \"text\", \"text\": \"Book a table for 2 at a sushi place in Sunnyvale for Friday 7pm.\"}, {\"type\": \"image_url\", \"image_url\": {\"url\": f\"data:image/png;base64,{screenshot_b64}\"}}, ]}, ]",
+      "class": "primary"
+    },
+    {
+      "id": "ev-296",
+      "source": "https://huggingface.co/microsoft/Fara1.5-9B/blob/main/README.md",
+      "excerpt": "response = client.chat.completions.create( model=\"microsoft/Fara1.5-9B\", messages=messages, temperature=0.0, max_tokens=2048, )",
+      "class": "primary"
+    },
+    {
+      "id": "ev-297",
+      "source": "https://huggingface.co/microsoft/Fara1.5-9B/blob/main/README.md",
+      "excerpt": "# Parse the assistant's reply: it will contain chain-of-thought text # followed by <tool_call>{\"name\": \"computer_use\", \"arguments\": {...}}</tool_call>. # Execute the action in your sandboxed browser, capture the new screenshot, # append the assistant turn and a tool/observation turn, and loop until # the model emits action=\"terminate\". We only keep the most recent 3 screenshots # in the chat history.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-298",
+      "source": "https://huggingface.co/microsoft/Fara1.5-9B/blob/main/README.md",
+      "excerpt": "A reference implementation of the full agent loop, including screenshot capture and Docker sandboxing, is in MagenticLite.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-299",
+      "source": "https://huggingface.co/microsoft/Fara1.5-9B/blob/main/README.md",
+      "excerpt": "Fara1.5-9B is trained to pause and ask the user at three types of critical points:",
+      "class": "primary"
+    },
+    {
+      "id": "ev-300",
+      "source": "https://huggingface.co/microsoft/Fara1.5-9B/blob/main/README.md",
+      "excerpt": "Missing user information. If the task needs personal data (name, email, phone, address, payment) the user hasn't provided, fill in what's available and stop to ask for the rest. Never fabricate.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-301",
+      "source": "https://huggingface.co/microsoft/Fara1.5-9B/blob/main/README.md",
+      "excerpt": "Underspecified tasks. If the goal is ambiguous at the current decision point (e.g., \"book me a flight\" with no destination), stop and clarify.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-302",
+      "source": "https://huggingface.co/microsoft/Fara1.5-9B/blob/main/README.md",
+      "excerpt": "Irreversible actions. Submitting forms, completing purchases, sending messages, deleting data \u2014 stop unless the user explicitly authorized the action upfront.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-303",
+      "source": "https://huggingface.co/microsoft/Fara1.5-9B/blob/main/README.md",
+      "excerpt": "If the user grants authorization, the model proceeds. The principle is that costly, irreversible actions require a human in the loop.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-304",
+      "source": "https://huggingface.co/microsoft/Fara1.5-9B/blob/main/README.md",
+      "excerpt": "We evaluate Fara1.5-9B on end-to-end web agent benchmarks. For WebTailBench, we report outcome success.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-305",
+      "source": "https://huggingface.co/microsoft/Fara1.5-9B/blob/main/README.md",
+      "excerpt": "Supervised Fine-Tuning on top of Qwen3.5-9B. Training mix is generated by FaraGen1.5, our multi-agent data pipeline, supplemented with curated public datasets for grounding and UI understanding.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-306",
+      "source": "https://huggingface.co/microsoft/Fara1.5-9B/blob/main/README.md",
+      "excerpt": "Synthetic trajectories \u2014 Tasks seeded from URLs sampled from a large web index and from open-source seed datasets (e.g., Mind2Web). A multi-agent system attempts each task while recording screenshots, thoughts, and actions. A verifier agent then keeps only successful trajectories.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-307",
+      "source": "https://huggingface.co/microsoft/Fara1.5-9B/blob/main/README.md",
+      "excerpt": "Grounding \u2014 Curated datasets for predicting actions and pixel coordinates from screenshots, with images, text, and bounding boxes.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-308",
+      "source": "https://huggingface.co/microsoft/Fara1.5-9B/blob/main/README.md",
+      "excerpt": "UI understanding \u2014 Visual question answering, captioning, and OCR over web page screenshots collected by the pipeline.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-309",
+      "source": "https://huggingface.co/microsoft/Fara1.5-9B/blob/main/README.md",
+      "excerpt": "Safety and instruction following \u2014 Refusal data covering harmful or unsafe tasks the model should decline.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-310",
+      "source": "https://huggingface.co/microsoft/Fara1.5-9B/blob/main/README.md",
+      "excerpt": "The corpus is static. Future updates will ship as separately versioned models with their own model cards.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-311",
+      "source": "https://huggingface.co/microsoft/Fara1.5-9B/blob/main/README.md",
+      "excerpt": "Automating repetitive web tasks: filling forms, shopping, booking travel, restaurant reservations, information seeking, account workflows. Fara1.5-9B can also serve as a grounding model for other agents that need pixel-accurate action prediction.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-312",
+      "source": "https://huggingface.co/microsoft/Fara1.5-9B/blob/main/README.md",
+      "excerpt": "Computer use is a powerful capability. An agent that can click, type, and submit in a real browser can also do those things wrong. We strongly recommend:",
+      "class": "primary"
+    },
+    {
+      "id": "ev-313",
+      "source": "https://huggingface.co/microsoft/Fara1.5-9B/blob/main/README.md",
+      "excerpt": "Fara1.5-9B was evaluated via automated red-teaming on Azure. Coverage included groundedness, jailbreak resistance, harmful content (hate, violence, self-harm), and copyright violations. Safety post-training includes both refusal data for malicious tasks and the critical-points framework described above.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-314",
+      "source": "https://huggingface.co/microsoft/Fara1.5-9B/blob/main/README.md",
+      "excerpt": "Like all language models, Fara1.5-9B can produce unfair, unreliable, or offensive outputs. Specific concerns:",
+      "class": "primary"
+    },
+    {
+      "id": "ev-315",
+      "source": "https://huggingface.co/microsoft/Fara1.5-9B/blob/main/README.md",
+      "excerpt": "Developers deploying Fara1.5-9B should apply responsible AI best practices and ensure compliance with applicable laws and regulations. Using safety services like Azure AI Content Safety is recommended.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-316",
+      "source": "https://huggingface.co/microsoft/Fara1.5-9B/blob/main/README.md",
+      "excerpt": "For information requests under the EU AI Act and related inquiries: MSFTAIActRequest@microsoft.com",
+      "class": "primary"
+    },
+    {
+      "id": "ev-317",
+      "source": "https://huggingface.co/microsoft/Fara1.5-9B/blob/main/README.md",
+      "excerpt": "Authorized representative: Microsoft Ireland Operations Limited, 70 Sir John Rogerson's Quay, Dublin 2, D02 R296, Ireland.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-318",
+      "source": "reddit://r/hacker-news/comments/Fara AI browser",
+      "excerpt": "OpenAI is a deeply mismanaged company. Most recently, a blog post that feels like it has got to have dozens of PR violations, responding to the Apple lawsuit.<p>More broadly, OpenAI\u2019s main problem is that it does not have a real competitive advantage. No real models do; the real differentiation is price; they will become commodities. The need to move upwards in the market in enterprise software is difficult since the current stack should remain the same, since sticking with Salesforce plus its new AI features is much simpler than the cost of switching to an AI-first startup version, which won\u2019",
+      "class": "community",
+      "community": {
+        "score": 1,
+        "author": "Taikhoom2010",
+        "url": "https://news.ycombinator.com/item?id=49178393",
+        "date": "2026-08-05"
+      }
+    },
+    {
+      "id": "ev-319",
+      "source": "reddit://r/hacker-news/comments/Fara AI browser",
+      "excerpt": "Hey HN, We started out building a whole game-making platform: engine, editor, templates, the lot. It was a slog, and it kept fighting the thing that made it interesting: the models got good. With Opus 5, Fable 5, SOL 5.6, a one-prompt Three.js or Canvas game already looks genuinely great, and the models know those APIs far better than they&#x27;d ever know our harness. Forcing people through our engine meant limiting them to it, while solving the part AI solved better than us trying to buold the harness<p>The part it can&#x27;t solve is multiplayer. A generated game is usually a single HTML fi",
+      "class": "community",
+      "community": {
+        "score": 5,
+        "author": "eric_khun",
+        "url": "https://news.ycombinator.com/item?id=49094298",
+        "date": "2026-07-29"
+      }
+    },
+    {
+      "id": "ev-320",
+      "source": "reddit://r/hacker-news/comments/Fara AI browser",
+      "excerpt": "We\u2019re open-sourcing Browser Tools SDK: a small TypeScript package to give any AI agent a reliable way to control a real browser. With just a few lines of code, you can give any agent a production-ready browser harness<p><pre><code>  import { createAiSdkBrowserTools } from &quot;libretto-browser-tools&#x2F;ai-sdk&quot;;\n  import { LocalBrowserProvider } from &quot;libretto-browser-tools&quot;;\n\n  const { tools } = createAiSdkBrowserTools(new LocalBrowserProvider());\n\n  const result = await generateText({\n    model: anthropic(&quot;claude-sonnet-4-5&quot;),\n    tools,\n    prompt: &quot;Go to Hac",
+      "class": "community",
+      "community": {
+        "score": 11,
+        "author": "tanishqkanc",
+        "url": "https://news.ycombinator.com/item?id=48998262",
+        "date": "2026-07-21"
+      }
+    },
+    {
+      "id": "ev-321",
+      "source": "reddit://r/hacker-news/comments/Fara AI browser",
+      "excerpt": "Hey folks, I&#x27;ve been building Clark solo, with the aim to match Manus agent (I really like it!) in features and capabilities, but also in its relentless ability to just complete tasks while using browser, computer etc. So far I think I&#x27;ve achieved 1:1 core feature parity:\n1) computer use agent\n2) browser use in same thread\n3) wide and deep research - clark calls clark\n4) integration with google tools<p>Would love to have community feedback and for you to try it out, a couple thousand people already using it daily for very broad use cases.<p>You can use this referral link, that hopefu",
+      "class": "community",
+      "community": {
+        "score": 4,
+        "author": "stan_kirdey",
+        "url": "https://news.ycombinator.com/item?id=48886547",
+        "date": "2026-07-13"
+      }
+    },
+    {
+      "id": "ev-322",
+      "source": "reddit://r/hacker-news/comments/Fara AI browser",
+      "excerpt": "Hey HN! We built a browser-based agent that runs inside an authenticated web app, watches how the app calls its own APIs, and automatically turns those into agent tools. You can think of it as an auto-generated MCP server that self-updates as the host app changes.<p>The result is a skilled AI assistant that actually integrates deeply with any product (not just chat and RAG) with minimal effort.<p>Check out these short demos below that show the agent in software you&#x27;re probably familiar with:<p>- Jira: <a href=\"https:&#x2F;&#x2F;demo.frigade.com&#x2F;hn?skill=jira\">https:&#x2F;&#x2F;demo.f",
+      "class": "community",
+      "community": {
+        "score": 96,
+        "author": "pancomplex",
+        "url": "https://news.ycombinator.com/item?id=48847834",
+        "date": "2026-07-09"
+      }
+    },
+    {
+      "id": "ev-323",
+      "source": "reddit://r/hacker-news/comments/Fara AI browser",
+      "excerpt": "For the past 3 weeks, I&#x27;ve been hacking on a personal AI that you can text.<p>It&#x27;s curious about you &amp; proactively figures out ways to help you, while still feeling like a friend.<p>Its personality &amp; proactivity is probably what I&#x27;ve spent the most time working on for this project, testing out a bunch of different models and prompts etc. It has more work to be done for sure, but I kinda like how it&#x27;s come to be so far!<p>It has its own 24&#x2F;7 computer and browser (still working on improving its use of them!), with its own curiosities &amp; proactivity.<p>For ex, ",
+      "class": "community",
+      "community": {
+        "score": 2,
+        "author": "subby",
+        "url": "https://news.ycombinator.com/item?id=48840666",
+        "date": "2026-07-09"
+      }
+    },
+    {
+      "id": "ev-324",
+      "source": "reddit://r/hacker-news/comments/Fara AI browser",
+      "excerpt": "I made a strategy game where you play the US or China through the AI race, 2026 to 2030, sixteen quarterly turns in the browser. One run takes about half an hour.<p>At the start, the game seals two dice you never get to see. Inside: how hard alignment really is, and how fast takeoff compounds. You get eval reports, but only as ranges, and they flatter you most exactly when your systems are least aligned. At the end you get a debrief which shows what your evals said each quarter and also what was actually true. I lost every run I played myself so far.<p>Every number in the game is source-backed",
+      "class": "community",
+      "community": {
+        "score": 6,
+        "author": "micstradev",
+        "url": "https://news.ycombinator.com/item?id=48804144",
+        "date": "2026-07-06"
+      }
+    },
+    {
+      "id": "ev-325",
+      "source": "reddit://r/hacker-news/comments/Fara AI browser",
+      "excerpt": "app url: https:&#x2F;&#x2F;app.sunwaee.com<p>hey, so I never really stuck with chatgpt or claude web apps because to me they always felt like a slightly-more-personalized google search but far from actually knowing who I am, plus I also want access to the best models but with the release frequency of new models these days it often means multiple expensive subscriptions... kinda lazy too so I figured having some kind of autorouting that picks the model I want for given topics would be cool. On top of that I&#x27;ve been on a journey to get out of the google-ized life (i.e. google ecosystem), I&",
+      "class": "community",
+      "community": {
+        "score": 2,
+        "author": "dvdxnss",
+        "url": "https://news.ycombinator.com/item?id=48732413",
+        "date": "2026-06-30"
+      }
+    },
+    {
+      "id": "ev-326",
+      "source": "reddit://r/hacker-news/comments/nodriver",
+      "excerpt": "neal is a CLI I wrote while trying to use an LLM coding agent (in this case, Codex GPT-5.4) to work autonomously on a migration of our large frontend codebase. A few things came up during that project that guided the development of neal:<p>1. Telling an agent to &quot;keep working unless blocked&quot; doesn&#x27;t actually work over long stretches of time.<p>2. Large projects should be broken up into smaller chunks of work.<p>3. The coding agent should start each chunk of work with a fresh context to prevent context rot.<p>4. The coding agent benefits from having a different agent doing advers",
+      "class": "community",
+      "community": {
+        "score": 1,
+        "author": "navels",
+        "url": "https://news.ycombinator.com/item?id=49168496",
+        "date": "2026-08-04"
+      }
+    },
+    {
+      "id": "ev-327",
+      "source": "reddit://r/hacker-news/comments/nodriver",
+      "excerpt": "I have a Dell 1320c, I&#x27;ve had it for 15 years, but the drivers stopped getting created many many years ago. It was sort of working in OS X but will stop when rosetta 2 goes away. I&#x27;m running Linux on an M1 mac and no driver support for aarch64. It has an old i386 CUPS driver, I used it and with some help from AI got byte perfect matching in the stream. It uses some proprietary compression called SQ21. Anyway, I now have clean C for the whole chain and so a native driver in Linux aarch64. I&#x27;ve now used that driver on a Pi Zero to have wireless printing. My colour laser lives agai",
+      "class": "community",
+      "community": {
+        "score": 3,
+        "author": "biosed",
+        "url": "https://news.ycombinator.com/item?id=47758203",
+        "date": "2026-04-13"
+      }
+    },
+    {
+      "id": "ev-328",
+      "source": "reddit://r/hacker-news/comments/nodriver",
+      "excerpt": "MongoDB is great until you read the SSPL. Then you&#x27;re either paying Atlas prices, running an old 4.x build, or pretending FerretDB is production-ready. We built a third option.<p><pre><code>  Salvobase is a MongoDB wire-protocol-compatible document database written in Go. Point any Mongo driver and it works. No driver changes, no config changes. It&#x27;s Apache 2.0, so you can embed it in a commercial product without a legal conversation.\n\n  What it does:\n\n  - Full CRUD, indexes (single, compound, unique, text, TTL, partial, wildcard), and most of the aggregation pipeline ($match, $group",
+      "class": "community",
+      "community": {
+        "score": 3,
+        "author": "inder1",
+        "url": "https://news.ycombinator.com/item?id=47304607",
+        "date": "2026-03-09"
+      }
+    },
+    {
+      "id": "ev-329",
+      "source": "reddit://r/hacker-news/comments/nodriver",
+      "excerpt": "I got tired of gluing together proxy rotation, fingerprint spoofing, job queues, and deploy scripts every time I needed to run browser automation (bots&#x2F;scrapers) at scale. So I built an orchestration layer for it.<p>You write a Python script (Playwright, Selenium, or nodriver), add a JSON config, and Armada distributes the work across K8s pods. Jobs go through RabbitMQ, per-pod configs are seeded via Redis, proxies and fingerprints are handled by dedicated services. Scaling from 1 to 100+ workers needs no code changes.<p>It also ships with Fantomas, a browser automation lib on top of nodr",
+      "class": "community",
+      "community": {
+        "score": 2,
+        "author": "armada_services",
+        "url": "https://news.ycombinator.com/item?id=47218198",
+        "date": "2026-03-02"
+      }
+    },
+    {
+      "id": "ev-330",
+      "source": "reddit://r/hacker-news/comments/nodriver",
+      "excerpt": "I\u2019ve been tinkering on a small side project: a web dashboard that lets you plug a board into your laptop and\n  get an instant serial monitor + real-time plots. No IDE, no driver hunt\u2014just Chrome&#x2F;Edge and a USB cable.<p><pre><code>  - Built mainly for people who occasionally need to check an Arduino&#x2F;Teensy&#x2F;Rpi etc. (engineers outside firmware teams,\n  workshop hosts, makers on the go).\n\n  - Shows serial logs, lets you send quick commands, plots any numeric streams automatically, and even flashes a\n  precompiled firmware without leaving the page.\n\n  - Currently very beta: battle-t",
+      "class": "community",
+      "community": {
+        "score": 1,
+        "author": "eezZ",
+        "url": "https://news.ycombinator.com/item?id=45362134",
+        "date": "2025-09-24"
+      }
+    }
+  ],
+  "findings": [
+    {
+      "id": "f-1",
+      "claim": "All three models are available on Microsoft Foundry: Fara1.5-4B, Fara1.5-9B, and Fara1.5-27B.",
+      "confidence": null,
+      "status": "needs_adjudication",
+      "sources": [
+        "https://github.com/microsoft/fara"
+      ],
+      "evidence": [
+        "ev-9",
+        "ev-11",
+        "ev-34"
+      ],
+      "method": "keyword-density-v0"
+    },
+    {
+      "id": "f-2",
+      "claim": "# 1. Clone repository git clone https://github.com/microsoft/fara.git cd fara",
+      "confidence": null,
+      "status": "needs_adjudication",
+      "sources": [
+        "https://github.com/microsoft/fara"
+      ],
+      "evidence": [
+        "ev-9",
+        "ev-11",
+        "ev-34"
+      ],
+      "method": "keyword-density-v0"
+    },
+    {
+      "id": "f-3",
+      "claim": "# 1. Clone repository git clone https://github.com/microsoft/fara.git cd fara",
+      "confidence": null,
+      "status": "needs_adjudication",
+      "sources": [
+        "https://github.com/microsoft/fara"
+      ],
+      "evidence": [
+        "ev-9",
+        "ev-11",
+        "ev-34"
+      ],
+      "method": "keyword-density-v0"
+    },
+    {
+      "id": "f-4",
+      "claim": "# now find the email field again email = await tab.select(\"input[type=email]\")",
+      "confidence": null,
+      "status": "needs_adjudication",
+      "sources": [
+        "https://github.com/ultrafunkamsterdam/nodriver"
+      ],
+      "evidence": [
+        "ev-93",
+        "ev-81",
+        "ev-77"
+      ],
+      "method": "keyword-density-v0"
+    },
+    {
+      "id": "f-5",
+      "claim": "browser = await nodriver.start() page = await browser.get('https://www.nowsecure.nl')",
+      "confidence": null,
+      "status": "needs_adjudication",
+      "sources": [
+        "https://github.com/ultrafunkamsterdam/nodriver"
+      ],
+      "evidence": [
+        "ev-93",
+        "ev-81",
+        "ev-77"
+      ],
+      "method": "keyword-density-v0"
+    },
+    {
+      "id": "f-6",
+      "claim": "browser = await uc.start() page = await browser.get('https://www.nowsecure.nl')",
+      "confidence": null,
+      "status": "needs_adjudication",
+      "sources": [
+        "https://github.com/ultrafunkamsterdam/nodriver"
+      ],
+      "evidence": [
+        "ev-93",
+        "ev-81",
+        "ev-77"
+      ],
+      "method": "keyword-density-v0"
+    },
+    {
+      "id": "f-7",
+      "claim": "if __name__ == \"__main__\": asyncio.run(main())",
+      "confidence": null,
+      "status": "needs_adjudication",
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation"
+      ],
+      "evidence": [
+        "ev-183",
+        "ev-191",
+        "ev-230"
+      ],
+      "method": "keyword-density-v0"
+    },
+    {
+      "id": "f-8",
+      "claim": "// Create the Browser Automation tool using the Playwright connection. BrowserAutomationPreviewTool playwrightTool = new( new BrowserAutomationToolParameters( new BrowserAutomationToolConnectionParameters(browserConnectionId) ));",
+      "confidence": null,
+      "status": "needs_adjudication",
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation"
+      ],
+      "evidence": [
+        "ev-183",
+        "ev-191",
+        "ev-230"
+      ],
+      "method": "keyword-density-v0"
+    },
+    {
+      "id": "f-9",
+      "claim": "console.log(\"\\nBrowser Automation sample completed!\"); }",
+      "confidence": null,
+      "status": "needs_adjudication",
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/browser-automation"
+      ],
+      "evidence": [
+        "ev-183",
+        "ev-191",
+        "ev-230"
+      ],
+      "method": "keyword-density-v0"
+    },
+    {
+      "id": "f-10",
+      "claim": "For information requests under the EU AI Act and related inquiries: MSFTAIActRequest@microsoft.com",
+      "confidence": null,
+      "status": "needs_adjudication",
+      "sources": [
+        "https://huggingface.co/microsoft/Fara1.5-9B/blob/main/README.md"
+      ],
+      "evidence": [
+        "ev-316",
+        "ev-283",
+        "ev-299"
+      ],
+      "method": "keyword-density-v0"
+    },
+    {
+      "id": "f-11",
+      "claim": "Fara1.5-9B is trained against a specific system prompt. Use it verbatim for best results: You are Fara, a computer use agent (CUA) specialized for web browsers. You are developed by Microsoft AI Frontiers. You assist users with completing and automating tasks that require the use of a web browser.",
+      "confidence": null,
+      "status": "needs_adjudication",
+      "sources": [
+        "https://huggingface.co/microsoft/Fara1.5-9B/blob/main/README.md"
+      ],
+      "evidence": [
+        "ev-316",
+        "ev-283",
+        "ev-299"
+      ],
+      "method": "keyword-density-v0"
+    },
+    {
+      "id": "f-12",
+      "claim": "Fara1.5-9B is trained to pause and ask the user at three types of critical points:",
+      "confidence": null,
+      "status": "needs_adjudication",
+      "sources": [
+        "https://huggingface.co/microsoft/Fara1.5-9B/blob/main/README.md"
+      ],
+      "evidence": [
+        "ev-316",
+        "ev-283",
+        "ev-299"
+      ],
+      "method": "keyword-density-v0"
+    },
+    {
+      "id": "f-13",
+      "claim": "We\u2019re open-sourcing Browser Tools SDK: a small TypeScript package to give any AI agent a reliable way to control a real browser. With just a few lines of code, you can give any agent a production-ready browser harness<p><pre><code>  import { createAiSdkBrowserTools } from &quot;libretto-browser-tools&#x2F;ai-sdk&quot;;\n  import { LocalBrowserProvider } from &quot;libretto-browser-tools&quot;;\n\n  c",
+      "confidence": null,
+      "status": "community_signal",
+      "sources": [
+        "https://news.ycombinator.com/item?id=48998262",
+        "https://news.ycombinator.com/item?id=49178393",
+        "https://news.ycombinator.com/item?id=48886547"
+      ],
+      "evidence": [
+        "ev-320",
+        "ev-318",
+        "ev-321"
+      ],
+      "method": "keyword-density-v0",
+      "dates": [
+        "2026-07-13",
+        "2026-07-21",
+        "2026-08-05"
+      ],
+      "community": {
+        "class": "community",
+        "frequency": 8,
+        "subreddit": "hacker-news"
+      }
+    },
+    {
+      "id": "f-14",
+      "claim": "OpenAI is a deeply mismanaged company. Most recently, a blog post that feels like it has got to have dozens of PR violations, responding to the Apple lawsuit.<p>More broadly, OpenAI\u2019s main problem is that it does not have a real competitive advantage. No real models do; the real differentiation is price; they will become commodities. The need to move upwards in the market in enterprise software is",
+      "confidence": null,
+      "status": "community_signal",
+      "sources": [
+        "https://news.ycombinator.com/item?id=48998262",
+        "https://news.ycombinator.com/item?id=49178393",
+        "https://news.ycombinator.com/item?id=48886547"
+      ],
+      "evidence": [
+        "ev-320",
+        "ev-318",
+        "ev-321"
+      ],
+      "method": "keyword-density-v0",
+      "dates": [
+        "2026-07-13",
+        "2026-07-21",
+        "2026-08-05"
+      ],
+      "community": {
+        "class": "community",
+        "frequency": 8,
+        "subreddit": "hacker-news"
+      }
+    },
+    {
+      "id": "f-15",
+      "claim": "Hey folks, I&#x27;ve been building Clark solo, with the aim to match Manus agent (I really like it!) in features and capabilities, but also in its relentless ability to just complete tasks while using browser, computer etc. So far I think I&#x27;ve achieved 1:1 core feature parity:\n1) computer use agent\n2) browser use in same thread\n3) wide and deep research - clark calls clark\n4) integration with",
+      "confidence": null,
+      "status": "community_signal",
+      "sources": [
+        "https://news.ycombinator.com/item?id=48998262",
+        "https://news.ycombinator.com/item?id=49178393",
+        "https://news.ycombinator.com/item?id=48886547"
+      ],
+      "evidence": [
+        "ev-320",
+        "ev-318",
+        "ev-321"
+      ],
+      "method": "keyword-density-v0",
+      "dates": [
+        "2026-07-13",
+        "2026-07-21",
+        "2026-08-05"
+      ],
+      "community": {
+        "class": "community",
+        "frequency": 8,
+        "subreddit": "hacker-news"
+      }
+    },
+    {
+      "id": "f-16",
+      "claim": "I got tired of gluing together proxy rotation, fingerprint spoofing, job queues, and deploy scripts every time I needed to run browser automation (bots&#x2F;scrapers) at scale. So I built an orchestration layer for it.<p>You write a Python script (Playwright, Selenium, or nodriver), add a JSON config, and Armada distributes the work across K8s pods. Jobs go through RabbitMQ, per-pod configs are se",
+      "confidence": null,
+      "status": "community_signal",
+      "sources": [
+        "https://news.ycombinator.com/item?id=47218198",
+        "https://news.ycombinator.com/item?id=47758203",
+        "https://news.ycombinator.com/item?id=45362134"
+      ],
+      "evidence": [
+        "ev-329",
+        "ev-327",
+        "ev-330"
+      ],
+      "method": "keyword-density-v0",
+      "dates": [
+        "2025-09-24",
+        "2026-03-02",
+        "2026-04-13"
+      ],
+      "community": {
+        "class": "community",
+        "frequency": 5,
+        "subreddit": "hacker-news"
+      }
+    },
+    {
+      "id": "f-17",
+      "claim": "I have a Dell 1320c, I&#x27;ve had it for 15 years, but the drivers stopped getting created many many years ago. It was sort of working in OS X but will stop when rosetta 2 goes away. I&#x27;m running Linux on an M1 mac and no driver support for aarch64. It has an old i386 CUPS driver, I used it and with some help from AI got byte perfect matching in the stream. It uses some proprietary compressio",
+      "confidence": null,
+      "status": "community_signal",
+      "sources": [
+        "https://news.ycombinator.com/item?id=47218198",
+        "https://news.ycombinator.com/item?id=47758203",
+        "https://news.ycombinator.com/item?id=45362134"
+      ],
+      "evidence": [
+        "ev-329",
+        "ev-327",
+        "ev-330"
+      ],
+      "method": "keyword-density-v0",
+      "dates": [
+        "2025-09-24",
+        "2026-03-02",
+        "2026-04-13"
+      ],
+      "community": {
+        "class": "community",
+        "frequency": 5,
+        "subreddit": "hacker-news"
+      }
+    },
+    {
+      "id": "f-18",
+      "claim": "I\u2019ve been tinkering on a small side project: a web dashboard that lets you plug a board into your laptop and\n  get an instant serial monitor + real-time plots. No IDE, no driver hunt\u2014just Chrome&#x2F;Edge and a USB cable.<p><pre><code>  - Built mainly for people who occasionally need to check an Arduino&#x2F;Teensy&#x2F;Rpi etc. (engineers outside firmware teams,\n  workshop hosts, makers on the go",
+      "confidence": null,
+      "status": "community_signal",
+      "sources": [
+        "https://news.ycombinator.com/item?id=47218198",
+        "https://news.ycombinator.com/item?id=47758203",
+        "https://news.ycombinator.com/item?id=45362134"
+      ],
+      "evidence": [
+        "ev-329",
+        "ev-327",
+        "ev-330"
+      ],
+      "method": "keyword-density-v0",
+      "dates": [
+        "2025-09-24",
+        "2026-03-02",
+        "2026-04-13"
+      ],
+      "community": {
+        "class": "community",
+        "frequency": 5,
+        "subreddit": "hacker-news"
+      }
+    }
+  ],
+  "notes": "Extraction v0 is mechanical: paragraphs, keyword density, truncation. Findings are DRAFT candidate findings requiring adjudication before any corpus admission. Sessions are operational evidence records."
+}

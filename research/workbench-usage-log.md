@@ -267,3 +267,28 @@ started, updated, progress (free-form), research_session, outputs.
 First truthful records: research-001/publish-001/website-001 done;
 research-002 done (18 drafts awaiting review); publish-002 queued
 (awaiting research review).
+
+## Session 002 — adjudication (2026-08-05)
+
+Reviewer decision: Promising, not yet publishable. Core claim had to be
+adjudicated before any pack.
+
+Outcome: 1 approve, 4 revise, 13 reject, 5 add = 10 accepted of 18 drafts
+(Research Yield 56%; raw draft survival 28% — 5 of 18 drafts survived
+review unchanged or revised, the rest were restatements/code samples/
+off-topic HN hits).
+
+Decisive review question answered by synthesis f-19: Fara is a vision-first
+AI computer-use LAYER (model, screenshots, pixel-grounded actions, harness
+required), Nodriver is a CDP browser DRIVER (successor of
+undetected-chromedriver, WAF resistance). Different classes, not successor.
+
+Reviewer guidance recorded:
+- No further Job Status Contract changes until publishing jobs have flowed
+  through it (defer owner-vs-state separation and dependencies).
+- Evidence uniqueness ratio (330 entries vs unique observations) noted as a
+  candidate quality metric — not built.
+- Article must organize around abstraction layers (AI decides vs developer
+  decides), not feature-by-feature.
+- Community volume caveat: report as "limited discussion", never consensus.
+- No publish pack yet — waiting for framing approval.

@@ -3,9 +3,9 @@
   "job": "publish-002",
   "type": "publishing",
   "owner": "hpf-publish",
-  "status": "queued",
+  "status": "review",
   "started": "2026-08-05T06:03:27.562690+00:00",
-  "updated": "2026-08-05T06:03:27.562720+00:00",
-  "progress": "awaiting research review",
+  "updated": "2026-08-05T06:15:40.350347+00:00",
+  "progress": "adjudication complete; framing decision pending",
   "research_session": "2026-08-05-0601-microsoft-fara-vs-nodriver-arc"
 }
