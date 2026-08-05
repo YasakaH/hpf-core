@@ -198,3 +198,22 @@ adjudication/publishing change, re-run the identical session and compare
 evidence, drafts, accepted findings, pack quality. Improvements that worsen
 accepted findings or add unsupported claims are regressions.
 
+## Operation phase (2026-08-05, development phase closed)
+
+Platform declared complete enough for its intended purpose; feedback loops
+(Research -> Review -> Publish -> Measure -> Improve) are now the driver.
+
+Daily routine:
+1. Choose research topic
+2. Run HPF
+3. Review findings
+4. Generate publish packs
+5. Publish (if ready)
+6. Log friction
+
+KPI set complete (no additions until weeks of data): Research Yield,
+Editing Time, Usage Log friction, Regression Session 001. Owner dashboard
+card deferred until 30-50 sessions. Priorities: run real research daily,
+publish from HPF not ad hoc prompts, measure editing time honestly, improve
+only what repeatedly slows work.
+
