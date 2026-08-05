@@ -440,3 +440,29 @@ Engineering review (8.5-9/10) findings addressed:
 Tests: test10 (matching algorithm) new + green; test9/4/8 green; syntax
 clean. Note: 'coverage' was named deliberately instead of 'confidence' —
 it measures keyword overlap, not certainty.
+
+## Watchlist schema v1 (2026-08-05) — stable ids, normalization, validation
+
+Reviewer round 2 (9.7-9.8/10): five long-term maintainability refinements.
+Classified under decision-classification rule (entry 28):
+
+- Implemented (operational config / infrastructure):
+  - Stable vendor-independent canonical ids tech.<domain>.<name> + display
+    'name' field (vendor transfers never rewrite history).
+  - Alias normalization at load: everything normalized to lowercase with
+    non-alphanumeric runs collapsed to single space; matching on one
+    surface. 'playwright-python' = 'playwright python' = 'playwright_python'.
+  - schema: hpf-watchlist-v1 at top of YAML, enforced at load, emitted by
+    to_json(). Future schema changes versioned, not guessed.
+  - Startup validation failing fast: duplicate ids / duplicate normalized
+    aliases / missing aliases / missing type / empty sections -> ValueError;
+    --check for CI. Config drift cannot be silent.
+  - Matching now also uses normalized display name as a match surface
+    (topic "Selenium" matches entry whose alias is "selenium webdriver").
+- Documented only (measurement note): coverage depends on keyword
+  generation -> treat as a debugging metric, NEVER compare across sessions
+  unless keyword generation is frozen. Recorded in watchlist.py docstring.
+
+Tests: test10 extended to 15 checks (8 matching + schema + 6 validation
+rejections) all PASS; test9 (names in chips, ids as titles) PASS; test4/8
+green. watchlist.json regenerated.

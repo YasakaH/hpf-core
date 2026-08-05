@@ -1,94 +1,123 @@
 # HPF Research Watchlist — operational configuration, not automation.
 #
-# This is the maintained list of technologies, vendors, repositories, and
-# domains the programme cares about. It is configuration only: no cron, no
-# discovery, no scoring. When (and if) the parked Research Opportunity
-# Engine is activated by measured evidence (chronicle entry 27), this list
-# becomes its seed rather than starting from scratch.
+# Schema: hpf-watchlist-v1
 #
-# Matching uses explicit identifiers and aliases — never substring matching.
-# An entry matches a topic when the topic contains an alias as a
-# word-bounded token or a session keyword equals an alias. This prevents
-# false positives like "chrome" matching "chromedriver".
+# Canonical ids are vendor-independent and stable (tech.<domain>.<name>);
+# vendor identities live in `name` and can change without rewriting history.
+# Matching is identifier-based: an entry matches a topic when a normalized
+# alias appears as a word-bounded token in the normalized topic, or a
+# normalized keyword equals an alias. Never substring matching.
 #
-# Future seed metadata (priority, sources, rss, reddit) is deliberately NOT
-# here yet: it belongs to the parked engine, not to this configuration.
+# Validation (enforced by tools/hpf-research/watchlist.py --check and at
+# load time): schema must match, ids unique, aliases present and unique,
+# no empty sections, type required.
+#
+# This is configuration only: no cron, no discovery, no scoring. When (and
+# if) the parked Research Opportunity Engine is activated by measured
+# evidence (chronicle entry 27), this list becomes its seed. Seed metadata
+# (priority, sources, rss, reddit) is deliberately NOT here yet.
+
+schema: hpf-watchlist-v1
 
 topics:
   browser-automation:
-    - id: microsoft/fara
+    - id: tech.browser.fara
+      name: Microsoft Fara
       aliases: [fara, fara1.5, fara ai]
       type: computer-use agent
-    - id: ultrafunkamsterdam/nodriver
+    - id: tech.browser.nodriver
+      name: ultrafunkamsterdam/nodriver
       aliases: [nodriver]
       type: driver
-    - id: microsoft/playwright
+    - id: tech.browser.playwright
+      name: Microsoft Playwright
       aliases: [playwright, playwright-python]
       type: framework
-    - id: browserbase
+    - id: tech.browser.browserbase
+      name: Browserbase
       aliases: [browser base]
       type: platform
-    - id: browser-use
+    - id: tech.browser.browseruse
+      name: Browser Use
       aliases: [browser use, browseruse]
       type: framework
-    - id: stagehand
+    - id: tech.browser.stagehand
+      name: Stagehand
       aliases: [stagehand ai]
       type: framework
-    - id: chrome-devtools-protocol
-      aliases: [cdp, chrome devtools, chrome-devtools]
+    - id: tech.browser.cdp
+      name: Chrome DevTools Protocol
+      aliases: [cdp, chrome devtools]
       type: protocol
-    - id: chromium
+    - id: tech.browser.chromium
+      name: Chromium
       aliases: [chromium browser]
       type: engine
-    - id: selenium
+    - id: tech.browser.selenium
+      name: Selenium
       aliases: [selenium webdriver]
       type: framework
-    - id: puppeteer
+    - id: tech.browser.puppeteer
+      name: Puppeteer
       aliases: [puppeteer js]
       type: framework
-    - id: undetected-chromedriver
+    - id: tech.browser.undetected-chromedriver
+      name: undetected-chromedriver
       aliases: [uc, undetected chromedriver]
       type: driver
-    - id: playwright-mcp
+    - id: tech.browser.playwright-mcp
+      name: Playwright MCP
       aliases: [playwright mcp]
       type: tool
 
   ai-agents:
-    - id: openai
+    - id: tech.agents.openai
+      name: OpenAI
       aliases: [openai agents, chatgpt]
       type: vendor
-    - id: anthropic
+    - id: tech.agents.anthropic
+      name: Anthropic
       aliases: [claude, anthropic claude]
       type: vendor
-    - id: model-context-protocol
+    - id: tech.agents.mcp
+      name: Model Context Protocol
       aliases: [mcp, model context protocol]
       type: protocol
-    - id: microsoft-foundry
+    - id: tech.agents.foundry
+      name: Microsoft Foundry
       aliases: [foundry, azure foundry]
       type: platform
-    - id: magentic
+    - id: tech.agents.magentic
+      name: Magentic
       aliases: [magentic ui, magentic-lite]
       type: framework
-    - id: computer-use
+    - id: tech.agents.cua
+      name: Computer Use Agents
       aliases: [cua, computer use agent, computer use]
       type: domain
 
   web-platform:
-    - id: chrome
+    - id: tech.web.chrome
+      name: Google Chrome
       aliases: [google chrome]
       type: engine
-    - id: firefox
+    - id: tech.web.firefox
+      name: Mozilla Firefox
       aliases: [mozilla firefox]
       type: engine
-    - id: webkit
+    - id: tech.web.webkit
+      name: WebKit
       aliases: [safari webkit]
       type: engine
-    - id: cloudflare
+    - id: tech.web.cloudflare
+      name: Cloudflare
       aliases: [cloudflare anti-bot]
       type: vendor
-    - id: w3c
-      aliases: [w3c standard, web platform]
+    - id: tech.web.w3c
+      name: W3C
+      aliases: [w3c standard]
       type: standards
-    - id: bots-api
+    - id: tech.web.bots
+      name: Anti-Bot / Bot Management
       aliases: [bot management, anti-bot, antibot]
       type: domain

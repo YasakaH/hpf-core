@@ -244,7 +244,7 @@ function viewResearch() {
     const evs = Array.isArray(s.evidence) ? s.evidence.length : (s.evidence || 0);
     const fnds = Array.isArray(s.findings) ? s.findings.length : (s.findings || 0);
     const watched = (s.watchlist && s.watchlist.matched && s.watchlist.matched.length)
-      ? `<div class="muted tiny">Watched: ${esc(s.watchlist.matched.join(", "))} · coverage ${esc(s.watchlist.coverage)}</div>` : "";
+      ? `<div class="muted tiny">Watched: ${esc(s.watchlist.matched.map((id) => watchName(id)).filter(Boolean).join(", "))} · coverage ${esc(s.watchlist.coverage)}</div>` : "";
     return `
     <div class="research-item">
       <div class="research-head">
@@ -284,6 +284,16 @@ function viewResearch() {
     </div>`;
 }
 
+function watchName(id) {
+  const w = state.watchlist;
+  if (!w || !w.topics) return id;
+  for (const entries of Object.values(w.topics)) {
+    const e = entries.find((x) => x.id === id);
+    if (e) return e.name || e.id;
+  }
+  return id;
+}
+
 function viewWatched() {
   const w = state.watchlist;
   if (!w || !w.topics) {
@@ -292,7 +302,7 @@ function viewWatched() {
   }
   const sections = Object.entries(w.topics).map(([section, entries]) => `
     <div class="card"><h2>${esc(section)}</h2>
-      <div class="chips">${entries.map((e) => `<span class="chip" title="${esc(e.type || "")}">${esc(e.id)}</span>`).join("")}</div>
+      <div class="chips">${entries.map((e) => `<span class="chip" title="${esc(e.type || "")} · ${esc(e.id)}">${esc(e.name || e.id)}</span>`).join("")}</div>
     </div>`).join("");
   return `
     <div class="row-between"><h1>Watched Technologies</h1><a class="btn ghost" href="#/research">Back</a></div>
