@@ -1,2 +1,4 @@
 ﻿# See https://github.com/github/gitignore
 __pycache__/
+
+tools/hpf-research/sessions/
