@@ -24,7 +24,28 @@ python research.py --topic "Microsoft Fara vs nodriver" \
 - `--url URL` fetches a page (stdlib only); `--import-md` imports a text/markdown
   file with a declared `--source-url`.
 - `--sync-web <dir>` copies the session into the workbench's `sessions/` dir and
-  writes `index.json` so the workbench can render it.
+  writes a summary manifest `index.json` so the workbench can render the session
+  list without loading full records.
+
+## Releasing sessions (first-class artifacts)
+
+Sessions follow the export-contract discipline, not ad-hoc file copies.
+
+```bash
+python tools/hpf-research/export_session.py <session-id>
+```
+
+- Copies the session (json + md) into `exports/sessions/<id>/` — the committed
+  release area, exactly like `exports/latest.json`.
+- Writes `exports/sessions/index.json` — a manifest of session summaries
+  (topic, status, created, duration, source/evidence/finding counts). The
+  workbench's home and session list render from these summaries without
+  fetching full records.
+- **Immutable**: releasing an id that already exists is refused. Re-releasing
+  a session is a new session, never an overwrite.
+- The release workflow (`Release HPF Workbench`) assembles `exports/sessions/`
+  into `website-hpf/sessions/` at deploy time — production shows released
+  sessions, while ad-hoc working sessions stay local.
 
 ## Session shape
 
@@ -43,4 +64,6 @@ field existed simply omit it.
 - Consumers of the workbench are read-only with respect to the corpus.
 - Findings carry `status: needs_adjudication` and `confidence: null` until the
   owner adjudicates them. A draft finding never implies corpus admission.
-- `website-hpf/sessions/` is git-ignored; sessions are dev/local artifacts.
+- `website-hpf/sessions/` is git-ignored (assembled at deploy time from
+  `exports/sessions/`); `exports/sessions/` is committed — it is the release
+  layer, and it is immutable.

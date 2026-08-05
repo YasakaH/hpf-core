@@ -46,14 +46,26 @@ async function loadSessions(baseUrl) {
   try {
     const idx = await fetch(baseUrl + "index.json").then((r) => r.json());
     const out = [];
-    for (const s of idx.sessions || []) {
+    for (const e of idx.sessions || []) {
       try {
-        const sess = await fetch(baseUrl + s.id + "/session.json").then((r) => r.json());
-        out.push(sess);
+        if (e && e.topic !== undefined && e.created !== undefined) {
+          out.push({ ...e, _manifest: true });
+        } else {
+          const sess = await fetch(baseUrl + e.id + "/session.json").then((r) => r.json());
+          out.push(sess);
+        }
       } catch { /* skip unreadable session */ }
     }
     return out;
   } catch { return []; }
+}
+
+async function loadFullSession(s) {
+  const base = (state.config.sessions_url || "sessions/");
+  const sess = await fetch(base + s.id + "/session.json").then((r) => r.json());
+  const i = state.sessions.findIndex((x) => x.id === s.id);
+  if (i !== -1) state.sessions[i] = sess;
+  return sess;
 }
 
 /* ---------- Research records (browser) ---------- */
@@ -78,6 +90,10 @@ function mergedResearch() {
     depth: s.depth,
     status: s.status,
     created: s.created,
+    duration_s: s.duration_s || null,
+    n_sources: Array.isArray(s.sources) ? s.sources.length : (s.sources || 0),
+    n_evidence: Array.isArray(s.evidence) ? s.evidence.length : (s.evidence || 0),
+    n_findings: Array.isArray(s.findings) ? s.findings.length : (s.findings || 0),
     kind: "session",
   }));
   return drafts.concat(sess).sort((a, b) => (b.created > a.created ? 1 : -1));
@@ -132,10 +148,16 @@ function viewHome() {
   const chips = examples.map((t) => `<button class="chip" data-example="${esc(t)}">${esc(t)}</button>`).join("");
   const recentList = recent.length ? `
     <div class="card"><h2>Recent research</h2>
-      ${recent.map((r) => `<div class="recent-item">
-        <span class="badge ${badgeFor(r.status)}">${esc(r.status)}</span>
-        <a href="${r.kind === "session" ? `#/research/session/${esc(r.id.split("session:")[1])}` : "#/research"}">${esc(r.topic)}</a>
-      </div>`).join("")}
+      ${recent.map((r) => {
+        const meta = r.kind === "session"
+          ? `${r.n_sources} sources · ${r.n_evidence} evidence · ${r.n_findings} findings${r.duration_s ? ` · ${fmtDuration(r.duration_s)}` : ""}`
+          : "";
+        return `<div class="recent-item">
+          <span class="badge ${badgeFor(r.status)}">${esc(r.status)}</span>
+          <a href="${r.kind === "session" ? `#/research/session/${esc(r.id.split("session:")[1])}` : "#/research"}">${esc(r.topic)}</a>
+          ${meta ? `<span class="muted"> · ${esc(meta)}</span>` : ""}
+        </div>`;
+      }).join("")}
     </div>` : "";
   return `
     <div class="hero">
@@ -187,7 +209,11 @@ function viewResearch() {
       </div>
     </div>`).join("")
     : `<p class="muted">No browser records yet.</p>`;
-  const sessRows = state.sessions.length ? state.sessions.sort((a, b) => (b.created > a.created ? 1 : -1)).map((s) => `
+  const sessRows = state.sessions.length ? state.sessions.sort((a, b) => (b.created > a.created ? 1 : -1)).map((s) => {
+    const srcs = Array.isArray(s.sources) ? s.sources.length : (s.sources || 0);
+    const evs = Array.isArray(s.evidence) ? s.evidence.length : (s.evidence || 0);
+    const fnds = Array.isArray(s.findings) ? s.findings.length : (s.findings || 0);
+    return `
     <div class="research-item">
       <div class="research-head">
         <div class="research-title"><a href="#/research/session/${encodeURIComponent(s.id)}">${esc(s.topic)}</a></div>
@@ -196,10 +222,11 @@ function viewResearch() {
       ${s.goal ? `<div class="muted">${esc(s.goal)}</div>` : ""}
       <div class="research-actions">
         <span class="badge ${badgeFor(s.status)}">${esc(s.status)}</span>
-        <span class="muted">${s.sources.length} sources · ${s.evidence.length} evidence · ${s.findings.length} draft findings</span>
+        <span class="muted">${srcs} sources · ${evs} evidence · ${fnds} draft findings${s.duration_s ? ` · ${esc(fmtDuration(s.duration_s))}` : ""}</span>
         <a class="more" href="#/research/session/${encodeURIComponent(s.id)}">Open session</a>
       </div>
-    </div>`).join("")
+    </div>`;
+  }).join("")
     : `<p class="muted">No orchestrator sessions yet.</p>`;
   const pipeline = [
     ["Plan investigation", "research question, goals, depth"],
@@ -249,6 +276,11 @@ function viewResearchNew(params) {
 function viewSession(id) {
   const s = state.sessions.find((x) => x.id === id);
   if (!s) return `<div class="card"><h2>Session not found</h2><p class="muted">${esc(id)}</p><p><a href="#/research">Back to research</a></p></div>`;
+  if (s._manifest) {
+    loadFullSession(s).then(() => render()).catch(() => {});
+    return `<div class="row-between"><h1>Research Session</h1><a class="btn ghost" href="#/research">Back</a></div>
+      <div class="card"><h2>${esc(s.topic)}</h2><p class="muted">Loading full session record…</p></div>`;
+  }
   const allDone = (s.stages || []).every((st) => st.state === "done");
   const currentIdx = (s.stages || []).findIndex((st) => st.state !== "done" && st.state !== "failed");
   const stages = (s.stages || []).map((st, i) => {
@@ -363,13 +395,17 @@ function setDecision(sid, v) {
   try { localStorage.setItem(DECISIONS_PREFIX + sid, v); } catch {}
 }
 
+function fmtDuration(secs) {
+  const s = Math.max(0, Math.round(secs || 0));
+  const h = Math.floor(s / 3600), m = Math.floor((s % 3600) / 60), sec = s % 60;
+  return (h ? h + "h " : "") + (m ? m + "m " : "") + sec + "s";
+}
+
 function elapsedFrom(started, finished) {
   if (!started || !finished) return "";
   const a = Date.parse(started), b = Date.parse(finished);
   if (isNaN(a) || isNaN(b) || b < a) return "";
-  const s = Math.round((b - a) / 1000);
-  const h = Math.floor(s / 3600), m = Math.floor((s % 3600) / 60), sec = s % 60;
-  return (h ? h + "h " : "") + (m ? m + "m " : "") + sec + "s";
+  return fmtDuration((b - a) / 1000);
 }
 
 /* ---------- Library ---------- */
@@ -440,7 +476,7 @@ function viewFindings() {
     <div class="card"><h2>${esc(d)} <span class="muted">(${claims.length})</span></h2>
       <ul class="findings">${claims.map((c) => `<li><span class="badge ${certClass(c.certainty)}">${esc(String(c.certainty))}</span> ${esc(c.claim)} <span class="muted">— <a href="#/object/${encodeURIComponent(c.id)}">${esc(c.title)}</a></span></li>`).join("")}</ul>
     </div>`).join("");
-  const sessionFindings = state.sessions.flatMap((s) => (s.findings || []).map((f) => ({ ...f, topic: s.topic, sid: s.id })));
+  const sessionFindings = state.sessions.flatMap((s) => (Array.isArray(s.findings) ? s.findings : []).map((f) => ({ ...f, topic: s.topic, sid: s.id })));
   const sessionSection = sessionFindings.length ? `
     <div class="card"><h2>Session findings (drafts) <span class="muted">(${sessionFindings.length})</span></h2>
       ${sessionFindings.map((f) => `<div class="finding-card ${badgeFor(f.status)}">
@@ -514,7 +550,7 @@ function viewObject(id) {
 function viewPublish() {
   const c = state.config;
   const contractUrl = c.contract_url || "#";
-  const drafts = state.sessions.flatMap((s) => (s.findings || []).length ? [{ id: s.id, topic: s.topic, n: s.findings.length }] : []);
+  const drafts = state.sessions.flatMap((s) => (Array.isArray(s.findings) && s.findings.length) ? [{ id: s.id, topic: s.topic, n: s.findings.length }] : []);
   const targets = [
     ["Blog post", "one finding → one narrative, technical"],
     ["Comparison", "side-by-side across two or more findings"],

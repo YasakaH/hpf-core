@@ -103,6 +103,69 @@ def density(paragraph: str, kw: list) -> float:
     return sum(text.count(k) for k in kw) / max(1, len(paragraph))
 
 
+def summary_of(s) -> dict:
+    duration_s = None
+    if s.get("started") and s.get("finished"):
+        try:
+            a = datetime.datetime.fromisoformat(s["started"])
+            b = datetime.datetime.fromisoformat(s["finished"])
+            duration_s = max(0, round((b - a).total_seconds()))
+        except (ValueError, TypeError):
+            duration_s = None
+    return {
+        "id": s.get("id"),
+        "topic": s.get("topic", ""),
+        "goal": s.get("goal", ""),
+        "audience": s.get("audience", ""),
+        "depth": s.get("depth", ""),
+        "status": s.get("status", ""),
+        "created": s.get("created", ""),
+        "duration_s": duration_s,
+        "sources": len(s.get("sources") or []),
+        "evidence": len(s.get("evidence") or []),
+        "findings": len(s.get("findings") or []),
+        "failed": sum(1 for x in (s.get("sources") or []) if x.get("status") == "failed"),
+    }
+
+
+def write_manifest(root: Path) -> int:
+    entries = []
+    for d in sorted(root.iterdir()):
+        if not d.is_dir():
+            continue
+        sf = d / "session.json"
+        if not sf.exists():
+            continue
+        try:
+            entries.append(summary_of(json.loads(sf.read_text(encoding="utf-8"))))
+        except (json.JSONDecodeError, OSError):
+            continue
+    entries.sort(key=lambda e: e.get("created") or "", reverse=True)
+    (root / "index.json").write_text(
+        json.dumps({"schema": "hpf-sessions-manifest-v0", "sessions": entries}, indent=2),
+        encoding="utf-8",
+    )
+    return len(entries)
+
+
+def promote_session(sid: str, src_root: Path, exports_root: Path) -> int:
+    src = src_root / sid
+    if not src.is_dir() or not (src / "session.json").exists():
+        print(f"! session not found: {sid}")
+        return 2
+    dst = exports_root / "sessions" / sid
+    if dst.exists():
+        print(f"! refused: {sid} already released (sessions are immutable once released)")
+        return 3
+    dst.mkdir(parents=True, exist_ok=True)
+    shutil.copy2(src / "session.json", dst / "session.json")
+    if (src / "session.md").exists():
+        shutil.copy2(src / "session.md", dst / "session.md")
+    n = write_manifest(exports_root / "sessions")
+    print(f"Released {sid} -> exports/sessions ({n} released sessions in manifest)")
+    return 0
+
+
 def make_session(topic, goal, audience, depth, sources, evidence, findings, activity, started, finished, dirpath):
     now = datetime.datetime.now(datetime.timezone.utc)
     sid = now.strftime("%Y-%m-%d-%H%M") + "-" + re.sub(r"[^a-z0-9-]+", "-", topic.lower()).strip("-")[:30]
@@ -234,12 +297,8 @@ def main():
         dst.mkdir(parents=True, exist_ok=True)
         src_dir = Path(args.dir) / sid
         shutil.copytree(src_dir, dst / sid, dirs_exist_ok=True)
-        ids = sorted(p.name for p in dst.iterdir() if p.is_dir())
-        (dst / "index.json").write_text(
-            json.dumps({"schema": "hpf-sessions-index-v0", "sessions": [{"id": i} for i in ids]}, indent=2),
-            encoding="utf-8",
-        )
-        print(f"Synced to website sessions: {dst} ({len(ids)} sessions)")
+        n = write_manifest(dst)
+        print(f"Synced to website sessions: {dst} ({n} sessions in manifest)")
 
 
 if __name__ == "__main__":

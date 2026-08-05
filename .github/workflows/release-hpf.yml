@@ -29,6 +29,16 @@ jobs:
           cp exports/latest.json website-hpf/data/export.json
           cp exports/latest.index.json website-hpf/data/index.json
 
+      - name: Assemble released sessions
+        run: |
+          if [ -d exports/sessions ]; then
+            mkdir -p website-hpf/sessions
+            cp -r exports/sessions/. website-hpf/sessions/
+            echo "assembled $(ls website-hpf/sessions | wc -l) session entries"
+          else
+            echo "no released sessions yet"
+          fi
+
       - name: Deploy to Cloudflare Pages
         uses: cloudflare/wrangler-action@v3
         with:

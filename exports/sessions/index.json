@@ -1,0 +1,19 @@
+{
+  "schema": "hpf-sessions-manifest-v0",
+  "sessions": [
+    {
+      "id": "2026-08-05-0219-microsoft-fara-vs-nodriver",
+      "topic": "Microsoft Fara vs nodriver",
+      "goal": "Does Microsoft Fara make nodriver obsolete?",
+      "audience": "Blog",
+      "depth": "standard",
+      "status": "draft",
+      "created": "2026-08-05T02:19:29.234597+00:00",
+      "duration_s": 0,
+      "sources": 4,
+      "evidence": 26,
+      "findings": 12,
+      "failed": 0
+    }
+  ]
+}
