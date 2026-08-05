@@ -1,8 +1,9 @@
 /* HPF Research Workbench — internal knowledge system SPA.
    Consumes ONLY the knowledge-export-core-v1 contract (data/export.json) and
    its derived index (data/index.json). Never reads engine internals.
-   Authentication is handled at the edge by Cloudflare Access — this
-   application assumes anyone who reaches it has been authenticated.
+   Research sessions are operational evidence records (config.sessions_url),
+   not corpus knowledge — they render pipeline + drafts for adjudication.
+   Authentication is handled at the edge by Cloudflare Access.
    config.json (optional) holds links; the workbench works without it. */
 
 "use strict";
@@ -11,6 +12,7 @@ const state = {
   export: null,
   index: null,
   config: {},
+  sessions: [],
 };
 
 const $ = (sel) => document.querySelector(sel);
@@ -37,9 +39,24 @@ async function loadData() {
     portal.href = cfg.site_url;
     portal.classList.remove("hidden");
   }
+  if (cfg && cfg.sessions_url) state.sessions = await loadSessions(cfg.sessions_url);
 }
 
-/* ---------- Research records (local storage) ---------- */
+async function loadSessions(baseUrl) {
+  try {
+    const idx = await fetch(baseUrl + "index.json").then((r) => r.json());
+    const out = [];
+    for (const s of idx.sessions || []) {
+      try {
+        const sess = await fetch(baseUrl + s.id + "/session.json").then((r) => r.json());
+        out.push(sess);
+      } catch { /* skip unreadable session */ }
+    }
+    return out;
+  } catch { return []; }
+}
+
+/* ---------- Research records (browser) ---------- */
 
 const DRAFTS_KEY = "hpf.research.drafts";
 
@@ -49,6 +66,21 @@ function getDrafts() {
 
 function saveDrafts(d) {
   localStorage.setItem(DRAFTS_KEY, JSON.stringify(d));
+}
+
+function mergedResearch() {
+  const drafts = getDrafts().map((d) => ({ ...d, kind: "record" }));
+  const sess = state.sessions.map((s) => ({
+    id: "session:" + s.id,
+    topic: s.topic,
+    goal: s.goal || "",
+    audience: s.audience,
+    depth: s.depth,
+    status: s.status,
+    created: s.created,
+    kind: "session",
+  }));
+  return drafts.concat(sess).sort((a, b) => (b.created > a.created ? 1 : -1));
 }
 
 /* ---------- Routing ---------- */
@@ -74,12 +106,11 @@ function render() {
   const main = $("#main");
   const one = parts[0] || "home";
   if (one === "home") main.innerHTML = viewHome();
-  else if (one === "research") main.innerHTML = parts[1] === "new" ? viewResearchNew(params) : viewResearch();
-  else if (one === "knowledge") main.innerHTML = parts[1] === "findings" ? viewFindings() : viewKnowledge();
-  else if (one === "relationships") main.innerHTML = viewRelationships();
+  else if (one === "research") main.innerHTML = parts[1] === "new" ? viewResearchNew(params) : parts[1] === "session" ? viewSession(parts[2]) : viewResearch();
+  else if (one === "library") main.innerHTML = viewLibrary(parts[1]);
+  else if (one === "findings") main.innerHTML = viewFindings();
+  else if (one === "publish") main.innerHTML = viewPublish();
   else if (one === "validation") main.innerHTML = viewValidation();
-  else if (one === "corpus") main.innerHTML = viewCorpus();
-  else if (one === "publishing") main.innerHTML = viewPublishing();
   else if (one === "diagnostics") main.innerHTML = viewDiagnostics();
   else if (one === "object") main.innerHTML = viewObject(parts[1]);
   else main.innerHTML = viewHome();
@@ -89,8 +120,7 @@ function render() {
 /* ---------- Home ---------- */
 
 function viewHome() {
-  const i = state.index;
-  const s = i.summary;
+  const s = state.index.summary;
   const examples = [
     "Compare Microsoft Fara vs nodriver",
     "Latest browser automation tools",
@@ -98,24 +128,44 @@ function viewHome() {
     "Review my cookbook",
     "Import an RFC into the corpus",
   ];
-  const drafts = getDrafts();
-  const researching = drafts.filter((d) => d.status !== "completed").length;
+  const recent = mergedResearch().slice(0, 4);
   const chips = examples.map((t) => `<button class="chip" data-example="${esc(t)}">${esc(t)}</button>`).join("");
+  const recentList = recent.length ? `
+    <div class="card"><h2>Recent research</h2>
+      ${recent.map((r) => `<div class="recent-item">
+        <span class="badge ${badgeFor(r.status)}">${esc(r.status)}</span>
+        <a href="${r.kind === "session" ? `#/research/session/${esc(r.id.split("session:")[1])}` : "#/research"}">${esc(r.topic)}</a>
+      </div>`).join("")}
+    </div>` : "";
   return `
     <div class="hero">
+      <div class="hero-kicker">HPF Research</div>
       <h1>What would you like to research?</h1>
       <form id="prompt-form" class="prompt">
         <input id="prompt-input" type="text" placeholder="Describe a question, topic, or paper…" autocomplete="off">
-        <button type="submit" class="btn">Research</button>
+        <button type="submit" class="btn btn-deep">Research</button>
       </form>
+      <div class="hero-actions">
+        <button class="btn" id="deep-research">Deep Research</button>
+        <button class="btn ghost" id="quick-research">Quick Research</button>
+        ${getDrafts().length ? `<button class="btn ghost" id="continue-research">Continue Previous Research</button>` : ""}
+      </div>
       <div class="chips">${chips}</div>
     </div>
     <div class="grid">
-      <div class="stat"><div class="num ok">${s.valid}</div><div class="label">Concepts in the corpus</div><a class="more" href="#/knowledge">Browse</a></div>
-      <div class="stat"><div class="num ${s.invalid ? "warn" : "ok"}">${s.invalid}</div><div class="label">Files needing attention</div><a class="more" href="#/validation">Corpus health</a></div>
-      <div class="stat"><div class="num">${i.edges.length}</div><div class="label">Relationships mapped</div><a class="more" href="#/relationships">Explore</a></div>
-      <div class="stat"><div class="num">${researching}</div><div class="label">Research records</div><a class="more" href="#/research">Open</a></div>
-    </div>`;
+      <div class="stat"><div class="num ok">${s.valid}</div><div class="label">Concepts in the corpus</div><a class="more" href="#/library">Browse</a></div>
+      <div class="stat"><div class="num ${s.invalid ? "warn" : "ok"}">${s.invalid}</div><div class="label">Documents needing attention</div><a class="more" href="#/validation">Corpus quality</a></div>
+      <div class="stat"><div class="num">${state.sessions.length}</div><div class="label">Research sessions</div><a class="more" href="#/research">Open</a></div>
+      <div class="stat"><div class="num">${state.index.edges.length}</div><div class="label">Relationships mapped</div><a class="more" href="#/library">Library</a></div>
+    </div>
+    ${recentList}
+    <p class="muted" style="margin-top:16px">Release ${esc((state.export.generated_at || "").slice(0, 10))} · ${s.total} objects · ${s.cycles ? s.cycles.join(", ") : ""} cycles</p>`;
+}
+
+function badgeFor(status) {
+  if (status === "completed" || status === "verified" || status === "valid") return "valid";
+  if (status === "running" || status === "needs_adjudication" || status === "in_review") return "warn";
+  return "planned";
 }
 
 /* ---------- Research ---------- */
@@ -126,17 +176,31 @@ function viewResearch() {
     <div class="research-item">
       <div class="research-head">
         <div class="research-title">${esc(d.topic)}</div>
-        <div class="research-meta">${esc(d.created.slice(0, 10))} · ${esc(d.audience)} · ${esc(d.depth)}</div>
+        <div class="research-meta">${esc(d.created.slice(0, 10))} · ${esc(d.audience)} · ${esc(d.depth)} · browser record</div>
       </div>
       ${d.goal ? `<div class="muted">${esc(d.goal)}</div>` : ""}
       <div class="research-actions">
-        <span class="badge ${esc(d.status)}">${esc(d.status)}</span>
+        <span class="badge ${badgeFor(d.status)}">${esc(d.status)}</span>
         ${d.status !== "running" ? `<button class="btn small" data-draft="${esc(d.id)}" data-next="running">Start</button>` : ""}
         ${d.status !== "completed" ? `<button class="btn small" data-draft="${esc(d.id)}" data-next="completed">Complete</button>` : ""}
         <button class="btn small ghost" data-draft="${esc(d.id)}" data-delete="1">Delete</button>
       </div>
     </div>`).join("")
-    : `<p class="muted">No research records yet. Records live in this browser until the research orchestrator is built — they will become its intake.</p>`;
+    : `<p class="muted">No browser records yet.</p>`;
+  const sessRows = state.sessions.length ? state.sessions.sort((a, b) => (b.created > a.created ? 1 : -1)).map((s) => `
+    <div class="research-item">
+      <div class="research-head">
+        <div class="research-title"><a href="#/research/session/${encodeURIComponent(s.id)}">${esc(s.topic)}</a></div>
+        <div class="research-meta">${esc(s.created.slice(0, 10))} · ${esc(s.audience)} · ${esc(s.depth)} · orchestrator session</div>
+      </div>
+      ${s.goal ? `<div class="muted">${esc(s.goal)}</div>` : ""}
+      <div class="research-actions">
+        <span class="badge ${badgeFor(s.status)}">${esc(s.status)}</span>
+        <span class="muted">${s.sources.length} sources · ${s.evidence.length} evidence · ${s.findings.length} draft findings</span>
+        <a class="more" href="#/research/session/${encodeURIComponent(s.id)}">Open session</a>
+      </div>
+    </div>`).join("")
+    : `<p class="muted">No orchestrator sessions yet.</p>`;
   const pipeline = [
     ["Plan investigation", "research question, goals, depth"],
     ["Collect sources", "docs, GitHub, papers, benchmarks, community"],
@@ -149,14 +213,17 @@ function viewResearch() {
   return `
     <div class="row-between"><h1>Research</h1><button class="btn" id="new-research">New Research</button></div>
     <div class="card"><h2>Pipeline</h2>
-      <p class="muted">HPF performs research; it does not write articles. The orchestrator (agent dispatch, evidence collection, adjudication) is the next subsystem to build. Records started here become its intake.</p>
+      <p class="muted">HPF performs research; it does not write articles. The orchestrator (tools/hpf-research) collects evidence mechanically and emits draft findings for adjudication — it never touches the corpus. Admitted findings flow to export, then to publishing.</p>
       <ol class="pipeline">${pipeline}</ol>
     </div>
-    <div class="card"><h2>Records (${drafts.length})</h2>${rows}</div>`;
+    <div class="card"><h2>Sessions (${state.sessions.length})</h2>${sessRows}</div>
+    <div class="card"><h2>Browser records (${drafts.length})</h2>${rows}</div>`;
 }
 
 function viewResearchNew(params) {
   const topic = params.get("topic") || "";
+  const depth = params.get("depth") || "standard";
+  const depthSel = (v) => `<option value="${v}" ${depth === v ? "selected" : ""}>${esc(v[0].toUpperCase() + v.slice(1))}</option>`;
   return `
     <div class="row-between"><h1>New Research</h1><button class="btn ghost" id="back-research">Back</button></div>
     <div class="card" style="max-width:720px">
@@ -171,66 +238,69 @@ function viewResearchNew(params) {
         </div>
         <div class="form-row">
           <label>Depth</label>
-          <select name="depth">
-            <option>Quick</option><option selected>Standard</option><option>Deep</option>
-          </select>
+          <select name="depth">${depthSel("quick")}${depthSel("standard")}${depthSel("deep")}</select>
         </div>
         <button type="submit" class="btn">Record research</button>
-        <p class="muted" style="margin-top:8px">Records intent in this browser. The orchestration pipeline executes once built.</p>
+        <p class="muted" style="margin-top:8px">Browser records capture intent. To produce a working session, run the orchestrator: <code>python tools/hpf-research/research.py --topic "..."</code> — then sync its output into website-hpf/sessions/.</p>
       </form>
     </div>`;
 }
 
-/* ---------- Knowledge ---------- */
+function viewSession(id) {
+  const s = state.sessions.find((x) => x.id === id);
+  if (!s) return `<div class="card"><h2>Session not found</h2><p class="muted">${esc(id)}</p><p><a href="#/research">Back to research</a></p></div>`;
+  const stages = (s.stages || []).map((st, i) => {
+    const dot = st.state === "done" ? "done" : st.state === "failed" ? "bad" : "";
+    return `<li class="stage-${dot || "planned"}"><span class="stage-dot"></span><b>${esc(st.name)}</b> <span class="muted">— ${esc(st.detail)}</span></li>`;
+  }).join("");
+  const sources = (s.sources || []).map((src) => `<li><a href="${esc(src.url)}" target="_blank" rel="noopener">${esc(src.title)}</a> <span class="muted">· ${esc(src.status)}${src.chars ? " · " + src.chars + " chars" : ""}</span></li>`).join("");
+  const evidence = (s.evidence || []).map((ev) => `<div class="evidence-item"><span class="muted">[${esc(ev.id)}]</span> <span class="ev-src">${esc(ev.source)}</span><div class="ev-text">${esc(ev.excerpt)}</div></div>`).join("");
+  const findings = (s.findings || []).map((f) => `
+    <div class="finding-card ${badgeFor(f.status)}">
+      <div class="finding-head"><span class="badge ${badgeFor(f.status)}">${esc(f.status)}</span> <span class="muted">${esc(f.id)} · method ${esc(f.method)}</span></div>
+      <div class="finding-claim">${esc(f.claim)}</div>
+      <div class="muted">Sources: ${f.sources.map((u) => esc(u)).join(" · ")}</div>
+    </div>`).join("");
+  return `
+    <div class="row-between"><h1>Research Session</h1><a class="btn ghost" href="#/research">Back</a></div>
+    <div class="card session-head">
+      <h2>${esc(s.topic)}</h2>
+      <div class="research-actions">
+        <span class="badge ${badgeFor(s.status)}">${esc(s.status)}</span>
+        <span class="muted">${esc(s.created.replace("T", " ").slice(0, 16))} · ${esc(s.audience)} · ${esc(s.depth)} · ${esc(s.id)}</span>
+      </div>
+      ${s.goal ? `<p class="muted">Goal: ${esc(s.goal)}</p>` : ""}
+    </div>
+    <div class="card"><h2>Research plan</h2><ol class="pipeline">${stages}</ol></div>
+    <div class="card"><h2>Sources (${(s.sources || []).length})</h2><ul>${sources}</ul></div>
+    <div class="card"><h2>Findings (${(s.findings || []).length}) — drafts, require adjudication</h2>${findings}</div>
+    <div class="card"><h2>Evidence (${(s.evidence || []).length})</h2>${evidence}</div>
+    <p class="muted">${esc(s.notes || "")}</p>`;
+}
 
-function viewKnowledge() {
+/* ---------- Library ---------- */
+
+function viewLibrary(tab) {
+  const active = tab || "concepts";
+  const tabBtn = (id, label) => `<button class="tab ${active === id ? "active" : ""}" data-tab="${id}">${label}</button>`;
+  const tabs = `<div class="tabs">${tabBtn("concepts", "Concepts")}${tabBtn("relationships", "Relationships")}</div>`;
+  if (active === "relationships") return `<div class="row-between"><h1>Library</h1></div>${tabs}${viewRelationshipsBody()}`;
   const objs = state.index.objects.filter((o) => o.valid);
   const rows = objs.slice().sort((a, b) => a.title.localeCompare(b.title)).map((o) => `
     <div class="concept"><a href="#/object/${encodeURIComponent(o.id)}">${esc(o.title)}</a>
       <div class="muted">${esc(o.kind)} · ${esc(o.domain)} · cycle ${esc(o.cycle)}</div>
     </div>`).join("");
-  return `
-    <div class="row-between"><h1>Concepts</h1></div>
+  return `<div class="row-between"><h1>Library</h1></div>${tabs}
     <div class="card"><h2>Corpus (${objs.length} valid)</h2>
       <input type="text" id="concept-q" placeholder="Filter concepts…" autocomplete="off">
       <div class="concept-grid" id="concept-grid">${rows}</div>
     </div>`;
 }
 
-function viewFindings() {
-  const objs = (state.export.objects || []).filter((o) => o.schema_validation === "valid" && o.claims && o.claims.length);
-  const byDomain = {};
-  let total = 0;
-  for (const o of objs) {
-    for (const c of o.claims) {
-      total++;
-      const d = o.domain || "unassigned";
-      (byDomain[d] = byDomain[d] || []).push({ claim: c.claim, certainty: c.certainty, id: o.id, title: o.title });
-    }
-  }
-  const domains = Object.entries(byDomain).sort((a, b) => b[1].length - a[1].length);
-  const sections = domains.map(([d, claims]) => `
-    <div class="card"><h2>${esc(d)} <span class="muted">(${claims.length})</span></h2>
-      <ul class="findings">${claims.map((c) => `<li><span class="badge ${certClass(c.certainty)}">${esc(String(c.certainty))}</span> ${esc(c.claim)} <span class="muted">— <a href="#/object/${encodeURIComponent(c.id)}">${esc(c.title)}</a></span></li>`).join("")}</ul>
-    </div>`).join("");
-  return `
-    <div class="row-between"><h1>Findings</h1></div>
-    <div class="card"><h2>Evidence the corpus carries</h2>
-      <p class="muted">Previewed from exported claims across ${objs.length} concepts (${total} claims). A first-class findings model is roadmap — it should be produced by research orchestration; this view shows what the corpus already asserts.</p>
-    </div>
-    ${sections || `<p class="muted">No claims exported.</p>`}`;
-}
-
-function certClass(v) {
-  const n = String(v || "").toLowerCase();
-  return n === "high" ? "valid" : n === "medium" ? "warn" : n === "low" ? "bad" : "";
-}
-
-function viewRelationships() {
+function viewRelationshipsBody() {
   const edges = state.index.edges;
   const cross = state.index.cross_domain_edges;
   return `
-    <div class="row-between"><h1>Relationships</h1></div>
     <div class="grid">
       <div class="stat"><div class="num">${edges.length}</div><div class="label">All edges (valid objects)</div></div>
       <div class="stat"><div class="num">${cross.length}</div><div class="label">Cross-domain edges</div></div>
@@ -256,6 +326,46 @@ function viewRelationships() {
         </tr>`).join("")}
       </table>
     </div>`;
+}
+
+/* ---------- Findings ---------- */
+
+function viewFindings() {
+  const objs = (state.export.objects || []).filter((o) => o.schema_validation === "valid" && o.claims && o.claims.length);
+  const byDomain = {};
+  let total = 0;
+  for (const o of objs) {
+    for (const c of o.claims) {
+      total++;
+      const d = o.domain || "unassigned";
+      (byDomain[d] = byDomain[d] || []).push({ claim: c.claim, certainty: c.certainty, id: o.id, title: o.title });
+    }
+  }
+  const domains = Object.entries(byDomain).sort((a, b) => b[1].length - a[1].length);
+  const corpusSections = domains.map(([d, claims]) => `
+    <div class="card"><h2>${esc(d)} <span class="muted">(${claims.length})</span></h2>
+      <ul class="findings">${claims.map((c) => `<li><span class="badge ${certClass(c.certainty)}">${esc(String(c.certainty))}</span> ${esc(c.claim)} <span class="muted">— <a href="#/object/${encodeURIComponent(c.id)}">${esc(c.title)}</a></span></li>`).join("")}</ul>
+    </div>`).join("");
+  const sessionFindings = state.sessions.flatMap((s) => (s.findings || []).map((f) => ({ ...f, topic: s.topic, sid: s.id })));
+  const sessionSection = sessionFindings.length ? `
+    <div class="card"><h2>Session findings (drafts) <span class="muted">(${sessionFindings.length})</span></h2>
+      ${sessionFindings.map((f) => `<div class="finding-card ${badgeFor(f.status)}">
+        <div class="finding-head"><span class="badge ${badgeFor(f.status)}">${esc(f.status)}</span> <a href="#/research/session/${encodeURIComponent(f.sid)}">${esc(f.topic)}</a></div>
+        <div class="finding-claim">${esc(f.claim)}</div>
+      </div>`).join("")}
+    </div>` : "";
+  return `
+    <div class="row-between"><h1>Findings</h1></div>
+    <div class="card"><h2>Evidence the corpus carries</h2>
+      <p class="muted">Corpus findings are previewed from exported claims across ${objs.length} concepts (${total} claims). Session findings are mechanical drafts awaiting adjudication — none are corpus knowledge until admitted through the authoring pipeline.</p>
+    </div>
+    ${sessionSection}
+    ${corpusSections || `<p class="muted">No claims exported.</p>`}`;
+}
+
+function certClass(v) {
+  const n = String(v || "").toLowerCase();
+  return n === "high" ? "valid" : n === "medium" ? "warn" : n === "low" ? "bad" : "";
 }
 
 /* ---------- Object detail ---------- */
@@ -305,7 +415,33 @@ function viewObject(id) {
     <div class="card">${blocks.join("") || `<p class="muted">No content.</p>`}</div>`;
 }
 
-/* ---------- Corpus Health ---------- */
+/* ---------- Publish ---------- */
+
+function viewPublish() {
+  const c = state.config;
+  const contractUrl = c.contract_url || "#";
+  const drafts = state.sessions.flatMap((s) => (s.findings || []).length ? [{ id: s.id, topic: s.topic, n: s.findings.length }] : []);
+  const targets = [
+    ["Blog post", "one finding → one narrative, technical"],
+    ["Comparison", "side-by-side across two or more findings"],
+    ["Whitepaper", "evidence-backed argument, multiple findings"],
+    ["Documentation", "reference material from validated concepts"],
+    ["Tutorial", "step-by-step from verified recommendations"],
+    ["FAQ", "extracts of the same findings"],
+    ["Release notes", "validated changes to the corpus"],
+  ].map(([t, d]) => `<li><b>${esc(t)}</b> <span class="muted">— ${esc(d)}</span></li>`).join("");
+  const sessionRows = drafts.length ? drafts.map((d) => `<li><a href="#/research/session/${encodeURIComponent(d.id)}">${esc(d.topic)}</a> — ${d.n} draft findings</li>`).join("") : `<li class="muted">No sessions with findings yet.</li>`;
+  return `
+    <div class="row-between"><h1>Publish</h1></div>
+    <div class="card"><h2>Downstream, never intertwined</h2>
+      <p class="muted">Publishing consumes validated findings from the export contract and renders them for an audience. It never researches; research never markets. Nothing here edits the corpus.</p>
+      <ul class="pipeline">${targets}</ul>
+      <p>Readers depend only on the contract: <a href="${esc(contractUrl)}" target="_blank" rel="noopener">${esc(c.contract_label || "knowledge-export-core-v1 (EXPORT_CONTRACT.md)")}</a>.</p>
+    </div>
+    <div class="card"><h2>Ready to work from</h2><ul>${sessionRows}</ul></div>`;
+}
+
+/* ---------- Corpus quality ---------- */
 
 function viewValidation() {
   const invalid = state.index.invalid;
@@ -314,19 +450,24 @@ function viewValidation() {
   for (const o of invalid) for (const e of o.errors) tally[e] = (tally[e] || 0) + 1;
   const top = Object.entries(tally).sort((a, b) => b[1] - a[1]).slice(0, 3);
   const pct = s.total ? Math.round((s.valid / s.total) * 100) : 0;
-  const mostCommon = top.length
-    ? `<div class="card"><h2>Most common issue</h2>${top.map(([e, n]) => `<div class="issue"><span class="badge warn">${n}×</span> ${esc(e)}</div>`).join("")}</div>`
-    : "";
+  const topIssue = top[0];
+  const pctBad = invalid.length ? Math.round((invalid.length / s.total) * 100) : 0;
+  const fix = topIssue ? {
+    "No atomic evidence blocks found. Must have at least one.": "Add at least one atomic evidence block (claims, observations, relationships) to each affected file before the next release.",
+  }[topIssue[0]] : "";
+  const recommended = fix ? `<li><b>Recommended fix</b> — ${esc(fix)} <span class="muted">(${topIssue[1]}×)</span></li>` : "";
   return `
-    <div class="row-between"><h1>Corpus Health</h1></div>
-    <div class="card"><p class="muted">${s.invalid ? `${s.invalid} of ${s.total} knowledge files need attention before a release is clean.` : "All knowledge files pass validation."}</p></div>
+    <div class="row-between"><h1>Corpus Quality</h1></div>
+    <div class="card"><h2>${s.invalid ? `${s.invalid} of ${s.total} documents (${pctBad}%) need attention` : "All documents pass validation"}</h2>
+      <p class="muted">${topIssue ? `Most common issue: ${esc(topIssue[0])} (${topIssue[1]}×).` : "No outstanding issues."}</p>
+      ${recommended ? `<ul class="pipeline">${recommended}</ul>` : ""}
+    </div>
     <div class="grid">
-      <div class="stat"><div class="num ok">${s.valid}</div><div class="label">Healthy files (${pct}%)</div></div>
-      <div class="stat"><div class="num warn">${s.invalid}</div><div class="label">Files needing attention</div></div>
+      <div class="stat"><div class="num ok">${s.valid}</div><div class="label">Healthy documents (${pct}%)</div></div>
+      <div class="stat"><div class="num warn">${s.invalid}</div><div class="label">Need attention</div></div>
       <div class="stat"><div class="num bad">${s.error_count}</div><div class="label">Validation issues</div></div>
     </div>
-    ${mostCommon}
-    <div class="card"><h2>Files needing attention (metadata only — no content exported)</h2>
+    <div class="card"><h2>Open quality tasks (metadata only — no content exported)</h2>
       ${invalid.length ? `<table>
         <tr><th>Object</th><th>Source</th><th>Issues</th></tr>
         ${invalid.map((o) => `<tr>
@@ -335,55 +476,6 @@ function viewValidation() {
           <td><ul style="margin:0;padding-left:16px">${o.errors.map((e) => `<li>${esc(e)}</li>`).join("")}</ul></td>
         </tr>`).join("")}
       </table>` : `<p class="muted">No invalid objects.</p>`}
-    </div>`;
-}
-
-/* ---------- Release ---------- */
-
-function viewCorpus() {
-  const e = state.export;
-  const idx = state.index;
-  const s = idx.summary;
-  return `
-    <div class="row-between"><h1>Release</h1></div>
-    <div class="card"><h2>This deployment</h2>
-      <table>
-        <tr><td>Release date</td><td>${esc(e.generated_at.slice(0, 10))}</td></tr>
-        <tr><td>Objects</td><td>${s.total} (${s.valid} valid)</td></tr>
-        <tr><td>Relationships</td><td>${idx.edges.length} edges (${idx.cross_domain_edges.length} cross-domain)</td></tr>
-        <tr><td>Cycles covered</td><td>${esc((s.cycles || []).join(", ") || "—")}</td></tr>
-        <tr><td>Exporter</td><td>${esc(e.producer)} v${esc(e.producer_version)}</td></tr>
-      </table>
-    </div>
-    <div class="card"><h2>Corpus snapshot</h2>
-      <table>
-        <tr><td>Files</td><td>${e.corpus.total_files}</td></tr>
-        <tr><td>Parsed</td><td>${e.corpus.parsed}</td></tr>
-        <tr><td>Valid</td><td>${e.corpus.valid}</td></tr>
-        <tr><td>Invalid</td><td>${e.corpus.invalid}</td></tr>
-        <tr><td>Errors</td><td>${e.corpus.error_count}</td></tr>
-      </table>
-    </div>
-    <p class="muted">Data served is the committed, gated release — reproducible from git, never regenerated at deploy time.</p>`;
-}
-
-/* ---------- Publishing ---------- */
-
-function viewPublishing() {
-  const c = state.config;
-  const contractUrl = c.contract_url || "#";
-  return `
-    <div class="row-between"><h1>Publishing</h1></div>
-    <div class="card"><h2>Downstream, never intertwined</h2>
-      <p class="muted">Publishing consumes validated findings from the export contract and renders them for an audience. It never researches; research never markets.</p>
-      <ul class="pipeline">
-        <li><b>Blog posts</b> — technical comparisons and insights</li>
-        <li><b>Whitepapers</b> — evidence-backed arguments</li>
-        <li><b>Documentation</b> — reference material</li>
-        <li><b>Comparison pages</b> — side-by-side findings</li>
-        <li><b>FAQ and social</b> — extracts of the same findings</li>
-      </ul>
-      <p>Readers depend only on the contract: <a href="${esc(contractUrl)}" target="_blank" rel="noopener">${esc(c.contract_label || "knowledge-export-core-v1 (EXPORT_CONTRACT.md)")}</a>. Consumers are read-only — nothing downstream ever mutates the corpus.</p>
     </div>`;
 }
 
@@ -481,6 +573,12 @@ function bindPage(parts) {
   document.querySelectorAll(".chip").forEach((c) =>
     c.addEventListener("click", () => { $("#prompt-input").value = c.dataset.example; })
   );
+  const deep = $("#deep-research");
+  if (deep) deep.addEventListener("click", () => location.hash = "#/research/new?depth=deep");
+  const quick = $("#quick-research");
+  if (quick) quick.addEventListener("click", () => location.hash = "#/research/new?depth=quick");
+  const cont = $("#continue-research");
+  if (cont) cont.addEventListener("click", () => location.hash = "#/research");
   const nb = $("#new-research");
   if (nb) nb.addEventListener("click", () => { location.hash = "#/research/new"; });
   const bb = $("#back-research");
@@ -513,6 +611,9 @@ function bindPage(parts) {
       saveDrafts(drafts);
       render();
     })
+  );
+  document.querySelectorAll(".tab").forEach((t) =>
+    t.addEventListener("click", () => navigate("#/library/" + t.dataset.tab))
   );
   const cq = $("#concept-q");
   if (cq) cq.addEventListener("input", (ev) => {

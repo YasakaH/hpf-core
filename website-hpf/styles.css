@@ -160,6 +160,7 @@ tr:hover td { background: rgba(245, 242, 235, 0.02); }
 
 /* Hero / prompt */
 .hero { margin-bottom: 24px; }
+.hero-kicker { font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
 .hero h1 { font-size: 24px; font-weight: 700; margin: 0 0 14px; }
 .prompt { display: flex; gap: 10px; max-width: 640px; }
 .prompt input {
@@ -173,6 +174,7 @@ tr:hover td { background: rgba(245, 242, 235, 0.02); }
   outline: none;
 }
 .prompt input:focus { border-color: var(--accent); }
+.hero-actions { display: flex; gap: 10px; margin-top: 12px; flex-wrap: wrap; }
 .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; max-width: 660px; }
 .chip {
   background: var(--card);
@@ -184,6 +186,25 @@ tr:hover td { background: rgba(245, 242, 235, 0.02); }
   cursor: pointer;
 }
 .chip:hover { border-color: var(--accent); color: var(--accent); }
+
+/* Recent research */
+.recent-item { display: flex; align-items: center; gap: 10px; padding: 6px 0; font-size: 13px; }
+.recent-item a { color: var(--accent); text-decoration: none; }
+.recent-item a:hover { text-decoration: underline; }
+
+/* Tabs */
+.tabs { display: flex; gap: 6px; margin-bottom: 14px; }
+.tab {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--foreground);
+  border-radius: 8px 8px 0 0;
+  padding: 8px 14px;
+  font-size: 13px;
+  cursor: pointer;
+}
+.tab.active { background: var(--card); border-color: var(--border); color: var(--accent); }
+.tab:hover { border-color: var(--accent); }
 
 /* Buttons */
 .btn {
@@ -252,6 +273,23 @@ tr:hover td { background: rgba(245, 242, 235, 0.02); }
 .findings { margin: 0; padding-left: 0; list-style: none; }
 .findings li { margin-bottom: 8px; font-size: 13px; line-height: 1.5; }
 .findings .badge { margin-left: 0; }
+
+/* Session views */
+.session-head h2 { font-size: 20px; }
+.stage-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 8px; }
+.stage-done .stage-dot { background: var(--ok); }
+.stage-bad .stage-dot { background: var(--bad); }
+.stage-planned { opacity: 0.7; }
+.evidence-item { padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
+.evidence-item:last-child { border-bottom: none; }
+.ev-src { font-size: 11px; color: var(--muted); word-break: break-all; }
+.ev-text { margin-top: 4px; line-height: 1.5; }
+.finding-card { border: 1px solid var(--border); border-radius: 8px; padding: 12px; margin-bottom: 10px; }
+.finding-card.valid { border-color: var(--ok); }
+.finding-card.warn { border-color: var(--warn); }
+.finding-head { display: flex; gap: 10px; align-items: baseline; margin-bottom: 6px; font-size: 12px; }
+.finding-head a { color: var(--accent); text-decoration: none; }
+.finding-claim { font-size: 13px; line-height: 1.5; }
 
 /* Corpus health issues */
 .issue { margin-bottom: 6px; font-size: 13px; }

@@ -14,10 +14,20 @@ the contract.
 The workbench faces the research workflow, not the engine's internals. Home is
 a research prompt; the Research hub records intended investigations and shows
 the pipeline the research orchestrator will execute (plan -> collect ->
-extract -> cross-reference -> findings -> adjudicate -> corpus). The ontology,
-schema, and exporter details live under Diagnostics, not the dashboard.
+extract -> findings -> adjudicate -> corpus). The ontology, schema, and
+exporter details live under Diagnostics, not the dashboard.
 `config.json` holds hostnames and links so no code hardcodes a domain — during
 the shared-root-domain migration only `config.json` changes.
+
+## Research orchestrator (2026-08-05, v0)
+
+`tools/hpf-research/research.py` produces session artifacts (plan -> collect ->
+extract -> draft findings) from fetched or imported sources. Sessions are
+**operational evidence records, not corpus knowledge** — findings are drafts
+requiring adjudication, and nothing in the pipeline mutates the corpus.
+Run `research.py --sync-web website-hpf/sessions` to make a session visible in
+the workbench; `website-hpf/sessions/` is git-ignored (dev/local artifact).
+See `tools/hpf-research/README.md`.
 
 ## Data flow
 
