@@ -29,8 +29,14 @@ python research.py --topic "Microsoft Fara vs nodriver" \
 ## Session shape
 
 `sessions/<id>/session.json`:
-`{ schema, id, topic, goal, audience, depth, created, status, stages,
-   sources[], evidence[], findings[], notes }`
+`{ schema, id, topic, goal, audience, depth, created, started, finished,
+   activity[{ts,msg}], status, stages[], sources[], evidence[], findings[],
+   notes }`
+
+`activity` is the real per-step execution log with UTC timestamps, recorded
+during the run (no fabricated progress). `started`/`finished` bound the run;
+the workbench renders elapsed time from them. Sessions created before this
+field existed simply omit it.
 
 ## Boundaries
 

@@ -103,7 +103,7 @@ def density(paragraph: str, kw: list) -> float:
     return sum(text.count(k) for k in kw) / max(1, len(paragraph))
 
 
-def make_session(topic, goal, audience, depth, sources, evidence, findings, dirpath):
+def make_session(topic, goal, audience, depth, sources, evidence, findings, activity, started, finished, dirpath):
     now = datetime.datetime.now(datetime.timezone.utc)
     sid = now.strftime("%Y-%m-%d-%H%M") + "-" + re.sub(r"[^a-z0-9-]+", "-", topic.lower()).strip("-")[:30]
     session = {
@@ -114,6 +114,9 @@ def make_session(topic, goal, audience, depth, sources, evidence, findings, dirp
         "audience": audience,
         "depth": depth,
         "created": now.isoformat(),
+        "started": started,
+        "finished": finished,
+        "activity": activity,
         "status": "draft",
         "stages": [{"name": n, "detail": d, "state": "done"} for n, d in STAGES],
         "sources": sources,
@@ -164,10 +167,17 @@ def main():
     sources = []
     evidence = []
     findings = []
+    activity = []
+    now = lambda: datetime.datetime.now(datetime.timezone.utc)
 
     stage = lambda n, d: print(f"[{n}] {d}")
+    log = lambda msg: (activity.append({"ts": now().isoformat(), "msg": msg}), print(f"  ~ {msg}"))
+
+    started = now().isoformat()
+    log("Research started")
 
     stage("plan", f"keywords: {', '.join(kw) or '(none)'}")
+    log(f"Research plan built: {len(kw)} keywords, depth {args.depth}")
 
     stage("collect", f"{len(args.url)} urls, {len(args.import_md)} imports")
     for i, url in enumerate(args.url):
@@ -177,10 +187,10 @@ def main():
             sources.append({"url": url, "title": title, "status": "fetched", "chars": len(text)})
             for para in split_paragraphs(text):
                 evidence.append({"id": f"ev-{len(evidence)+1}", "source": url, "excerpt": para[:600]})
-            print(f"  + {title} ({len(text)} chars)")
+            log(f"Collected {title} ({len(text)} chars)")
         except Exception as e:
             sources.append({"url": url, "title": url, "status": "failed", "error": str(e)})
-            print(f"  ! {url} failed: {e}")
+            log(f"Failed {url}: {e}")
 
     for i, path in enumerate(args.import_md):
         text = Path(path).read_text(encoding="utf-8")
@@ -189,9 +199,10 @@ def main():
         sources.append({"url": url, "title": title, "status": "imported", "chars": len(text)})
         for para in split_paragraphs(text):
             evidence.append({"id": f"ev-{len(evidence)+1}", "source": url, "excerpt": para[:600]})
-        print(f"  + {title} (imported, {len(text)} chars)")
+        log(f"Imported {title} ({len(text)} chars)")
 
     stage("extract", f"{len(evidence)} evidence entries from {len(sources)} sources")
+    log(f"Extracted {len(evidence)} evidence entries from {len(sources)} sources")
 
     stage("findings", "keyword-density ranking (mechanical, draft only)")
     per_source = {}
@@ -208,9 +219,13 @@ def main():
                 "sources": [ev["source"]],
                 "method": "keyword-density-v0",
             })
+    log(f"Drafted {len(findings)} candidate findings (keyword-density-v0)")
+
+    finished = now().isoformat()
+    log("Session artifact written")
 
     sid, session = make_session(args.topic, args.goal, args.audience, args.depth,
-                                sources, evidence, findings, args.dir)
+                                sources, evidence, findings, activity, started, finished, args.dir)
     print(f"\nSession {sid} written: {len(sources)} sources, {len(evidence)} evidence, {len(findings)} draft findings")
     print(f"  {Path(args.dir) / sid}")
 

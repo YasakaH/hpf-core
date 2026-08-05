@@ -249,11 +249,35 @@ function viewResearchNew(params) {
 function viewSession(id) {
   const s = state.sessions.find((x) => x.id === id);
   if (!s) return `<div class="card"><h2>Session not found</h2><p class="muted">${esc(id)}</p><p><a href="#/research">Back to research</a></p></div>`;
+  const allDone = (s.stages || []).every((st) => st.state === "done");
+  const currentIdx = (s.stages || []).findIndex((st) => st.state !== "done" && st.state !== "failed");
   const stages = (s.stages || []).map((st, i) => {
-    const dot = st.state === "done" ? "done" : st.state === "failed" ? "bad" : "";
-    return `<li class="stage-${dot || "planned"}"><span class="stage-dot"></span><b>${esc(st.name)}</b> <span class="muted">— ${esc(st.detail)}</span></li>`;
+    const cls = st.state === "done" ? "done" : st.state === "failed" ? "bad" : i === currentIdx ? "running" : "planned";
+    const mark = st.state === "done" ? "✓" : st.state === "failed" ? "✗" : i === currentIdx ? "●" : "○";
+    return `<li class="stage-${cls}"><span class="stage-mark">${mark}</span><b>${esc(st.name)}</b> <span class="muted">— ${esc(st.detail)}</span></li>`;
   }).join("");
-  const sources = (s.sources || []).map((src) => `<li><a href="${esc(src.url)}" target="_blank" rel="noopener">${esc(src.title)}</a> <span class="muted">· ${esc(src.status)}${src.chars ? " · " + src.chars + " chars" : ""}</span></li>`).join("");
+  const currentTask = allDone
+    ? `Ready for review — all ${(s.stages || []).length} stages complete (status: ${esc(s.status)})`
+    : (s.stages || [])[currentIdx]
+      ? `Stage ${currentIdx + 1} of ${(s.stages || []).length}: ${esc((s.stages || [])[currentIdx].detail)}`
+      : "Pending";
+  const metrics = [
+    { num: (s.sources || []).length, label: "Sources discovered" },
+    { num: (s.evidence || []).length, label: "Evidence blocks" },
+    { num: (s.findings || []).length, label: "Findings drafted" },
+    { num: (s.sources || []).filter((x) => x.status === "failed").length, label: "Failed sources" },
+  ];
+  const stats = metrics.map((m) => `<div class="stat"><div class="num">${m.num}</div><div class="label">${esc(m.label)}</div></div>`).join("");
+  const activity = (s.activity || []).map((a) =>
+    `<li><span class="muted">${esc((a.ts || "").slice(11, 19))}</span> ${esc(a.msg)}</li>`).join("");
+  const elapsed = elapsedFrom(s.started, s.finished);
+  const activityCard = `
+    <div class="card"><h2>Activity log</h2>
+      ${activity ? `<ol class="activity">${activity}</ol>
+      <p class="muted">Recorded by the orchestrator during the run (UTC). ${elapsed ? `Elapsed: <b>${esc(elapsed)}</b>.` : ""}</p>`
+      : `<p class="muted">No per-step log recorded for this session (orchestrator v0 ran before activity logging). Showing the session record only — no timestamps are estimated.</p>`}
+    </div>`;
+  const sources = (s.sources || []).map((src) => `<li><a href="${esc(src.url)}" target="_blank" rel="noopener">${esc(src.title)}</a> <span class="muted">· ${esc(src.status)}${src.chars ? " · " + src.chars + " chars" : ""}${src.error ? " · " + esc(src.error) : ""}</span></li>`).join("");
   const evidence = (s.evidence || []).map((ev) => `<div class="evidence-item"><span class="muted">[${esc(ev.id)}]</span> <span class="ev-src">${esc(ev.source)}</span><div class="ev-text">${esc(ev.excerpt)}</div></div>`).join("");
   const findings = (s.findings || []).map((f) => `
     <div class="finding-card ${badgeFor(f.status)}">
@@ -291,7 +315,12 @@ function viewSession(id) {
       </div>
       ${s.goal ? `<p class="muted">Goal: ${esc(s.goal)}</p>` : ""}
     </div>
-    <div class="card"><h2>Research plan</h2><ol class="pipeline">${stages}</ol></div>
+    <div class="card"><h2>Research progress</h2>
+      <div class="grid">${stats}</div>
+      <p class="muted">Current task: ${esc(currentTask)}</p>
+      <ol class="pipeline">${stages}</ol>
+    </div>
+    ${activityCard}
     <div class="card"><h2>Sources (${(s.sources || []).length})</h2><ul>${sources}</ul></div>
     <div class="card"><h2>Findings (${(s.findings || []).length}) — drafts, require adjudication</h2>${findings}</div>
     ${impactCard}
@@ -332,6 +361,15 @@ function getDecision(sid) {
 
 function setDecision(sid, v) {
   try { localStorage.setItem(DECISIONS_PREFIX + sid, v); } catch {}
+}
+
+function elapsedFrom(started, finished) {
+  if (!started || !finished) return "";
+  const a = Date.parse(started), b = Date.parse(finished);
+  if (isNaN(a) || isNaN(b) || b < a) return "";
+  const s = Math.round((b - a) / 1000);
+  const h = Math.floor(s / 3600), m = Math.floor((s % 3600) / 60), sec = s % 60;
+  return (h ? h + "h " : "") + (m ? m + "m " : "") + sec + "s";
 }
 
 /* ---------- Library ---------- */
