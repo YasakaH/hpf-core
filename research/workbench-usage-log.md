@@ -374,3 +374,21 @@ compiler; if mostly evidence/citations, the problem is upstream in
 research or adjudication.
 
 No further metrics until 20-30 sessions of data accumulate.
+
+## Research Opportunity Engine — PARKED (2026-08-05)
+
+Architect proposal: scheduled discovery (cron) -> opportunity scoring ->
+suggested-research queue -> owner approval; cookbook staleness as signal.
+Design (cadence 6h/12h/daily/weekly/monthly; scorecard domain +40, vendor
++20, stars +15, HN +15, researched -50, duplicate -100) recorded in
+chronicle entry 27.
+
+PARKED per the measurement-driven rule (entry 26). No measured weakness yet
+points to a discovery gap: Session 002's thin HN signal was connector query
+quality, not missed opportunities.
+
+Activation triggers (any one):
+1. Owner logs topic-selection friction N times.
+2. A materially important development goes undiscovered.
+3. Cookbook staleness measured and shown to impact readers.
+4. Post-20-30-sessions: a queue would have changed which sessions ran.
