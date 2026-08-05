@@ -521,3 +521,32 @@ publishing edits, else it waits.
 
 Tests: test10 +2 source-validation checks (17 PASS); test11 new:
 discover --static (6 checks) + live --releases smoke, all PASS.
+
+## Research Event model + connector registry + opportunity queue (2026-08-05)
+
+Review round 5 (9.8/9.5/8.8/8.5). Decisions in chronicle entry 33;
+implementation detail in ENGINEERING_CHANGE_LOG.md (separation policy
+adopted: chronicle = decisions, change log = engineering detail).
+
+Built:
+- events.py: research-event-v0, deterministic evt- ids, event_type
+  vocabulary, fail-fast validation. No scoring fields.
+- connectors/discovery.py: registry (register/discover_all) returning
+  ResearchEvent[]; github_releases is the first connector (moved from
+  discover.py --releases). Co-located with evidence connectors package.
+- discover.py: --releases renamed --events; output shows event ids;
+  opportunity queue --status <id> <status> persisted in
+  tools/hpf-research/sessions/opportunities.json (git-ignored);
+  --queue override. Dispositioned events never re-show as new.
+- ASCII-safe printed separators (Windows console encoding).
+
+Deferred (recorded): connector-registry config file (trigger: a second
+connector needing config beyond watchlist sources); ranking/scoring
+(Phase 5, gated on real usage data). Watchlist schema frozen again.
+
+Notes from testing: live GitHub API was rate-limited mid-round (unauthed
+60/hr budget consumed); tool degraded gracefully (per-repo warnings,
+zero events, exit 0). Validation caught a test fixture bug (missing
+source field) - events schema enforced as designed.
+
+Tests: test11 rewritten, 13 checks, all green; full suite green.

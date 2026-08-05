@@ -12,6 +12,10 @@ A connector gathers evidence for one class and emits structured payloads.
 Community output is SIGNAL, never truth: findings derived from it are labeled
 `community_signal` and go through normal validation before any corpus
 admission.
+
+Discovery connectors (connectors/discovery.py) are a separate layer: they
+produce ResearchEvent[] for the opportunity suggestion tool (discover.py)
+from the watchlist's `sources` configuration — see chronicle entry 33.
 """
 
 EVIDENCE_CLASSES = (
