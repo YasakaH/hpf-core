@@ -59,6 +59,8 @@ STAGES = [
     ("findings", "draft candidate findings (not conclusions)"),
 ]
 
+EVIDENCE_BUDGETS = {"primary": 40, "code": 10, "community": 20, "scientific": 25, "operational": 15}
+
 STOPWORDS = {
     "the", "a", "an", "and", "or", "of", "to", "in", "on", "for", "with",
     "vs", "versus", "about", "what", "is", "are", "compare", "research",
@@ -68,6 +70,15 @@ STOPWORDS = {
 
 
 class TextExtractor(html.parser.HTMLParser):
+    """HTML -> text with real paragraph boundaries.
+
+    Block elements emit a newline on BOTH start and end tags, so
+    <p>a</p><p>b</p> produces "a\n\nb" — dense blog HTML keeps its
+    paragraph structure instead of collapsing into one run of text.
+    """
+
+    BLOCK = ("p", "div", "li", "h1", "h2", "h3", "h4", "tr", "br", "section", "article", "blockquote", "pre", "table")
+
     def __init__(self):
         super().__init__()
         self.parts = []
@@ -76,12 +87,14 @@ class TextExtractor(html.parser.HTMLParser):
     def handle_starttag(self, tag, attrs):
         if tag in ("script", "style", "noscript", "svg", "head"):
             self.skip += 1
-        elif tag in ("p", "div", "li", "h1", "h2", "h3", "h4", "tr", "br", "section", "article"):
+        elif tag in self.BLOCK:
             self.parts.append("\n")
 
     def handle_endtag(self, tag):
         if tag in ("script", "style", "noscript", "svg", "head"):
             self.skip = max(0, self.skip - 1)
+        elif tag in self.BLOCK:
+            self.parts.append("\n")
 
     def handle_data(self, data):
         if not self.skip:
@@ -121,21 +134,94 @@ def classify_url(url: str) -> str:
     return "primary"
 
 
+def is_boilerplate(text: str) -> bool:
+    """True for page chrome that must never become evidence.
+
+    Conservative phrase patterns: matches real chrome (subscribe boxes,
+    footers, tag clouds, cookie banners, translation bars, search UI)
+    while keeping genuine content that merely mentions the words.
+    """
+    t = " " + re.sub(r"\s+", " ", text.lower()).strip() + " "
+    patterns = (
+        r"selected tags",
+        r"all tags",
+        r"matching tags",
+        r"no tags found",
+        r"related posts?",
+        r"related articles?",
+        r"you may also like",
+        r"more like this",
+        r"table of contents",
+        r"in this article",
+        r"on this page",
+        r"read more",
+        r"continue reading",
+        r"view all",
+        r"opens? in a new tab",
+        r"login opens",
+        r"contact sales",
+        r"sign up",
+        r"start building",
+        r"start for free",
+        r"no credit card required",
+        r"search is temporarily unavailable",
+        r"subscribe",
+        r"thanks for subscribing",
+        r"check your inbox",
+        r"never share your email",
+        r"privacy choices",
+        r"privacy policy",
+        r"terms of use",
+        r"terms of service",
+        r"report security issues",
+        r"cookie banner",
+        r"accept cookies",
+        r"cookie settings",
+        r"we use cookies",
+        r"your privacy",
+        r"follow (us|on social media)",
+        r"this post is also available in",
+        r"post syndicated from",
+        r"©\s*\d{4}",
+        r"\.\.\.\s*manage consent",
+        r"language switcher",
+        r"switch to",
+        r"copyright notice",
+        r"all rights reserved",
+    )
+    for p in patterns:
+        if re.search(p, t):
+            return True
+    return False
+
+
 def split_paragraphs(text: str):
     """Split text into paragraphs, keeping only prose (sentence-bearing).
 
-    Navigation chrome, TOC lists and menu fragments never become evidence.
+    Navigation chrome, TOC lists, boilerplate and menu fragments never
+    become evidence. Returns (paragraphs, dropped_count).
     """
     parts = re.split(r"\n\s*\n+", text)
     out = []
+    dropped = 0
     for p in parts:
         p = " ".join(p.split())
         if len(p) < 40:
+            dropped += 1
             continue
         if "." not in p:
+            dropped += 1
+            continue
+        if is_boilerplate(p):
+            dropped += 1
             continue
         out.append(p)
-    return out
+    return out, dropped
+
+
+def keep_paragraphs(paras: list, cls: str) -> list:
+    """Evidence budget: no single source may flood the session."""
+    return paras[: EVIDENCE_BUDGETS.get(cls, 20)]
 
 
 def keywords(topic: str, depth: str) -> list:
@@ -351,10 +437,16 @@ def main():
             text = fetch(url)
             title = url.split("/")[2] if len(url.split("/")) > 2 else url
             cls = classify_url(url)
-            sources.append({"url": url, "title": title, "status": "fetched", "chars": len(text), "class": cls})
-            for para in split_paragraphs(text):
-                evidence.append({"id": f"ev-{len(evidence)+1}", "source": url, "excerpt": para[:600], "class": cls})
-            log(f"Collected {title} ({len(text)} chars, class {cls})")
+            paras, dropped = split_paragraphs(text)
+            kept = keep_paragraphs(paras, cls)
+            sources.append({
+                "url": url, "title": title, "status": "fetched", "chars": len(text), "class": cls,
+                "evidence": len(kept), "chrome_dropped": dropped,
+                "coverage": round(sum(len(p) for p in kept) / max(1, len(text)), 3),
+            })
+            for para in kept:
+                evidence.append({"id": f"ev-{len(evidence)+1}", "source": url, "excerpt": para[:1200], "class": cls})
+            log(f"Collected {title} ({len(text)} chars, class {cls}: {len(kept)}/{len(paras)} paragraphs kept, {dropped} chrome dropped, coverage {sources[-1]['coverage']})")
         except Exception as e:
             sources.append({"url": url, "title": url, "status": "failed", "error": str(e), "class": classify_url(url)})
             log(f"Failed {url}: {e}")
@@ -363,10 +455,16 @@ def main():
         text = Path(path).read_text(encoding="utf-8")
         title = Path(path).stem
         url = args.source_url[i] if i < len(args.source_url) else f"file:{path}"
-        sources.append({"url": url, "title": title, "status": "imported", "chars": len(text), "class": "primary"})
-        for para in split_paragraphs(text):
-            evidence.append({"id": f"ev-{len(evidence)+1}", "source": url, "excerpt": para[:600], "class": "primary"})
-        log(f"Imported {title} ({len(text)} chars, class primary)")
+        paras, dropped = split_paragraphs(text)
+        kept = keep_paragraphs(paras, "primary")
+        sources.append({
+            "url": url, "title": title, "status": "imported", "chars": len(text), "class": "primary",
+            "evidence": len(kept), "chrome_dropped": dropped,
+            "coverage": round(sum(len(p) for p in kept) / max(1, len(text)), 3),
+        })
+        for para in kept:
+            evidence.append({"id": f"ev-{len(evidence)+1}", "source": url, "excerpt": para[:1200], "class": "primary"})
+        log(f"Imported {title} ({len(text)} chars, class primary: {len(kept)}/{len(paras)} paragraphs kept, {dropped} dropped)")
 
     for path in args.community_payload:
         payload = json.loads(Path(path).read_text(encoding="utf-8"))
@@ -395,6 +493,9 @@ def main():
 
     stage("extract", f"{len(evidence)} evidence entries from {len(sources)} sources")
     log(f"Extracted {len(evidence)} evidence entries from {len(sources)} sources")
+    for s in sources:
+        if s.get("status") in ("fetched", "imported"):
+            log(f"  coverage {s['title']}: {s.get('evidence', 0)} paragraphs kept, coverage {s.get('coverage', 0)}, {s.get('chrome_dropped', 0)} chrome dropped")
 
     stage("findings", "keyword-density ranking (mechanical, draft only)")
     per_source = {}

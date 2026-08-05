@@ -226,3 +226,77 @@ Discovery subsystem is now closed for v1. Further analytical reports
 (e.g. the full pipeline conversion report from connector → published
 pack) are postponed until operational data from Sessions 003–020 makes
 them meaningful.
+
+---
+
+## Extraction engineering round (Session 003 measurements, pre-Session-004)
+
+Session 003's measurements pointed squarely at the extraction stage:
+123 evidence entries with 70+ README chunks while the core article (the
+Agent Access Model post) contributed one substantive paragraph; 8 of 15
+drafts were navigation chrome; the reviewer had to add 7 findings that
+were the article's substance. The reviewer directed one focused
+engineering cycle on extraction before Session 004 — P0 items implemented
+here; Claim Detection (P1) and semantic chunking (P3) staged next.
+
+**Root-cause diagnosis** (two defects, not one):
+1. `TextExtractor` emitted a newline only on block-element START tags, so
+   `<p>a</p><p>b</p>` collapsed to `a b` — dense blog HTML had no
+   blank-line paragraph separators. `split_paragraphs` then produced one
+   giant paragraph per dense page and the 600-char excerpt truncation
+   silently destroyed everything past the intro. The AAM post's body
+   (five-component model, capability ceilings, multiplayer access
+   control) was lost to this, not to "too much junk".
+2. `split_paragraphs`' prose filter (len ≥ 40, contains ".") passed tag
+   clouds, subscribe boxes, footers and translation bars ("1.1.1.1"
+   contains a dot). READMEs with many blank lines flooded evidence while
+   the budget-less loop kept every paragraph from every source.
+
+**Fixes**:
+- `TextExtractor` emits newlines on block-element END tags too →
+  real paragraph boundaries; excerpt cap 600 → 1200 chars.
+- `is_boilerplate(text)`: conservative phrase blocklist (subscribe,
+  privacy choices, terms, tags, related posts, cookie banners,
+  translation bars, search UI, © + year, contact sales, etc.) —
+  paragraphs matching any pattern never become evidence.
+- `EVIDENCE_BUDGETS` per class: primary 40, code 10, community 20,
+  scientific 25, operational 15 — one source can no longer flood a
+  session; `keep_paragraphs()` caps per source.
+- **Source coverage metrics**: each source record gains `evidence`
+  (paragraphs kept), `chrome_dropped`, and `coverage`
+  (kept chars / collected chars); the extract stage prints a per-source
+  coverage line. Live numbers after the fix (Session 003 URLs): AAM post
+  coverage 0.309 (was: 1 substantive paragraph of a 45KB text — body
+  lost), Cloudflare OS 0.334, Agents docs 0.358, Browser Run 0.415,
+  README 0.069 at its 10-paragraph budget (was 70+ chunks).
+- `watchlist.py`: `keyword_overlap` now counts the normalized display
+  name as a match surface — a topic matching `tech.web.cloudflare` via
+  its name "Cloudflare" (alias is "cloudflare anti-bot") no longer reads
+  overlap 0.0 (verified 0.25 in the fixture). Bug confirmed: name was a
+  documented match surface but excluded from the overlap calculation.
+- `adjudicate.py`: **extraction-underperformance flag** — when reviewer
+  adds exceed 3 findings, the adjudication artifact records
+  `extraction_flag: {flagged, added_findings, threshold}` and a warning
+  prints. Session 003 would have flagged: 7 adds. Session 002 would not
+  have (5 adds > 3 — it would have flagged; threshold is a first cut).
+
+**Tests**: test13 introduced (offline, 7 checks): paragraph boundaries
+survive block HTML; boilerplate patterns dropped while genuine prose
+mentioning the words is kept; per-source budgets cap evidence (code 10 /
+primary 40); overlap counts name matches; extraction flag fires at 4
+adds and stays quiet within threshold. test10 (17), test11 (13), test12
+(13) rerun green.
+
+**Recorded (document only, v2 feedback loop)**: SEO/keyword-tooling
+direction — do NOT build around DataForSEO (self-hosted OpenSEO still
+requires its API key; hosted openseo.so subsidizes costs as its business
+model). The future SEO module should use free sources first (Google
+Search Console API for own keywords/impressions/CTR, Google Trends,
+autocomplete/PAA where terms permit, own crawler for competitor content,
+Common Crawl) with commercial providers (DataForSEO, Ahrefs) as pluggable
+backends later — consistent with the zero-cost operating constraint.
+
+**Staged (P1/P3, not built this round)**: Claim Detection stage (heading/
+list/code removal + assertion identification) and semantic chunking —
+the next extraction round if Sessions 004–010 keep pointing at
+extraction rather than discovery or publishing.

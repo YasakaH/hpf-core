@@ -230,9 +230,10 @@ def match_topic(topic: str, keywords: list, watchlist: dict = None) -> dict:
     {"matched": [entry ids], "keyword_overlap": float}.
 
     keyword_overlap = fraction of keywords that equal an alias of a
-    matched entry. It is keyword-level overlap, not a relevance or
-    confidence judgement — and it depends on keyword generation, so do
-    not compare keyword_overlap across sessions (chronicle entry 30).
+    matched entry OR its normalized display name (the name is a match
+    surface, so it counts). It is keyword-level overlap, not a relevance
+    or confidence judgement — and it depends on keyword generation, so
+    do not compare keyword_overlap across sessions (chronicle entry 30).
     """
     w = watchlist if watchlist is not None else load()
     topic_norm = " " + normalize(topic) + " "
@@ -243,7 +244,7 @@ def match_topic(topic: str, keywords: list, watchlist: dict = None) -> dict:
         name_norm = normalize(e["name"])
         if any(_alias_in_topic(a, name_norm, topic_norm, kw_norm) for a in e["aliases"]):
             matched.append(e["id"])
-            for a in e["aliases"]:
+            for a in e["aliases"] + [name_norm]:
                 for k in kw_norm:
                     if a == k:
                         covered.add(k)

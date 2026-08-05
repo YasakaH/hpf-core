@@ -32,6 +32,7 @@ import sys
 from pathlib import Path
 
 DECISIONS = {"approve", "revise", "reject", "add"}
+EXTRACTION_FLAG_THRESHOLD = 3
 
 
 def main():
@@ -84,6 +85,16 @@ def main():
     for e in review:
         counts[e["decision"]] += 1
 
+    extraction_flag = None
+    if counts["add"] > EXTRACTION_FLAG_THRESHOLD:
+        extraction_flag = {
+            "flagged": True,
+            "added_findings": counts["add"],
+            "threshold": EXTRACTION_FLAG_THRESHOLD,
+            "reason": "reviewer had to introduce findings the extraction stage missed",
+        }
+        print(f"! extraction underperformance flagged: {counts['add']} reviewer-added findings (threshold {EXTRACTION_FLAG_THRESHOLD})")
+
     adjudication = {
         "schema": "hpf-adjudication-v0",
         "session_id": session["id"],
@@ -91,6 +102,7 @@ def main():
         "adjudicated_at": datetime.datetime.now(datetime.timezone.utc).isoformat(),
         "adjudicator": decisions.get("adjudicator", "cycle-reviewer"),
         "summary": counts,
+        "extraction_flag": extraction_flag,
         "findings": review,
     }
     existing.write_text(json.dumps(adjudication, indent=2), encoding="utf-8")
