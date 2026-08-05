@@ -1,0 +1,567 @@
+{
+  "schema": "hpf-session-v0",
+  "id": "2026-08-05-0649-why-nodriver-sessions-die-over",
+  "topic": "Why nodriver sessions die overnight and how production systems prevent it",
+  "goal": "Document why persisted browser automation sessions fail between runs (cookie expiry, token invalidation, profile corruption, OS restart, lock contention) and which recovery/health-check/re-authentication patterns production systems use. Research for article 3: Why Your nodriver Session Dies Overnight (and How Production Systems Prevent It).",
+  "audience": "Blog",
+  "depth": "standard",
+  "created": "2026-08-05T06:49:23.941059+00:00",
+  "started": "2026-08-05T06:49:21.244167+00:00",
+  "finished": "2026-08-05T06:49:23.941036+00:00",
+  "activity": [
+    {
+      "ts": "2026-08-05T06:49:21.244193+00:00",
+      "msg": "Research started"
+    },
+    {
+      "ts": "2026-08-05T06:49:21.244256+00:00",
+      "msg": "Evidence class primary: high \u2014 official documentation anchors any topic"
+    },
+    {
+      "ts": "2026-08-05T06:49:21.244268+00:00",
+      "msg": "Evidence class code: high \u2014 repositories show implementation reality"
+    },
+    {
+      "ts": "2026-08-05T06:49:21.244285+00:00",
+      "msg": "Evidence class community: high \u2014 practitioner pain points are core signal for tooling topics"
+    },
+    {
+      "ts": "2026-08-05T06:49:21.244294+00:00",
+      "msg": "Evidence class scientific: low \u2014 scientific weight low unless the topic is model/research-focused"
+    },
+    {
+      "ts": "2026-08-05T06:49:21.244303+00:00",
+      "msg": "Evidence class operational: high \u2014 operational evidence for performance/robustness topics"
+    },
+    {
+      "ts": "2026-08-05T06:49:21.244312+00:00",
+      "msg": "Research plan built: 13 keywords, depth standard"
+    },
+    {
+      "ts": "2026-08-05T06:49:23.002811+00:00",
+      "msg": "Collected github.com (14414 chars, class code)"
+    },
+    {
+      "ts": "2026-08-05T06:49:23.179433+00:00",
+      "msg": "Failed https://stackoverflow.com/questions/tagged/nodriver: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1081)>"
+    },
+    {
+      "ts": "2026-08-05T06:49:23.937880+00:00",
+      "msg": "Collected github.com (3494 chars, class code)"
+    },
+    {
+      "ts": "2026-08-05T06:49:23.937937+00:00",
+      "msg": "Extracted 56 evidence entries from 3 sources"
+    },
+    {
+      "ts": "2026-08-05T06:49:23.940997+00:00",
+      "msg": "Drafted 6 candidate findings (keyword-density-v0), 0 as community signals"
+    },
+    {
+      "ts": "2026-08-05T06:49:23.941041+00:00",
+      "msg": "Session artifact written"
+    }
+  ],
+  "plan": {
+    "keywords": [
+      "architecture",
+      "die",
+      "how",
+      "it",
+      "limitations",
+      "nodriver",
+      "overnight",
+      "performance",
+      "prevent",
+      "production",
+      "sessions",
+      "systems",
+      "why"
+    ],
+    "depth": "standard",
+    "evidence_classes": {
+      "primary": "high",
+      "code": "high",
+      "community": "high",
+      "scientific": "low",
+      "operational": "high"
+    }
+  },
+  "status": "draft",
+  "stages": [
+    {
+      "name": "plan",
+      "detail": "research question, keywords, depth",
+      "state": "done"
+    },
+    {
+      "name": "collect",
+      "detail": "sources fetched or imported",
+      "state": "done"
+    },
+    {
+      "name": "extract",
+      "detail": "text chunked into evidence entries",
+      "state": "done"
+    },
+    {
+      "name": "findings",
+      "detail": "draft candidate findings (not conclusions)",
+      "state": "done"
+    }
+  ],
+  "sources": [
+    {
+      "url": "https://github.com/ultrafunkamsterdam/nodriver",
+      "title": "github.com",
+      "status": "fetched",
+      "chars": 14414,
+      "class": "code"
+    },
+    {
+      "url": "https://stackoverflow.com/questions/tagged/nodriver",
+      "title": "https://stackoverflow.com/questions/tagged/nodriver",
+      "status": "failed",
+      "error": "<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1081)>",
+      "class": "community"
+    },
+    {
+      "url": "https://github.com/ultrafunkamsterdam/nodriver/issues?q=session",
+      "title": "github.com",
+      "status": "fetched",
+      "chars": 3494,
+      "class": "code"
+    }
+  ],
+  "evidence": [
+    {
+      "id": "ev-1",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "You signed in with another tab or window. Reload to refresh your session. You signed out in another tab or window. Reload to refresh your session. You switched accounts on another tab or window. Reload to refresh your session.",
+      "class": "code"
+    },
+    {
+      "id": "ev-2",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "This is the official successor of the Undetected-Chromedriver python package.",
+      "class": "code"
+    },
+    {
+      "id": "ev-3",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "Direct communication provides even better resistance against web applicatinon firewalls (WAF\u2019s), while performance gets a massive boost. This module is, contrary to undetected-chromedriver, fully asynchronous.",
+      "class": "code"
+    },
+    {
+      "id": "ev-4",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "What makes this package different from other known packages, is the optimization to stay undetected for most anti-bot solutions.",
+      "class": "code"
+    },
+    {
+      "id": "ev-5",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "Another focus point is usability and quick prototyping, so expect a lot to work -as is- , with most method parameters having best practice defaults. Using 1 or 2 lines, this is up and running, providing best practice config by default. It cleans up created files (profile) afterwards.",
+      "class": "code"
+    },
+    {
+      "id": "ev-6",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "While usability and convenience is important. It\u2019s also easy to fully customizable everything using the entire array of CDP domains, methods and events available.",
+      "class": "code"
+    },
+    {
+      "id": "ev-7",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "smart and performant element lookup, by selector or text, including iframe content. this could also be used as wait condition for a element to appear, since it will retry for the duration of until found. so an await tab.select('body') could be used as an indicator whether a page is loaded. the find method searches by text, but will not naively return the first matching element, but will match candidates by closest matching text length (shortest wins), this makes lookups like tab.find('accept all') return the actual cookie button instead of a script in the headers",
+      "class": "code"
+    },
+    {
+      "id": "ev-8",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "utility function to convert a running undetected_chromedriver.Chrome instance to a nodriver.Browser instance and contintue from there",
+      "class": "code"
+    },
+    {
+      "id": "ev-9",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "Parts are rewritten to use flat connections in the protocol. Why? - iframes are included in most operations. - tab got a new method: await tab.get_frames() which will return Iframes that are inspectable. - find() will include iframes, so you can even search for \"verify you are human\" and click the verification checkbox in js challenges.",
+      "class": "code"
+    },
+    {
+      "id": "ev-10",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "Since this required quite some rewriting, please test thoroughly, especially if you run large projects.",
+      "class": "code"
+    },
+    {
+      "id": "ev-11",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "finds the checkbox and click it successfully this only works when NOT in expert mode. currently built-in english only requires opencv-python package to be installed",
+      "class": "code"
+    },
+    {
+      "id": "ev-12",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "tab.bypass_insecure_connection_warning()",
+      "class": "code"
+    },
+    {
+      "id": "ev-13",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "convenience method, for insecure page warning. for example when a certificate is invalid.",
+      "class": "code"
+    },
+    {
+      "id": "ev-14",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "callback may accept a single argument (event), or 2 arguments (event, tab).",
+      "class": "code"
+    },
+    {
+      "id": "ev-15",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "does some hacking for more experienced users. It disables web security and origin-trials, as well as ensures shadow-roots are always open. This makes you more detectable though!",
+      "class": "code"
+    },
+    {
+      "id": "ev-16",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "you need chrome (or some chromium based browser) installed preferably in the default location on the machine where you use this package.",
+      "class": "code"
+    },
+    {
+      "id": "ev-17",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "when running on a headless machine, like AWS or any other environment where no display is present, it's best to use some Xvfb tool, to emulate a screen. alternatively this package can be used in headless mode.",
+      "class": "code"
+    },
+    {
+      "id": "ev-18",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "The aim of this project (just like undetected-chromedriver, somewhere long ago) is to keep it short and simple, so you can quickly open an editor or interactive session, type or paste a few lines and off you go.",
+      "class": "code"
+    },
+    {
+      "id": "ev-19",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "browser = await uc.start() page = await browser.get('https://www.nowsecure.nl')",
+      "class": "code"
+    },
+    {
+      "id": "ev-20",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "if __name__ == '__main__': # since asyncio.run never worked (for me) uc.loop().run_until_complete(main())",
+      "class": "code"
+    },
+    {
+      "id": "ev-21",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "browser = await start( headless=False, user_data_dir=\"/path/to/existing/profile\", # by specifying it, it won't be automatically cleaned up when finished browser_executable_path=\"/path/to/some/other/browser\", browser_args=['--some-browser-arg=true', '--some-other-option'], lang=\"en-US\" # this could set iso-language-code in navigator, not recommended to change ) tab = await browser.get('https://somewebsite.com')",
+      "class": "code"
+    },
+    {
+      "id": "ev-22",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "config = Config() config.headless = False config.user_data_dir=\"/path/to/existing/profile\", # by specifying it, it won't be automatically cleaned up when finished config.browser_executable_path=\"/path/to/some/other/browser\", config.browser_args=['--some-browser-arg=true', '--some-other-option'], config.lang=\"en-US\" # this could set iso-language-code in navigator, not recommended to change )",
+      "class": "code"
+    },
+    {
+      "id": "ev-23",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "browser = await nodriver.start() page = await browser.get('https://www.nowsecure.nl')",
+      "class": "code"
+    },
+    {
+      "id": "ev-24",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "await page.save_screenshot() await page.get_content() await page.scroll_down(150) elems = await page.select_all('*[src]')",
+      "class": "code"
+    },
+    {
+      "id": "ev-25",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "page2 = await browser.get('https://twitter.com', new_tab=True) page3 = await browser.get('https://github.com/ultrafunkamsterdam/nodriver', new_window=True)",
+      "class": "code"
+    },
+    {
+      "id": "ev-26",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "for p in (page, page2, page3): await p.bring_to_front() await p.scroll_down(200) await p # wait for events to be processed await p.reload() if p != page3: await p.close()",
+      "class": "code"
+    },
+    {
+      "id": "ev-27",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "# since asyncio.run never worked (for me) uc.loop().run_until_complete(main())",
+      "class": "code"
+    },
+    {
+      "id": "ev-28",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "A more concrete example, which can be found in the ./example/ folder, shows a script to create a twitter account",
+      "class": "code"
+    },
+    {
+      "id": "ev-29",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "async def main(): driver = await uc.start()",
+      "class": "code"
+    },
+    {
+      "id": "ev-30",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "tab = await driver.get(\"https://twitter.com\")",
+      "class": "code"
+    },
+    {
+      "id": "ev-31",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "# wait for text to appear instead of a static number of seconds to wait # this does not always work as expected, due to speed. print('finding the \"create account\" button') create_account = await tab.find(\"create account\", best_match=True)",
+      "class": "code"
+    },
+    {
+      "id": "ev-32",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "print('\"create account\" => click') await create_account.click()",
+      "class": "code"
+    },
+    {
+      "id": "ev-33",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "print(\"finding the email input field\") email = await tab.select(\"input[type=email]\")",
+      "class": "code"
+    },
+    {
+      "id": "ev-34",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "# sometimes, email field is not shown, because phone is being asked instead # when this occurs, find the small text which says \"use email instead\" if not email: use_mail_instead = await tab.find(\"use email instead\") # and click it await use_mail_instead.click()",
+      "class": "code"
+    },
+    {
+      "id": "ev-35",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "# now find the email field again email = await tab.select(\"input[type=email]\")",
+      "class": "code"
+    },
+    {
+      "id": "ev-36",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "randstr = lambda k: \"\".join(random.choices(string.ascii_letters, k=k))",
+      "class": "code"
+    },
+    {
+      "id": "ev-37",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "# send keys to email field print('filling in the \"email\" input field') await email.send_keys(\"\".join([randstr(8), \"@\", randstr(8), \".com\"]))",
+      "class": "code"
+    },
+    {
+      "id": "ev-38",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "# find the name input field print(\"finding the name input field\") name = await tab.select(\"input[type=text]\")",
+      "class": "code"
+    },
+    {
+      "id": "ev-39",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "# again, send random text print('filling in the \"name\" input field') await name.send_keys(randstr(8))",
+      "class": "code"
+    },
+    {
+      "id": "ev-40",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "# since there are 3 select fields on the tab, we can use unpacking # to assign each field print('finding the \"month\" , \"day\" and \"year\" fields in 1 go') sel_month, sel_day, sel_year = await tab.select_all(\"select\")",
+      "class": "code"
+    },
+    {
+      "id": "ev-41",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "# await sel_month.focus() print('filling in the \"month\" input field') await sel_month.send_keys(months[random.randint(0, 11)].title())",
+      "class": "code"
+    },
+    {
+      "id": "ev-42",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "# await sel_day.focus() # i don't want to bother with month-lengths and leap years print('filling in the \"day\" input field') await sel_day.send_keys(str(random.randint(0, 28)))",
+      "class": "code"
+    },
+    {
+      "id": "ev-43",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "# await sel_year.focus() # i don't want to bother with age restrictions print('filling in the \"year\" input field') await sel_year.send_keys(str(random.randint(1980, 2005)))",
+      "class": "code"
+    },
+    {
+      "id": "ev-44",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "# let's handle the cookie nag as well cookie_bar_accept = await tab.find(\"accept all\", best_match=True) if cookie_bar_accept: await cookie_bar_accept.click()",
+      "class": "code"
+    },
+    {
+      "id": "ev-45",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "next_btn = await tab.find(text=\"next\", best_match=True) # for btn in reversed(next_btns): await next_btn.mouse_click()",
+      "class": "code"
+    },
+    {
+      "id": "ev-46",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "print(\"sleeping 2 seconds\") await tab.sleep(2) # visually see what part we're actually in",
+      "class": "code"
+    },
+    {
+      "id": "ev-47",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "print('finding \"next\" button') next_btn = await tab.find(text=\"next\", best_match=True) print('clicking \"next\" button') await next_btn.mouse_click()",
+      "class": "code"
+    },
+    {
+      "id": "ev-48",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "# just wait for some button, before we continue await tab.select(\"[role=button]\")",
+      "class": "code"
+    },
+    {
+      "id": "ev-49",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "print('finding \"sign up\" button') sign_up_btn = await tab.find(\"Sign up\", best_match=True) # we need the second one print('clicking \"sign up\" button') await sign_up_btn.click()",
+      "class": "code"
+    },
+    {
+      "id": "ev-50",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "print('the rest of the \"implementation\" is out of scope') # further implementation outside of scope await tab.sleep(10) driver.stop()",
+      "class": "code"
+    },
+    {
+      "id": "ev-51",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "if __name__ == \"__main__\": # since asyncio.run never worked (for me) # i use uc.loop().run_until_complete(main())",
+      "class": "code"
+    },
+    {
+      "id": "ev-52",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "About Successor of Undetected-Chromedriver. Providing a blazing fast framework for web automation, webscraping, bots and any other creative ideas which are normally hindered by annoying anti bot systems like Captcha / CloudFlare / Imperva / hCaptcha Resources Readme AGPL-3.0 license Activity Stars 4.6k stars Watchers 94 watching Forks 430 forks Report repository",
+      "class": "code"
+    },
+    {
+      "id": "ev-53",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver",
+      "excerpt": "You can\u2019t perform that action at this time.",
+      "class": "code"
+    },
+    {
+      "id": "ev-54",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver/issues?q=session",
+      "excerpt": "You signed in with another tab or window. Reload to refresh your session. You signed out in another tab or window. Reload to refresh your session. You switched accounts on another tab or window. Reload to refresh your session.",
+      "class": "code"
+    },
+    {
+      "id": "ev-55",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver/issues?q=session",
+      "excerpt": "No results Try adjusting your search filters.",
+      "class": "code"
+    },
+    {
+      "id": "ev-56",
+      "source": "https://github.com/ultrafunkamsterdam/nodriver/issues?q=session",
+      "excerpt": "You can\u2019t perform that action at this time.",
+      "class": "code"
+    }
+  ],
+  "findings": [
+    {
+      "id": "f-1",
+      "claim": "tab = await driver.get(\"https://twitter.com\")",
+      "confidence": null,
+      "status": "needs_adjudication",
+      "sources": [
+        "https://github.com/ultrafunkamsterdam/nodriver"
+      ],
+      "evidence": [
+        "ev-30",
+        "ev-23",
+        "ev-26"
+      ],
+      "method": "keyword-density-v0"
+    },
+    {
+      "id": "f-2",
+      "claim": "browser = await nodriver.start() page = await browser.get('https://www.nowsecure.nl')",
+      "confidence": null,
+      "status": "needs_adjudication",
+      "sources": [
+        "https://github.com/ultrafunkamsterdam/nodriver"
+      ],
+      "evidence": [
+        "ev-30",
+        "ev-23",
+        "ev-26"
+      ],
+      "method": "keyword-density-v0"
+    },
+    {
+      "id": "f-3",
+      "claim": "for p in (page, page2, page3): await p.bring_to_front() await p.scroll_down(200) await p # wait for events to be processed await p.reload() if p != page3: await p.close()",
+      "confidence": null,
+      "status": "needs_adjudication",
+      "sources": [
+        "https://github.com/ultrafunkamsterdam/nodriver"
+      ],
+      "evidence": [
+        "ev-30",
+        "ev-23",
+        "ev-26"
+      ],
+      "method": "keyword-density-v0"
+    },
+    {
+      "id": "f-4",
+      "claim": "You signed in with another tab or window. Reload to refresh your session. You signed out in another tab or window. Reload to refresh your session. You switched accounts on another tab or window. Reload to refresh your session.",
+      "confidence": null,
+      "status": "needs_adjudication",
+      "sources": [
+        "https://github.com/ultrafunkamsterdam/nodriver/issues?q=session"
+      ],
+      "evidence": [
+        "ev-54",
+        "ev-55",
+        "ev-56"
+      ],
+      "method": "keyword-density-v0"
+    },
+    {
+      "id": "f-5",
+      "claim": "No results Try adjusting your search filters.",
+      "confidence": null,
+      "status": "needs_adjudication",
+      "sources": [
+        "https://github.com/ultrafunkamsterdam/nodriver/issues?q=session"
+      ],
+      "evidence": [
+        "ev-54",
+        "ev-55",
+        "ev-56"
+      ],
+      "method": "keyword-density-v0"
+    },
+    {
+      "id": "f-6",
+      "claim": "You can\u2019t perform that action at this time.",
+      "confidence": null,
+      "status": "needs_adjudication",
+      "sources": [
+        "https://github.com/ultrafunkamsterdam/nodriver/issues?q=session"
+      ],
+      "evidence": [
+        "ev-54",
+        "ev-55",
+        "ev-56"
+      ],
+      "method": "keyword-density-v0"
+    }
+  ],
+  "notes": "Extraction v0 is mechanical: paragraphs, keyword density, truncation. Findings are DRAFT candidate findings requiring adjudication before any corpus admission. Sessions are operational evidence records."
+}
