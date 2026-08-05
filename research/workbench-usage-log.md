@@ -176,3 +176,25 @@ Accepted Findings → Publishing Compiler → Website / Social / Documentation.
 The open question the reviewer set for HPF: can it consistently produce
 accepted findings that require minimal rewriting before publication?
 
+## Feature freeze + roadmaps (2026-08-05, after v1 release)
+
+"Release HPF Workbench" dispatched and completed (all 10 steps, Cloudflare
+Pages deploy OK). Architecture phase declared over; v1 feature-frozen:
+
+- Allowed: bug fixes; new connectors only if a session fails without them;
+  better extraction/adjudication/publishing quality; performance.
+- Not allowed without repeated evidence: dashboards, workflow pages,
+  navigation, governance, architecture.
+
+Roadmap A (Research Engine): consistent high-quality adjudicated findings.
+Roadmap B (Publishing Compiler): record per-session editing minutes per
+render (Blog/LinkedIn/X/Documentation) — trend must go down.
+
+Research Yield KPI: draft findings -> accepted findings. Session 001: 21 -> 8
+(38%). Track stability across sessions; do NOT maximize.
+
+Session 001 is the regression test: after any planner/connector/extraction/
+adjudication/publishing change, re-run the identical session and compare
+evidence, drafts, accepted findings, pack quality. Improvements that worsen
+accepted findings or add unsupported claims are regressions.
+
