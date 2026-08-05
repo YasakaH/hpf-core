@@ -1,80 +1,95 @@
-"""Community Evidence Connector — v1: Devvit CLI (Reddit).
+"""Community Evidence Connector.
 
-Gathers structured community signal from Reddit via the Devvit CLI. The
+Gathers structured community signal from practitioner communities. The
 connector only emits *structured payloads*; it never interprets them. HPF
 labels everything it produces as `community_signal` — observation, not truth.
 
 Payload schema (written to --out as JSON):
 
     {
-      "source": "reddit",
-      "subreddit": "webscraping",
-      "thread": "title or permalink",
+      "source": "hackernews",
+      "subreddit": "hacker-news",
+      "thread": "query or story title",
       "score": 412,
+      "url": "https://news.ycombinator.com/item?id=...",
       "comments": [
         {"text": "...", "score": 81, "author": "...", "url": "..."}
       ]
     }
 
-Devvit CLI is optional at runtime: the connector is a thin wrapper. When the
-binary is missing it reports so honestly and suggests installing it
-(`npm i -g devvit`); the payload schema above can also be produced by any
-other community source (HN, Stack Overflow, GitHub Discussions) — the
-planner picks the connector, HPF only consumes the schema.
+Sources:
+
+- v1a: Hacker News (Algolia API) — open, no auth, real practitioner signal.
+- v1b: structured payload files (--payload) — produced by any community
+  source (Reddit via a Devvit app, Stack Overflow, GitHub Discussions,
+  Discord exports). The planner picks the source; HPF only consumes the
+  schema.
+
+The Devvit CLI was evaluated as a Reddit source: the current CLI
+(0.13.x) is an app-development tool (init/publish/install) with no search
+command, and its auth token is device-bound with an expiry. A Reddit source
+would require building a custom Devvit app the owner publishes; until a real
+research session fails without Reddit data, HN + payload files are the
+working v1.
 """
 
 import argparse
 import json
-import shutil
-import subprocess
 import sys
+import urllib.parse
+import urllib.request
 from pathlib import Path
 
 PAYLOAD_SCHEMA = ("source", "subreddit", "thread", "score", "comments")
 
+HN_API = "https://hn.algolia.com/api/v1/search_by_date"
+USER_AGENT = "HPF-Research-Orchestrator/0.1 (+research evidence collection)"
 
-def devvit_available() -> bool:
-    return shutil.which("devvit") is not None
+
+def _get(url: str, timeout: int = 30) -> dict:
+    req = urllib.request.Request(url, headers={"User-Agent": USER_AGENT})
+    with urllib.request.urlopen(req, timeout=timeout) as resp:
+        return json.loads(resp.read().decode("utf-8", errors="replace"))
 
 
-def run_devvit(subreddit: str, query: str, limit: int, out_path: Path) -> int:
-    """Invoke the Devvit CLI and write the normalized payload.
+def hn_search(query: str, limit: int) -> list:
+    """Top stories matching the query, with their text where available."""
+    params = urllib.parse.urlencode({"query": query, "tags": "story", "hitsPerPage": limit})
+    data = _get(f"{HN_API}?{params}")
+    hits = []
+    for h in data.get("hits") or []:
+        hits.append({
+            "title": h.get("title") or h.get("story_title") or "",
+            "text": (h.get("story_text") or "")[:4000],
+            "score": h.get("points") or 0,
+            "author": h.get("author") or "",
+            "url": f"https://news.ycombinator.com/item?id={h.get('objectID')}",
+            "num_comments": h.get("num_comments") or 0,
+        })
+    return hits
 
-    Expected CLI contract (v1):
-        devvit hpf search --subreddit <sub> --query <q> --limit <n> --json
 
-    When the binary is absent, fail loudly rather than fabricate data.
-    """
-    if not devvit_available():
-        print("! Devvit CLI not found (community connector v1 is a thin wrapper).")
-        print("  Install with:  npm i -g devvit")
-        print("  Or supply a payload file: --payload community.json")
-        return 4
-    cmd = [
-        "devvit", "hpf", "search",
-        "--subreddit", subreddit,
-        "--query", query,
-        "--limit", str(limit),
-        "--json",
-    ]
-    try:
-        proc = subprocess.run(cmd, capture_output=True, text=True, timeout=60)
-    except (subprocess.TimeoutExpired, OSError) as e:
-        print(f"! devvit invocation failed: {e}")
-        return 5
-    if proc.returncode != 0:
-        print(f"! devvit exited {proc.returncode}: {proc.stderr.strip()[:500]}")
-        return 6
-    try:
-        payload = json.loads(proc.stdout)
-    except json.JSONDecodeError:
-        print("! devvit output was not JSON; refusing to guess.")
-        return 7
-    return write_payload(payload, out_path)
+def hn_payload(query: str, hits: list) -> dict:
+    comments = []
+    for h in hits:
+        text = (h["text"] or h["title"]).strip()
+        if len(text) >= 80:
+            comments.append({
+                "text": text[:4000],
+                "score": h["score"],
+                "author": h["author"],
+                "url": h["url"],
+            })
+    return {
+        "source": "hackernews",
+        "subreddit": "hacker-news",
+        "thread": query,
+        "score": sum(h["score"] for h in hits),
+        "comments": comments,
+    }
 
 
 def validate_payload(payload: dict) -> list:
-    """Return a list of schema problems (empty = valid)."""
     problems = []
     for field in PAYLOAD_SCHEMA:
         if field not in payload:
@@ -98,8 +113,8 @@ def write_payload(payload: dict, out_path: Path) -> int:
 
 
 def main():
-    ap = argparse.ArgumentParser(description="HPF Community Evidence Connector (v1: Devvit CLI)")
-    ap.add_argument("--subreddit", default="")
+    ap = argparse.ArgumentParser(description="HPF Community Evidence Connector")
+    ap.add_argument("--source", default="hn", choices=["hn"])
     ap.add_argument("--query", default="")
     ap.add_argument("--limit", type=int, default=10)
     ap.add_argument("--out", default="community-payload.json")
@@ -110,11 +125,19 @@ def main():
         payload = json.loads(Path(args.payload).read_text(encoding="utf-8"))
         sys.exit(write_payload(payload, Path(args.out)))
 
-    if not args.subreddit or not args.query:
-        print("! need --subreddit and --query (or --payload file.json)")
+    if not args.query:
+        print("! need --query (or --payload file.json)")
         sys.exit(2)
 
-    sys.exit(run_devvit(args.subreddit, args.query, args.limit, Path(args.out)))
+    try:
+        hits = hn_search(args.query, args.limit)
+    except Exception as e:
+        print(f"! HN search failed: {e}")
+        sys.exit(9)
+    if not hits:
+        print(f"! no HN hits for '{args.query}'; refusing to emit an empty or fabricated payload")
+        sys.exit(10)
+    sys.exit(write_payload(hn_payload(args.query, hits), Path(args.out)))
 
 
 if __name__ == "__main__":

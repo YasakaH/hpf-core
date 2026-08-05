@@ -2,6 +2,21 @@
   "schema": "hpf-sessions-manifest-v0",
   "sessions": [
     {
+      "id": "2026-08-05-0455-web-automation-pain-points-202",
+      "topic": "Web automation pain points (2026)",
+      "goal": "What are the recurring practitioner pain points in browser automation in 2026, and what do official sources say?",
+      "audience": "Blog",
+      "depth": "deep",
+      "status": "draft",
+      "created": "2026-08-05T04:55:25.948891+00:00",
+      "duration_s": 2,
+      "sources": 7,
+      "evidence": 62,
+      "findings": 21,
+      "community_signals": 12,
+      "failed": 0
+    },
+    {
       "id": "2026-08-05-0354-microsoft-fara-vs-nodriver",
       "topic": "Microsoft Fara vs nodriver",
       "goal": "Does Microsoft Fara make nodriver obsolete?",

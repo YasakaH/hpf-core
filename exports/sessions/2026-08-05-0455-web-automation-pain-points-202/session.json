@@ -1,0 +1,957 @@
+{
+  "schema": "hpf-session-v0",
+  "id": "2026-08-05-0455-web-automation-pain-points-202",
+  "topic": "Web automation pain points (2026)",
+  "goal": "What are the recurring practitioner pain points in browser automation in 2026, and what do official sources say?",
+  "audience": "Blog",
+  "depth": "deep",
+  "created": "2026-08-05T04:55:25.948891+00:00",
+  "started": "2026-08-05T04:55:24.188809+00:00",
+  "finished": "2026-08-05T04:55:25.948871+00:00",
+  "activity": [
+    {
+      "ts": "2026-08-05T04:55:24.188835+00:00",
+      "msg": "Research started"
+    },
+    {
+      "ts": "2026-08-05T04:55:24.188898+00:00",
+      "msg": "Evidence class primary: high \u2014 official documentation anchors any topic"
+    },
+    {
+      "ts": "2026-08-05T04:55:24.188912+00:00",
+      "msg": "Evidence class code: high \u2014 repositories show implementation reality"
+    },
+    {
+      "ts": "2026-08-05T04:55:24.188922+00:00",
+      "msg": "Evidence class community: high \u2014 practitioner pain points are core signal for tooling topics"
+    },
+    {
+      "ts": "2026-08-05T04:55:24.188931+00:00",
+      "msg": "Evidence class scientific: high \u2014 scientific weight low unless the topic is model/research-focused"
+    },
+    {
+      "ts": "2026-08-05T04:55:24.188940+00:00",
+      "msg": "Evidence class operational: high \u2014 operational weight low unless performance is central"
+    },
+    {
+      "ts": "2026-08-05T04:55:24.188949+00:00",
+      "msg": "Research plan built: 9 keywords, depth deep"
+    },
+    {
+      "ts": "2026-08-05T04:55:24.481469+00:00",
+      "msg": "Collected playwright.dev (5348 chars, class primary)"
+    },
+    {
+      "ts": "2026-08-05T04:55:24.748747+00:00",
+      "msg": "Collected github.com (4176 chars, class code)"
+    },
+    {
+      "ts": "2026-08-05T04:55:25.934664+00:00",
+      "msg": "Collected developer.chrome.com (17320 chars, class primary)"
+    },
+    {
+      "ts": "2026-08-05T04:55:25.938187+00:00",
+      "msg": "Community signal r/hacker-news: 6 comments (class community)"
+    },
+    {
+      "ts": "2026-08-05T04:55:25.942361+00:00",
+      "msg": "Community signal r/hacker-news: 5 comments (class community)"
+    },
+    {
+      "ts": "2026-08-05T04:55:25.943075+00:00",
+      "msg": "Community signal r/hacker-news: 6 comments (class community)"
+    },
+    {
+      "ts": "2026-08-05T04:55:25.943756+00:00",
+      "msg": "Community signal r/hacker-news: 6 comments (class community)"
+    },
+    {
+      "ts": "2026-08-05T04:55:25.943787+00:00",
+      "msg": "Extracted 62 evidence entries from 7 sources"
+    },
+    {
+      "ts": "2026-08-05T04:55:25.948834+00:00",
+      "msg": "Drafted 21 candidate findings (keyword-density-v0), 12 as community signals"
+    },
+    {
+      "ts": "2026-08-05T04:55:25.948876+00:00",
+      "msg": "Session artifact written"
+    }
+  ],
+  "plan": {
+    "keywords": [
+      "2026",
+      "architecture",
+      "automation",
+      "limitations",
+      "pain",
+      "performance",
+      "points",
+      "security",
+      "web"
+    ],
+    "depth": "deep",
+    "evidence_classes": {
+      "primary": "high",
+      "code": "high",
+      "community": "high",
+      "scientific": "high",
+      "operational": "high"
+    }
+  },
+  "status": "draft",
+  "stages": [
+    {
+      "name": "plan",
+      "detail": "research question, keywords, depth",
+      "state": "done"
+    },
+    {
+      "name": "collect",
+      "detail": "sources fetched or imported",
+      "state": "done"
+    },
+    {
+      "name": "extract",
+      "detail": "text chunked into evidence entries",
+      "state": "done"
+    },
+    {
+      "name": "findings",
+      "detail": "draft candidate findings (not conclusions)",
+      "state": "done"
+    }
+  ],
+  "sources": [
+    {
+      "url": "https://playwright.dev/docs/intro",
+      "title": "playwright.dev",
+      "status": "fetched",
+      "chars": 5348,
+      "class": "primary"
+    },
+    {
+      "url": "https://github.com/nodriver",
+      "title": "github.com",
+      "status": "fetched",
+      "chars": 4176,
+      "class": "code"
+    },
+    {
+      "url": "https://developer.chrome.com/docs/devtools",
+      "title": "developer.chrome.com",
+      "status": "fetched",
+      "chars": 17320,
+      "class": "primary"
+    },
+    {
+      "url": "reddit://r/hacker-news/comments/playwright detection bot",
+      "title": "r/hacker-news community signal (6 comments)",
+      "status": "imported",
+      "chars": 12225,
+      "class": "community",
+      "community": {
+        "subreddit": "hacker-news",
+        "thread": "playwright detection bot",
+        "score": 246,
+        "comments": 6
+      }
+    },
+    {
+      "url": "reddit://r/hacker-news/comments/browser fingerprinting",
+      "title": "r/hacker-news community signal (5 comments)",
+      "status": "imported",
+      "chars": 8739,
+      "class": "community",
+      "community": {
+        "subreddit": "hacker-news",
+        "thread": "browser fingerprinting",
+        "score": 103,
+        "comments": 5
+      }
+    },
+    {
+      "url": "reddit://r/hacker-news/comments/web scraping blocked captcha",
+      "title": "r/hacker-news community signal (6 comments)",
+      "status": "imported",
+      "chars": 17801,
+      "class": "community",
+      "community": {
+        "subreddit": "hacker-news",
+        "thread": "web scraping blocked captcha",
+        "score": 266,
+        "comments": 6
+      }
+    },
+    {
+      "url": "reddit://r/hacker-news/comments/Cloudflare blocking bots",
+      "title": "r/hacker-news community signal (6 comments)",
+      "status": "imported",
+      "chars": 9341,
+      "class": "community",
+      "community": {
+        "subreddit": "hacker-news",
+        "thread": "Cloudflare blocking bots",
+        "score": 37,
+        "comments": 6
+      }
+    }
+  ],
+  "evidence": [
+    {
+      "id": "ev-1",
+      "source": "https://playwright.dev/docs/intro",
+      "excerpt": "Getting Started\nInstallation\nWriting tests\nGenerating tests\nRunning and debugging tests\nTrace viewer\nSetting up CI\nVS Code\nRelease notes\nCanary releases",
+      "class": "primary"
+    },
+    {
+      "id": "ev-2",
+      "source": "https://playwright.dev/docs/intro",
+      "excerpt": "Playwright Test\nAgents\nAnnotations\nCommand line\nConfiguration\nConfiguration (use)\nEmulation\nFixtures\nGlobal setup and teardown\nParallelism\nParameterize tests\nProjects\nReporters\nRetries\nSharding\nTimeouts\nTypeScript\nUI Mode\nWeb server",
+      "class": "primary"
+    },
+    {
+      "id": "ev-3",
+      "source": "https://playwright.dev/docs/intro",
+      "excerpt": "Guides\nLibrary\nAccessibility testing\nActions\nAssertions\nAPI testing\nAuthentication\nAuto-waiting\nBest Practices\nBrowsers\nChrome extensions\nClock\nComponent testing\nDebugging Tests\nDialogs\nDownloads\nEvaluating JavaScript\nEvents\nExtensibility\nFrames\nHandles\nIsolation\nLocators\nMock APIs\nMock browser APIs\nNavigations\nNetwork\nOther locators\nPages\nPage object models\nScreenshots\nService Workers\nSnapshot testing\nTest generator\nTouch events (legacy)\nTrace viewer\nVideos\nVisual comparisons\nWebView2",
+      "class": "primary"
+    },
+    {
+      "id": "ev-4",
+      "source": "https://playwright.dev/docs/intro",
+      "excerpt": "Playwright Test is an end-to-end test framework for modern web apps. It bundles test runner, assertions, isolation, parallelization and rich tooling. Playwright supports Chromium, WebKit and Firefox on Windows, Linux and macOS, locally or in CI, headless or headed, with native mobile emulation for Chrome (Android) and Mobile Safari.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-5",
+      "source": "https://playwright.dev/docs/intro",
+      "excerpt": "The command below either initializes a new project or adds Playwright to an existing one.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-6",
+      "source": "https://playwright.dev/docs/intro",
+      "excerpt": "The playwright.config centralizes configuration: target browsers, timeouts, retries, projects, reporters and more. In existing projects dependencies are added to your current package.json.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-7",
+      "source": "https://playwright.dev/docs/intro",
+      "excerpt": "By default tests run headless in parallel across Chromium, Firefox and WebKit (configurable in playwright.config). Output and aggregated results display in the terminal.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-8",
+      "source": "https://playwright.dev/docs/intro",
+      "excerpt": "After a test run, the HTML Reporter provides a dashboard filterable by the browser, passed, failed, skipped, flaky and more. Click a test to inspect errors, attachments and steps. It auto-opens only when failures occur; open manually with the command below.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-9",
+      "source": "https://playwright.dev/docs/intro",
+      "excerpt": "Run tests with UI Mode for watch mode, live step view, time travel debugging and more.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-10",
+      "source": "https://playwright.dev/docs/intro",
+      "excerpt": "See the detailed guide on UI Mode for watch filters, step details and trace integration.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-11",
+      "source": "https://playwright.dev/docs/intro",
+      "excerpt": "Introduction\nInstalling Playwright\nUsing npm, yarn or pnpm\nUsing the VS Code Extension\nWhat's Installed\nRunning the Example Test\nHTML Test Reports\nRunning the Example Test in UI Mode\nUpdating Playwright\nSystem requirements\nWhat's next",
+      "class": "primary"
+    },
+    {
+      "id": "ev-12",
+      "source": "https://github.com/nodriver",
+      "excerpt": "BY INDUSTRY\nHealthcare\nFinancial services\nManufacturing\nGovernment\nView all industries\nView all solutions",
+      "class": "code"
+    },
+    {
+      "id": "ev-13",
+      "source": "https://github.com/nodriver",
+      "excerpt": "EXPLORE BY TYPE\nCustomer stories\nEvents & webinars\nEbooks & reports\nBusiness insights\nGitHub Skills",
+      "class": "code"
+    },
+    {
+      "id": "ev-14",
+      "source": "https://github.com/nodriver",
+      "excerpt": "SUPPORT & SERVICES\nDocumentation\nCustomer support\nCommunity forum\nTrust center\nPartners\nView all resources",
+      "class": "code"
+    },
+    {
+      "id": "ev-15",
+      "source": "https://github.com/nodriver",
+      "excerpt": "PROGRAMS\nSecurity Lab\nMaintainer Community\nAccelerator\nGitHub Stars\nArchive Program",
+      "class": "code"
+    },
+    {
+      "id": "ev-16",
+      "source": "https://github.com/nodriver",
+      "excerpt": "You signed in with another tab or window. Reload to refresh your session.\n You signed out in another tab or window. Reload to refresh your session.\n You switched accounts on another tab or window. Reload to refresh your session.",
+      "class": "code"
+    },
+    {
+      "id": "ev-17",
+      "source": "https://github.com/nodriver",
+      "excerpt": "Prevent this user from interacting with your repositories and sending you notifications.\n Learn more about blocking users.",
+      "class": "code"
+    },
+    {
+      "id": "ev-18",
+      "source": "https://github.com/nodriver",
+      "excerpt": "Maximum 250 characters. Please don\u2019t include any personal information such as legal names or email addresses. Markdown is supported. This note will only be visible to you.",
+      "class": "code"
+    },
+    {
+      "id": "ev-19",
+      "source": "https://github.com/nodriver",
+      "excerpt": "Contact GitHub support about this user\u2019s behavior.\n Learn more about reporting abuse.",
+      "class": "code"
+    },
+    {
+      "id": "ev-20",
+      "source": "https://developer.chrome.com/docs/devtools",
+      "excerpt": "Learn how Chrome works, participate in origin trials, and build with Chrome everywhere.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-21",
+      "source": "https://developer.chrome.com/docs/devtools",
+      "excerpt": "Chrome DevTools is a set of web developer tools built directly into the Google Chrome browser. DevTools lets you edit pages on-the-fly and diagnose problems quickly, which helps you build better websites, faster.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-22",
+      "source": "https://developer.chrome.com/docs/devtools",
+      "excerpt": "Explore how AI innovations in DevTools let you do more, faster. Use DevTools for agents to connect the power of DevTools to your favorite coding agents.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-23",
+      "source": "https://developer.chrome.com/docs/devtools",
+      "excerpt": "Let Gemini help you analyze and improve your website's styling, network, sources, and performance. Get help with console errors, and code suggestions in the Console and Sources panels.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-24",
+      "source": "https://developer.chrome.com/docs/devtools",
+      "excerpt": "Give your coding agents the same trusted tools you use to inspect network activity, record traces, and troubleshoot web applications, within your AI workflow.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-25",
+      "source": "https://developer.chrome.com/docs/devtools",
+      "excerpt": "Connect the Chrome DevTools MCP (Model Context Protocol) server to your tool of choice: Antigravity, Claude Code, Cline, Copilot, and more.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-26",
+      "source": "https://developer.chrome.com/docs/devtools",
+      "excerpt": "Learn how to inspect resources loaded by your page and edit them from your browser.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-27",
+      "source": "https://developer.chrome.com/docs/devtools",
+      "excerpt": "Explore our monthly video series taking you through common debugging scenarios in DevTools in a playful way.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-28",
+      "source": "https://developer.chrome.com/docs/devtools",
+      "excerpt": "Chrome DevTools for agents lets your agent verify responsive layouts, test location-aware APIs, and simulate varied CPU or network speeds.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-29",
+      "source": "https://developer.chrome.com/docs/devtools",
+      "excerpt": "Lighthouse in Chrome DevTools for agents lets your coding agent evaluate website quality by performing live health checks for accessibility, SEO, best practices, and agentic browsing.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-30",
+      "source": "https://developer.chrome.com/docs/devtools",
+      "excerpt": "Get a tour through the updated Performance panel, showing you how to measure Core Web Vitals (LCP, CLS, INP) and how to get tailored advice from Gemini.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-31",
+      "source": "https://developer.chrome.com/docs/devtools",
+      "excerpt": "Set sail with DevTools and become a debugging pirate! Discover techniques for emulating focus styles, testing forms with autofill, and resolving backend errors with network overrides.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-32",
+      "source": "https://developer.chrome.com/docs/devtools",
+      "excerpt": "A wide range of tools to help you measure and optimize different aspects of your runtime performance: the Performance panel, Lighthouse, and more.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-33",
+      "source": "https://developer.chrome.com/docs/devtools",
+      "excerpt": "Learn about all the features in the Performance panel: how to record a performance trace, how to view and analyze the trace, and more.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-34",
+      "source": "https://developer.chrome.com/docs/devtools",
+      "excerpt": "Learn about new DevTools features like CPU throttling calibration to help you base your performance debugging decisions on data from the real world",
+      "class": "primary"
+    },
+    {
+      "id": "ev-35",
+      "source": "https://developer.chrome.com/docs/devtools",
+      "excerpt": "Learn about the new performance insights, the power of Lighthouse directly in the DevTools Performance panel.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-36",
+      "source": "https://developer.chrome.com/docs/devtools",
+      "excerpt": "Learn about all the features in the Sources panel: how to view and edit files, debug JavaScript, and set up a workspace.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-37",
+      "source": "https://developer.chrome.com/docs/devtools",
+      "excerpt": "Workspace lets you to save changes that you make within DevTools to source code that's stored on your computer. Learn how to set up a workspace in your own projects.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-38",
+      "source": "https://developer.chrome.com/docs/devtools",
+      "excerpt": "Learn about all the features in the Network panel: inspect response and request bodies, overwrite headers, and more.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-39",
+      "source": "https://developer.chrome.com/docs/devtools",
+      "excerpt": "Find memory issues that affect page performance, including memory leaks, and more.",
+      "class": "primary"
+    },
+    {
+      "id": "ev-40",
+      "source": "https://developer.chrome.com/docs/devtools",
+      "excerpt": "[[[\"Easy to understand\",\"easyToUnderstand\",\"thumb-up\"],[\"Solved my problem\",\"solvedMyProblem\",\"thumb-up\"],[\"Other\",\"otherUp\",\"thumb-up\"]],[[\"Missing the information I need\",\"missingTheInformationINeed\",\"thumb-down\"],[\"Too complicated / too many steps\",\"tooComplicatedTooManySteps\",\"thumb-down\"],[\"Out of date\",\"outOfDate\",\"thumb-down\"],[\"Samples / code issue\",\"samplesCodeIssue\",\"thumb-down\"],[\"Other\",\"otherDown\",\"thumb-down\"]],[],[],[]]",
+      "class": "primary"
+    },
+    {
+      "id": "ev-41",
+      "source": "reddit://r/hacker-news/comments/playwright detection bot",
+      "excerpt": "Scraping modern websites has become a massive headache. You basically have two choices: pay for an expensive API like Firecrawl&#x2F;Browserbase, or run a fleet of headless Chrome instances that eat 1GB of RAM per page and still get blocked by Cloudflare.<p>I built Draco to fix this. It\u2019s a fast, single-binary web scraper written in Rust. You point it at a URL, and it spits out perfectly clean Markdown or structured JSON for LLMs.<p>The secret sauce is that it doesn&#x27;t just boot a browser for every request. It uses a tiered escalation engine:<p>Tier 1 (Stealth Fetch): Draco uses a custom T",
+      "class": "community",
+      "community": {
+        "score": 14,
+        "author": "ccheshirecat",
+        "url": "https://news.ycombinator.com/item?id=49148163"
+      }
+    },
+    {
+      "id": "ev-42",
+      "source": "reddit://r/hacker-news/comments/playwright detection bot",
+      "excerpt": "Hey all, I built StackScope, a crawler&#x2F;catalogue that looks at new product launches and shows what they were built with.<p>It watches launches from Product Hunt, Show HN, and PeerPush, then crawls the public site behind each one. The goal is to show what people actually launched with: hosting, frameworks, analytics, DNS, security headers, legal pages, AI-builder signals, and other public clues.<p>I started building it because most stack-detection sites look at the web as a whole. I was more interested in the current indie launch scene: what people are choosing right now, at the point they",
+      "class": "community",
+      "community": {
+        "score": 67,
+        "author": "datafreak_",
+        "url": "https://news.ycombinator.com/item?id=48505364"
+      }
+    },
+    {
+      "id": "ev-43",
+      "source": "reddit://r/hacker-news/comments/playwright detection bot",
+      "excerpt": "Libretto (<a href=\"https:&#x2F;&#x2F;libretto.sh\" rel=\"nofollow\">https:&#x2F;&#x2F;libretto.sh</a>) is a Skill+CLI that makes it easy for your coding agent to generate deterministic browser automations and debug existing ones. Key shift is going from \u201cgive an agent a prompt at runtime and hope it figures things out\u201d to: \u201cUse coding agents to generate real scripts you can inspect, run, and debug\u201d.<p>Here\u2019s a demo: <a href=\"https:&#x2F;&#x2F;www.youtube.com&#x2F;watch?v=0cDpIntmHAM\" rel=\"nofollow\">https:&#x2F;&#x2F;www.youtube.com&#x2F;watch?v=0cDpIntmHAM</a>. Docs start at <a href=\"https:&#x2F;",
+      "class": "community",
+      "community": {
+        "score": 134,
+        "author": "muchael",
+        "url": "https://news.ycombinator.com/item?id=47780971"
+      }
+    },
+    {
+      "id": "ev-44",
+      "source": "reddit://r/hacker-news/comments/playwright detection bot",
+      "excerpt": "I&#x27;ve been working on browser automation infrastructure for a while and kept hitting the same ceiling: Playwright and Puppeteer are great for scripting but fall apart when you need stealth at scale. Cloud-based solutions like Browserbase work but you&#x27;re sending all your data to a third party and can&#x27;t control the environment.<p>So we built Owl Browser, a self-hosted Chromium-based engine that runs in a single Docker container. The core technical problem we tried to solve was fingerprint consistency. Most browser automation tools either ignore fingerprinting entirely or apply surf",
+      "class": "community",
+      "community": {
+        "score": 2,
+        "author": "ahstanin",
+        "url": "https://news.ycombinator.com/item?id=47312509"
+      }
+    },
+    {
+      "id": "ev-45",
+      "source": "reddit://r/hacker-news/comments/playwright detection bot",
+      "excerpt": "Hi HN,<p>I\u2019m the creator of StageWright (and the open-source playwright-smart-reporter).<p>I\u2019ve been frustrated by the &quot;black box&quot; nature of E2E test failures. Standard reporters tell you that a test failed, but they don&#x27;t help you understand why it\u2019s failing across 50 different runs or whether its execution time is trending toward a regression.<p>I built StageWright to treat test results as a performance and stability dataset.<p>Key Technical Features:<p>Historical Flakiness Detection: Unlike Playwright&#x27;s default &quot;retry&quot; logic, we track failures across runs. A te",
+      "class": "community",
+      "community": {
+        "score": 1,
+        "author": "qagaryparker",
+        "url": "https://news.ycombinator.com/item?id=47167217"
+      }
+    },
+    {
+      "id": "ev-46",
+      "source": "reddit://r/hacker-news/comments/playwright detection bot",
+      "excerpt": "Just shipped v2.0 of my browser fingerprinting lib.<p>The big change: I split collectors into &quot;stable&quot; (14) and &quot;unstable&quot; (5). Stable ones like canvas, webgl, fonts go into the hash. Unstable ones like battery level, network speed, local IPs are still collected but don&#x27;t affect the fingerprint.<p>You get consistent hashes across reloads while still having access to all the data.<p>Also added bot detection - catches Puppeteer, Playwright, Selenium, headless browsers, CDP artifacts, canvas noise injection.<p>19 collectors total, ~15KB, zero deps, TypeScript.<p>Thinking ",
+      "class": "community",
+      "community": {
+        "score": 1,
+        "author": "lococococo",
+        "url": "https://news.ycombinator.com/item?id=46847113"
+      }
+    },
+    {
+      "id": "ev-47",
+      "source": "reddit://r/hacker-news/comments/browser fingerprinting",
+      "excerpt": "Hello Hacker News! I\u2019m Tomasz, creator of Privacy Thing, a browser extension for Firefox and Chromium-based browsers. I\u2019ve just released its Preview version.<p>Privacy Thing aims to reduce browser fingerprinting\u2014the tracking of users without cookies.<p>It began as an internal project: a simple location simulator. Over time, I expanded it to cover more fingerprinting surfaces. It now has 13 protection categories affecting 50+ browser APIs and methods: Geolocation, time and locale settings, Canvas, WebGL, Audio, Navigator, Screen, Client Hints, Battery, WebRTC, Dedicated Workers, Service Workers",
+      "class": "community",
+      "community": {
+        "score": 20,
+        "author": "tomaszjanusz",
+        "url": "https://news.ycombinator.com/item?id=49124017"
+      }
+    },
+    {
+      "id": "ev-48",
+      "source": "reddit://r/hacker-news/comments/browser fingerprinting",
+      "excerpt": "Hello HN,<p>I started building GeoSpoof after I noticed my IP says one country, but the browser still hands sites my real location. Websites were flagging me because of this discrepancy. I searched for a good geolocation spoofer, only to go down a rabbit hole that there are dozens of signals that your browser emits and no tool could cover them all on every platform.<p>GeoSpoof overrides every location-related API to present one consistent signal for location. You can search a city, enter coordinates, or hit &quot;Sync with VPN&quot; to auto-detect your exit region and match it, which re-syncs ",
+      "class": "community",
+      "community": {
+        "score": 19,
+        "author": "sgro",
+        "url": "https://news.ycombinator.com/item?id=48768421"
+      }
+    },
+    {
+      "id": "ev-49",
+      "source": "reddit://r/hacker-news/comments/browser fingerprinting",
+      "excerpt": "The premise is web pages have two readers, people and the AI reading for people. Web pages can now be written more for the AI and less for people. It\u2019s a companion to an earlier page about browser fingerprinting. \n(<a href=\"https:&#x2F;&#x2F;news.ycombinator.com&#x2F;item?id=48062178\">https:&#x2F;&#x2F;news.ycombinator.com&#x2F;item?id=48062178</a>)<p>On my page, the there\u2019s a planted phrase for AI. As the site gets crawled, you can see if this phrase is ever returned by any AI summarizing the page. So there\u2019s a couple things you can do on my page:<p>1. Ask any AI to summarize the URL, and che",
+      "class": "community",
+      "community": {
+        "score": 3,
+        "author": "mwheelz",
+        "url": "https://news.ycombinator.com/item?id=48326123"
+      }
+    },
+    {
+      "id": "ev-50",
+      "source": "reddit://r/hacker-news/comments/browser fingerprinting",
+      "excerpt": "I&#x27;ve been scraping 241 UK council planning portals \u2013 2.6M decisions so far<p>UK planning data is technically public. In practice it&#x27;s locked behind 400+ different council portals, some still running bespoke ASP.NET that looks like it dates from 2004, some behind AWS WAF, all with subtly different schemas. I&#x27;ve spent four months scraping them. I&#x27;m now at 241 councils and 2.6 million decisions across England, Scotland and Wales.<p>The scraping problem<p>Most UK councils run one of a handful of portal systems, Idox being the most common. In theory this makes things easy. In pr",
+      "class": "community",
+      "community": {
+        "score": 48,
+        "author": "mebkorea",
+        "url": "https://news.ycombinator.com/item?id=47931470"
+      }
+    },
+    {
+      "id": "ev-51",
+      "source": "reddit://r/hacker-news/comments/web scraping blocked captcha",
+      "excerpt": "If you frequently work on data collection, account management, or automation tasks, CAPTCHA is an unavoidable topic. Those constantly popping up image verifications, rotating CAPTCHAs, and pages requiring you to click &quot;I&#x27;m human&quot; are not only time-consuming but also severely disruptive to workflows. For many developers and marketing teams, these verification mechanisms are practically the enemy of efficiency. In this situation, a residential proxy(https:&#x2F;&#x2F;www.thordata.com&#x2F;products&#x2F;residential-proxies) becomes a key tool for overcoming CAPTCHA restrictions. By",
+      "class": "community",
+      "community": {
+        "score": 1,
+        "author": "yenaidong",
+        "url": "https://news.ycombinator.com/item?id=45757480"
+      }
+    },
+    {
+      "id": "ev-52",
+      "source": "reddit://r/hacker-news/comments/web scraping blocked captcha",
+      "excerpt": "Hey HN!<p>Excited to share a project we&#x27;ve been working on called Hyperbrowser. It\u2019s a tool that makes scaling headless browsers ridiculously easy. It allows you to spin up hundreds of browser sessions in secure, isolated environments, with sub-second launch times. We automatically solve captchas, use residential proxies and manage concurrent sessions so that you can focus on your own business.<p>The idea for Hyperbrowser came from our own struggles building AI apps and agents like sales tools, automations, and AI editors. Every project seemed to hit the same roadblock: interacting with t",
+      "class": "community",
+      "community": {
+        "score": 57,
+        "author": "ashekhawat",
+        "url": "https://news.ycombinator.com/item?id=42381712"
+      }
+    },
+    {
+      "id": "ev-53",
+      "source": "reddit://r/hacker-news/comments/web scraping blocked captcha",
+      "excerpt": "Hey HN! I\u2019m John from xhr.dev (<a href=\"https:&#x2F;&#x2F;xhr.dev\" rel=\"nofollow\">https:&#x2F;&#x2F;xhr.dev</a>). At xhr.dev, I\u2019m building tools\nfor reverse engineering websites, and our initial product is a one-line code\nintegration that enables bot detection avoidance via a forward proxy.<p>I\u2019ve been creating integrations for websites that lack official APIs for four\nyears; initially using Puppeteer automation, and later through XHR requests.<p>Many people are familiar with web scraping, but fewer know about scraping via\nXHR requests. In fact, XHR requests are my preferred method for scrapin",
+      "class": "community",
+      "community": {
+        "score": 15,
+        "author": "skilbjo",
+        "url": "https://news.ycombinator.com/item?id=42347252"
+      }
+    },
+    {
+      "id": "ev-54",
+      "source": "reddit://r/hacker-news/comments/web scraping blocked captcha",
+      "excerpt": "I&#x27;ve launched the new product, xhr.dev (<a href=\"https:&#x2F;&#x2F;xhr.dev&#x2F;\" rel=\"nofollow\">https:&#x2F;&#x2F;xhr.dev&#x2F;</a>)<p>The initial product is a 1 line code integration that does bot detection avoidance via a forward proxy.<p>Ideal customer is someone who gets blocked by anti-bot defences like cloudflare or other captcha challenges. Usually these customers have web scraping use cases.<p>You can view our historical performance on our status page (<a href=\"https:&#x2F;&#x2F;status.xhr.dev\" rel=\"nofollow\">https:&#x2F;&#x2F;status.xhr.dev</a>).<p>ty v much, john",
+      "class": "community",
+      "community": {
+        "score": 19,
+        "author": "skilbjo",
+        "url": "https://news.ycombinator.com/item?id=42193973"
+      }
+    },
+    {
+      "id": "ev-55",
+      "source": "reddit://r/hacker-news/comments/web scraping blocked captcha",
+      "excerpt": "Right now if anyone tries to load a Cloudflared website over Tor or any &quot;bad&quot; IP, they get a captcha which breaks something like 90% of the time. It seems to only be &quot;under attack mode&quot; websites, by the fact that only a fraction of Cloudflared websites are doing this. We click the checkbox and it just shows a spinning wheel forever. If this is meant to be a block then show an actual block page instead of dodging the issue and wasting everyone&#x27;s time (I&#x27;m sure you already know about the problem). It also breaks when our IP changes now, which is a regression from th",
+      "class": "community",
+      "community": {
+        "score": 161,
+        "author": "uconnectlol",
+        "url": "https://news.ycombinator.com/item?id=34217999"
+      }
+    },
+    {
+      "id": "ev-56",
+      "source": "reddit://r/hacker-news/comments/web scraping blocked captcha",
+      "excerpt": "This is the text contained in http://blog.mocality.co.ke/2012/01/13/google-what-were-you-thinking/blog as written by Mocality CEO\nYou can follow the blog link to read the full story(of which I propose since it is of better quality) but just in case you can't access the site here is some of the contents that the blog contains. \nNote: Some resources such as images might be missing and also I didn't have enough time to format the content properly<p>=============================================\nLinks to some of the resources contained in the blog\n=============================================\nhttps",
+      "class": "community",
+      "community": {
+        "score": 13,
+        "author": "GKKenya",
+        "url": "https://news.ycombinator.com/item?id=3460094"
+      }
+    },
+    {
+      "id": "ev-57",
+      "source": "reddit://r/hacker-news/comments/Cloudflare blocking bots",
+      "excerpt": "Ask HN: Do you use Cloudflare bot protection? If so, why do you use it? Did you stress test your servers and determine that you need bot blocking? Have you considered alternatives like anubis?",
+      "class": "community",
+      "community": {
+        "score": 3,
+        "author": "Velocifyer",
+        "url": "https://news.ycombinator.com/item?id=48350107"
+      }
+    },
+    {
+      "id": "ev-58",
+      "source": "reddit://r/hacker-news/comments/Cloudflare blocking bots",
+      "excerpt": "Hi HN,<p>This weekend I built seafruit.pages.dev  to privately share any webpage with my LLM. More sites are (rightfully) blocking AI crawlers but as a reader with the page already open, it&#x27;s frustrating that my AI assistant can&#x27;t &quot;see&quot; what I&#x27;m already reading.<p>One click \u2192 clean Markdown \u2192 copied to clipboard. No extension, no tracking.<p>Existing solutions like AI browsers or extensions felt too intrusive. I wanted something surgical, fast, and private.<p>How it works:\nIt&#x27;s a bookmarklet. Click it on any page \u2192 it extracts clean text as Markdown \u2192 copies an AI",
+      "class": "community",
+      "community": {
+        "score": 4,
+        "author": "svena33",
+        "url": "https://news.ycombinator.com/item?id=47113242"
+      }
+    },
+    {
+      "id": "ev-59",
+      "source": "reddit://r/hacker-news/comments/Cloudflare blocking bots",
+      "excerpt": "Hey HN,<p>I&#x27;m Daniel, solo dev from Germany. I built ClawHosters (<a href=\"https:&#x2F;&#x2F;clawhosters.com\" rel=\"nofollow\">https:&#x2F;&#x2F;clawhosters.com</a>), a managed hosting platform for OpenClaw, the open-source AI agent framework.<p>Quick timeline: domain registered February 5th. First paying customer six days later. I probably should have spent more time on it, but it works.<p>If you haven&#x27;t seen OpenClaw, it lets you run a personal AI assistant that connects to Telegram, Discord, Slack, and WhatsApp. Self-hosting it is absolutely possible, but it&#x27;s a pain. You&#x27;",
+      "class": "community",
+      "community": {
+        "score": 9,
+        "author": "yixn_io",
+        "url": "https://news.ycombinator.com/item?id=46973691"
+      }
+    },
+    {
+      "id": "ev-60",
+      "source": "reddit://r/hacker-news/comments/Cloudflare blocking bots",
+      "excerpt": "Dear HN crowd,\nTurnstile is making my life absolutely miserable. Since a year ago or so, I can no longer pass any challenge on my phone. I use the Firefox ESR system package on Linux (PureOS Byzantium). Whenever Turnstile gives me a checkbox challenge, it keeps locking me out from login flows and feedback forms and whatnot. This is a huge deal for me because I can no longer log into some services that I pay for.\nNot only does Turnstile&#x27;s checkbox appear regularly, whenever I tap on it, it just spins in an endless loop, never making any progress. No matter how often I reload and retry, it ",
+      "class": "community",
+      "community": {
+        "score": 8,
+        "author": "Hackbraten",
+        "url": "https://news.ycombinator.com/item?id=45816826"
+      }
+    },
+    {
+      "id": "ev-61",
+      "source": "reddit://r/hacker-news/comments/Cloudflare blocking bots",
+      "excerpt": "Following up on earlier thread about what setup to use for main email account. Consensus appeared to be &#x27;Get a custom domain (e.g. with Cloudflare) and use it with e.g. Fastmail&#x27;. The plan is to then make that email address the cornerstone of my online security, use it for password manager recovery etc.<p>The domain registrar and the email hosting then appear key to the whole security model \u2013 if they are compromised, all other accounts are.<p>So I&#x27;m trying to work out the details of how to go about it.<p>E.g. which email should I use with the registrar to buy the domain? Some th",
+      "class": "community",
+      "community": {
+        "score": 1,
+        "author": "agent008t",
+        "url": "https://news.ycombinator.com/item?id=44022039"
+      }
+    },
+    {
+      "id": "ev-62",
+      "source": "reddit://r/hacker-news/comments/Cloudflare blocking bots",
+      "excerpt": "Bots account for just a ridiculous amount of web traffic, tying up resources and bandwidth, and the go to response to this is...basically nothing.  You can maybe throw Cloudflare in front of your site, and that&#x27;s it.<p>Within the last year it&#x27;s become much worse with AI bots vacuuming my content on my dime.<p>Why is there not some community-driven attempt block them?  Is this problem just not solvable?",
+      "class": "community",
+      "community": {
+        "score": 12,
+        "author": "pupppet",
+        "url": "https://news.ycombinator.com/item?id=42810527"
+      }
+    }
+  ],
+  "findings": [
+    {
+      "id": "f-1",
+      "claim": "Playwright Test is an end-to-end test framework for modern web apps. It bundles test runner, assertions, isolation, parallelization and rich tooling. Playwright supports Chromium, WebKit and Firefox on Windows, Linux and macOS, locally or in CI, headless or headed, with native mobile emulation for Chrome (Android) and Mobile Safari.",
+      "confidence": null,
+      "status": "needs_adjudication",
+      "sources": [
+        "https://playwright.dev/docs/intro"
+      ],
+      "method": "keyword-density-v0"
+    },
+    {
+      "id": "f-2",
+      "claim": "By default tests run headless in parallel across Chromium, Firefox and WebKit (configurable in playwright.config). Output and aggregated results display in the terminal.",
+      "confidence": null,
+      "status": "needs_adjudication",
+      "sources": [
+        "https://playwright.dev/docs/intro"
+      ],
+      "method": "keyword-density-v0"
+    },
+    {
+      "id": "f-3",
+      "claim": "Playwright Test\nAgents\nAnnotations\nCommand line\nConfiguration\nConfiguration (use)\nEmulation\nFixtures\nGlobal setup and teardown\nParallelism\nParameterize tests\nProjects\nReporters\nRetries\nSharding\nTimeouts\nTypeScript\nUI Mode\nWeb server",
+      "confidence": null,
+      "status": "needs_adjudication",
+      "sources": [
+        "https://playwright.dev/docs/intro"
+      ],
+      "method": "keyword-density-v0"
+    },
+    {
+      "id": "f-4",
+      "claim": "PROGRAMS\nSecurity Lab\nMaintainer Community\nAccelerator\nGitHub Stars\nArchive Program",
+      "confidence": null,
+      "status": "needs_adjudication",
+      "sources": [
+        "https://github.com/nodriver"
+      ],
+      "method": "keyword-density-v0"
+    },
+    {
+      "id": "f-5",
+      "claim": "EXPLORE BY TYPE\nCustomer stories\nEvents & webinars\nEbooks & reports\nBusiness insights\nGitHub Skills",
+      "confidence": null,
+      "status": "needs_adjudication",
+      "sources": [
+        "https://github.com/nodriver"
+      ],
+      "method": "keyword-density-v0"
+    },
+    {
+      "id": "f-6",
+      "claim": "BY INDUSTRY\nHealthcare\nFinancial services\nManufacturing\nGovernment\nView all industries\nView all solutions",
+      "confidence": null,
+      "status": "needs_adjudication",
+      "sources": [
+        "https://github.com/nodriver"
+      ],
+      "method": "keyword-density-v0"
+    },
+    {
+      "id": "f-7",
+      "claim": "Learn about the new performance insights, the power of Lighthouse directly in the DevTools Performance panel.",
+      "confidence": null,
+      "status": "needs_adjudication",
+      "sources": [
+        "https://developer.chrome.com/docs/devtools"
+      ],
+      "method": "keyword-density-v0"
+    },
+    {
+      "id": "f-8",
+      "claim": "Learn about all the features in the Performance panel: how to record a performance trace, how to view and analyze the trace, and more.",
+      "confidence": null,
+      "status": "needs_adjudication",
+      "sources": [
+        "https://developer.chrome.com/docs/devtools"
+      ],
+      "method": "keyword-density-v0"
+    },
+    {
+      "id": "f-9",
+      "claim": "A wide range of tools to help you measure and optimize different aspects of your runtime performance: the Performance panel, Lighthouse, and more.",
+      "confidence": null,
+      "status": "needs_adjudication",
+      "sources": [
+        "https://developer.chrome.com/docs/devtools"
+      ],
+      "method": "keyword-density-v0"
+    },
+    {
+      "id": "f-10",
+      "claim": "Scraping modern websites has become a massive headache. You basically have two choices: pay for an expensive API like Firecrawl&#x2F;Browserbase, or run a fleet of headless Chrome instances that eat 1GB of RAM per page and still get blocked by Cloudflare.<p>I built Draco to fix this. It\u2019s a fast, single-binary web scraper written in Rust. You point it at a URL, and it spits out perfectly clean Mar",
+      "confidence": null,
+      "status": "community_signal",
+      "sources": [
+        "reddit://r/hacker-news/comments/playwright detection bot"
+      ],
+      "method": "keyword-density-v0",
+      "community": {
+        "class": "community",
+        "frequency": 6,
+        "subreddit": "hacker-news"
+      }
+    },
+    {
+      "id": "f-11",
+      "claim": "Hey all, I built StackScope, a crawler&#x2F;catalogue that looks at new product launches and shows what they were built with.<p>It watches launches from Product Hunt, Show HN, and PeerPush, then crawls the public site behind each one. The goal is to show what people actually launched with: hosting, frameworks, analytics, DNS, security headers, legal pages, AI-builder signals, and other public clue",
+      "confidence": null,
+      "status": "community_signal",
+      "sources": [
+        "reddit://r/hacker-news/comments/playwright detection bot"
+      ],
+      "method": "keyword-density-v0",
+      "community": {
+        "class": "community",
+        "frequency": 6,
+        "subreddit": "hacker-news"
+      }
+    },
+    {
+      "id": "f-12",
+      "claim": "I&#x27;ve been working on browser automation infrastructure for a while and kept hitting the same ceiling: Playwright and Puppeteer are great for scripting but fall apart when you need stealth at scale. Cloud-based solutions like Browserbase work but you&#x27;re sending all your data to a third party and can&#x27;t control the environment.<p>So we built Owl Browser, a self-hosted Chromium-based en",
+      "confidence": null,
+      "status": "community_signal",
+      "sources": [
+        "reddit://r/hacker-news/comments/playwright detection bot"
+      ],
+      "method": "keyword-density-v0",
+      "community": {
+        "class": "community",
+        "frequency": 6,
+        "subreddit": "hacker-news"
+      }
+    },
+    {
+      "id": "f-13",
+      "claim": "Hello Hacker News! I\u2019m Tomasz, creator of Privacy Thing, a browser extension for Firefox and Chromium-based browsers. I\u2019ve just released its Preview version.<p>Privacy Thing aims to reduce browser fingerprinting\u2014the tracking of users without cookies.<p>It began as an internal project: a simple location simulator. Over time, I expanded it to cover more fingerprinting surfaces. It now has 13 protect",
+      "confidence": null,
+      "status": "community_signal",
+      "sources": [
+        "reddit://r/hacker-news/comments/browser fingerprinting"
+      ],
+      "method": "keyword-density-v0",
+      "community": {
+        "class": "community",
+        "frequency": 4,
+        "subreddit": "hacker-news"
+      }
+    },
+    {
+      "id": "f-14",
+      "claim": "The premise is web pages have two readers, people and the AI reading for people. Web pages can now be written more for the AI and less for people. It\u2019s a companion to an earlier page about browser fingerprinting. \n(<a href=\"https:&#x2F;&#x2F;news.ycombinator.com&#x2F;item?id=48062178\">https:&#x2F;&#x2F;news.ycombinator.com&#x2F;item?id=48062178</a>)<p>On my page, the there\u2019s a planted phrase for A",
+      "confidence": null,
+      "status": "community_signal",
+      "sources": [
+        "reddit://r/hacker-news/comments/browser fingerprinting"
+      ],
+      "method": "keyword-density-v0",
+      "community": {
+        "class": "community",
+        "frequency": 4,
+        "subreddit": "hacker-news"
+      }
+    },
+    {
+      "id": "f-15",
+      "claim": "Hello HN,<p>I started building GeoSpoof after I noticed my IP says one country, but the browser still hands sites my real location. Websites were flagging me because of this discrepancy. I searched for a good geolocation spoofer, only to go down a rabbit hole that there are dozens of signals that your browser emits and no tool could cover them all on every platform.<p>GeoSpoof overrides every loca",
+      "confidence": null,
+      "status": "community_signal",
+      "sources": [
+        "reddit://r/hacker-news/comments/browser fingerprinting"
+      ],
+      "method": "keyword-density-v0",
+      "community": {
+        "class": "community",
+        "frequency": 4,
+        "subreddit": "hacker-news"
+      }
+    },
+    {
+      "id": "f-16",
+      "claim": "Hey HN! I\u2019m John from xhr.dev (<a href=\"https:&#x2F;&#x2F;xhr.dev\" rel=\"nofollow\">https:&#x2F;&#x2F;xhr.dev</a>). At xhr.dev, I\u2019m building tools\nfor reverse engineering websites, and our initial product is a one-line code\nintegration that enables bot detection avoidance via a forward proxy.<p>I\u2019ve been creating integrations for websites that lack official APIs for four\nyears; initially using Puppe",
+      "confidence": null,
+      "status": "community_signal",
+      "sources": [
+        "reddit://r/hacker-news/comments/web scraping blocked captcha"
+      ],
+      "method": "keyword-density-v0",
+      "community": {
+        "class": "community",
+        "frequency": 6,
+        "subreddit": "hacker-news"
+      }
+    },
+    {
+      "id": "f-17",
+      "claim": "Right now if anyone tries to load a Cloudflared website over Tor or any &quot;bad&quot; IP, they get a captcha which breaks something like 90% of the time. It seems to only be &quot;under attack mode&quot; websites, by the fact that only a fraction of Cloudflared websites are doing this. We click the checkbox and it just shows a spinning wheel forever. If this is meant to be a block then show an a",
+      "confidence": null,
+      "status": "community_signal",
+      "sources": [
+        "reddit://r/hacker-news/comments/web scraping blocked captcha"
+      ],
+      "method": "keyword-density-v0",
+      "community": {
+        "class": "community",
+        "frequency": 6,
+        "subreddit": "hacker-news"
+      }
+    },
+    {
+      "id": "f-18",
+      "claim": "I&#x27;ve launched the new product, xhr.dev (<a href=\"https:&#x2F;&#x2F;xhr.dev&#x2F;\" rel=\"nofollow\">https:&#x2F;&#x2F;xhr.dev&#x2F;</a>)<p>The initial product is a 1 line code integration that does bot detection avoidance via a forward proxy.<p>Ideal customer is someone who gets blocked by anti-bot defences like cloudflare or other captcha challenges. Usually these customers have web scraping us",
+      "confidence": null,
+      "status": "community_signal",
+      "sources": [
+        "reddit://r/hacker-news/comments/web scraping blocked captcha"
+      ],
+      "method": "keyword-density-v0",
+      "community": {
+        "class": "community",
+        "frequency": 6,
+        "subreddit": "hacker-news"
+      }
+    },
+    {
+      "id": "f-19",
+      "claim": "Following up on earlier thread about what setup to use for main email account. Consensus appeared to be &#x27;Get a custom domain (e.g. with Cloudflare) and use it with e.g. Fastmail&#x27;. The plan is to then make that email address the cornerstone of my online security, use it for password manager recovery etc.<p>The domain registrar and the email hosting then appear key to the whole security mo",
+      "confidence": null,
+      "status": "community_signal",
+      "sources": [
+        "reddit://r/hacker-news/comments/Cloudflare blocking bots"
+      ],
+      "method": "keyword-density-v0",
+      "community": {
+        "class": "community",
+        "frequency": 6,
+        "subreddit": "hacker-news"
+      }
+    },
+    {
+      "id": "f-20",
+      "claim": "Bots account for just a ridiculous amount of web traffic, tying up resources and bandwidth, and the go to response to this is...basically nothing.  You can maybe throw Cloudflare in front of your site, and that&#x27;s it.<p>Within the last year it&#x27;s become much worse with AI bots vacuuming my content on my dime.<p>Why is there not some community-driven attempt block them?  Is this problem jus",
+      "confidence": null,
+      "status": "community_signal",
+      "sources": [
+        "reddit://r/hacker-news/comments/Cloudflare blocking bots"
+      ],
+      "method": "keyword-density-v0",
+      "community": {
+        "class": "community",
+        "frequency": 6,
+        "subreddit": "hacker-news"
+      }
+    },
+    {
+      "id": "f-21",
+      "claim": "Hi HN,<p>This weekend I built seafruit.pages.dev  to privately share any webpage with my LLM. More sites are (rightfully) blocking AI crawlers but as a reader with the page already open, it&#x27;s frustrating that my AI assistant can&#x27;t &quot;see&quot; what I&#x27;m already reading.<p>One click \u2192 clean Markdown \u2192 copied to clipboard. No extension, no tracking.<p>Existing solutions like AI brow",
+      "confidence": null,
+      "status": "community_signal",
+      "sources": [
+        "reddit://r/hacker-news/comments/Cloudflare blocking bots"
+      ],
+      "method": "keyword-density-v0",
+      "community": {
+        "class": "community",
+        "frequency": 6,
+        "subreddit": "hacker-news"
+      }
+    }
+  ],
+  "notes": "Extraction v0 is mechanical: paragraphs, keyword density, truncation. Findings are DRAFT candidate findings requiring adjudication before any corpus admission. Sessions are operational evidence records."
+}

@@ -96,6 +96,20 @@ def fetch(url: str, timeout: int = 20) -> str:
     return html_to_text(raw)
 
 
+def classify_url(url: str) -> str:
+    """Mechanical evidence-class inference from the URL host."""
+    host = (url or "").lower()
+    if any(d in host for d in ("github.com", "gitlab.com", "bitbucket.org")):
+        return "code"
+    if any(d in host for d in ("arxiv.org", "acm.org", "ieee.org", "scholar.google", "paper", "proceedings")):
+        return "scientific"
+    if any(d in host for d in ("reddit.com", "news.ycombinator.com", "stackoverflow.com", "discord", "reddit")):
+        return "community"
+    if any(d in host for d in ("benchmark", "report", "telemetry", "status", "metrics", "speedtest", "apdex")):
+        return "operational"
+    return "primary"
+
+
 def split_paragraphs(text: str):
     return [p.strip() for p in re.split(r"\n\s*\n", text) if len(p.strip()) > 80]
 
@@ -273,12 +287,13 @@ def main():
         try:
             text = fetch(url)
             title = url.split("/")[2] if len(url.split("/")) > 2 else url
-            sources.append({"url": url, "title": title, "status": "fetched", "chars": len(text), "class": "primary"})
+            cls = classify_url(url)
+            sources.append({"url": url, "title": title, "status": "fetched", "chars": len(text), "class": cls})
             for para in split_paragraphs(text):
-                evidence.append({"id": f"ev-{len(evidence)+1}", "source": url, "excerpt": para[:600], "class": "primary"})
-            log(f"Collected {title} ({len(text)} chars, class primary)")
+                evidence.append({"id": f"ev-{len(evidence)+1}", "source": url, "excerpt": para[:600], "class": cls})
+            log(f"Collected {title} ({len(text)} chars, class {cls})")
         except Exception as e:
-            sources.append({"url": url, "title": url, "status": "failed", "error": str(e), "class": "primary"})
+            sources.append({"url": url, "title": url, "status": "failed", "error": str(e), "class": classify_url(url)})
             log(f"Failed {url}: {e}")
 
     for i, path in enumerate(args.import_md):
