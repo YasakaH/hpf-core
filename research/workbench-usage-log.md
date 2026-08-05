@@ -292,3 +292,22 @@ Reviewer guidance recorded:
   decides), not feature-by-feature.
 - Community volume caveat: report as "limited discussion", never consensus.
 - No publish pack yet — waiting for framing approval.
+
+## Session 002 — publish pack compiled (2026-08-05)
+
+Framing decision (reviewer-directed): evidence supported the "different
+layers" reading, so the compiler produced:
+
+    Microsoft Fara vs Nodriver: Different Layers of the Browser Automation
+    Stack
+
+publish.py gained --title (publication title override; defaults to session
+topic) — a publishing-quality change, allowed under the v1 freeze. Pack
+records publication_title separately from session topic.
+
+Pack: 10 accepted / 13 rejected excluded / LEAK none. Claims f-1, f-11,
+f-12, f-13, f-16, f-19, f-20, f-21, f-22, f-23. Six renders. publish-002
+job -> done (pack compiled, framing approved). Site publish/ synced.
+
+Editing-time metric for this pack: NOT YET MEASURED — first honest reading
+when the owner edits the article.

@@ -1,0 +1,166 @@
+{
+  "schema": "hpf-publish-pack-v0",
+  "session_id": "2026-08-05-0601-microsoft-fara-vs-nodriver-arc",
+  "topic": "Microsoft Fara vs Nodriver: architecture, capabilities, and future of AI browser automation",
+  "publication_title": "Microsoft Fara vs Nodriver: Different Layers of the Browser Automation Stack",
+  "goal": "Determine whether Microsoft Fara represents an architectural evolution over Nodriver or addresses a different class of browser automation problems. Identify evidence for capability overlap, unique strengths, limitations, and likely future adoption. Include Technology Maturity assessment: production readiness, community adoption, maintenance activity, breaking changes, vendor commitment, migration risk. Produce an adjudicated comparison suitable for publication.",
+  "audience": "Blog",
+  "compiled_at": "2026-08-05T06:18:24.889261+00:00",
+  "adjudication_ref": "adjudication.json",
+  "adjudicated_at": "2026-08-05T06:15:28.540377+00:00",
+  "adjudicator": "research-reviewer",
+  "accepted": 10,
+  "rejected": 13,
+  "status": "draft",
+  "claims": [
+    {
+      "id": "f-1",
+      "claim": "All three models are available on Microsoft Foundry: Fara1.5-4B, Fara1.5-9B, and Fara1.5-27B.",
+      "status": "needs_adjudication",
+      "confidence": null,
+      "sources": [
+        "https://github.com/microsoft/fara"
+      ],
+      "evidence": [
+        "ev-9",
+        "ev-11",
+        "ev-34"
+      ],
+      "method": "keyword-density-v0",
+      "review_decision": "approve"
+    },
+    {
+      "id": "f-11",
+      "claim": "Microsoft Fara1.5 is a computer use agent (CUA) model for web browsers from Microsoft Research AI Frontiers \u2014 a family of native computer use agents at three scales (Fara1.5-4B/9B/27B) built on Qwen3.5 \u2014 not a browser automation framework.",
+      "status": "needs_adjudication",
+      "confidence": null,
+      "sources": [
+        "https://huggingface.co/microsoft/Fara1.5-9B/blob/main/README.md"
+      ],
+      "evidence": [
+        "ev-316",
+        "ev-283",
+        "ev-299"
+      ],
+      "method": "keyword-density-v0",
+      "review_decision": "revise"
+    },
+    {
+      "id": "f-12",
+      "claim": "Fara1.5 is trained to pause and ask the user at critical points before continuing \u2014 agent-level consent behavior that driver-level tools do not implement.",
+      "status": "needs_adjudication",
+      "confidence": null,
+      "sources": [
+        "https://huggingface.co/microsoft/Fara1.5-9B/blob/main/README.md"
+      ],
+      "evidence": [
+        "ev-316",
+        "ev-283",
+        "ev-299"
+      ],
+      "method": "keyword-density-v0",
+      "review_decision": "revise"
+    },
+    {
+      "id": "f-13",
+      "claim": "Community signal: browser-harness SDKs for AI agents are emerging (e.g., Browser Tools SDK open-sourced July 2026 \u2014 a TypeScript package giving AI agents a production-ready real-browser harness).",
+      "status": "community_signal",
+      "confidence": null,
+      "sources": [
+        "https://news.ycombinator.com/item?id=48998262",
+        "https://news.ycombinator.com/item?id=49178393",
+        "https://news.ycombinator.com/item?id=48886547"
+      ],
+      "evidence": [
+        "ev-320",
+        "ev-318",
+        "ev-321"
+      ],
+      "method": "keyword-density-v0",
+      "review_decision": "revise"
+    },
+    {
+      "id": "f-16",
+      "claim": "Community signal: practitioners building browser automation at scale orchestrate around interchangeable drivers \u2014 one HN post (2026-03-02) names Playwright, Selenium, and Nodriver as backends under an orchestration layer built for proxy rotation, fingerprinting, and job queues.",
+      "status": "community_signal",
+      "confidence": null,
+      "sources": [
+        "https://news.ycombinator.com/item?id=47218198",
+        "https://news.ycombinator.com/item?id=47758203",
+        "https://news.ycombinator.com/item?id=45362134"
+      ],
+      "evidence": [
+        "ev-329",
+        "ev-327",
+        "ev-330"
+      ],
+      "method": "keyword-density-v0",
+      "review_decision": "revise"
+    },
+    {
+      "id": "f-19",
+      "claim": "Fara and Nodriver occupy different abstraction layers of the browser automation stack: Fara is a vision-first AI computer-use layer (a model that observes screenshots and emits actions, executed through a browser harness), while Nodriver is a low-level CDP browser driver (successor of undetected-chromedriver, direct CDP protocol, anti-bot/WAF resistance focus). Fara complements rather than replaces drivers.",
+      "status": "needs_adjudication",
+      "confidence": null,
+      "sources": [
+        "https://github.com/microsoft/fara",
+        "https://github.com/ultrafunkamsterdam/nodriver",
+        "https://huggingface.co/microsoft/Fara1.5-9B/blob/main/README.md"
+      ],
+      "evidence": [],
+      "method": "adjudication-synthesis-v0",
+      "review_decision": "add"
+    },
+    {
+      "id": "f-20",
+      "claim": "Fara's execution model is vision-first: it sees the browser through screenshots, not the DOM or accessibility tree, and predicts pixel-grounded click and drag targets directly \u2014 no separate grounding model needed.",
+      "status": "needs_adjudication",
+      "confidence": null,
+      "sources": [
+        "https://huggingface.co/microsoft/Fara1.5-9B/blob/main/README.md"
+      ],
+      "evidence": [],
+      "method": "adjudication-synthesis-v0",
+      "review_decision": "add"
+    },
+    {
+      "id": "f-21",
+      "claim": "Fara1.5 is explicitly a research preview, not a production framework: Microsoft recommends sandboxed execution, monitoring, and avoiding sensitive data or high-risk domains; the model is intended to run only with the microsoft/fara harness or Magentic-Lite.",
+      "status": "needs_adjudication",
+      "confidence": null,
+      "sources": [
+        "https://github.com/microsoft/fara",
+        "https://huggingface.co/microsoft/Fara1.5-9B/blob/main/README.md"
+      ],
+      "evidence": [],
+      "method": "adjudication-synthesis-v0",
+      "review_decision": "add"
+    },
+    {
+      "id": "f-22",
+      "claim": "Technology maturity asymmetry: Nodriver is a community-maintained driver project (official successor of undetected-chromedriver, fully asynchronous, active iteration documented in README) while Fara is a vendor-backed model family (Microsoft Research AI Frontiers, released 2026-07-22, weights on Hugging Face, hosted on Microsoft Foundry, MIT license) at research-preview maturity.",
+      "status": "needs_adjudication",
+      "confidence": null,
+      "sources": [
+        "https://github.com/microsoft/fara",
+        "https://github.com/ultrafunkamsterdam/nodriver",
+        "https://huggingface.co/microsoft/Fara1.5-9B/blob/main/README.md"
+      ],
+      "evidence": [],
+      "method": "adjudication-synthesis-v0",
+      "review_decision": "add"
+    },
+    {
+      "id": "f-23",
+      "claim": "Fara emits structured tool calls (click, type, scroll, visit URL, web search, terminate) that a browser harness must execute: the model does not drive a browser by itself \u2014 the microsoft/fara CLI and Magentic-Lite execute actions in a sandboxed browser and feed screenshots back.",
+      "status": "needs_adjudication",
+      "confidence": null,
+      "sources": [
+        "https://huggingface.co/microsoft/Fara1.5-9B/blob/main/README.md"
+      ],
+      "evidence": [],
+      "method": "adjudication-synthesis-v0",
+      "review_decision": "add"
+    }
+  ]
+}

@@ -20,6 +20,7 @@ never invents text beyond the claim strings themselves.
 
 Usage:
     python tools/hpf-research/publish.py <session-dir> [--out exports/publish]
+        [--title "Publication title (defaults to session topic)"]
 """
 import argparse
 import datetime
@@ -80,8 +81,9 @@ def render_comparison(session, findings) -> str:
     return "\n".join(lines)
 
 
-def render_article(session, findings, adjudicated_at) -> str:
-    lines = [f"# {session['topic']}", ""]
+def render_article(session, findings, adjudicated_at, publication_title=None) -> str:
+    title = publication_title or session["topic"]
+    lines = [f"# {title}", ""]
     if session.get("goal"):
         lines += [f"_{session['goal']}_", ""]
     lines.append(f"Status: draft article compiled from {len(findings)} accepted findings "
@@ -173,6 +175,7 @@ def main():
     ap = argparse.ArgumentParser(description="HPF Publishing Compiler")
     ap.add_argument("session_dir")
     ap.add_argument("--out", default=str(Path(__file__).resolve().parent.parent.parent / "exports" / "publish"))
+    ap.add_argument("--title", default="", help="publication title; defaults to the session topic")
     args = ap.parse_args()
 
     sdir = Path(args.session_dir)
@@ -206,6 +209,7 @@ def main():
         "schema": "hpf-publish-pack-v0",
         "session_id": session["id"],
         "topic": session["topic"],
+        "publication_title": args.title.strip() or session["topic"],
         "goal": session.get("goal", ""),
         "audience": session.get("audience"),
         "compiled_at": datetime.datetime.now(datetime.timezone.utc).isoformat(),
@@ -226,7 +230,7 @@ def main():
 
     for name, fn in RENDERS.items():
         if name == "article.md":
-            text = fn(session, findings, adjudication.get("adjudicated_at"))
+            text = fn(session, findings, adjudication.get("adjudicated_at"), args.title.strip() or None)
         else:
             text = fn(session, findings)
         (renders_dir / name).write_text(text, encoding="utf-8")
