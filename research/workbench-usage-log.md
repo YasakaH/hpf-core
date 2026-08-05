@@ -38,3 +38,27 @@ For every departure from the Workbench, ask:
 - Mostly "yes" → the operational-interface goal is achieved.
 
 First workbench review after 20-30 logged sessions.
+
+## Community evidence review (recurring operational check, 2026-08-05)
+
+Now that the Community Evidence Connector (v1: Devvit CLI) is live, each
+session that used community evidence gets a short recurring check — not
+governance, a signal for whether the connector is contributing or adding
+noise:
+
+| Question | Example answer |
+|---|---|
+| Did community evidence reveal anything not in official documentation? | Yes — repeated reports of browser fingerprinting failures. |
+| Did it change the conclusions? | No / Partially / Yes |
+| Was it validated elsewhere? | GitHub Issues, benchmarks, vendor docs, etc. |
+
+Only repeated "yes, and it changed the outcome" answers justify building more
+community connectors (HN, Stack Overflow, GitHub Discussions, Discord
+exports). Connectors are added only when a real research session failed
+without them — never preemptively.
+
+Suggested first community-heavy research topic: "Web automation pain points"
+(recurring practitioner signals: Playwright detection, CAPTCHA escalation,
+Cloudflare blocking, proxy rotation, browser fingerprinting, session
+persistence, rate limiting) — then compare against official documentation.
+
