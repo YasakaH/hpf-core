@@ -43,6 +43,15 @@ except ImportError:
     def validate_payload(payload):
         return []
 
+try:
+    from watchlist import load_watchlist, watchlist_matches
+except ImportError:
+    def load_watchlist(path=None):
+        return {}
+
+    def watchlist_matches(keywords, watchlist):
+        return []
+
 STAGES = [
     ("plan", "research question, keywords, depth"),
     ("collect", "sources fetched or imported"),
@@ -300,11 +309,22 @@ def main():
         weight, reason = evidence_plan.get(cls, ("low", "no rule matched"))
         plan_lines.append(f"{cls}={weight} ({reason})")
         log(f"Evidence class {cls}: {weight} — {reason}")
+    watchlist = {}
+    try:
+        watchlist = load_watchlist()
+    except (OSError, ValueError) as e:
+        log(f"Watchlist unavailable: {e}")
+    matches = watchlist_matches(kw, watchlist)
+    if matches:
+        log(f"Watchlist touches: {', '.join(matches)}")
+    else:
+        log("Watchlist: no watched entries touched by this topic")
     log(f"Research plan built: {len(kw)} keywords, depth {args.depth}")
     session_plan = {
         "keywords": kw,
         "depth": args.depth,
         "evidence_classes": {cls: evidence_plan.get(cls, ("low", ""))[0] for cls in EVIDENCE_CLASSES},
+        "watchlist_matches": matches,
     }
 
     stage("collect", f"{len(args.url)} urls, {len(args.import_md)} imports, {len(args.community_payload)} community payloads")

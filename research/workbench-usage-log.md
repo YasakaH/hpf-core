@@ -392,3 +392,28 @@ Activation triggers (any one):
 2. A materially important development goes undiscovered.
 3. Cookbook staleness measured and shown to impact readers.
 4. Post-20-30-sessions: a queue would have changed which sessions ran.
+
+## Watchlist implemented (2026-08-05) — operational configuration
+
+Reviewer correction: watchlist was operational configuration, not a
+document-only idea. Decision-classification rule adopted (chronicle 28):
+
+- Governance only -> document only
+- Deferred architecture -> document only
+- Operational configuration -> IMPLEMENT IMMEDIATELY
+- Executable infrastructure -> IMPLEMENT IMMEDIATELY
+- Production feature -> implement only if activated
+
+Implemented:
+- tools/hpf-research/config/watchlist.yaml (3 sections, 26 entries)
+- tools/hpf-research/watchlist.py (load/validate/emit JSON; PyYAML or
+  stdlib subset parser)
+- research.py plan stage loads watchlist, logs watchlist_matches into the
+  session plan (integration verified: Playwright/Nodriver topic matched 7
+  entries)
+- Workbench #/research/watched read-only view; release workflow assembles
+  data/watchlist.json
+- test9 green; full suite green
+
+No discovery, no cron, no scoring. The parked Research Opportunity Engine
+will seed from this list if the measurements ever earn it.

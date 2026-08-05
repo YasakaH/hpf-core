@@ -16,6 +16,7 @@ const state = {
   sessions: [],
   packs: [],
   jobs: [],
+  watchlist: null,
 };
 
 const $ = (sel) => document.querySelector(sel);
@@ -45,6 +46,9 @@ async function loadData() {
   if (cfg && cfg.sessions_url) state.sessions = await loadSessions(cfg.sessions_url);
   if (cfg && cfg.publish_url) state.packs = await loadPacks(cfg.publish_url);
   if (cfg && cfg.jobs_url) state.jobs = await loadJobs(cfg.jobs_url);
+  try {
+    state.watchlist = await fetch("data/watchlist.json").then((r) => r.json());
+  } catch { /* watchlist optional */ }
 }
 
 async function loadJobs(baseUrl) {
@@ -145,7 +149,7 @@ function render() {
   const main = $("#main");
   const one = parts[0] || "home";
   if (one === "home") main.innerHTML = viewHome();
-  else if (one === "research") main.innerHTML = parts[1] === "new" ? viewResearchNew(params) : parts[1] === "session" ? viewSession(parts[2]) : viewResearch();
+  else if (one === "research") main.innerHTML = parts[1] === "new" ? viewResearchNew(params) : parts[1] === "session" ? viewSession(parts[2]) : parts[1] === "watched" ? viewWatched() : viewResearch();
   else if (one === "library") main.innerHTML = viewLibrary(parts[1]);
   else if (one === "findings") main.innerHTML = viewFindings();
   else if (one === "publish") main.innerHTML = parts[1] === "pack" ? viewPack(parts[2]) : viewPublish();
@@ -270,7 +274,28 @@ function viewResearch() {
       <ol class="pipeline">${pipeline}</ol>
     </div>
     <div class="card"><h2>Sessions (${state.sessions.length})</h2>${sessRows}</div>
-    <div class="card"><h2>Browser records (${drafts.length})</h2>${rows}</div>`;
+    <div class="card"><h2>Browser records (${drafts.length})</h2>${rows}</div>
+    <div class="card"><h2>Watched technologies</h2>
+      <p class="muted">The maintained watchlist is configuration, not automation — no discovery or scoring runs against it. It exists so that the parked Research Opportunity Engine, if ever activated by evidence, starts from the right seed.</p>
+      <a class="more" href="#/research/watched">View watchlist</a>
+    </div>`;
+}
+
+function viewWatched() {
+  const w = state.watchlist;
+  if (!w || !w.topics) {
+    return `<div class="row-between"><h1>Watched Technologies</h1><a class="btn ghost" href="#/research">Back</a></div>
+      <div class="card"><h2>Watchlist</h2><p class="muted">No watchlist data available (data/watchlist.json not assembled).</p></div>`;
+  }
+  const sections = Object.entries(w.topics).map(([section, entries]) => `
+    <div class="card"><h2>${esc(section)}</h2>
+      <div class="chips">${entries.map((e) => `<span class="chip">${esc(e)}</span>`).join("")}</div>
+    </div>`).join("");
+  return `
+    <div class="row-between"><h1>Watched Technologies</h1><a class="btn ghost" href="#/research">Back</a></div>
+    <div class="card"><h2>Operational configuration</h2>
+      <p class="muted">Single source of truth: <code>tools/hpf-research/config/watchlist.yaml</code>. The research orchestrator loads it at plan time and reports which watched entries a topic touches; nothing here triggers research.</p></div>
+    ${sections}`;
 }
 
 function viewResearchNew(params) {

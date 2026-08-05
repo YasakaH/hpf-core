@@ -1,0 +1,46 @@
+# HPF Research Watchlist — operational configuration, not automation.
+#
+# This is the maintained list of technologies, vendors, repositories, and
+# domains the programme cares about. It is configuration only: no cron, no
+# discovery, no scoring. When (and if) the parked Research Opportunity
+# Engine is activated by measured evidence (chronicle entry 27), this list
+# becomes its seed rather than starting from scratch.
+#
+# The research orchestrator loads this file at plan time and reports which
+# watched entries the topic touches; nothing here triggers research.
+#
+# Sections are display categories; entries are matched loosely against
+# session keywords (case-insensitive substring on either side).
+
+topics:
+  browser-automation:
+    - microsoft/fara
+    - ultrafunkamsterdam/nodriver
+    - microsoft/playwright
+    - playwright
+    - browserbase
+    - browser-use
+    - stagehand
+    - chrome-devtools
+    - chromium
+    - selenium
+    - puppeteer
+    - undetected-chromedriver
+    - nodriver
+
+  ai-agents:
+    - openai
+    - anthropic
+    - model-context-protocol
+    - microsoft-foundry
+    - magentic
+    - computer-use
+    - fara
+
+  web-platform:
+    - chrome
+    - firefox
+    - webkit
+    - cloudflare
+    - w3c
+    - cdp
