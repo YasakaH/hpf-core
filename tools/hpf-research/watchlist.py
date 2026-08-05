@@ -11,9 +11,11 @@ SAME API here:
     match_topic(topic, keywords) -> {"matched": [ids], "keyword_overlap": float}
 
 Schema: hpf-watchlist-v1. Entries carry stable vendor-independent ids
-(tech.<domain>.<name>), a display `name`, explicit `aliases`, and `type`.
-Loading validates: schema version, globally unique ids, aliases present
-and unique, non-empty sections, required type. A violation raises
+(tech.<domain>.<name>), a display `name`, explicit `aliases`, `type`, and
+optional `sources` (WHERE TO LOOK per technology, chronicle entry 32:
+inert data, no automation). Loading validates: schema version, globally
+unique ids, aliases present and unique, non-empty sections, required
+type, source keys from the fixed vocabulary. A violation raises
 ValueError so every consumer fails fast; `--check` reports it nicely.
 
 Matching is identifier-based, never substring-based. All aliases, names,
@@ -30,7 +32,7 @@ do not compare keyword_overlap across sessions (chronicle entry 30).
 
 YAML is parsed with PyYAML when available and a minimal stdlib subset
 parser otherwise (schema, sections, `- id:` items with `name:`,
-`aliases: [...]`/block list, `type:`).
+`aliases: [...]`/block list, `type:`, `sources:` with `key: value` lines).
 """
 
 import json
@@ -40,6 +42,11 @@ from pathlib import Path
 
 WATCHLIST_PATH = Path(__file__).resolve().parent / "config" / "watchlist.yaml"
 SCHEMA = "hpf-watchlist-v1"
+
+SOURCE_KEYS = {
+    "github_releases", "github", "docs", "blog", "npm", "pypi", "hf",
+    "reddit", "hackernews",
+}
 
 
 def normalize(text: str) -> str:
@@ -92,6 +99,19 @@ def _parse_subset(text: str) -> dict:
         if line.startswith("- ") and field == "aliases":
             item.setdefault("aliases", []).append(line[2:].strip())
             continue
+        if line.startswith("sources:"):
+            if item is None:
+                raise ValueError("sources outside an item")
+            item.setdefault("sources", {})
+            field = "sources"
+            continue
+        if field == "sources" and not line.startswith("-"):
+            m2 = re.match(r"^([a-z_]+):\s*(.+)$", line)
+            if m2:
+                item["sources"].setdefault(m2.group(1), []).append(m2.group(2).strip())
+                continue
+        if field == "sources":
+            raise ValueError(f"unexpected watchlist line in sources: {raw}")
         m = re.match(r"^([A-Za-z0-9_-]+):\s*(.*)$", line)
         if m and item is None:
             key, rest = m.group(1), m.group(2).strip()
@@ -145,11 +165,22 @@ def _validate(schema: str, topics: dict) -> dict:
             if not etype:
                 raise ValueError(f"watchlist entry {eid!r} has no type")
             name = str(it.get("name") or eid).strip()
+            sources = {}
+            raw_sources = it.get("sources") or {}
+            if not isinstance(raw_sources, dict):
+                raise ValueError(f"watchlist entry {eid!r}: sources must be a mapping")
+            for key, vals in raw_sources.items():
+                if key not in SOURCE_KEYS:
+                    raise ValueError(f"watchlist entry {eid!r}: unknown source key {key!r}")
+                if not isinstance(vals, list) or not vals or not all(isinstance(v, str) and v.strip() for v in vals):
+                    raise ValueError(f"watchlist entry {eid!r}: source {key!r} must be a non-empty list of strings")
+                sources[key] = [v.strip() for v in vals]
             out[section].append({
                 "id": eid,
                 "name": name,
                 "aliases": sorted(aliases),
                 "type": etype,
+                "sources": sources,
             })
     return out
 
@@ -172,7 +203,7 @@ def load(path: Path = None) -> dict:
 
 
 def entries(watchlist: dict = None) -> list:
-    """Flat list of entries: {id, name, aliases, type, section}."""
+    """Flat list of entries: {id, name, aliases, type, sources, section}."""
     w = watchlist if watchlist is not None else load()
     return [dict(e, section=s) for s, es in w["topics"].items() for e in es]
 

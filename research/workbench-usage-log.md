@@ -489,3 +489,35 @@ unless a real research session exposes a concrete defect.
 - Focus shift: 20-30 real sessions for the measurement framework;
   editing-time data for Roadmap B; extraction (Research Yield ~56%) and
   adjudication (restatements/duplicates/marketing) improvement.
+
+## Discovery activation (2026-08-05) — sources + discover.py
+
+Review round 4: direction correction. The parked Research Opportunity
+Engine (entry 27) is earning activation. Evidence (verified in records,
+not asserted): Session 002's topic and all four primary URLs were
+owner-supplied; Fara (released 2026-07-22) went undiscovered until the
+owner brought it. Fires trigger (2).
+
+Built (classification: operational config + minimal precursor; full
+engine stays parked):
+- watchlist entries gained 'sources' (WHERE TO LOOK): fixed vocabulary
+  github_releases/docs/blog/npm/pypi/hf/reddit/hackernews, validated at
+  load (unknown keys, non-list values rejected). Inert data; nothing
+  runs against it autonomously. Corrects entries 29-30 deferral —
+  reclassified on activation evidence.
+- tools/hpf-research/discover.py: manual, on-demand, no cron/scoring/
+  queue. --static prints suggestion seed list from watchlist;
+  --releases fetches latest GitHub releases for configured repos and
+  prints today's opportunities; --out writes JSON. Live run surfaced
+  Stagehand browse@0.9.6, Puppeteer browsers v3.1.0, Foundry
+  dotnet-1.17.0 unprompted.
+- Workbench watchlist view renders sources per entry.
+
+Not built (recorded): connector expansion (feature freeze: only when a
+session fails without them), extraction/drafting improvements (await the
+20-30 session measurement record). Allocation rule adopted: every change
+must help discover better research / produce better findings / reduce
+publishing edits, else it waits.
+
+Tests: test10 +2 source-validation checks (17 PASS); test11 new:
+discover --static (6 checks) + live --releases smoke, all PASS.

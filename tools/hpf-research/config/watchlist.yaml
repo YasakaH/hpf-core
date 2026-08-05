@@ -8,14 +8,19 @@
 # alias appears as a word-bounded token in the normalized topic, or a
 # normalized keyword equals an alias. Never substring matching.
 #
+# `sources` is WHERE TO LOOK for each tracked technology (chronicle entry
+# 32): inert data consumed by humans and by manual tools such as
+# discover.py. It is NOT the Research Opportunity Engine — no scheduling,
+# no scoring, no cron, nothing runs against it autonomously. Unknown source
+# keys are rejected at load.
+#
 # Validation (enforced by tools/hpf-research/watchlist.py --check and at
 # load time): schema must match, ids unique, aliases present and unique,
-# no empty sections, type required.
+# no empty sections, type required, sources keys from the fixed vocabulary.
 #
-# This is configuration only: no cron, no discovery, no scoring. When (and
-# if) the parked Research Opportunity Engine is activated by measured
-# evidence (chronicle entry 27), this list becomes its seed. Seed metadata
-# (priority, sources, rss, reddit) is deliberately NOT here yet.
+# This is configuration only. When (and if) the parked Research
+# Opportunity Engine is activated by measured evidence (chronicle entry
+# 27), this list — including its sources — becomes the seed.
 
 schema: hpf-watchlist-v1
 
@@ -25,72 +30,133 @@ topics:
       name: Microsoft Fara
       aliases: [fara, fara1.5, fara ai]
       type: computer-use agent
+      sources:
+        github_releases: [microsoft/fara]
+        docs: [learn.microsoft.com/en-us/foundry]
+        hf: [microsoft/fara1.5-9b]
+        hackernews: [fara]
     - id: tech.browser.nodriver
       name: ultrafunkamsterdam/nodriver
       aliases: [nodriver]
       type: driver
+      sources:
+        github_releases: [ultrafunkamsterdam/nodriver]
+        docs: [ultrafunkamsterdam/nodriver]
+        pypi: [nodriver]
+        hackernews: [nodriver]
     - id: tech.browser.playwright
       name: Microsoft Playwright
       aliases: [playwright, playwright-python]
       type: framework
+      sources:
+        github_releases: [microsoft/playwright]
+        docs: [playwright.dev]
+        blog: [playwright.dev/blog]
+        npm: [playwright]
+        hackernews: [playwright]
     - id: tech.browser.browserbase
       name: Browserbase
       aliases: [browser base]
       type: platform
+      sources:
+        github_releases: [browserbase/browserbase]
+        docs: [docs.browserbase.com]
     - id: tech.browser.browseruse
       name: Browser Use
       aliases: [browser use, browseruse]
       type: framework
+      sources:
+        github_releases: [browser-use/browser-use]
+        docs: [docs.browser-use.com]
+        pypi: [browser-use]
     - id: tech.browser.stagehand
       name: Stagehand
       aliases: [stagehand ai]
       type: framework
+      sources:
+        github_releases: [browserbase/stagehand]
+        docs: [docs.stagehand.dev]
+        npm: ["@browserbasehq/stagehand"]
     - id: tech.browser.cdp
       name: Chrome DevTools Protocol
       aliases: [cdp, chrome devtools]
       type: protocol
+      sources:
+        docs: [chromedevtools.github.io/devtools-protocol]
     - id: tech.browser.chromium
       name: Chromium
       aliases: [chromium browser]
       type: engine
+      sources:
+        docs: [chromium.org]
+        blog: [blog.chromium.org]
     - id: tech.browser.selenium
       name: Selenium
       aliases: [selenium webdriver]
       type: framework
+      sources:
+        github_releases: [SeleniumHQ/selenium]
+        docs: [selenium.dev]
+        pypi: [selenium]
     - id: tech.browser.puppeteer
       name: Puppeteer
       aliases: [puppeteer js]
       type: framework
+      sources:
+        github_releases: [puppeteer/puppeteer]
+        docs: [pptr.dev]
+        npm: [puppeteer]
     - id: tech.browser.undetected-chromedriver
       name: undetected-chromedriver
       aliases: [uc, undetected chromedriver]
       type: driver
+      sources:
+        github_releases: [ultrafunkamsterdam/undetected-chromedriver]
+        pypi: [undetected-chromedriver]
     - id: tech.browser.playwright-mcp
       name: Playwright MCP
       aliases: [playwright mcp]
       type: tool
+      sources:
+        github_releases: [microsoft/playwright-mcp]
+        npm: ["@playwright/mcp"]
 
   ai-agents:
     - id: tech.agents.openai
       name: OpenAI
       aliases: [openai agents, chatgpt]
       type: vendor
+      sources:
+        docs: [platform.openai.com/docs]
+        blog: [openai.com/blog]
     - id: tech.agents.anthropic
       name: Anthropic
       aliases: [claude, anthropic claude]
       type: vendor
+      sources:
+        docs: [docs.anthropic.com]
+        blog: [anthropic.com/research]
     - id: tech.agents.mcp
       name: Model Context Protocol
       aliases: [mcp, model context protocol]
       type: protocol
+      sources:
+        github_releases: [modelcontextprotocol/specification]
+        docs: [modelcontextprotocol.io]
     - id: tech.agents.foundry
       name: Microsoft Foundry
       aliases: [foundry, azure foundry]
       type: platform
+      sources:
+        github_releases: [microsoft/agent-framework]
+        docs: [learn.microsoft.com/en-us/foundry]
     - id: tech.agents.magentic
       name: Magentic
       aliases: [magentic ui, magentic-lite]
       type: framework
+      sources:
+        github_releases: [microsoft/magentic]
+        docs: [github.com/microsoft/magentic]
     - id: tech.agents.cua
       name: Computer Use Agents
       aliases: [cua, computer use agent, computer use]
@@ -101,22 +167,36 @@ topics:
       name: Google Chrome
       aliases: [google chrome]
       type: engine
+      sources:
+        docs: [developer.chrome.com]
+        blog: [developer.chrome.com/blog]
     - id: tech.web.firefox
       name: Mozilla Firefox
       aliases: [mozilla firefox]
       type: engine
+      sources:
+        docs: [developer.mozilla.org]
+        blog: [blog.mozilla.org]
     - id: tech.web.webkit
       name: WebKit
       aliases: [safari webkit]
       type: engine
+      sources:
+        docs: [webkit.org]
+        blog: [webkit.org/blog]
     - id: tech.web.cloudflare
       name: Cloudflare
       aliases: [cloudflare anti-bot]
       type: vendor
+      sources:
+        docs: [developers.cloudflare.com]
+        blog: [blog.cloudflare.com]
     - id: tech.web.w3c
       name: W3C
       aliases: [w3c standard]
       type: standards
+      sources:
+        docs: [w3.org]
     - id: tech.web.bots
       name: Anti-Bot / Bot Management
       aliases: [bot management, anti-bot, antibot]

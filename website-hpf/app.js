@@ -303,6 +303,7 @@ function viewWatched() {
   const sections = Object.entries(w.topics).map(([section, entries]) => `
     <div class="card"><h2>${esc(section)}</h2>
       <div class="chips">${entries.map((e) => `<span class="chip" title="${esc(e.type || "")} · ${esc(e.id)}">${esc(e.name || e.id)}</span>`).join("")}</div>
+      ${entries.filter((e) => e.sources && Object.keys(e.sources).length).map((e) => `<div class="muted tiny">${esc(e.name || e.id)} — sources: ${esc(Object.entries(e.sources).flatMap(([k, v]) => v.map((x) => `${k}: ${x}`)).join(" · "))}</div>`).join("")}
     </div>`).join("");
   return `
     <div class="row-between"><h1>Watched Technologies</h1><a class="btn ghost" href="#/research">Back</a></div>
