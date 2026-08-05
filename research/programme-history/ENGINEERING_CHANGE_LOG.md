@@ -116,3 +116,36 @@ crash path was caught before release.
 
 **Tests**: test11 +2 offline checks (RSS 2.0 and Atom parse into event
 fields) — 15 checks total, full suite green.
+
+---
+
+## Provenance capture (pre-Session-003 measurement, uncommitted until review)
+
+Chronicle entry 34 declared discovery feature-complete for v1 and
+requested one addition before Session 003: every accepted finding must
+record which ResearchEvents produced it. This is measurement, not
+infrastructure: it lets the record answer "which events became research,
+which became findings, which were ignored".
+
+- **`research.py`** — new `--from-events` repeatable flag (comma-separated
+  values accepted). Values validated as `evt-[0-9a-f]{12}`; malformed ids
+  logged and ignored. Collected into session field
+  `provenance: {events: [...]}` via a new `provenance=None` parameter on
+  `make_session(...)` (signature extended, call sites updated).
+- **`adjudicate.py`** — adjudication artifact gains
+  `provenance: session.provenance` (defaults `{"events": []}` for sessions
+  that predate the field); review layer stays immutable — provenance is
+  carried through, never rewritten.
+- **`discover.py`** — new read-only `--report` (plus `--sessions <dir>`
+  defaulting to repo `exports/sessions`, `--events-json` for enrichment):
+  joins events → sessions → accepted findings. Each line prints queue
+  status (default `new`), event id, optional enriched detail
+  (technology/event_type/title), session id, topic, accepted-finding
+  count. Summary dedupes per unique session (multi-event sessions were
+  double-counting accepted findings — fixed in the same round). No writes
+  to the queue or to sessions.
+
+**Tests**: test12 introduced (offline) — 7 checks: report joins and
+enriches, statuses honored, summary counts, adjudication provenance
+carry-through, `make_session` provenance storage. test10 and test11
+unchanged; full suite green (17 + 13 + 7).

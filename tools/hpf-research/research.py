@@ -229,7 +229,7 @@ def promote_session(sid: str, src_root: Path, exports_root: Path) -> int:
     return 0
 
 
-def make_session(topic, goal, audience, depth, sources, evidence, findings, activity, started, finished, plan, dirpath, watch=None):
+def make_session(topic, goal, audience, depth, sources, evidence, findings, activity, started, finished, plan, dirpath, watch=None, provenance=None):
     now = datetime.datetime.now(datetime.timezone.utc)
     sid = now.strftime("%Y-%m-%d-%H%M") + "-" + re.sub(r"[^a-z0-9-]+", "-", topic.lower()).strip("-")[:30]
     session = {
@@ -245,6 +245,7 @@ def make_session(topic, goal, audience, depth, sources, evidence, findings, acti
         "activity": activity,
         "plan": plan,
         "watchlist": watch or {"matched": [], "keyword_overlap": 0.0},
+        "provenance": provenance or {"events": []},
         "status": "draft",
         "stages": [{"name": n, "detail": d, "state": "done"} for n, d in STAGES],
         "sources": sources,
@@ -288,6 +289,7 @@ def main():
     ap.add_argument("--import-md", action="append", default=[], help="markdown/text file to import (repeatable)")
     ap.add_argument("--source-url", action="append", default=[], help="URL for the imported file (paired with --import-md)")
     ap.add_argument("--community-payload", action="append", default=[], help="community evidence payload JSON (see connectors/community.py)")
+    ap.add_argument("--from-events", action="append", default=[], help="research event ids (evt-...) this session is seeded from (repeatable, comma-separated ok)")
     ap.add_argument("--dir", default=str(Path(__file__).resolve().parent / "sessions"))
     ap.add_argument("--sync-web", default="", help="copy sessions here and write sessions/index.json (e.g. website-hpf/sessions)")
     args = ap.parse_args()
@@ -324,6 +326,18 @@ def main():
         log(f"Watchlist touches: {', '.join(watch['matched'])} (keyword overlap {watch['keyword_overlap']})")
     else:
         log("Watchlist: no watched entries touched by this topic")
+    prov_events = []
+    for raw in args.from_events:
+        for eid in raw.split(","):
+            eid = eid.strip()
+            if not eid:
+                continue
+            if re.fullmatch(r"evt-[0-9a-f]{12}", eid):
+                prov_events.append(eid)
+            else:
+                log(f"ignored malformed event id: {eid}")
+    if prov_events:
+        log(f"Provenance: seeded from {', '.join(prov_events)}")
     log(f"Research plan built: {len(kw)} keywords, depth {args.depth}")
     session_plan = {
         "keywords": kw,
@@ -425,7 +439,7 @@ def main():
 
     sid, session = make_session(args.topic, args.goal, args.audience, args.depth,
                                 sources, evidence, findings, activity, started, finished, session_plan, args.dir,
-                                watch=watch)
+                                watch=watch, provenance={"events": prov_events})
     print(f"\nSession {sid} written: {len(sources)} sources, {len(evidence)} evidence, {len(findings)} draft findings")
     print(f"  {Path(args.dir) / sid}")
 

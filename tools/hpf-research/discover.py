@@ -16,7 +16,10 @@ Usage:
     python discover.py --events                     discover events (manual)
     python discover.py --events --out X             also write events JSON to X
     python discover.py --status <id> <status>       mark an event in the queue
+    python discover.py --report                     provenance report (read-only)
     python discover.py --queue <path>               override queue file
+    python discover.py --sessions <dir>             sessions dir for --report
+    python discover.py --events-json <file>         enrich --report with event details
 """
 
 import argparse
@@ -30,6 +33,7 @@ from watchlist import load
 
 STATUSES = {"new", "ignored", "researched", "duplicate", "parked", "expired"}
 QUEUE_PATH = Path(__file__).resolve().parent / "sessions" / "opportunities.json"
+EXPORTS_SESSIONS = Path(__file__).resolve().parent.parent.parent / "exports" / "sessions"
 
 
 def load_queue(path: Path) -> dict:
@@ -56,8 +60,11 @@ def main():
     ap.add_argument("--static", action="store_true", help="suggestion seed list from the watchlist")
     ap.add_argument("--events", action="store_true", help="discover research events (manual, network)")
     ap.add_argument("--status", nargs=2, metavar=("EVENT_ID", "STATUS"), help="mark an event in the opportunity queue")
+    ap.add_argument("--report", action="store_true", help="event provenance report (read-only)")
     ap.add_argument("--out", default="", help="write events JSON to this path")
     ap.add_argument("--queue", default=str(QUEUE_PATH), help="queue file path")
+    ap.add_argument("--sessions", default=str(EXPORTS_SESSIONS), help="released sessions dir (--report)")
+    ap.add_argument("--events-json", default="", help="events JSON from --events --out (enriches --report)")
     args = ap.parse_args()
 
     queue_path = Path(args.queue)
@@ -70,6 +77,55 @@ def main():
         queue.setdefault("statuses", {})[evt_id] = status
         save_queue(queue, queue_path)
         print(f"event {evt_id} marked {status}")
+        return 0
+
+    if args.report:
+        queue = load_queue(queue_path)
+        statuses = queue.get("statuses", {})
+        enrichment = {}
+        if args.events_json:
+            try:
+                for ev in json.loads(Path(args.events_json).read_text(encoding="utf-8")).get("events", []):
+                    enrichment[ev["id"]] = ev
+            except (OSError, ValueError):
+                print("! events-json unreadable; continuing without enrichment")
+        rows = []
+        session_accepted = {}
+        sessions_dir = Path(args.sessions)
+        if sessions_dir.is_dir():
+            for sdir in sorted(sessions_dir.iterdir()):
+                sf = sdir / "session.json"
+                if not sf.exists():
+                    continue
+                try:
+                    sess = json.loads(sf.read_text(encoding="utf-8"))
+                except (OSError, ValueError):
+                    continue
+                evs = (sess.get("provenance") or {}).get("events") or []
+                if not evs:
+                    continue
+                accepted = 0
+                adj = sdir / "adjudication.json"
+                if adj.exists():
+                    try:
+                        for f in json.loads(adj.read_text(encoding="utf-8")).get("findings", []):
+                            if f.get("decision") in ("approve", "revise", "add"):
+                                accepted += 1
+                    except (OSError, ValueError):
+                        pass
+                for eid in evs:
+                    rows.append({"event": eid, "session": sess["id"],
+                                 "topic": sess.get("topic", ""), "accepted": accepted,
+                                 "status": statuses.get(eid, "new")})
+                session_accepted[sess["id"]] = accepted
+        print(f"event provenance report (sessions: {sessions_dir})")
+        seeded = set()
+        for r in sorted(rows, key=lambda r: (r["status"], r["event"])):
+            seeded.add(r["session"])
+            ev = enrichment.get(r["event"])
+            detail = f" ({ev['technology']} {ev['event_type']} {ev['title']})" if ev else ""
+            print(f"  [{r['status']:10}] {r['event']}{detail} -> {r['session']} \"{r['topic'][:60]}\" ({r['accepted']} accepted)")
+        print(f"summary: {len(rows)} provenance events, {len(seeded)} sessions seeded, {sum(session_accepted.get(sid, 0) for sid in seeded)} accepted findings")
         return 0
 
     try:

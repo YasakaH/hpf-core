@@ -87,6 +87,7 @@ def main():
     adjudication = {
         "schema": "hpf-adjudication-v0",
         "session_id": session["id"],
+        "provenance": session.get("provenance", {"events": []}),
         "adjudicated_at": datetime.datetime.now(datetime.timezone.utc).isoformat(),
         "adjudicator": decisions.get("adjudicator", "cycle-reviewer"),
         "summary": counts,
