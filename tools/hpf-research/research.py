@@ -50,7 +50,7 @@ except ImportError:
         return {}
 
     def match_topic(topic, keywords, watchlist=None):
-        return {"matched": [], "coverage": 0.0}
+        return {"matched": [], "keyword_overlap": 0.0}
 
 STAGES = [
     ("plan", "research question, keywords, depth"),
@@ -244,7 +244,7 @@ def make_session(topic, goal, audience, depth, sources, evidence, findings, acti
         "finished": finished,
         "activity": activity,
         "plan": plan,
-        "watchlist": watch or {"matched": [], "coverage": 0.0},
+        "watchlist": watch or {"matched": [], "keyword_overlap": 0.0},
         "status": "draft",
         "stages": [{"name": n, "detail": d, "state": "done"} for n, d in STAGES],
         "sources": sources,
@@ -319,9 +319,9 @@ def main():
     except (OSError, ValueError) as e:
         wl_ok = False
         log(f"Watchlist unavailable: {e}")
-    watch = match_topic(args.topic, kw, watchlist) if wl_ok else {"matched": [], "coverage": 0.0}
+    watch = match_topic(args.topic, kw, watchlist) if wl_ok else {"matched": [], "keyword_overlap": 0.0}
     if watch["matched"]:
-        log(f"Watchlist touches: {', '.join(watch['matched'])} (coverage {watch['coverage']})")
+        log(f"Watchlist touches: {', '.join(watch['matched'])} (keyword overlap {watch['keyword_overlap']})")
     else:
         log("Watchlist: no watched entries touched by this topic")
     log(f"Research plan built: {len(kw)} keywords, depth {args.depth}")

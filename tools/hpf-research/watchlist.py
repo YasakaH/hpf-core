@@ -8,7 +8,7 @@ SAME API here:
 
     load(path=None)              -> {"schema": str, "topics": {section: [entries]}}
     entries(watchlist=None)      -> flat list of normalized entries
-    match_topic(topic, keywords) -> {"matched": [ids], "coverage": float}
+    match_topic(topic, keywords) -> {"matched": [ids], "keyword_overlap": float}
 
 Schema: hpf-watchlist-v1. Entries carry stable vendor-independent ids
 (tech.<domain>.<name>), a display `name`, explicit `aliases`, and `type`.
@@ -23,10 +23,10 @@ normalized alias (or its normalized name) occurs as a token sequence in
 the normalized topic, or a normalized keyword equals an alias. This
 prevents false positives such as "chrome" matching "chromedriver".
 
-Coverage is the fraction of keywords that equal an alias of any matched
-entry. It measures keyword overlap, NOT relevance or confidence — and it
-depends on keyword generation, so treat it as a debugging metric: do not
-compare coverage across sessions (chronicle entry 30).
+keyword_overlap is the fraction of keywords that equal an alias of any
+matched entry. It measures keyword overlap, NOT relevance or confidence —
+and it depends on keyword generation, so treat it as a debugging metric:
+do not compare keyword_overlap across sessions (chronicle entry 30).
 
 YAML is parsed with PyYAML when available and a minimal stdlib subset
 parser otherwise (schema, sections, `- id:` items with `name:`,
@@ -196,12 +196,12 @@ def match_topic(topic: str, keywords: list, watchlist: dict = None) -> dict:
     An entry matches when a normalized alias (or its normalized name)
     occurs as a word-bounded token sequence in the normalized topic, or a
     normalized keyword equals an alias. Returns
-    {"matched": [entry ids], "coverage": float}.
+    {"matched": [entry ids], "keyword_overlap": float}.
 
-    Coverage = fraction of keywords that equal an alias of a matched
-    entry. It is keyword-level overlap, not a relevance or confidence
-    judgement — and it depends on keyword generation, so do not compare
-    coverage across sessions (chronicle entry 30).
+    keyword_overlap = fraction of keywords that equal an alias of a
+    matched entry. It is keyword-level overlap, not a relevance or
+    confidence judgement — and it depends on keyword generation, so do
+    not compare keyword_overlap across sessions (chronicle entry 30).
     """
     w = watchlist if watchlist is not None else load()
     topic_norm = " " + normalize(topic) + " "
@@ -216,8 +216,8 @@ def match_topic(topic: str, keywords: list, watchlist: dict = None) -> dict:
                 for k in kw_norm:
                     if a == k:
                         covered.add(k)
-    coverage = round(len(covered) / max(1, len(kw_norm)), 3) if kw_norm else 0.0
-    return {"matched": sorted(set(matched)), "coverage": coverage}
+    overlap = round(len(covered) / max(1, len(kw_norm)), 3) if kw_norm else 0.0
+    return {"matched": sorted(set(matched)), "keyword_overlap": overlap}
 
 
 def watchlist_matches(keywords: list, watchlist: dict = None) -> list:

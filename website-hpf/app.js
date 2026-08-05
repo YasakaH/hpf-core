@@ -244,7 +244,7 @@ function viewResearch() {
     const evs = Array.isArray(s.evidence) ? s.evidence.length : (s.evidence || 0);
     const fnds = Array.isArray(s.findings) ? s.findings.length : (s.findings || 0);
     const watched = (s.watchlist && s.watchlist.matched && s.watchlist.matched.length)
-      ? `<div class="muted tiny">Watched: ${esc(s.watchlist.matched.map((id) => watchName(id)).filter(Boolean).join(", "))} · coverage ${esc(s.watchlist.coverage)}</div>` : "";
+      ? `<div class="muted tiny">Watched: ${esc(s.watchlist.matched.map((id) => watchName(id)).filter(Boolean).join(", "))} · keyword overlap ${esc(s.watchlist.keyword_overlap)}</div>` : "";
     return `
     <div class="research-item">
       <div class="research-head">

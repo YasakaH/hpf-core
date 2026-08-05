@@ -466,3 +466,26 @@ Classified under decision-classification rule (entry 28):
 Tests: test10 extended to 15 checks (8 matching + schema + 6 validation
 rejections) all PASS; test9 (names in chips, ids as titles) PASS; test4/8
 green. watchlist.json regenerated.
+
+## Watchlist declared v1-mature (2026-08-05) — focus shifts to operations
+
+Review round 3: production-quality verdict (10/9.6/9.5/9.5/9.7/9 rating
+table), directive: STOP investing engineering time in the watchlist
+unless a real research session exposes a concrete defect.
+
+- Implemented (one surgical fix): session field 'coverage' renamed to
+  'keyword_overlap' — old name invited cross-session comparison that the
+  docs forbid; new name says exactly what it measures. Migration-free:
+  no released session carries the field. match_topic() return shape,
+  session plan field, plan log, workbench row, test10 updated; release
+  JSON shape unaffected.
+- Documented only (deferred architecture, not for v1; recorded in
+  chronicle entry 31 with activation conditions): hierarchical matching,
+  entry lifecycle, entry relationships, immutable ids + canonical paths,
+  weighted aliases.
+- Recorded do-not-build list (belongs to parked Opportunity Engine):
+  priorities, RSS URLs, discovery scheduling, scoring, tags, dashboards,
+  watch statistics, heatmaps.
+- Focus shift: 20-30 real sessions for the measurement framework;
+  editing-time data for Roadmap B; extraction (Research Yield ~56%) and
+  adjudication (restatements/duplicates/marketing) improvement.
