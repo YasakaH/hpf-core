@@ -496,6 +496,13 @@ had "google chrome", so the session would otherwise have recorded no
 watchlist touch. Same defect class as the S003 overlap bug (name vs
 alias mismatch), fixed at the data level.
 
+Metric-rename note (review round 11): the `coverage` figures in this
+record were renamed `text_retention` in the pipeline from round 11 on —
+kept_chars/total_chars measures text retention, not information
+retention, and is telemetry, not a success metric. This released
+artifact is immutable; the rename applies to sessions from 005.
+
+
 
 ## Research Opportunity Engine — PARKED (2026-08-05)
 

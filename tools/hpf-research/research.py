@@ -28,6 +28,7 @@ import json
 import re
 import shutil
 import sys
+import time
 import urllib.request
 from pathlib import Path
 
@@ -202,24 +203,32 @@ def split_paragraphs(text: str):
     """Split text into paragraphs, keeping only prose (sentence-bearing).
 
     Navigation chrome, TOC lists, boilerplate and menu fragments never
-    become evidence. Returns (paragraphs, dropped_count).
+    become evidence. Returns (paragraphs, dropped_count,
+    structured_dropped_count) — structured = dropped chunks that looked
+    like list items / table rows / definitions (markers without a
+    period): instrumentation for the knowledge-unit activation trigger.
     """
     parts = re.split(r"\n\s*\n+", text)
     out = []
     dropped = 0
+    structured = 0
     for p in parts:
         p = " ".join(p.split())
         if len(p) < 40:
             dropped += 1
+            if re.match(r"^\s*(?:[-*•·▪–—]|\d+[.)]|\|)", p):
+                structured += 1
             continue
         if "." not in p:
             dropped += 1
+            if re.match(r"^\s*(?:[-*•·▪–—]|\d+[.)]|\|)", p) or ("|" in p and len(p) < 200):
+                structured += 1
             continue
         if is_boilerplate(p):
             dropped += 1
             continue
         out.append(p)
-    return out, dropped
+    return out, dropped, structured
 
 
 def keep_paragraphs(paras: list, cls: str) -> list:
@@ -227,49 +236,83 @@ def keep_paragraphs(paras: list, cls: str) -> list:
     return paras[: EVIDENCE_BUDGETS.get(cls, 20)]
 
 
-def extract_source(text: str, cls: str, seen: set):
-    """Turn collected text into kept paragraphs + per-source failure metrics.
+def norm_excerpt_key(text: str) -> str:
+    """Exact-duplicate key: whitespace-collapsed lowercase first 200 chars.
 
-    seen: session-level set of normalized kept excerpts (cross-source
-    duplicate measurement — recorded, not removed). Returns (metrics,
-    kept_paragraphs).
+    Named honestly: this detects EXACT normalized prefix reuse, not
+    semantic duplicates (same claim, different wording). Semantic
+    duplicate measurement (MinHash/SimHash/embeddings) is staged.
     """
-    paras, dropped = split_paragraphs(text)
-    kept = keep_paragraphs(paras, cls)
+    return re.sub(r"\s+", " ", text.lower())[:200]
+
+
+def paragraph_metrics(paras: list, kept: list, text: str, seen: set) -> dict:
+    """Per-source extraction telemetry (failure taxonomy).
+
+    chrome_dropped / chrome_ratio and budget fields are added by
+    extract_source (they need split_paragraphs' drop counts).
+    """
     truncated = sum(1 for p in kept if len(p) > EXCERPT_LIMIT)
-    duplicates = 0
+    exact_duplicates = 0
     for p in kept:
-        norm = re.sub(r"\s+", " ", p.lower())[:200]
-        if norm in seen:
-            duplicates += 1
+        key = norm_excerpt_key(p)
+        if key in seen:
+            exact_duplicates += 1
         else:
-            seen.add(norm)
+            seen.add(key)
     lengths = [len(p) for p in kept]
     return {
         "paragraphs": len(paras),
         "evidence": len(kept),
-        "chrome_dropped": dropped,
+        "kept_chars": sum(lengths),
         "truncated": truncated,
-        "duplicates": duplicates,
-        "boilerplate_ratio": round(dropped / max(1, dropped + len(paras)), 3),
-        "coverage": round(sum(lengths) / max(1, len(text)), 3),
+        "exact_duplicates": exact_duplicates,
+        "text_retention": round(sum(lengths) / max(1, len(text)), 3),
         "avg_para_chars": round(sum(lengths) / max(1, len(lengths))),
         "largest_para_chars": max(lengths) if lengths else 0,
-    }, kept
+    }
+
+
+def extract_source(text: str, cls: str, seen: set):
+    """Turn collected text into kept paragraphs + per-source telemetry.
+
+    Facade over the extraction pipeline stages (split -> filter ->
+    budget -> metrics). Returns (metrics, kept_paragraphs).
+    """
+    paras, dropped, structured = split_paragraphs(text)
+    kept = keep_paragraphs(paras, cls)
+    budget = EVIDENCE_BUDGETS.get(cls, 20)
+    metrics = paragraph_metrics(paras, kept, text, seen)
+    metrics["structured_dropped"] = structured
+    metrics["budget_state"] = "saturated" if len(paras) > budget and len(kept) == budget else ("full" if len(kept) == budget else "partial")
+    metrics["budget_overflow_prevented"] = max(0, len(paras) - budget)
+    metrics["chrome_dropped"] = dropped
+    metrics["chrome_ratio"] = round(dropped / max(1, dropped + len(paras)), 3)
+    return metrics, kept
 
 
 def extraction_health(sources: list) -> str:
-    """Session-wide extraction-health line (longitudinal metric)."""
-    kept_t = sum(s.get("evidence", 0) for s in sources if s.get("status") in ("fetched", "imported"))
-    chrome = sum(s.get("chrome_dropped", 0) for s in sources if s.get("status") in ("fetched", "imported"))
-    paras_t = sum(s.get("paragraphs", 0) for s in sources if s.get("status") in ("fetched", "imported"))
-    dup = sum(s.get("duplicates", 0) for s in sources if s.get("status") in ("fetched", "imported"))
-    trunc = sum(s.get("truncated", 0) for s in sources if s.get("status") in ("fetched", "imported"))
-    avg = round(sum(s.get("avg_para_chars", 0) for s in sources if s.get("status") in ("fetched", "imported")) / max(1, kept_t))
-    largest = max((s.get("largest_para_chars", 0) for s in sources if s.get("status") in ("fetched", "imported")), default=0)
-    return (f"extraction health: boilerplate_ratio {round(chrome / max(1, paras_t), 3)}, "
-            f"duplicate_ratio {round(dup / max(1, kept_t), 3)}, truncated {trunc}, "
-            f"avg_para {avg} chars, largest_para {largest} chars")
+    """Session-wide extraction-health line (longitudinal metric).
+
+    Averages are weighted by kept-paragraph counts (per-source means
+    would weight tiny sources equally with large ones).
+    """
+    ss = [s for s in sources if s.get("status") in ("fetched", "imported")]
+    kept_t = sum(s.get("evidence", 0) for s in ss)
+    chrome = sum(s.get("chrome_dropped", 0) for s in ss)
+    paras_t = sum(s.get("paragraphs", 0) for s in ss)
+    dup = sum(s.get("exact_duplicates", 0) for s in ss)
+    dup_src = sum(1 for s in ss if s.get("exact_duplicates", 0) > 0)
+    trunc = sum(s.get("truncated", 0) for s in ss)
+    sat = sum(1 for s in ss if s.get("budget_state") == "saturated")
+    struct = sum(s.get("structured_dropped", 0) for s in ss)
+    kept_chars = sum(s.get("kept_chars", 0) for s in ss)
+    avg = round(kept_chars / max(1, kept_t))
+    largest = max((s.get("largest_para_chars", 0) for s in ss), default=0)
+    return (f"extraction health: chrome_ratio {round(chrome / max(1, paras_t), 3)}, "
+            f"exact_dup_ratio {round(dup / max(1, kept_t), 3)} ({dup_src} sources), "
+            f"saturated {sat}, truncated {trunc}, structured_dropped {struct}, "
+            f"avg_para {avg} chars (weighted), largest_para {largest} chars")
 
 
 def keywords(topic: str, depth: str) -> list:
@@ -483,14 +526,17 @@ def main():
     seen = set()
     for i, url in enumerate(args.url):
         try:
+            t0 = time.time()
             text = fetch(url)
+            fetch_ms = int((time.time() - t0) * 1000)
             title = url.split("/")[2] if len(url.split("/")) > 2 else url
             cls = classify_url(url)
             metrics, kept = extract_source(text, cls, seen)
+            metrics["fetch_ms"] = fetch_ms
             sources.append({"url": url, "title": title, "status": "fetched", "chars": len(text), "class": cls, **metrics})
             for para in kept:
                 evidence.append({"id": f"ev-{len(evidence)+1}", "source": url, "excerpt": para[:EXCERPT_LIMIT], "class": cls})
-            log(f"Collected {title} ({len(text)} chars, class {cls}: {metrics['evidence']}/{metrics['paragraphs']} paragraphs kept, {metrics['chrome_dropped']} chrome dropped, coverage {metrics['coverage']}, dup {metrics['duplicates']})")
+            log(f"Collected {title} ({len(text)} chars, class {cls}: {metrics['evidence']}/{metrics['paragraphs']} paragraphs kept, {metrics['chrome_dropped']} chrome dropped, text_retention {metrics['text_retention']}, exact_dup {metrics['exact_duplicates']}, budget {metrics['budget_state']}, {fetch_ms}ms)")
         except Exception as e:
             sources.append({"url": url, "title": url, "status": "failed", "error": str(e), "class": classify_url(url)})
             log(f"Failed {url}: {e}")
@@ -534,7 +580,7 @@ def main():
     log(f"Extracted {len(evidence)} evidence entries from {len(sources)} sources")
     for s in sources:
         if s.get("status") in ("fetched", "imported"):
-            log(f"  coverage {s['title']}: {s.get('evidence', 0)} paragraphs kept, coverage {s.get('coverage', 0)}, {s.get('chrome_dropped', 0)} chrome dropped, {s.get('duplicates', 0)} duplicates")
+            log(f"  {s['title']}: {s.get('evidence', 0)} paragraphs kept, text_retention {s.get('text_retention', 0)}, chrome_ratio {s.get('chrome_ratio', 0)}, exact_dup {s.get('exact_duplicates', 0)}, budget {s.get('budget_state', '?')}")
     log(f"~ {extraction_health(sources)}")
 
     stage("findings", "keyword-density ranking (mechanical, draft only)")

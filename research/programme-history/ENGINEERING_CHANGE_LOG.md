@@ -391,3 +391,86 @@ test10-13 rerun green (17/13/13/7).
    type beyond HTML/markdown import shows real demand.
 8. Coverage → claim/knowledge coverage (accepted units / candidate
    units) — derivative of knowledge units; staged with item 1.
+
+---
+
+## Review round 11 — metric honesty, weighted telemetry, real-world golden corpus (2026-08-05)
+
+Implementation review (fidelity 9.5/10, engineering 9/10, architecture
+7.5/10, maintainability 7/10, measurement 8.5/10). Accepted the round,
+kept extraction open, approved proceeding to sessions, and made the
+highest-priority future work explicit: **real-world regression fixtures +
+enough telemetry to justify or falsify the knowledge-unit redesign**.
+The reviewer's points were classified under entry 28:
+
+**Implemented immediately (honest naming + telemetry the review
+demanded)**:
+- **`coverage` → `text_retention`** — the review's central metric
+  objection: kept_chars/total_chars measures text retention, not
+  information retention; usable as telemetry but must never become a
+  success metric. Renamed in the source record, extract-stage logs, and
+  health line. Released S004 artifact is immutable and untouched; its
+  usage-log record now carries the rename note.
+- **`duplicates` → `exact_duplicates`** — the implementation detects
+  EXACT normalized-prefix reuse (whitespace-collapsed, first 200 chars,
+  via `norm_excerpt_key()`), not semantic duplicates. Renamed honestly;
+  semantic duplicate measurement (MinHash/SimHash/embeddings/claim
+  fingerprints) stays staged with the same trigger.
+- **`boilerplate_ratio` → `chrome_ratio`** — vocabulary consistency with
+  `chrome_dropped`; parser-level loss is separately visible through
+  `text_retention` (the review's denominator-bias point: chrome_ratio is
+  the filter-stage loss, text_retention is the parser+filter loss).
+- **Weighted health averages** — `extraction_health` now computes
+  avg_para from total kept chars / total kept paragraphs (per-source
+  means weighted every source equally; a 3-paragraph source counted as
+  much as a 300-paragraph one). New per-source `kept_chars` field.
+- **Budget telemetry** — `budget_state` (saturated/full/partial) and
+  `budget_overflow_prevented` (paras over the cap); health line reports
+  the saturated-source count. This is the data that will justify or
+  falsify the budget constants (40/10/20/25/15) before adaptive budgets.
+- **Structured-content drop instrumentation** — `split_paragraphs` now
+  returns (paras, dropped, structured_dropped): dropped chunks that
+  looked like list items / table rows / definitions (markers without a
+  period). This OPERATIONALIZES the knowledge-unit activation criterion
+  (chronicle 36 item 1): unit loss is now measurable.
+- **`fetch_ms`** per fetched source (fetch-time observability).
+- Light SRP decomposition: `extract_source` is now a facade over
+  split → budget → `paragraph_metrics` (+ drop/budget fields), with
+  `norm_excerpt_key` extracted. Full class-based pipeline
+  (ParagraphExtractor/Filter/Budget/Metrics/Emitter) remains staged;
+  trigger: extraction round 3 or the metrics module growing past its
+  current ~60 lines.
+
+**Real-world golden corpus (the review's #1 priority — built now)**:
+`tools/hpf-research/tests/fixtures/` with SIX frozen real pages —
+developer.chrome.com blog post, cloudflare-os GitHub README, MDN
+element reference, Wikipedia article, RFC 6455 (datatracker.ietf.org),
+arXiv abstract — plus `fixtures.json` manifest of expected extraction
+numbers (frozen pages + deterministic extraction = exact-match
+regression). `test15` (19 checks) compares a fresh extraction run
+against the manifest and asserts corpus invariants. Regeneration
+protocol recorded: `make-manifest.py` reruns ONLY when the extraction
+pipeline intentionally changes; both regenerated manifest and fixture
+pages commit together. Fixture acquisition note: Wikipedia's TLS chain
+currently fails verification — the freeze used a lenient context
+(one-time acquisition, fixtures are stored offline).
+
+**First real-corpus measurements** (already informative): RFC 6455 →
+474 paragraphs / 547 chrome / **89 structured drops** (numbered section
+headers, no periods) / text_retention 0.111 — structured loss at scale
+is real on RFC-style documents; the Wikipedia and RFC fixtures saturate
+their primary-40 budget; the README saturates code-10 with retention
+0.067; the Chrome blog keeps all 32 paragraphs at retention 0.525.
+
+**Recorded only (staged, chronicle 37)**: duplicate directionality
+logging (duplicate_sources/clusters/claims/paragraphs — per-source
+exact_duplicates already exposes the asymmetry the review described);
+source entropy, claim density, paragraph-rejection-reason counts,
+memory consumption (all knowledge-unit-dependent or deferred); the BLOCK
+tuple stays the documented seam for HTML-tag evolution (the strategic
+fix is the semantic classifier, already staged with knowledge units).
+
+**Tests**: test13 (7) updated for the 3-tuple split_paragraphs; test14
+extended to 14 checks (chrome_ratio rename, budget saturation +
+overflow, structured-drop instrumentation, weighted health line);
+test15 new (19). test10-13 rerun green.
