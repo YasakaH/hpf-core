@@ -300,3 +300,94 @@ backends later — consistent with the zero-cost operating constraint.
 list/code removal + assertion identification) and semantic chunking —
 the next extraction round if Sessions 004–010 keep pointing at
 extraction rather than discovery or publishing.
+
+---
+
+## Review round 10 — extraction failure taxonomy + measurement hardening (2026-08-05)
+
+Review verdict: "excellent tactical engineering, not completed extraction
+architecture" — the extraction subsystem is NOT closed. The review's
+architectural recommendations (knowledge units, adaptive budgets,
+boilerplate scoring, semantic overlap, confidence propagation, evidence
+dedup, plugin extractors, claim-aware pipeline) were classified under
+entry 28 and staged with triggers — building them now would violate the
+measurement discipline (one extraction-round session of data). What WAS
+implemented immediately is the measurement infrastructure the review
+itself demanded: the failure taxonomy and observability that tell us WHY
+extraction failed, not just that it did.
+
+**Implemented (this round)**:
+- **Failure taxonomy metrics per source** (`extract_source()` helper —
+  extracted from the collect loops so it is testable; both URL and
+  import loops use it, sharing one session-level `seen` set):
+  - `truncated` — paragraphs cut by the EXCERPT_LIMIT (1200, now a
+    constant);
+  - `duplicates` — kept paragraphs whose normalized text already
+    appeared in another source (cross-source duplication MEASURED, not
+    removed — removal is staged, and this metric is its trigger);
+  - `boilerplate_ratio` — dropped / (dropped + kept) per source;
+  - `avg_para_chars`, `largest_para_chars`;
+  - `paragraphs` (pre-filter count) added alongside existing
+    evidence/chrome_dropped/coverage.
+- **Session health line**: `extraction health: boilerplate_ratio X,
+  duplicate_ratio Y, truncated N, avg_para N chars, largest_para N chars`
+  printed in the extract stage and recorded in session activity —
+  longitudinal regression signal.
+- **Normalized extraction flag** (adjudicate.py): fires only when
+  `adds > 3` AND `adds/accepted >= 0.35` — the review's point that raw
+  counts conflate small and large sessions. The flag record now carries
+  `added_findings`, `accepted_total`, `adds_accepted_ratio`, both
+  thresholds, and `causes` — a reviewer-supplied failure taxonomy
+  (`extraction_causes` field in decisions.json, vocabulary: missing_
+  claims, duplicate_claims, truncated_claims, low_confidence_claims,
+  boilerplate_leakage, coverage_loss, source_dominance, missing_urls,
+  keyword_generation).
+- **Block-tag hardening**: TextExtractor.BLOCK gained details, summary,
+  figure, figcaption, aside, main, dl, dt, dd, ol, ul, nav — the review
+  flagged the manual tag list as a maintenance burden; the list stays a
+  single centralized tuple (the abstraction point), and these additions
+  cover the structural elements that actually appear in current sources.
+  Definition lists and table rows now split into separate units.
+
+**Tests**: test14 introduced (12 checks, offline golden-corpus style):
+dense-blog fixture keeps all paragraphs while footer boilerplate drops
+with a recorded boilerplate_ratio; details/summary/dl/dt/dd/table
+fixture yields separate units (3 sentence-bearing units — summary/dt
+correctly dropped by the prose filter); 60-paragraph README-style
+fixture capped at the code budget of 10; cross-source duplicate
+measured via the shared seen set; >1200-char paragraph flagged
+truncated; health-line format; flag stays quiet at ratio 0.333 (4/12)
+and fires at 0.4 (4/10) with accepted_total and causes recorded.
+test10-13 rerun green (17/13/13/7).
+
+**Classified and staged (documented in chronicle entry 36), NOT built**:
+1. Knowledge units as the pipeline primitive (paragraph → unit: list,
+   table row, definition, code explanation, quote) — HIGH; trigger:
+   the golden corpus or sessions 004-010 showing list/table/definition
+   content loss (the new `truncated`/unit metrics are the instrument).
+   Until then paragraphs remain the unit; the block-tag additions above
+   are the cheap approximation.
+2. Adaptive budgets (budget = f(claim density × source quality ×
+   novelty × importance)) — needs claim detection first (P1); trigger:
+   claim-detection stage exists.
+3. Boilerplate scoring (link density, text density, sentence ratio,
+   unique word ratio, navigation probability, DOM position, heading
+   proximity → boilerplate_score 0-1) — trigger: is_boilerplate pattern
+   count passes ~50 or golden corpus shows footer leakage. Pattern
+   count today: ~45, including the Session 004 tagline class which is
+   recorded as a pattern gap ("Design a beautiful and performant web
+   with Chrome." / "Create the best experience...") — not added, per
+   this round's scope discipline.
+4. Semantic/concept-level overlap (concept IDs or embeddings instead of
+   keyword equality) — trigger: a real session where normalized lexical
+   overlap misleads despite the S003/S004 fixes.
+5. Evidence confidence propagation (confidence/novelty/source authority
+   on evidence → non-binary adjudication) — trigger: knowledge units.
+6. Evidence deduplication before adjudication — trigger: the new
+   duplicate_ratio metric exceeds ~0.15 in real sessions (S004 measured
+   0.00 cross-source; the metric's first real data point).
+7. Plugin extractor architecture (Extractor strategy interface:
+   Html/Markdown/Pdf/Repository/ApiDoc) — trigger: a second content
+   type beyond HTML/markdown import shows real demand.
+8. Coverage → claim/knowledge coverage (accepted units / candidate
+   units) — derivative of knowledge units; staged with item 1.

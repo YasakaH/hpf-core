@@ -33,6 +33,7 @@ from pathlib import Path
 
 DECISIONS = {"approve", "revise", "reject", "add"}
 EXTRACTION_FLAG_THRESHOLD = 3
+EXTRACTION_FLAG_RATIO = 0.35
 
 
 def main():
@@ -85,15 +86,21 @@ def main():
     for e in review:
         counts[e["decision"]] += 1
 
+    accepted = counts["approve"] + counts["revise"] + counts["add"]
+    ratio = round(counts["add"] / max(1, accepted), 3)
     extraction_flag = None
-    if counts["add"] > EXTRACTION_FLAG_THRESHOLD:
+    if counts["add"] > EXTRACTION_FLAG_THRESHOLD and ratio >= EXTRACTION_FLAG_RATIO:
         extraction_flag = {
             "flagged": True,
             "added_findings": counts["add"],
-            "threshold": EXTRACTION_FLAG_THRESHOLD,
+            "accepted_total": accepted,
+            "adds_accepted_ratio": ratio,
+            "count_threshold": EXTRACTION_FLAG_THRESHOLD,
+            "ratio_threshold": EXTRACTION_FLAG_RATIO,
             "reason": "reviewer had to introduce findings the extraction stage missed",
+            "causes": decisions.get("extraction_causes", []),
         }
-        print(f"! extraction underperformance flagged: {counts['add']} reviewer-added findings (threshold {EXTRACTION_FLAG_THRESHOLD})")
+        print(f"! extraction underperformance flagged: {counts['add']} reviewer-added findings of {accepted} accepted (ratio {ratio} >= {EXTRACTION_FLAG_RATIO}, count {counts['add']} > {EXTRACTION_FLAG_THRESHOLD})")
 
     adjudication = {
         "schema": "hpf-adjudication-v0",

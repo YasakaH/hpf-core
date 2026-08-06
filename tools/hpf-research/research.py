@@ -61,6 +61,8 @@ STAGES = [
 
 EVIDENCE_BUDGETS = {"primary": 40, "code": 10, "community": 20, "scientific": 25, "operational": 15}
 
+EXCERPT_LIMIT = 1200
+
 STOPWORDS = {
     "the", "a", "an", "and", "or", "of", "to", "in", "on", "for", "with",
     "vs", "versus", "about", "what", "is", "are", "compare", "research",
@@ -77,7 +79,8 @@ class TextExtractor(html.parser.HTMLParser):
     paragraph structure instead of collapsing into one run of text.
     """
 
-    BLOCK = ("p", "div", "li", "h1", "h2", "h3", "h4", "tr", "br", "section", "article", "blockquote", "pre", "table")
+    BLOCK = ("p", "div", "li", "h1", "h2", "h3", "h4", "tr", "br", "section", "article", "blockquote", "pre", "table",
+             "details", "summary", "figure", "figcaption", "aside", "main", "dl", "dt", "dd", "ol", "ul", "nav")
 
     def __init__(self):
         super().__init__()
@@ -222,6 +225,51 @@ def split_paragraphs(text: str):
 def keep_paragraphs(paras: list, cls: str) -> list:
     """Evidence budget: no single source may flood the session."""
     return paras[: EVIDENCE_BUDGETS.get(cls, 20)]
+
+
+def extract_source(text: str, cls: str, seen: set):
+    """Turn collected text into kept paragraphs + per-source failure metrics.
+
+    seen: session-level set of normalized kept excerpts (cross-source
+    duplicate measurement — recorded, not removed). Returns (metrics,
+    kept_paragraphs).
+    """
+    paras, dropped = split_paragraphs(text)
+    kept = keep_paragraphs(paras, cls)
+    truncated = sum(1 for p in kept if len(p) > EXCERPT_LIMIT)
+    duplicates = 0
+    for p in kept:
+        norm = re.sub(r"\s+", " ", p.lower())[:200]
+        if norm in seen:
+            duplicates += 1
+        else:
+            seen.add(norm)
+    lengths = [len(p) for p in kept]
+    return {
+        "paragraphs": len(paras),
+        "evidence": len(kept),
+        "chrome_dropped": dropped,
+        "truncated": truncated,
+        "duplicates": duplicates,
+        "boilerplate_ratio": round(dropped / max(1, dropped + len(paras)), 3),
+        "coverage": round(sum(lengths) / max(1, len(text)), 3),
+        "avg_para_chars": round(sum(lengths) / max(1, len(lengths))),
+        "largest_para_chars": max(lengths) if lengths else 0,
+    }, kept
+
+
+def extraction_health(sources: list) -> str:
+    """Session-wide extraction-health line (longitudinal metric)."""
+    kept_t = sum(s.get("evidence", 0) for s in sources if s.get("status") in ("fetched", "imported"))
+    chrome = sum(s.get("chrome_dropped", 0) for s in sources if s.get("status") in ("fetched", "imported"))
+    paras_t = sum(s.get("paragraphs", 0) for s in sources if s.get("status") in ("fetched", "imported"))
+    dup = sum(s.get("duplicates", 0) for s in sources if s.get("status") in ("fetched", "imported"))
+    trunc = sum(s.get("truncated", 0) for s in sources if s.get("status") in ("fetched", "imported"))
+    avg = round(sum(s.get("avg_para_chars", 0) for s in sources if s.get("status") in ("fetched", "imported")) / max(1, kept_t))
+    largest = max((s.get("largest_para_chars", 0) for s in sources if s.get("status") in ("fetched", "imported")), default=0)
+    return (f"extraction health: boilerplate_ratio {round(chrome / max(1, paras_t), 3)}, "
+            f"duplicate_ratio {round(dup / max(1, kept_t), 3)}, truncated {trunc}, "
+            f"avg_para {avg} chars, largest_para {largest} chars")
 
 
 def keywords(topic: str, depth: str) -> list:
@@ -432,21 +480,17 @@ def main():
     }
 
     stage("collect", f"{len(args.url)} urls, {len(args.import_md)} imports, {len(args.community_payload)} community payloads")
+    seen = set()
     for i, url in enumerate(args.url):
         try:
             text = fetch(url)
             title = url.split("/")[2] if len(url.split("/")) > 2 else url
             cls = classify_url(url)
-            paras, dropped = split_paragraphs(text)
-            kept = keep_paragraphs(paras, cls)
-            sources.append({
-                "url": url, "title": title, "status": "fetched", "chars": len(text), "class": cls,
-                "evidence": len(kept), "chrome_dropped": dropped,
-                "coverage": round(sum(len(p) for p in kept) / max(1, len(text)), 3),
-            })
+            metrics, kept = extract_source(text, cls, seen)
+            sources.append({"url": url, "title": title, "status": "fetched", "chars": len(text), "class": cls, **metrics})
             for para in kept:
-                evidence.append({"id": f"ev-{len(evidence)+1}", "source": url, "excerpt": para[:1200], "class": cls})
-            log(f"Collected {title} ({len(text)} chars, class {cls}: {len(kept)}/{len(paras)} paragraphs kept, {dropped} chrome dropped, coverage {sources[-1]['coverage']})")
+                evidence.append({"id": f"ev-{len(evidence)+1}", "source": url, "excerpt": para[:EXCERPT_LIMIT], "class": cls})
+            log(f"Collected {title} ({len(text)} chars, class {cls}: {metrics['evidence']}/{metrics['paragraphs']} paragraphs kept, {metrics['chrome_dropped']} chrome dropped, coverage {metrics['coverage']}, dup {metrics['duplicates']})")
         except Exception as e:
             sources.append({"url": url, "title": url, "status": "failed", "error": str(e), "class": classify_url(url)})
             log(f"Failed {url}: {e}")
@@ -455,16 +499,11 @@ def main():
         text = Path(path).read_text(encoding="utf-8")
         title = Path(path).stem
         url = args.source_url[i] if i < len(args.source_url) else f"file:{path}"
-        paras, dropped = split_paragraphs(text)
-        kept = keep_paragraphs(paras, "primary")
-        sources.append({
-            "url": url, "title": title, "status": "imported", "chars": len(text), "class": "primary",
-            "evidence": len(kept), "chrome_dropped": dropped,
-            "coverage": round(sum(len(p) for p in kept) / max(1, len(text)), 3),
-        })
+        metrics, kept = extract_source(text, "primary", seen)
+        sources.append({"url": url, "title": title, "status": "imported", "chars": len(text), "class": "primary", **metrics})
         for para in kept:
-            evidence.append({"id": f"ev-{len(evidence)+1}", "source": url, "excerpt": para[:1200], "class": "primary"})
-        log(f"Imported {title} ({len(text)} chars, class primary: {len(kept)}/{len(paras)} paragraphs kept, {dropped} dropped)")
+            evidence.append({"id": f"ev-{len(evidence)+1}", "source": url, "excerpt": para[:EXCERPT_LIMIT], "class": "primary"})
+        log(f"Imported {title} ({len(text)} chars, class primary: {metrics['evidence']}/{metrics['paragraphs']} paragraphs kept, {metrics['chrome_dropped']} dropped)")
 
     for path in args.community_payload:
         payload = json.loads(Path(path).read_text(encoding="utf-8"))
@@ -495,7 +534,8 @@ def main():
     log(f"Extracted {len(evidence)} evidence entries from {len(sources)} sources")
     for s in sources:
         if s.get("status") in ("fetched", "imported"):
-            log(f"  coverage {s['title']}: {s.get('evidence', 0)} paragraphs kept, coverage {s.get('coverage', 0)}, {s.get('chrome_dropped', 0)} chrome dropped")
+            log(f"  coverage {s['title']}: {s.get('evidence', 0)} paragraphs kept, coverage {s.get('coverage', 0)}, {s.get('chrome_dropped', 0)} chrome dropped, {s.get('duplicates', 0)} duplicates")
+    log(f"~ {extraction_health(sources)}")
 
     stage("findings", "keyword-density ranking (mechanical, draft only)")
     per_source = {}
